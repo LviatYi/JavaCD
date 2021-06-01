@@ -19,9 +19,10 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ac133e36-4a28-48ce-ae13-547519145767" name="默认的" comment="">
-      <change afterPath="$PROJECT_DIR$/src/test.java" afterDir="false" />
+    <list default="true" id="ac133e36-4a28-48ce-ae13-547519145767" name="默认的" comment="Update test">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JavaCD.iml" beforeDir="false" afterPath="$PROJECT_DIR$/JavaCD.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,6 +62,10 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="project.structure.last.edited" value="模块" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -71,6 +76,14 @@
       <option name="presentableId" value="Default" />
       <updated>1622546098676</updated>
     </task>
+    <task id="LOCAL-00001" summary="Update test">
+      <created>1622546730556</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1622546730556</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -83,5 +96,24 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Update test" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update test" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="549" y="205" key="SettingsEditor" timestamp="1622552457839">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="549" y="205" key="SettingsEditor/0.0.1920.1080/-1920.4.1440.810@0.0.1920.1080" timestamp="1622552457839" />
+    <state x="552" y="272" key="Vcs.Push.Dialog.v2" timestamp="1622546735968">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="552" y="272" key="Vcs.Push.Dialog.v2/0.0.1920.1080/-1920.4.1440.810@0.0.1920.1080" timestamp="1622546735968" />
+    <state x="263" y="206" key="new project wizard" timestamp="1622549478262">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="263" y="206" key="new project wizard/0.0.1920.1080/-1920.4.1440.810@0.0.1920.1080" timestamp="1622549478262" />
   </component>
 </project>

@@ -6,7 +6,8 @@
 
 文档参考：
 
-[][]
+[Alibaba Java Coding Guidelines][AliJavaGuidelines]
+[]
 
 ## 词汇标准
 
@@ -32,3 +33,5 @@
 ### `push` 命令 必须 包含分支
 
 **必须** 使用 `git push [RemoteName] [Branch]` 命令。  
+
+[AliJavaGuidelines]:https://gitee.com/Will_Niu/Alibaba-Java-Coding-Guidelines

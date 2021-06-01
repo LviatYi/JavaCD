@@ -12,8 +12,8 @@
 用户的注册与登录。  
 主要提供用户认证的界面与认证程序。  
 
-* 用户认证系统需要调用 [加密系统](./encryptionSystem.md) 中的密码加密。  
-* 用户认证系统需要调用 [通信系统](./communicationSystem.md) 中的信息传输。  
+* 用户认证系统需要调用 [加密系统][ES] 中的密码加密。  
+* 用户认证系统需要调用 [通信系统][CMS] 中的信息传输。  
 
 ## <a id="Component">元素</a>
 
@@ -71,3 +71,9 @@
 ## <a id="Statu">状态图</a>
 
 <!-- TODO_LviatYi -->
+
+[UAS]:./userAuthenticationSystem.md
+[CS]:./chatSystem.md
+[CMS]:./communicationSystem.md
+[DBS]:./databaseSystem.md
+[ES]:./encryptionSystem.md

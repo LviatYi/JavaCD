@@ -12,35 +12,35 @@
 
 ### 用户认证系统
 
-管理用户的注册与登录。[More...](./wiki/userAuthenticationSystem.md)  
+管理用户的注册与登录。[More...][UAS]  
 
 * 注册 GUI
 * 登录 GUI
 
 ### 通信系统
 
-用于传递用户认证与聊天消息的系统。[More...](./wiki/communicationSystem.md)  
+用于传递用户认证与聊天消息的系统。[More...][CMS]  
 
 * 客户端
 * 服务器端
 
 ### 聊天系统
 
-用户与程序进行交互的主要界面,提供各种场合的使用界面。用户可直观地切换到其他聊天场合。[More...](./wiki/chatSystem.md)  
+用户与程序进行交互的主要界面,提供各种场合的使用界面。用户可直观地切换到其他聊天场合。[More...][CS]  
 
 * 私人聊天 GUI
 * 聊天室 GUI
 
 ### 通讯录系统
 
-可以使用户查询通讯录的界面。[More...](./wiki/addressBookSystem.md)  
+可以使用户查询通讯录的界面。[More...][ABS]
 
 * SQL
 * GUI
 
 ### 数据库系统
 
-提供数据库，提供单例模式的数据库管理程序，并使用适配器模式提供更加直观的数据库操作。[More...](./wiki/databaseSystem.md)  
+提供数据库，提供单例模式的数据库管理程序，并使用适配器模式提供更加直观的数据库操作。[More...][DBS]
 
 * 数据库构建
 * 数据库交互
@@ -48,7 +48,7 @@
 
 ### 加密系统
 
-提供密码与聊天信息加密。[More...](./wiki/encryptionSystem.md)  
+提供密码与聊天信息加密。[More...][ES]  
 
 * 密码加密算法
 * 信息加密与解密算法
@@ -99,3 +99,9 @@ LviatYi
 * 端到端通信加密
 
 May_bebe
+
+[UAS]:./wiki/userAuthenticationSystem.md
+[CS]:./wiki/chatSystem.md
+[CMS]:./wiki/communicationSystem.md
+[DBS]:./wiki/databaseSystem.md
+[ES]:./wiki/encryptionSystem.md

@@ -13,13 +13,18 @@
       <path>
         <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
         <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="GROUP_NODE:JavaCD" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
       </path>
     </expand>
     <select />
   </component>
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="ac133e36-4a28-48ce-ae13-547519145767" name="默认的" comment="Update test">
+=======
+    <list default="true" id="ac133e36-4a28-48ce-ae13-547519145767" name="默认的" comment="">
+      <change afterPath="$PROJECT_DIR$/src/topkang_test.java" afterDir="false" />
+>>>>>>> 2a34159fee64108258da48dd74ba8d435a7487c1
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/JavaCD.iml" beforeDir="false" afterPath="$PROJECT_DIR$/JavaCD.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test.java" afterDir="false" />
@@ -28,9 +33,6 @@
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="CodeStyleSettingsInfer">
-    <option name="done" value="true" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -54,7 +56,7 @@
   </component>
   <component name="ProjectId" id="1tLQsm7OB7e979pHdoYVIBmrkvY" />
   <component name="ProjectLevelVcsManager">
-    <ConfirmationsSetting value="2" id="新增" />
+    <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -62,10 +64,15 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+<<<<<<< HEAD
     <property name="project.structure.last.edited" value="模块" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+=======
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+>>>>>>> 2a34159fee64108258da48dd74ba8d435a7487c1
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -115,5 +122,15 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="263" y="206" key="new project wizard/0.0.1920.1080/-1920.4.1440.810@0.0.1920.1080" timestamp="1622549478262" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="1060" y="454" key="FileChooserDialogImpl" timestamp="1622546304468">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="1060" y="454" key="FileChooserDialogImpl/0.0.2560.1400@0.0.2560.1400" timestamp="1622546304468" />
+    <state x="654" y="309" key="new project wizard" timestamp="1622546624713">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="654" y="309" key="new project wizard/0.0.2560.1400@0.0.2560.1400" timestamp="1622546624713" />
   </component>
 </project>

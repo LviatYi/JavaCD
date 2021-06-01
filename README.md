@@ -1,47 +1,101 @@
 # JChat Java 课程设计
 
+---
+
 ## 项目介绍
 
 一款基于 Java 的聊天程序。  
+
+---
 
 ## 项目构成
 
 ### 用户认证系统
 
-用户的注册与登录。  
+管理用户的注册与登录。[More...](./wiki/userAuthenticationSystem.md)  
 
-注册需要
-
-* 未注册的账号。  
-* 两次相同的密码。  
-
-登录需要
-
-* 已经注册的账号。  
-* 与账号适配密码。  
-
-账号
-密码
-昵称
-
-* GUI
-* SQL
-* 验证 Server
+* 注册 GUI
+* 登录 GUI
 
 ### 通信系统
 
-用于传递用户认证与聊天消息的系统。  
-密码字段需要密文存储。  
+用于传递用户认证与聊天消息的系统。[More...](./wiki/communicationSystem.md)  
 
 * 客户端
 * 服务器端
 
 ### 聊天系统
 
+用户与程序进行交互的主要界面,提供各种场合的使用界面。用户可直观地切换到其他聊天场合。[More...](./wiki/chatSystem.md)  
+
 * 私人聊天 GUI
 * 聊天室 GUI
 
 ### 通讯录系统
 
+可以使用户查询通讯录的界面。[More...](./wiki/addressBookSystem.md)  
+
 * SQL
 * GUI
+
+### 数据库系统
+
+提供数据库，提供单例模式的数据库管理程序，并使用适配器模式提供更加直观的数据库操作。[More...](./wiki/databaseSystem.md)  
+
+* 数据库构建
+* 数据库交互
+* 数据库维护
+
+### 加密系统
+
+提供密码与聊天信息加密。[More...](./wiki/encryptionSystem.md)  
+
+* 密码加密算法
+* 信息加密与解密算法
+
+---
+
+## 工作分配
+
+### Project Director 项目总监
+
+* 整体进度规划与控制
+* 维护团队沟通
+* 文档编纂
+
+LviatYi
+
+### Network engineer 网络工程师
+
+* 数据通信
+* 网络日志
+
+TopKang / IMposter
+
+### Back-end engineer 后端工程师
+
+* 服务器后端程序
+* 服务器后台
+
+TopKang / IMposter
+
+### DBA 数据库工程师
+
+* 数据库建立
+* 数据库交互
+* 数据库维护
+
+Sticker
+
+### UI Designer 界面设计师
+
+* 程序前台界面
+
+LviatYi
+
+### IS Engineer 信安工程师
+
+* 密码加密
+* 端到端通信加密
+
+May_bebe

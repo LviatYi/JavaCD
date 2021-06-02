@@ -27,8 +27,9 @@ public class ServerThread extends Thread{
 
             while((info_in=br.readLine())!=null){
                 System.out.println("客户端说："+info_in);
+                //连接数据库
                 DataBase dataBase = new DataBase();
-                dataBase.saveString(info_in,"server");
+                dataBase.saveString(info_in,socket.getInetAddress().toString());
                 socket.shutdownInput();
             }
             os = socket.getOutputStream();

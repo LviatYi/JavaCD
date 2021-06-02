@@ -37,7 +37,6 @@ public class DataBase {
             sql.setString(3,"2021-6-2");
             //TODO
             //时间获取
-            //来源获取
             sql.executeUpdate();
         }catch (Exception e){
             e.printStackTrace();

@@ -6,13 +6,14 @@ import java.net.Socket;
 
 public class ClientThreadIn extends Thread {
     private Socket server;
+    public boolean exit = false;
     public ClientThreadIn(Socket socket){this.server=socket;}
     public void run(){
         In();
     }
     private void In(){
         try{
-            while (true)
+            while (!exit)
             {
                 InputStream in = server.getInputStream();
                 //不仅仅是起到勺子舀输入流里面数据的作用，也是存储数据

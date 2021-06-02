@@ -5,7 +5,8 @@ import java.util.Scanner;
 
 public class EncryptionImpl implements Encryption {
 
-    public String doSignInHashEncryption(String password) {
+    @Override
+    public String encryptPassword(String password) {
         String result = null;
         if (password != null && password.length() > 0) {
             try {
@@ -28,7 +29,8 @@ public class EncryptionImpl implements Encryption {
         return result;
     }
 
-    public String doChatKeyEncryption(String content, String key) {
+    @Override
+    public String encryptContent(String content, String key) {
         StringBuilder sbu = new StringBuilder();
         char[] chars = content.toCharArray();
         for (int i = 0; i < chars.length; i++) {
@@ -53,7 +55,8 @@ public class EncryptionImpl implements Encryption {
         return new String(result);
     }
 
-    public String doChatKeyDecryption(String content, String key) {
+    @Override
+    public String decryptContent(String content, String key) {
         byte[] contentBytes = content.getBytes();
         byte[] keyBytes = key.getBytes();
         byte temp = 0;
@@ -79,6 +82,8 @@ public class EncryptionImpl implements Encryption {
         return sbu.toString();
     }
 
+
+    @Override
     public String getKey(int keyLength) {
         String str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         Random random = new Random();

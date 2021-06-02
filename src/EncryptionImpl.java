@@ -9,10 +9,7 @@ import java.util.Random;
  * @className EncryptionImpl
  * @date 2021/6/2
  */
-
-
 public class EncryptionImpl implements Encryption {
-
     @Override
     public String encryptPassword(String password) {
         String result = null;
@@ -101,8 +98,6 @@ public class EncryptionImpl implements Encryption {
         }
         return sb.toString();
     }
-
-
 }
 
 

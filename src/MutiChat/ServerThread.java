@@ -56,20 +56,20 @@ public class ServerThread extends Thread{
         user.setName(userName);
         user.setPassword(pwd);
         //调用数据库，验证用户是否存在
-        boolean loginState=DaoTool.checkLogin(user);
+        //database();
 //        if(!loginState) {
 //            //如果不存在这个账号则关闭
 //            this.closeMe();
 //            return;
 //        }
-        ChatTools.addClient(this);//认证成功，把这个用户加入服务器队列
+        MultiThread.addClient(this);//认证成功，把这个用户加入服务器队列
         String input=brd.readLine();
         while(!input.equals("bye")) {
             System.out.println("服务器读到的是:"+input);
-            ChatTools.castMsg(this.user, input);
+            MultiThread.castMsg(this.user, input);
             input=brd.readLine();
         }
-        ChatTools.castMsg(this.user, "bye");
+        MultiThread.castMsg(this.user, "bye");
         this.closeMe();
     }
 

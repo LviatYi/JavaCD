@@ -3,8 +3,6 @@ package MutiChat;
 public class UserInfo {
     private String name;//用户名
     private String password;//密码
-    private String loignTime;//登录时间
-    private String address;//客户机端口名
 
     public String getName() {
         return name;

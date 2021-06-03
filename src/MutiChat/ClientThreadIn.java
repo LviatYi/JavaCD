@@ -5,12 +5,18 @@ import java.io.InputStream;
 import java.net.Socket;
 
 public class ClientThreadIn extends Thread {
+
     private Socket server;
     public boolean exit = false;
-    public ClientThreadIn(Socket socket){this.server=socket;}
+
+    public ClientThreadIn(){}
+    public void setSocket(Socket socket){this.server =socket;}
+
+
     public void run(){
         In();
     }
+
     private void In(){
         try{
             while (!exit)

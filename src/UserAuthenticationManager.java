@@ -9,6 +9,7 @@
  */
 public class UserAuthenticationManager
 {
+
     private static UserAuthenticationManager instance=null;
     private String ID;
     private String name;
@@ -20,14 +21,12 @@ public class UserAuthenticationManager
      * 单例模式 获得用户权限管理器
      * @return 用户权限管理器
      */
+
     public static UserAuthenticationManager getUserAuthenticationManager(){
         if(instance==null)
         {
             instance=new UserAuthenticationManager();
         }
-
         return instance;
     }
-
-
 }

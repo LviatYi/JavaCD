@@ -7,6 +7,7 @@ import java.util.ArrayList;
  * 定义一个管理类，相当于一个中介，处理线程，转发消息
  * 这个只提供方法调用，不需要实例化对象，因此都是静态方法
  */
+
 public class MultiThread {
     //保存线程处理的对象
     private static ArrayList<ServerThread> stList=new ArrayList();

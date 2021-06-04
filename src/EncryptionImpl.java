@@ -36,25 +36,25 @@ public class EncryptionImpl implements Encryption {
 
     @Override
     public String encryptContent(String content, String key) {
-        StringBuilder sbu = new StringBuilder();
+        StringBuilder subString = new StringBuilder();
         char[] chars = content.toCharArray();
         for (int i = 0; i < chars.length; i++) {
             if (i != chars.length - 1) {
-                sbu.append((int) chars[i]).append(",");
+                subString.append((int) chars[i]).append(",");
             } else {
-                sbu.append((int) chars[i]);
+                subString.append((int) chars[i]);
             }
         }
-        byte[] contentBytes = sbu.toString().getBytes();
+        byte[] contentBytes = subString.toString().getBytes();
         byte[] keyBytes = key.getBytes();
-        byte temp = 0;
+        byte tempCalculation = 0;
         for (byte b : keyBytes) {
-            temp ^= b;
+            tempCalculation ^= b;
         }
         byte salt = 0;
         byte[] result = new byte[contentBytes.length];
         for (int i = 0; i < contentBytes.length; i++) {
-            salt = (byte) (contentBytes[i] ^ temp ^ salt);
+            salt = (byte) (contentBytes[i] ^ tempCalculation ^ salt);
             result[i] = salt;
         }
         return new String(result);
@@ -64,9 +64,9 @@ public class EncryptionImpl implements Encryption {
     public String decryptContent(String content, String key) {
         byte[] contentBytes = content.getBytes();
         byte[] keyBytes = key.getBytes();
-        byte temp = 0;
+        byte tempCalculation = 0;
         for (byte b : keyBytes) {
-            temp ^= b;
+            tempCalculation ^= b;
         }
         byte salt;
         byte[] result = new byte[contentBytes.length];
@@ -76,28 +76,27 @@ public class EncryptionImpl implements Encryption {
             } else {
                 salt = contentBytes[i - 1];
             }
-            result[i] = (byte) (contentBytes[i] ^ temp ^ salt);
+            result[i] = (byte) (contentBytes[i] ^ tempCalculation ^ salt);
         }
-        String temp1 = new String(result);
-        StringBuilder sbu = new StringBuilder();
-        String[] chars = temp1.split(",");
-        for (String aChar : chars) {
-            sbu.append((char) Integer.parseInt(aChar));
+        String str = new String(result);
+        StringBuilder sbuString = new StringBuilder();
+        String[] chars = str.split(",");
+        for (String tempChar : chars) {
+            sbuString.append((char) Integer.parseInt(tempChar));
         }
-        return sbu.toString();
+        return sbuString.toString();
     }
 
     @Override
     public String getKey(int keyLength) {
-        String str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        String codeString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         Random random = new Random();
-        StringBuilder sb = new StringBuilder();
+        StringBuilder key = new StringBuilder();
         for (int i = 0; i < keyLength; i++) {
             int number = random.nextInt(62);
-            sb.append(str.charAt(number));
+            key.append(codeString.charAt(number));
         }
-        return sb.toString();
+        return key.toString();
     }
 }
-
 

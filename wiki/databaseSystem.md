@@ -60,6 +60,8 @@
 
 ## <a id="Er">实体关系图</a>
 
+![ER 图](./asset/Database_ER.svg "JChat 实体关系图")
+
 ```PlantUML
 @startUML
 hide empty members
@@ -87,7 +89,6 @@ FriendRelationship ..o{ User
 User ||..o{ Message : Send
 Message ||..|| ChatRoom : Send to
 ChatRoom }o..|{ User
-
 @endUML
 ```
 

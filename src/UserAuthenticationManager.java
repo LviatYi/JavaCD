@@ -1,6 +1,6 @@
 /**
- * Manager of User Authentication
- * Singleton mode
+ * Manager of User Authentication.
+ * Designed by SINGLETON mode.
  * 单例模式，保证只有一个单例
  *
  * @author LVIAT.cn
@@ -154,8 +154,6 @@ public class UserAuthenticationManager
      */
     final String PASSWORD_PATTERN = "^(?![A-Za-z]+$)(?![0-9]+$)(?![\\W]+$)[A-Za-z0-9\\W].*$";
 
-
-    private static UserAuthenticationManager instance = null;
     /**
      * 账号
      */
@@ -170,10 +168,26 @@ public class UserAuthenticationManager
     private String password;
 
     /**
+     * 单例指针
+     */
+    private static UserAuthenticationManager instance = null;
+
+    /**
      * 加密接口
      */
     private Encryption encryption;
+    /**
+     * 通信接口
+     */
+    /**
+     * TODO_LviatYi 通信接口
+     * date 2021/6/4
+     */
 
+
+    /**
+     * 隐藏默认构造函数
+     */
     private UserAuthenticationManager()
     {
     }
@@ -194,7 +208,7 @@ public class UserAuthenticationManager
     }
 
     /**
-     * 设置并检测账号合法性
+     * 检测账号合法性并尝试设置账号
      *
      * @param id 账号
      * @return id 设置结果
@@ -210,7 +224,7 @@ public class UserAuthenticationManager
     }
 
     /**
-     * 设置并检测昵称合法性
+     * 检测昵称合法性并尝试设置昵称
      *
      * @param name 昵称
      * @return 设置结果
@@ -230,7 +244,7 @@ public class UserAuthenticationManager
     }
 
     /**
-     * 设置并检测密码合法性
+     * 检测密码合法性并尝试设置密码
      *
      * @param password 密码
      * @return 设置结果
@@ -258,9 +272,46 @@ public class UserAuthenticationManager
     }
 
     /**
-     * TODO_LviatYi
-     * 需要与服务器通信
-     * date 2021/6/2
+     * 尝试获取一个新的注册用 ID
+     *
+     * @return 可用的新 ID
      */
+    public void getNewId()
+    {
+        String newId = "";
+        /**
+         * TODO_LviatYi 尝试获取一个新的注册用 ID
+         * date 2021/6/4
+         */
+        id = newId;
+    }
 
+    /**
+     * 尝试登录
+     *
+     * @return 登录状态
+     */
+    public LoginStatus login()
+    {
+        /**
+         * TODO_LviatYi 登录函数
+         * date 2021/6/4
+         */
+        return LoginStatus.CONNECTION_FAILED;
+    }
+
+    /**
+     * 尝试注册
+     *
+     * @return 注册状态
+     */
+    public RegisterStatus register()
+    {
+        getNewId();
+        /**
+         * TODO_LviatYi 尝试注册
+         * date 2021/6/4
+         */
+        return RegisterStatus.CONNECTION_FAILED;
+    }
 }

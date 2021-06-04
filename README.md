@@ -101,6 +101,7 @@ LviatYi
 May_bebe
 
 [UAS]:./wiki/userAuthenticationSystem.md
+[ABS]:./wiki/addressBookSystem.md
 [CS]:./wiki/chatSystem.md
 [CMS]:./wiki/communicationSystem.md
 [DBS]:./wiki/databaseSystem.md

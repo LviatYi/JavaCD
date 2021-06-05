@@ -18,24 +18,27 @@ public interface Client {
     /**
      *
      * @param text 传输的消息
-     * @param type 类型1为群发
      */
-    public void sendGroup(String text,int type);
+    public void sendGroup(String text);
 
     /**
      *
      * @param text 传输的消息
      * @param ID 私聊对象ID
-     * @param type 类型2为私聊
      */
-    public void sendTOID(String text,String ID,int type);
+    public void sendPrivate(String text, String ID);
 
     /**
      *
-     * @param name 登录名
+     * @param name 昵称
      * @param password 登录密码
-     * @param type 类型3为登录
      */
-    public void send(String name,String password,int type);
+    public void register(String name,String password);
 
+    /**
+     *
+     * @param id 用户名ID
+     * @param password 登录密码
+     */
+    public void login(String id,String password);
 }

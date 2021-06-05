@@ -1,5 +1,7 @@
 package MutiChat;
 
+import com.alibaba.fastjson.JSONObject;
+
 import java.io.*;
 import java.net.Socket;
 
@@ -13,46 +15,47 @@ public class MultiChatClient implements Client{
         client();
     }
 
-    /**
-     *
-     * @param text 传输的消息
-     * @param type 类型1为群发
-     */
-    public void sendGroup(String text,int type)
+    public void sendGroup(String text)
     {
-        type=1;
-        co.setMessage(String.valueOf(type));
+        Message mes = new Message();
+        mes.message=text;
+        mes.type= Message.transportType.SEND_GROUP_MESSAGE;
+        String temp = JSONObject.toJSONString(mes);
+        co.setMessage(String.valueOf(temp));
     }
 
-    /**
-     *
-     * @param text 传输的消息
-     * @param ID 私聊对象ID
-     * @param type 类型2为私聊
-     */
-    public void sendTOID(String text,String ID,int type)
+    public void sendPrivate(String text, String ID)
     {
-        co.setMessage(String.valueOf(type));
+        Message mes = new Message();
+        mes.receiver=ID;
+        mes.type=Message.transportType.SEND_PRIVATE_MESSAGE;
+        String temp = JSONObject.toJSONString(mes);
+        co.setMessage(String.valueOf(temp));
     }
 
-    /**
-     *
-     * @param name 登录名
-     * @param password 登录密码
-     * @param type 类型3为登录
-     */
-    public void send(String name,String password,int type)
+    public void register(String name,String password)
     {
-        co.setMessage(String.valueOf(type));
+        Message mes = new Message();
+        mes.name=name;
+        mes.password=password;
+        mes.type=Message.transportType.REGISTER;
+        String temp = JSONObject.toJSONString(mes);
+        co.setMessage(String.valueOf(temp));
+    }
+
+    public void login(String id,String password)
+    {
+        Message mes = new Message();
+        mes.id = id;
+        mes.password =password;
+        mes.type= Message.transportType.LOGIN;
     }
 
     private void client() throws IOException {
             Socket socket = new Socket("127.0.0.1", 9000);
-
             co.setSocket(socket);
             ci.setSocket(socket);
             co.start();
             ci.start();
     }
-
 }

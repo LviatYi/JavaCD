@@ -112,7 +112,7 @@ public class Connect<date> {
 
 
 
-    public void signin(String id,String password)   //登录  查询name和passwprd是否与数据库匹配
+    public void signIn(String id,String password)   //登录  查询name和passwprd是否与数据库匹配
     {       con=getConnection();
         try{Statement st = con.createStatement();
             String sql = "SELECT * FROM sign where id='" + id + "' and password ='" + password + "'";
@@ -157,7 +157,7 @@ public class Connect<date> {
 
     }
 
-    public void getnews(String sender) {//查询与sender匹配的消息并输出(群)
+    public void getNews(String sender) {//查询与sender匹配的消息并输出(群)
         con = getConnection();
         try {   Statement st = con.createStatement();
             String sql = "SELECT * FROM new where sender='" + sender + "'";
@@ -174,7 +174,7 @@ public class Connect<date> {
             e.printStackTrace();
         }
     }
-    public void getnews1sender(String sender) {//查询与sender匹配的消息并输出(私聊)
+    public void getNews1_sender(String sender) {//查询与sender匹配的消息并输出(私聊)
         con = getConnection();
         try {   Statement st = con.createStatement();
             String sql = "SELECT * FROM news3 where sender='" + sender + "'";
@@ -193,7 +193,7 @@ public class Connect<date> {
             e.printStackTrace();
         }
     }
-    public void getnews1reciver(String reciver) {//查询与reciver匹配的消息并输出(私聊)
+    public void getNews1_reciver(String reciver) {//查询与reciver匹配的消息并输出(私聊)
         con = getConnection();
         try {   Statement st = con.createStatement();
             String sql = "SELECT * FROM news3 where  reciver='" + reciver + "'";
@@ -211,7 +211,7 @@ public class Connect<date> {
             e.printStackTrace();
 
         }}
-    public void insertnews(String sender,String message,String datatime)//增加消息("群聊")
+    public void insertNews(String sender,String message,String datatime)//增加消息("群聊")
     {
         con=getConnection();
         try{String sql="insert into new (sender,message,datatime) values(?,?,?)";
@@ -222,7 +222,7 @@ public class Connect<date> {
             int rs=st.executeUpdate();
             System.out.println("插入聊天消息成功");}catch (SQLException e){e.printStackTrace();}
     }
-    public void insertnews1(String sender,String reciver,String message,String datatime)//增加消息（私聊）
+    public void insertNews1(String sender,String reciver,String message,String datatime)//增加消息（私聊）
     {
         con=getConnection();
         try{String sql="insert into news3 (sender,reciver,message,datatime) values(?,?,?,?)";
@@ -235,7 +235,7 @@ public class Connect<date> {
             System.out.println("插入聊天消息成功");}catch (SQLException e){e.printStackTrace();}
     }
 
-    /* public void deletenews(String sender,String reciver)//删除消息
+    /* public void deleteNews(String sender,String reciver)//删除消息
      {
              con=getConnection();
              try{String sql="delete from news where sender=? and reciver=?";
@@ -245,7 +245,7 @@ public class Connect<date> {
                      int rs=st.executeUpdate();
                      System.out.println("删除成功");}catch(SQLException e){e.printStackTrace();}
      }*/
-    public void  addfriend(String id,String id_friend,String name_friend)//添加好友数据
+    public void  addFriend(String id,String id_friend,String name_friend)//添加好友数据
     {
 
         con=getConnection();
@@ -257,7 +257,7 @@ public class Connect<date> {
             int rs=st.executeUpdate();
             System.out.println("添加好友成功");}catch (SQLException e){e.printStackTrace();}
     }
-    public void deletefriend(String id)//删除好友
+    public void deleteFriend(String id)//删除好友
     {
         con=getConnection();
         try{String sql="delete from friend where id=? ";

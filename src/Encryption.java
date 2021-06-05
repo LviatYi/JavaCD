@@ -8,11 +8,11 @@
 public interface Encryption {
     /**
      * 对密码文本进行加密
+     *
      * @param password 密码
      * @return 加密后的密码
      */
     String encryptPassword(String password);
-
     /**
      * 对聊天内容加密
      * @param content 聊天内容

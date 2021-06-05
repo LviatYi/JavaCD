@@ -1,14 +1,18 @@
 package Socket.Client;
 
-import java.io.IOException;
-import java.io.InputStream;
+import Socket.tools.Message;
+import com.alibaba.fastjson.JSON;
+
+import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ClientThreadIn extends Thread {
 
     private Socket server;
     public boolean exit = false;
-
+    public List<Message> msgList = new ArrayList<>();
     public ClientThreadIn(){}
     public void setSocket(Socket socket){this.server =socket;}
 
@@ -21,17 +25,11 @@ public class ClientThreadIn extends Thread {
         try{
             while (!exit)
             {
-                InputStream in = server.getInputStream();
-                //不仅仅是起到勺子舀输入流里面数据的作用，也是存储数据
-                byte[] b = new byte[1024];
-                StringBuffer sb = new StringBuffer();
-                int len = 0;
-                String s = null;
-                if ((len = in.read(b)) != -1) {
-                    s = new String(b);
-                    //TODO
-                    sb.append(s);
-                }
+                DataInputStream in = new DataInputStream(server.getInputStream());
+                String str = in.readUTF();
+                msgList.add(JSON.parseObject(str,Message.class));
+
+
             }
         }catch (IOException e){
             e.printStackTrace();

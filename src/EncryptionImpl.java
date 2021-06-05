@@ -14,7 +14,7 @@ public class EncryptionImpl implements Encryption {
     private static int keyLength=10;
 
     @Override
-    public static String encryptPassword(String password) {
+    public String encryptPassword(String password) {
         String result = null;
         if (password != null && password.length() > 0) {
             try {
@@ -38,7 +38,7 @@ public class EncryptionImpl implements Encryption {
     }
 
     @Override
-    public static String encryptContent(String content) {
+    public String encryptContent(String content) {
         String codeString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         Random random = new Random();
         StringBuilder key = new StringBuilder();
@@ -71,7 +71,7 @@ public class EncryptionImpl implements Encryption {
     }
 
     @Override
-    public static String decryptContent(String keyContent) {
+    public String decryptContent(String keyContent) {
         String key=keyContent.substring(0,keyLength);
         String content=keyContent.substring(keyLength);
         byte[] contentBytes = content.getBytes();

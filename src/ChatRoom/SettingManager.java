@@ -2,7 +2,7 @@ package ChatRoom;
 
 /**
  * @author May_bebe
- * @version TODO
+ * @version 1.0
  * @className SettingManager
  * @date 2021/6/6
  */
@@ -90,7 +90,7 @@ public class SettingManager {
     /**
      * 单例指针
      */
-    private SettingManager instance=null;
+    private static SettingManager instance=null;
     /**
      * 隐藏默认构造函数
      */
@@ -103,7 +103,7 @@ public class SettingManager {
      *
      * @return 设置权限管理器
      */
-    public SettingManager getSettingManager()
+    public static SettingManager getSettingManager()
     {
         if(instance==null)
         {

@@ -221,21 +221,6 @@ public class UserAuthenticationManager
     }
 
     /**
-     * 尝试获取一个新的注册用 ID
-     *
-     * @return 可用的新 ID
-     */
-    public void getNewId()
-    {
-        String newId = "";
-        /**
-         * TODO_LviatYi 尝试获取一个新的注册用 ID
-         * date 2021/6/4
-         */
-        id = newId;
-    }
-
-    /**
      * 尝试登录
      *
      * @return 登录状态
@@ -256,7 +241,6 @@ public class UserAuthenticationManager
      */
     public RegisterStatus register()
     {
-        getNewId();
         /**
          * TODO_LviatYi 尝试注册
          * date 2021/6/4

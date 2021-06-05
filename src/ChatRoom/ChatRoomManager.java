@@ -13,7 +13,7 @@ public class ChatRoomManager {
     /**
      * 单例指针
      */
-    private ChatRoomManager instance=null;
+    private static ChatRoomManager instance=null;
     /**
      * 隐藏默认构造函数
      */
@@ -26,7 +26,7 @@ public class ChatRoomManager {
      *
      * @return 聊天室权限管理器
      */
-    public ChatRoomManager getChatRoomManager()
+    public static ChatRoomManager getChatRoomManager()
     {
         if(instance==null)
         {

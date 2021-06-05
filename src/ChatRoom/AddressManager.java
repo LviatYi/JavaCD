@@ -82,7 +82,7 @@ public class AddressManager {
     /**
      * 单例指针
      */
-    private AddressManager instance=null;
+    private static AddressManager instance=null;
     /**
      * 隐藏默认构造函数
      */
@@ -95,7 +95,7 @@ public class AddressManager {
      *
      * @return 通讯录权限管理器
      */
-    public AddressManager getAddressManager()
+    public static AddressManager getAddressManager()
     {
         if(instance==null)
         {

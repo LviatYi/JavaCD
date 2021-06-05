@@ -57,6 +57,10 @@
 
 * ChatRoomId (Key)
   聊天室 ID （主键）
+* ChatRoomName
+  聊天室 Name （允许为空）
+
+当聊天室为群聊时，聊天室 Name 为空。  
 
 ## <a id="Er">实体关系图</a>
 

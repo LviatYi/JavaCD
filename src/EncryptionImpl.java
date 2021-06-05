@@ -10,6 +10,9 @@ import java.util.Random;
  * @date 2021/6/2
  */
 public class EncryptionImpl implements Encryption {
+
+    private final int keyLength=10;
+
     @Override
     public String encryptPassword(String password) {
         String result = null;
@@ -35,7 +38,14 @@ public class EncryptionImpl implements Encryption {
     }
 
     @Override
-    public String encryptContent(String content, String key) {
+    public String encryptContent(String content) {
+        String codeString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        Random random = new Random();
+        StringBuilder key = new StringBuilder();
+        for (int i = 0; i < keyLength; i++) {
+            int number = random.nextInt(62);
+            key.append(codeString.charAt(number));
+        }
         StringBuilder subString = new StringBuilder();
         char[] chars = content.toCharArray();
         for (int i = 0; i < chars.length; i++) {
@@ -46,7 +56,7 @@ public class EncryptionImpl implements Encryption {
             }
         }
         byte[] contentBytes = subString.toString().getBytes();
-        byte[] keyBytes = key.getBytes();
+        byte[] keyBytes = key.toString().getBytes();
         byte tempCalculation = 0;
         for (byte b : keyBytes) {
             tempCalculation ^= b;
@@ -57,11 +67,13 @@ public class EncryptionImpl implements Encryption {
             salt = (byte) (contentBytes[i] ^ tempCalculation ^ salt);
             result[i] = salt;
         }
-        return new String(result);
+        return key.toString()+new String(result);
     }
 
     @Override
-    public String decryptContent(String content, String key) {
+    public String decryptContent(String keyContent) {
+        String key=keyContent.substring(0,keyLength);
+        String content=keyContent.substring(keyLength);
         byte[] contentBytes = content.getBytes();
         byte[] keyBytes = key.getBytes();
         byte tempCalculation = 0;
@@ -85,18 +97,6 @@ public class EncryptionImpl implements Encryption {
             sbuString.append((char) Integer.parseInt(tempChar));
         }
         return sbuString.toString();
-    }
-
-    @Override
-    public String getKey(int keyLength) {
-        String codeString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        Random random = new Random();
-        StringBuilder key = new StringBuilder();
-        for (int i = 0; i < keyLength; i++) {
-            int number = random.nextInt(62);
-            key.append(codeString.charAt(number));
-        }
-        return key.toString();
     }
 }
 

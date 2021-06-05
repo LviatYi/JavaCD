@@ -1,4 +1,4 @@
-package MutiChat;
+package Socket.tools;
 
 /**
  * Created with IntelliJ IDEA.
@@ -14,9 +14,9 @@ public class Message {
     public String receiver;
     public String message;
     public String time;
-    transportType type;
+    public transportType type;
 
-    enum transportType{
+    public enum transportType{
         LOGIN,
         REGISTER,
         SEND_GROUP_MESSAGE,

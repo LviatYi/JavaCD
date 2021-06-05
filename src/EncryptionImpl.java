@@ -11,10 +11,10 @@ import java.util.Random;
  */
 public class EncryptionImpl implements Encryption {
 
-    private final int keyLength=10;
+    private static int keyLength=10;
 
     @Override
-    public String encryptPassword(String password) {
+    public static String encryptPassword(String password) {
         String result = null;
         if (password != null && password.length() > 0) {
             try {
@@ -38,7 +38,7 @@ public class EncryptionImpl implements Encryption {
     }
 
     @Override
-    public String encryptContent(String content) {
+    public static String encryptContent(String content) {
         String codeString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         Random random = new Random();
         StringBuilder key = new StringBuilder();
@@ -71,7 +71,7 @@ public class EncryptionImpl implements Encryption {
     }
 
     @Override
-    public String decryptContent(String keyContent) {
+    public static String decryptContent(String keyContent) {
         String key=keyContent.substring(0,keyLength);
         String content=keyContent.substring(keyLength);
         byte[] contentBytes = content.getBytes();

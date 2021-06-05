@@ -23,10 +23,11 @@ public interface Client {
 
     /**
      *
-     * @param text 传输的消息
-     * @param ID 私聊对象ID
+     * @param text 消息
+     * @param receiverID 接受者id
+     * @param senderID 发送者id
      */
-    public void sendPrivate(String text, String ID);
+    public void sendPrivate(String text,String receiverID,String senderID);
 
     /**
      *

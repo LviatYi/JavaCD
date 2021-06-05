@@ -29,7 +29,7 @@ public class ClientThreadIn extends Thread {
                 String s = null;
                 if ((len = in.read(b)) != -1) {
                     s = new String(b);
-                    System.out.println(s);
+                    //TODO
                     sb.append(s);
                 }
             }

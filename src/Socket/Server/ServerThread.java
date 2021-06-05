@@ -1,4 +1,4 @@
-package MutiChat;
+package Socket.Server;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,14 +14,9 @@ import java.net.Socket;
 public class ServerThread extends Thread{
     private Socket client;//线程中的处理对象
     private OutputStream ous;//输出流对象
-    private UserInfo user;//用户信息对象
 
     public ServerThread(Socket client) {
         this.client=client;
-    }
-
-    public UserInfo getOwerUser() {
-        return this.user;
     }
 
     public void run() {
@@ -52,9 +47,6 @@ public class ServerThread extends Thread{
         sendMsg2Me("请输入密码：");
         String pwd=brd.readLine();
 
-        user=new UserInfo();
-        user.setName(userName);
-        user.setPassword(pwd);
         //调用数据库，验证用户是否存在
         //database();
 //        if(!loginState) {
@@ -66,10 +58,10 @@ public class ServerThread extends Thread{
         String input=brd.readLine();
         while(!input.equals("bye")) {
             System.out.println("服务器读到的是:"+input);
-            MultiThread.castMsg(this.user, input);
+//            MultiThread.castMsg(this.user, input);
             input=brd.readLine();
         }
-        MultiThread.castMsg(this.user, "bye");
+//        MultiThread.castMsg(this.user, "bye");
         this.closeMe();
     }
 

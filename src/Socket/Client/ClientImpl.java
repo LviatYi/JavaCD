@@ -1,12 +1,13 @@
-package MutiChat;
+package Socket.Client;
 
+import Socket.tools.Message;
 import com.alibaba.fastjson.JSONObject;
 
 import java.io.*;
 import java.net.Socket;
 
 
-public class MultiChatClient implements Client{
+public class ClientImpl implements Client{
 
     private ClientThreadOut co = null;
     private ClientThreadIn ci = null;

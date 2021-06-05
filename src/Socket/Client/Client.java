@@ -1,4 +1,4 @@
-package MutiChat;
+package Socket.Client;
 
 import java.io.IOException;
 

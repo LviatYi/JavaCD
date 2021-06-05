@@ -18,4 +18,5 @@ public class MultiThread {
     public static void addClient(ServerThread st) throws IOException {
         stList.add(st);//将这个线程处理对象加入到队列中
     }
+
 }

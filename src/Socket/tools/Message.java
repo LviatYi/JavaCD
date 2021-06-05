@@ -11,9 +11,9 @@ public class Message {
     public String id;
     public String name;
     public String password;
-    public String receiver;
+    public String senderId;
+    public String receiverId;
     public String message;
-    public String time;
     public transportType type;
 
     public enum transportType{

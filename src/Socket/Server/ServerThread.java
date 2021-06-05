@@ -12,7 +12,8 @@ import java.net.Socket;
  * 从服务器的角度看，这个类就是客户端
  */
 public class ServerThread extends Thread{
-    private Socket client;//线程中的处理对象
+
+    private final Socket client;//线程中的处理对象
     private OutputStream ous;//输出流对象
 
     public ServerThread(Socket client) {
@@ -37,15 +38,12 @@ public class ServerThread extends Thread{
 
     private void processSocket() throws IOException {
         // TODO Auto-generated method stub
+
         InputStream ins=client.getInputStream();
+
         ous=client.getOutputStream();
         BufferedReader brd=new BufferedReader(new InputStreamReader(ins));
 
-        sendMsg2Me("欢迎你来聊天，请输入你的用户名：");
-        String userName=brd.readLine();
-
-        sendMsg2Me("请输入密码：");
-        String pwd=brd.readLine();
 
         //调用数据库，验证用户是否存在
         //database();
@@ -56,6 +54,10 @@ public class ServerThread extends Thread{
 //        }
         MultiThread.addClient(this);//认证成功，把这个用户加入服务器队列
         String input=brd.readLine();
+
+
+
+
         while(!input.equals("bye")) {
             System.out.println("服务器读到的是:"+input);
 //            MultiThread.castMsg(this.user, input);
@@ -64,6 +66,8 @@ public class ServerThread extends Thread{
 //        MultiThread.castMsg(this.user, "bye");
         this.closeMe();
     }
+
+
 
     //关闭当前客户机与服务器的连接。
     public void closeMe() throws IOException {

@@ -19,7 +19,7 @@ public class ClientThreadOut extends Thread{
     }
 
 
-    public void sendMsg2Me(String msg) throws IOException {
+    public void sendToServer(String msg) throws IOException {
         msg += "\r\n";
         out.write(msg.getBytes());
         out.flush();
@@ -33,7 +33,7 @@ public class ClientThreadOut extends Thread{
                 out = server.getOutputStream();
                 //输入文字，希望从控制台输入的
                 if(message !=null){
-                    sendMsg2Me(message);
+                    sendToServer(message);
                     message =null;
                 }
             }

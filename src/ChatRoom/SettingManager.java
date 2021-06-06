@@ -2,7 +2,7 @@ package ChatRoom;
 
 /**
  * @author May_bebe
- * @version TODO
+ * @version 1.0
  * @className SettingManager
  * @date 2021/6/6
  */

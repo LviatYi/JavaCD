@@ -1,5 +1,7 @@
 package Socket.Server;
 
+import DataBase.Connect;
+import Encrypt.EncryptionImpl;
 import Socket.tools.Message;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -18,6 +20,8 @@ public class ServerThread extends Thread{
     public ServerThread(Socket client) {
         this.client=client;
     }
+    public Connect database = new Connect();
+    public EncryptionImpl encryption= new EncryptionImpl();
 
     public void run() {
         try {
@@ -46,6 +50,8 @@ public class ServerThread extends Thread{
                 //注册
                 case REGISTER:
                 {
+                    database.register(message.name,message.password);
+                    sendMsg();
                 }
                 //登录
                 case LOGIN:

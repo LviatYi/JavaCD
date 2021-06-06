@@ -13,30 +13,33 @@ public class ClientThreadIn extends Thread {
     private Socket server;
     public boolean exit = false;
     public List<Message> msgList = new ArrayList<>();
-    public ClientThreadIn(){}
-    public void setSocket(Socket socket){this.server =socket;}
+
+    public ClientThreadIn() {
+    }
+
+    public void setSocket(Socket socket) {
+        this.server = socket;
+    }
 
 
-    public void run(){
+    public void run() {
         In();
     }
 
-    private void In(){
-        try{
-            while (!exit)
-            {
+
+    private void In() {
+        try {
+            while (!exit) {
                 DataInputStream in = new DataInputStream(server.getInputStream());
                 String str = in.readUTF();
-                msgList.add(JSON.parseObject(str,Message.class));
-
-
+                msgList.add(JSON.parseObject(str, Message.class));
             }
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             try {
                 server.close();
-            }catch (IOException e){
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }

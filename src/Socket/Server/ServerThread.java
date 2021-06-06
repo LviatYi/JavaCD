@@ -1,10 +1,10 @@
 package Socket.Server;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
+import Socket.tools.Message;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+
+import java.io.*;
 import java.net.Socket;
 
 /*
@@ -14,8 +14,7 @@ import java.net.Socket;
 public class ServerThread extends Thread{
 
     private final Socket client;//线程中的处理对象
-    private OutputStream ous;//输出流对象
-
+    private DataOutputStream ous ;
     public ServerThread(Socket client) {
         this.client=client;
     }
@@ -29,21 +28,39 @@ public class ServerThread extends Thread{
         }
     }
 
-    public void sendMsg2Me(String msg) throws IOException {
-        msg+="\r\n";
-        ous.write(msg.getBytes());
-        ous.flush();
-    }
+
 
 
     private void processSocket() throws IOException {
         // TODO Auto-generated method stub
 
-        InputStream ins=client.getInputStream();
-
-        ous=client.getOutputStream();
+        InputStream ins = client.getInputStream();
+        ous = new DataOutputStream(client.getOutputStream());
         BufferedReader brd=new BufferedReader(new InputStreamReader(ins));
 
+        while(JSON.parseObject(brd.readLine(),Message.class).type!= Message.transportType.EXIT)
+        {
+            Message message = JSON.parseObject(brd.readLine(), Message.class);
+            switch (message.type)
+            {
+                //注册
+                case REGISTER:
+                {
+                }
+                //登录
+                case LOGIN:
+                {
+                }
+                //群发消息
+                case SEND_GROUP_MESSAGE:
+                {
+                }
+                //私聊消息
+                case SEND_PRIVATE_MESSAGE:
+                {
+                }
+            }
+        }
 
         //调用数据库，验证用户是否存在
         //database();
@@ -53,26 +70,19 @@ public class ServerThread extends Thread{
 //            return;
 //        }
         MultiThread.addClient(this);//认证成功，把这个用户加入服务器队列
-        String input=brd.readLine();
-
-
-
-
-        while(!input.equals("bye")) {
-            System.out.println("服务器读到的是:"+input);
-//            MultiThread.castMsg(this.user, input);
-            input=brd.readLine();
-        }
-//        MultiThread.castMsg(this.user, "bye");
+        //关闭连接
         this.closeMe();
     }
 
 
-
+    //输出消息类
+    public void sendMsg(Message msg) throws IOException {
+        String temp = JSONObject.toJSONString(msg);
+        ous.writeUTF(temp);
+        ous.flush();
+    }
     //关闭当前客户机与服务器的连接。
     public void closeMe() throws IOException {
         client.close();
     }
-
-
 }

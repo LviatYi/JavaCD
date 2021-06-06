@@ -42,4 +42,9 @@ public interface Client {
      * @param password 登录密码
      */
     public void login(String id,String password);
+
+    /**
+     * 断开连接
+     */
+    public void exit();
 }

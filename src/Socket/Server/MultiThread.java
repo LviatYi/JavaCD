@@ -19,4 +19,5 @@ public class MultiThread {
         stList.add(st);//将这个线程处理对象加入到队列中
     }
 
+
 }

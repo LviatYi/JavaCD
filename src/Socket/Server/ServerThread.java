@@ -4,11 +4,7 @@ import Socket.tools.Message;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.Socket;
 
 /*
@@ -18,9 +14,7 @@ import java.net.Socket;
 public class ServerThread extends Thread{
 
     private final Socket client;//线程中的处理对象
-    private OutputStream ous;//输出流对象
-    private Message message;
-    private String input;
+    private DataOutputStream ous ;
     public ServerThread(Socket client) {
         this.client=client;
     }
@@ -41,12 +35,12 @@ public class ServerThread extends Thread{
         // TODO Auto-generated method stub
 
         InputStream ins = client.getInputStream();
-        ous=client.getOutputStream();
+        ous = new DataOutputStream(client.getOutputStream());
         BufferedReader brd=new BufferedReader(new InputStreamReader(ins));
 
-        while(JSON.parseObject(input = brd.readLine(),Message.class).type!= Message.transportType.EXIT)
+        while(JSON.parseObject(brd.readLine(),Message.class).type!= Message.transportType.EXIT)
         {
-            message=JSON.parseObject(input = brd.readLine(),Message.class);
+            Message message = JSON.parseObject(brd.readLine(), Message.class);
             switch (message.type)
             {
                 //注册
@@ -76,7 +70,6 @@ public class ServerThread extends Thread{
 //            return;
 //        }
         MultiThread.addClient(this);//认证成功，把这个用户加入服务器队列
-        input=brd.readLine();
         //关闭连接
         this.closeMe();
     }
@@ -85,13 +78,11 @@ public class ServerThread extends Thread{
     //输出消息类
     public void sendMsg(Message msg) throws IOException {
         String temp = JSONObject.toJSONString(msg);
-        ous.write(temp.getBytes());
+        ous.writeUTF(temp);
         ous.flush();
     }
     //关闭当前客户机与服务器的连接。
     public void closeMe() throws IOException {
         client.close();
     }
-
-
 }

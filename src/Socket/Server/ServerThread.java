@@ -22,6 +22,7 @@ public class ServerThread extends Thread{
     }
     public Connect database = new Connect();
     public EncryptionImpl encryption= new EncryptionImpl();
+    public String SocketID;
 
     public void run() {
         try {
@@ -50,32 +51,81 @@ public class ServerThread extends Thread{
                 //注册
                 case REGISTER:
                 {
-                    database.register(message.name,message.password);
-                    sendMsg();
+                    Connect.RegisterStatus registerStatus = database.Register(message.name,message.password);
+                    switch (registerStatus)
+                    {
+                        case SUCCESS:
+                        {
+                            Message temp= new Message();
+                            temp.registerStatus= Message.MSGRegisterStatus.SUCCESS;
+                            temp.type = Message.transportType.REGISTER;
+                            //TODO 获取服务器分配ID
+//                            temp.id = getidfromdatabase
+                            sendMsg(temp);
+                            break;
+                        }
+                        case CONNECTION_FAILED:
+                        {
+                            Message temp= new Message();
+                            temp.registerStatus= Message.MSGRegisterStatus.CONNECTION_FAILED;
+                            temp.type = Message.transportType.REGISTER;
+                            sendMsg(temp);
+                            break;
+                        }
+                    }
+                    break;
                 }
                 //登录
                 case LOGIN:
                 {
+                    Connect.LoginStatus loginStatus = database.LogIn(message.id,message.password);
+                    switch (loginStatus)
+                    {
+                        case SUCCESS: {
+                            Message temp= new Message();
+                            temp.loginStatus = Message.MSGLoginStatus.SUCCESS;
+                            temp.type = Message.transportType.LOGIN;
+                            sendMsg(temp);
+                            SocketID= message.id;
+                            MultiThread.addClient(this);//认证成功，把这个用户加入服务器队列
+                            //TODO 发送历史消息
+                            break;
+                        }
+                        case ID_NOT_EXIST:
+                        {
+                            Message temp= new Message();
+                            temp.loginStatus = Message.MSGLoginStatus.ID_NOT_EXIST;
+                            temp.type = Message.transportType.LOGIN;
+                            sendMsg(temp);
+                            break;
+                        }
+                        case PASSWORD_ERROR:
+                        {
+                            Message temp= new Message();
+                            temp.loginStatus = Message.MSGLoginStatus.PASSWORD_ERROR;
+                            temp.type = Message.transportType.LOGIN;
+                            sendMsg(temp);
+                            break;
+                        }
+                    }
+                    break;
                 }
                 //群发消息
                 case SEND_GROUP_MESSAGE:
                 {
+                    //TODO 删除type
+                    database.SetMessage(message.senderId,null,message.message,"群发");
+                    MultiThread.castGroupMsg(message);//群发给在线用户已经收到的群发消息
+                    break;
                 }
                 //私聊消息
                 case SEND_PRIVATE_MESSAGE:
                 {
+                    database.SetMessage(message.senderId,message.receiverId,message.message,"私聊");
+                    break;
                 }
             }
         }
-
-        //调用数据库，验证用户是否存在
-        //database();
-//        if(!loginState) {
-//            //如果不存在这个账号则关闭
-//            this.closeMe();
-//            return;
-//        }
-        MultiThread.addClient(this);//认证成功，把这个用户加入服务器队列
         //关闭连接
         this.closeMe();
     }

@@ -18,8 +18,9 @@ public interface Client {
     /**
      *
      * @param text 传输的消息
+     * @param senderID 发送者id
      */
-    public void sendGroup(String text);
+    public void sendGroup(String text,String senderID);
 
     /**
      *

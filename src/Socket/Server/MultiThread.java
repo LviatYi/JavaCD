@@ -1,5 +1,7 @@
 package Socket.Server;
 
+import Socket.tools.Message;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -19,5 +21,20 @@ public class MultiThread {
         stList.add(st);//将这个线程处理对象加入到队列中
     }
 
+    public static void castGroupMsg(Message message) throws IOException {
+        for (int i = 0; i < stList.size(); i++) {
+            ServerThread st = stList.get(i);
+            st.sendMsg(message);//发消息给每一个客户机
+        }
+    }
 
+    public static void castPrivateMSG(Message message) throws IOException{
+        for (int i = 0; i < stList.size(); i++) {
+            ServerThread st = stList.get(i);
+            if (st.SocketID.equals(message.id)){
+                st.sendMsg(message);
+                //TODO
+            }
+        }
+    }
 }

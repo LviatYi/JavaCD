@@ -1,3 +1,5 @@
+package ChatRoom;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -14,15 +16,24 @@ import java.awt.event.ActionListener;
 public class ChatRoomGui extends JFrame implements ActionListener
 {
     private JPanel mainPl;
-    private JPanel friendPl;
     private JPanel chatPl;
+    private JPanel friendPl;
+    private JPanel userInfoPl;
+    private JPanel settingPl;
+    private JPanel chatRoomTitlePl;
+    private JPanel chatRoomPl;
+    private JPanel historyMsgPl;
+    private JPanel msgPl;
+    private JPanel inputPl;
+    private JPanel inputControlPl;
     private JScrollPane friendSp;
     private JScrollPane chatSp;
     private JLabel noMoreMsgLb;
     private JButton moreMsgBtn;
-    private JPanel ChatRoomPl;
-    private JPanel historyMsgPl;
-    private JPanel msgPl;
+    private JButton button1;
+    private JTabbedPane toolTabs;
+    private JPanel leftContainerPl;
+
 
     @Override
     public void actionPerformed(ActionEvent e)

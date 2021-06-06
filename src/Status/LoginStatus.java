@@ -1,3 +1,5 @@
+package Status;
+
 /**
  * 登录状态
  *
@@ -6,7 +8,7 @@
  * @enumName LoginStatus
  * @date 2021/6/5
  */
-enum LoginStatus
+public enum  LoginStatus
 {
     /**
      * 登录成功

@@ -1,3 +1,5 @@
+package Status;
+
 /**
  * 注册状态
  *
@@ -6,7 +8,7 @@
  * @enumName RegisterStatus
  * @date 2021/6/5
  */
-enum RegisterStatus
+public enum RegisterStatus
 {
     /**
      * 注册成功

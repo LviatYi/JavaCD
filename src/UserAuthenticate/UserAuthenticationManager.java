@@ -1,3 +1,8 @@
+package UserAuthenticate;
+
+import Encrypt.*;
+import Status.*;
+
 /**
  * Manager of User Authentication.
  * Designed by SINGLETON mode.

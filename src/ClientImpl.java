@@ -6,6 +6,8 @@ import com.alibaba.fastjson.JSONObject;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ClientImpl implements Client {
@@ -13,6 +15,8 @@ public class ClientImpl implements Client {
     private ClientThreadOut co =null;
     private ClientThreadIn ci = null;
     private final EncryptionImpl encryption =new EncryptionImpl();
+    public List<Message> privateChat = new ArrayList<>();
+    public List<Message> multiChat = new ArrayList<>();
 
     public void run() throws IOException {
         client();
@@ -56,6 +60,10 @@ public class ClientImpl implements Client {
         mes.type= Message.transportType.LOGIN;
         String temp = JSONObject.toJSONString(mes);
         co.setMessage(String.valueOf(temp));
+    }
+
+    public void splitList(){
+        //TODO
     }
 
     private void client() throws IOException {

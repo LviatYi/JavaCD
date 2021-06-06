@@ -21,6 +21,11 @@ public class ClientThreadIn extends Thread {
         In();
     }
 
+    public List<Message> getMsgList(){
+        return msgList;
+    }
+
+
     private void In(){
         try{
             while (!exit)
@@ -28,8 +33,6 @@ public class ClientThreadIn extends Thread {
                 DataInputStream in = new DataInputStream(server.getInputStream());
                 String str = in.readUTF();
                 msgList.add(JSON.parseObject(str,Message.class));
-
-
             }
         }catch (IOException e){
             e.printStackTrace();

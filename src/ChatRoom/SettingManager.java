@@ -21,10 +21,6 @@ public class SettingManager {
          */
         EMPTY,
         /**
-         * 相同
-         */
-        SAME,
-        /**
          * 过短
          */
         TOO_SHORT,
@@ -51,10 +47,6 @@ public class SettingManager {
          * 空
          */
         EMPTY,
-        /**
-         * 相同
-         */
-        SAME,
         /**
          * 过长
          */
@@ -90,7 +82,7 @@ public class SettingManager {
     /**
      * 单例指针
      */
-    private SettingManager instance=null;
+    private static SettingManager instance=null;
     /**
      * 隐藏默认构造函数
      */
@@ -103,7 +95,7 @@ public class SettingManager {
      *
      * @return 设置权限管理器
      */
-    public SettingManager getSettingManager()
+    public static SettingManager getSettingManager()
     {
         if(instance==null)
         {
@@ -117,7 +109,7 @@ public class SettingManager {
      * @param name 昵称
      * @return 修改昵称结果
      */
-    public ModifyNameStatus modifyName(String name)
+    public ModifyNameStatus setModifyName(String name)
     {
         if (name.length() == 0)
         {
@@ -126,10 +118,6 @@ public class SettingManager {
         if (name.length() > NAME_MAX)
         {
             return ModifyNameStatus.TOO_LONG;
-        }
-        if(this.name==name)
-        {
-            return ModifyNameStatus.SAME;
         }
         this.name = name;
         return ModifyNameStatus.QUALIFIED;
@@ -141,7 +129,7 @@ public class SettingManager {
      * @param password 密码
      * @return 修改密码结果
      */
-    public ModifyPasswordStatus modifyPassword(String password)
+    public ModifyPasswordStatus setModifyPassword(String password)
     {
         if (password.length() == 0)
         {
@@ -158,10 +146,6 @@ public class SettingManager {
         if (!password.matches(PASSWORD_PATTERN))
         {
             return ModifyPasswordStatus.EASY;
-        }
-        if(this.password==password)
-        {
-            return ModifyPasswordStatus.SAME;
         }
         this.password = password;
         return ModifyPasswordStatus.QUALIFIED;

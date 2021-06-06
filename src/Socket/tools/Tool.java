@@ -9,14 +9,14 @@ import java.util.Date;
 public class Tool {
     public static String getTime() {
         Date date = new Date();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:S");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
         return simpleDateFormat.format(date);
     }
 
 
 //比较时间1和2大小，小返回-1，相等返回0，大返回1
     public static int timeCompare(String time1,String time2) throws ParseException {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:S");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
         Date date1 = null;
         Date date2 = null;
         date1 = simpleDateFormat.parse(time1);

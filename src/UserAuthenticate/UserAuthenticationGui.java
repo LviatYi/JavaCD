@@ -8,6 +8,9 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
 /**
+ * 用户认证系统 GUI.
+ * 管理用户的注册与登录.
+ *
  * @author LVIAT.cn
  * @version 1.0
  * @className UserAuthenticationGUI
@@ -18,12 +21,12 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
     /**
      * 认证管理类
      */
-    private static UserAuthenticationManager userAuthenticationManager = UserAuthenticationManager.getUserAuthenticationManager();
+    private UserAuthenticationManager userAuthenticationManager = UserAuthenticationManager.getUserAuthenticationManager();
 
     /**
      * GUI 元素
      */
-    private JPanel mainPanel;
+    private JPanel mainPl;
     private JPanel titlePl;
     private JPanel bottomPl;
     private JPanel namePl;
@@ -97,7 +100,7 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
     /**
      * 切换到注册按钮文本
      */
-    private String changeToRegisterStr = "<html>\n" +
+    private String changeToRegisterBtnStr = "<html>\n" +
             "    <body>\n" +
             "        <div style=\"font-size: 10px; font-family:'Trebuchet MS';color: 0080ff;\">\n" +
             "            <div>\n" +
@@ -109,7 +112,7 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
     /**
      * 切换到登录按钮文本
      */
-    private String changeToLoginStr = "<html>\n" +
+    private String changeToLoginBtnStr = "<html>\n" +
             "    <body>\n" +
             "        <div style=\"font-size: 10px; font-family:'Trebuchet MS';color: 0080ff;\">\n" +
             "            <div>\n" +
@@ -255,7 +258,7 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
         {
             if (loginBtn.isVisible())
             {
-                mainPanel.requestFocus();
+                mainPl.requestFocus();
             } else
             {
                 password2Tf.requestFocus();
@@ -268,7 +271,7 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
         @Override
         public void actionPerformed(ActionEvent e)
         {
-            mainPanel.requestFocus();
+            mainPl.requestFocus();
         }
     };
 
@@ -361,7 +364,7 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
     {
         //主窗体设置 标题 主布局 关闭事件 不允许控制窗口大小 设置大小 设置居中 设置可见性
         this.setTitle(titleFrame);
-        this.setContentPane(mainPanel);
+        this.setContentPane(mainPl);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
         this.setSize(640, 480);
@@ -376,8 +379,8 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
         this.passwordTf.setText(password2InputStr);
         this.password2Tf.setText(password2InputStr);
         //设置按钮文字
-        this.toRegisterBtn.setText(changeToRegisterStr);
-        this.toLoginBtn.setText(changeToLoginStr);
+        this.toRegisterBtn.setText(changeToRegisterBtnStr);
+        this.toLoginBtn.setText(changeToLoginBtnStr);
         this.loginBtn.setText(loginBtnStr);
         this.registerBtn.setText(registerBtnStr);
 
@@ -390,8 +393,8 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
         passwordTf.getActionMap().put("setPassword", setPassword);
         password2Tf.getInputMap().put(KeyStroke.getKeyStroke('\n'), "setPassword2");
         password2Tf.getActionMap().put("setPassword2", setPassword2);
-        mainPanel.getInputMap().put(KeyStroke.getKeyStroke('\n'), "toControlBtn");
-        mainPanel.getActionMap().put("toControlBtn", toControlBtn);
+        mainPl.getInputMap().put(KeyStroke.getKeyStroke('\n'), "toControlBtn");
+        mainPl.getActionMap().put("toControlBtn", toControlBtn);
         loginBtn.getInputMap().put(KeyStroke.getKeyStroke('\n'), "login");
         loginBtn.getActionMap().put("login", login);
         registerBtn.getInputMap().put(KeyStroke.getKeyStroke('\n'), "register");

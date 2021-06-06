@@ -13,7 +13,7 @@ public class Connect<date> implements Database
     private Statement sta;
     private ResultSet rs;
     public static String[] list;
-    enum LoginStatus
+    public enum LoginStatus
     {
         /**
          * 登录成功
@@ -32,7 +32,7 @@ public class Connect<date> implements Database
          */
         PASSWORD_ERROR
     }
-    enum RegisterStatus
+   public enum RegisterStatus
             {
                 /**
                  * 注册成功

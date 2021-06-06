@@ -10,35 +10,35 @@ import java.text.SimpleDateFormat;
 昵称（name）
 密码（password）
 操作：
-登录  public void signin(String id,String password) ; //查询id和passwprd是否与数据库匹配
+登录  public void signIn(String id,String password) ; //查询id和password是否与数据库匹配
 注册:  public void register(String id,String password,String name) ; //添加id，密码，账号
-修改name/password:  public void modify_password(String passwordoriginal,String passwordnow) ;
-                 public void modify_name(String nameoriginal,String namenow);  //original代表未修改的，now代表修改后的
+修改name/password:  public void modify_password(String password_original,String password_now) ;
+                 public void modify_name(String name_original,String name_now);  //original代表未修改的，now代表修改后的
 
 表二：friend
 自己id（id）
 好友id（id_friend）
 好友昵称/备注（name_friend）
 操作：
-添加好友  public void  addfriend(String id,String id_friend,String name_friend)；//添加好友数据
-删除好友   public void deletefriend(String id)；//删除好友
+添加好友  public void  addFriend(String id,String id_friend,String name_friend)；//添加好友数据
+删除好友   public void deleteFriend(String id)；//删除好友
 
 表三：new（私聊）
-发送者Sender
-接收者Reciver
-内容Message
-发送时间Datatime
-查询内容  public void getnews1sender(String sender) ;//查询与sender发送的消息并输出
-        public void getnews1reciver(String reciver) ;//查询与reciver接受的消息并输出
-增加消息   public void insertnews1(String sender,String reciver,String message,String datatime);//增加消息至数据库（私聊）
+发送者sender
+接收者receiver
+内容message
+发送时间datetime
+查询内容  public void getNews1_sender(String sender) ;//查询与sender发送的消息并输出
+        public void getNews1_receiver(String receiver) ;//查询与receiver接受的消息并输出
+增加消息   public void insertNews1(String sender,String receiver,String message,String datetime);//增加消息至数据库（私聊）
 
 表四：news3（群聊）
-发送者Sender
-接收者Reciver
-内容Message
-发送时间Datatime
-查询内容 public void getnews(String sender); //查询与sender发出的消息并输出  样式：发送者：1 接收者：2 消息：1 时间： 2021-06-03 at 21:16:16 CST
-增加消息  public void insertnews(String sender,String message,String datatime);  //增加消息至数据库("群聊")
+发送者sender
+接收者receiver
+内容message
+发送时间datetime
+查询内容 public void getNews(String sender); //查询与sender发出的消息并输出  样式：发送者：1 接收者：2 消息：1 时间： 2021-06-03 at 21:16:16 CST
+增加消息  public void insertNews(String sender,String message,String datetime);  //增加消息至数据库("群聊")
 
 *//*****************************/
 public class Connect<date> {
@@ -90,8 +90,8 @@ public class Connect<date> {
        //创建表test
        stat.executeUpdate("create table sign(id varchar(10), password varchar(20),name varchar(10))");
        stat.executeUpdate("create table friend(id varchar(10), id_friend varchar(10),name_friend varchar(50))");
-       stat.executeUpdate("create table new(sender varchar(50), message text,datatime text)");
-       stat.executeUpdate("create table new3(sender varchar(50), reciver varchar(50),message text,datatime text)");
+       stat.executeUpdate("create table new(sender varchar(50), message text,datetime text)");
+       stat.executeUpdate("create table new3(sender varchar(50), receiver varchar(50),message text,datetime text)");
        System.out.println("建立表成功");
 
 
@@ -112,7 +112,7 @@ public class Connect<date> {
 
 
 
-    public void signIn(String id,String password)   //登录  查询name和passwprd是否与数据库匹配
+    public void signIn(String id,String password)   //登录  查询name和password是否与数据库匹配
     {       con=getConnection();
         try{Statement st = con.createStatement();
             String sql = "SELECT * FROM sign where id='" + id + "' and password ='" + password + "'";
@@ -134,23 +134,23 @@ public class Connect<date> {
     }
 
 
-    public void modify_password(String passwordoriginal,String passwordnow)//修改密码
+    public void modify_password(String password_original,String password_now)//修改密码
     {               con=getConnection();
         try{String sql="update sign set password=? where password=?";
             PreparedStatement st=con.prepareStatement(sql);
-            st.setString(1,passwordnow);
-            st.setString(2,passwordoriginal);
+            st.setString(1,password_now);
+            st.setString(2,password_original);
             int rs=st.executeUpdate();
             System.out.println("修改password成功");
         }catch(SQLException e){e.printStackTrace();}
 
     }
-    public void modify_name(String nameoriginal,String namenow)//修改昵称
+    public void modify_name(String name_original,String name_now)//修改昵称
     {               con=getConnection();
         try{String sql="update sign set name=? where name=?";
             PreparedStatement st=con.prepareStatement(sql);
-            st.setString(1,namenow);
-            st.setString(2,nameoriginal);
+            st.setString(1,name_now);
+            st.setString(2,name_original);
             int rs=st.executeUpdate();
             System.out.println("修改name成功");
         }catch(SQLException e){e.printStackTrace();}
@@ -193,10 +193,10 @@ public class Connect<date> {
             e.printStackTrace();
         }
     }
-    public void getNews1_reciver(String reciver) {//查询与reciver匹配的消息并输出(私聊)
+    public void getNews1_receiver(String receiver) {//查询与receiver匹配的消息并输出(私聊)
         con = getConnection();
         try {   Statement st = con.createStatement();
-            String sql = "SELECT * FROM news3 where  reciver='" + reciver + "'";
+            String sql = "SELECT * FROM news3 where  receiver='" + receiver + "'";
             ResultSet rs = st.executeQuery(sql);
             while(rs.next()) {
                 String m1 = rs.getString(1);
@@ -211,37 +211,37 @@ public class Connect<date> {
             e.printStackTrace();
 
         }}
-    public void insertNews(String sender,String message,String datatime)//增加消息("群聊")
+    public void insertNews(String sender,String message,String datetime)//增加消息("群聊")
     {
         con=getConnection();
-        try{String sql="insert into new (sender,message,datatime) values(?,?,?)";
+        try{String sql="insert into new (sender,message,datetime) values(?,?,?)";
             PreparedStatement st=con.prepareStatement(sql);
             st.setString(1,sender);
             st.setString(2,message);
-            st.setString(3,datatime);
+            st.setString(3,datetime);
             int rs=st.executeUpdate();
             System.out.println("插入聊天消息成功");}catch (SQLException e){e.printStackTrace();}
     }
-    public void insertNews1(String sender,String reciver,String message,String datatime)//增加消息（私聊）
+    public void insertNews1(String sender,String receiver,String message,String datetime)//增加消息（私聊）
     {
         con=getConnection();
-        try{String sql="insert into news3 (sender,reciver,message,datatime) values(?,?,?,?)";
+        try{String sql="insert into news3 (sender,receiver,message,datetime) values(?,?,?,?)";
             PreparedStatement st=con.prepareStatement(sql);
             st.setString(1,sender);
-            st.setString(2,reciver);
+            st.setString(2,receiver);
             st.setString(3,message);
-            st.setString(4,datatime);
+            st.setString(4,datetime);
             int rs=st.executeUpdate();
             System.out.println("插入聊天消息成功");}catch (SQLException e){e.printStackTrace();}
     }
 
-    /* public void deleteNews(String sender,String reciver)//删除消息
+    /* public void deleteNews(String sender,String receiver)//删除消息
      {
              con=getConnection();
-             try{String sql="delete from news where sender=? and reciver=?";
+             try{String sql="delete from news where sender=? and receiver=?";
                      PreparedStatement st=con.prepareStatement(sql);
                      st.setString(1,sender);
-                     st.setString(2,reciver);
+                     st.setString(2,receiver);
                      int rs=st.executeUpdate();
                      System.out.println("删除成功");}catch(SQLException e){e.printStackTrace();}
      }*/

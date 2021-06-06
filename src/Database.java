@@ -14,13 +14,13 @@ public interface Database {
       在数据库中建立四张表：
       sign(id varchar(10), password varchar(20),name varchar(10))");
       friend(id varchar(10), id_friend varchar(10),name_friend varchar(50)
-      new(sender varchar(50), message text,datatime text)
-      new3(sender varchar(50), reciver varchar(50),message text,datatime text)
+      new(sender varchar(50), message text,datetime text)
+      new3(sender varchar(50), receiver varchar(50),message text,datetime text)
       */
       void establish();
 
      /**
-      * 登录  查询name和passwprd是否与数据库匹配
+      * 登录  查询name和password是否与数据库匹配
       * @param id 用户账号
       * @param password 用户密码
       */
@@ -36,17 +36,17 @@ public interface Database {
 
     /**
      * 修改数据库中的密码
-     * @param passwordoriginal 修改前的密码
-     * @param passwordnow 修改后的密码
+     * @param password_original 修改前的密码
+     * @param password_now 修改后的密码
      */
-     void modify_password(String passwordoriginal,String passwordnow);
+     void modify_password(String password_original,String password_now);
 
     /**
      * 修改昵称
-     * @param nameoriginal 修改前的昵称
-     * @param namenow 修改后的昵称
+     * @param name_original 修改前的昵称
+     * @param name_now 修改后的昵称
      */
-     void modify_name(String nameoriginal,String namenow);
+     void modify_name(String name_original,String name_now);
 
     /**
      * 查询群聊表（new）发送者发送的信息情况
@@ -58,9 +58,9 @@ public interface Database {
      * 将群聊的消息添加至数据库
      * @param sender 发送者
      * @param message 消息内容
-     * @param datatime 发送时间
+     * @param datetime 发送时间
      */
-     void insertNews(String sender,String message,String datatime);
+     void insertNews(String sender,String message,String datetime);
 
     /**
      * 查询私聊表（new3）发送者发送的信息情况
@@ -70,18 +70,18 @@ public interface Database {
 
     /**
      * 查询私聊表（new3）接收者收到的信息情况
-     * @param reciver 接收者
+     * @param receiver 接收者
      */
-     void getNews1_reciver(String reciver);
+     void getNews1_receiver(String receiver);
 
     /**
      * 将私聊的消息添加至数据库
      * @param sender 发送者
-     * @param reciver 接收者
+     * @param receiver 接收者
      * @param message 消息内容
-     * @param datatime 发送时间
+     * @param datetime 发送时间
      */
-     void insertNews1(String sender,String reciver,String message,String datatime);
+     void insertNews1(String sender,String receiver,String message,String datetime);
 
     /**
      * 添加好友信息至好友表（friend）

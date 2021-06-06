@@ -1,3 +1,5 @@
+package Encrypt;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Random;
@@ -11,7 +13,7 @@ import java.util.Random;
  */
 public class EncryptionImpl implements Encryption {
 
-    private final int keyLength=10;
+    private static int keyLength=10;
 
     @Override
     public String encryptPassword(String password) {

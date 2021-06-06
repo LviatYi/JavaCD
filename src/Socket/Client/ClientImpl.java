@@ -1,3 +1,6 @@
+package Socket.Client;
+
+import Encrypt.EncryptionImpl;
 import Socket.Client.Client;
 import Socket.Client.ClientThreadIn;
 import Socket.Client.ClientThreadOut;

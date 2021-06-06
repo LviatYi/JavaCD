@@ -54,6 +54,8 @@ public class ClientImpl implements Client {
         mes.id = id;
         mes.password=encryption.encryptPassword(password);
         mes.type= Message.transportType.LOGIN;
+        String temp = JSONObject.toJSONString(mes);
+        co.setMessage(String.valueOf(temp));
     }
 
     private void client() throws IOException {
@@ -62,5 +64,13 @@ public class ClientImpl implements Client {
             ci.setSocket(socket);
             co.start();
             ci.start();
+    }
+
+    public void exit()
+    {
+        Message mes = new Message();
+        mes.type= Message.transportType.EXIT;
+        String temp = JSONObject.toJSONString(mes);
+        co.setMessage(String.valueOf(temp));
     }
 }

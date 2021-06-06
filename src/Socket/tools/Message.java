@@ -17,6 +17,7 @@ public class Message {
     public transportType type;
 
     public enum transportType{
+        EXIT,
         LOGIN,
         REGISTER,
         SEND_GROUP_MESSAGE,

@@ -12,8 +12,20 @@ import java.util.Vector;
  * @date 2021/6/6
  */
 public class ChatRoomManager {
-    Vector<ChatRoomInfo> chatRoomList;
-    ChatRoomInfo chatRoom=new ChatRoomInfo();
+
+
+    ChatRoomInfo chatRoom = new ChatRoomInfo();
+
+    Vector<ChatRoomInfo> chatRoomList = new Vector<ChatRoomInfo>();
+    public void setInitialChatRoomList()
+    {
+        for(int i=0;i<5;i++)
+        {
+            chatRoom.setChatRoomId("i");
+            chatRoom.setChatRoomName("i"+"i");
+            chatRoomList.addElement(chatRoom);
+        }
+    }
     /**
      * 单例指针
      */

@@ -14,6 +14,16 @@ import java.util.Vector;
 public class AddressManager {
 
     Vector<FriendInfo> friendList;
+    FriendInfo friendInfo=new FriendInfo();
+    public void getInitialFriendList()
+    {
+        for(int i=0;i<5;i++)
+        {
+            friendInfo.setId("i"+"i"+"i");
+            friendInfo.setName("i"+"i"+"i"+"i");
+            friendList.addElement(friendInfo);
+        }
+    }
     /**
      * 添加好友状态
      */
@@ -83,7 +93,7 @@ public class AddressManager {
          */
         EXISTED,
     }
-    FriendInfo friendInfo=new FriendInfo();
+
     ChatRoomInfo chatRoom=new ChatRoomInfo();
 
 

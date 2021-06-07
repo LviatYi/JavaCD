@@ -1,4 +1,6 @@
-package ChatRoom;
+package ChatRoom.ChatRoomManager;
+
+import ChatRoom.ChatRoomGuiControl;
 
 /**
  * 聊天室管理类
@@ -21,6 +23,7 @@ public class ChatRoomManager {
      * 隐藏默认构造函数
      */
     private ChatRoomManager() {
+        getServerChatRoomList();
     }
 
     /**
@@ -33,6 +36,13 @@ public class ChatRoomManager {
             instance = new ChatRoomManager();
         }
         return instance;
+    }
+
+    private void getServerChatRoomList(){
+        /*
+        * TODO_LviatYi 向服务器请求该用户的聊天室列表
+        * date 2021/6/7
+        */
     }
 
     /**
@@ -59,9 +69,9 @@ public class ChatRoomManager {
                 if (chatRoomGuiControl.confirmNewChatRoom()) {
                     String chatRoomName=chatRoomGuiControl.confirmChatRoomName();
                     /*
-                    * TODO_LviatYi 确认聊天室名
-                    * date 2021/6/7
-                    */
+                     * TODO_LviatYi 确认聊天室名
+                     * date 2021/6/7
+                     */
                     /*
                      * TODO_LviatYi 通知服务器添加新的聊天室
                      * date 2021/6/7

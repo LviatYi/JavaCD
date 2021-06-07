@@ -137,7 +137,7 @@ public class SettingManager {
      * @param password 密码
      * @return 修改密码结果
      */
-    public ModifyPasswordStatus modifyPassword(String password)
+    public ModifyPasswordStatus setModifyPassword(String password)
     {
         if (password.length() == 0)
         {

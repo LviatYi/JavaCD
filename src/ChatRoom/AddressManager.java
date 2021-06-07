@@ -81,8 +81,22 @@ public class AddressManager {
          */
         WRONG_ID
     }
-    ArrayList existedFriend=new ArrayList();
-    ArrayList allUserId=new ArrayList();
+
+    enum PrivateChatRoomStatus
+    {
+        /**
+         * 合格
+         */
+        QUALIFIED,
+        /**
+         * 已存在
+         */
+        EXISTED,
+    }
+
+    ChatRoomInfo chatRoom=new ChatRoomInfo();
+
+
     /**
      * 最短 ID
      */
@@ -115,10 +129,24 @@ public class AddressManager {
         }
         return instance;
     }
+
+    public boolean compareFriendId(String compareId)
+    {
+        if(true) {
+            /**
+             * TODO 数据库在该用户好友中找到相同id
+             */
+            return true;
+        }
+       return false;
+
+    }
+
     /**
      * 检测添加好友合法性并尝试添加
      *
      * @param id 好友id
+     *
      * @return 添加好友结果
      */
     public AddFriendStatus addFriend(String id)
@@ -135,22 +163,19 @@ public class AddressManager {
         {
             return AddFriendStatus.TOO_LONG;
         }
-        for(int i=0;i< existedFriend.size();i++)
-        {
-            if(id==existedFriend.get(i).toString())
-            {
+        for (FriendInfo info : friendList) {
+
+            if (id.equals(info.getId())) {
                 return AddFriendStatus.EXISTED;
             }
         }
-        for(int i=0;i<allUserId.size();i++)
+        if(!compareFriendId(id))
         {
-            if(id==allUserId.get(i).toString())
-            {
-                break;
-            }
             return AddFriendStatus.WRONG_ID;
         }
-        existedFriend.add(id);
+        /**
+         * TODO friendInfo.id and name ++++++++++
+         */
         return AddFriendStatus.QUALIFIED;
     }
 
@@ -158,6 +183,7 @@ public class AddressManager {
      * 检测删除好友合法性并尝试删除
      *
      * @param id 好友id
+     *
      * @return 删除好友结果
      */
     public DeleteFriendStatus deleteFriend(String id)
@@ -174,15 +200,82 @@ public class AddressManager {
         {
             return DeleteFriendStatus.TOO_LONG;
         }
-        for(int i=0;i< existedFriend.size();i++)
+        for(int i = 0; i< friendList.size(); i++)
         {
-            if(id==existedFriend.get(i).toString())
+            /**
+             * TODO 向数据库要个该用户的所有好友id
+             **/
+            if(compareFriendId(id))
             {
-                existedFriend.remove(i);
+                /**
+                 * TODO friendInfo.id and name ----------
+                 */
                 return DeleteFriendStatus.QUALIFIED;
             }
         }
         return DeleteFriendStatus.WRONG_ID;
+    }
 
+    public boolean compareChatRoomId(String chatRoomId)
+    {
+        if(true)
+        {
+            /**
+             * TODO 数据库找到该用户的现有聊天室列表与形参相同
+             */
+            return true;
+        }
+        return false;
+    }
+    /**
+     * 创建私聊
+     *
+     * @param chatRoomId 聊天室id
+     *
+     * @return 创建私聊结果
+     */
+    public PrivateChatRoomStatus getPrivateChatRoom(String chatRoomId)
+    {
+
+        if(compareChatRoomId(chatRoomId))
+        {
+            return PrivateChatRoomStatus.EXISTED;
+        }
+
+
+        /**
+         * TODO 添加一个PL？
+         */
+        /**
+         * TODO chatRoom.id and title ++++++++++
+         */
+        return PrivateChatRoomStatus.QUALIFIED;
+    }
+
+
+    /**
+     * 创建群聊获取新聊天室id
+     *
+     * @return 新聊天室id
+     */
+    public String getNewChatRoomId()
+    {
+        String newChatRoomId="";
+        /**
+         * TODO 向数据库请求新房间号id
+         */
+        return newChatRoomId;
+    }
+
+    public void setGroupChatRoom()
+    {
+        String id=getNewChatRoomId();
+        /**
+         * TODO chatRoom.id and title ++++++++++
+         */
+        /**
+         * TODO 新加个PL？
+         */
     }
 }
+

@@ -1,6 +1,6 @@
 package ChatRoom;
 
-import java.util.ArrayList;
+import java.util.Vector;
 
 /**
  * 通讯录管理类

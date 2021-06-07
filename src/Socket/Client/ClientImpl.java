@@ -65,9 +65,8 @@ public class ClientImpl implements Client {
 
     //将ci中的Message列表拆分成群聊/私聊列表
     public void splitList() {
-
-        for (Message a : ci.msgList
-        ) {
+        for (Message a : ci.msgList)
+        {
             if (a.type == Message.transportType.SEND_GROUP_MESSAGE) {
                 multiChat.add(a);
             } else if (a.type == Message.transportType.SEND_PRIVATE_MESSAGE) {

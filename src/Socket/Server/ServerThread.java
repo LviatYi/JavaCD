@@ -119,14 +119,14 @@ public class ServerThread extends Thread{
                 case SEND_GROUP_MESSAGE:
                 {
                     //TODO 删除type,添加groupID属性
-                    database.SetMessage(message.senderId,null,message.message,"群发");
+                    database.SetMessage(message.senderId,null,encryption.decryptContent(message.message),"群发");
                     MultiThread.castGroupMsg(message,message.groupID);//群发给在线用户已经收到的群发消息
                     break;
                 }
                 //私聊消息
                 case SEND_PRIVATE_MESSAGE:
                 {
-                    database.SetMessage(message.senderId,message.receiverId,message.message,"私聊");
+                    database.SetMessage(message.senderId,message.receiverId,encryption.decryptContent(message.message),"私聊");
                     MultiThread.castPrivateMSG(message);
                     break;
                 }

@@ -46,6 +46,12 @@ public interface Client {
     public void login(String id,String password);
 
     /**
+     * 拆分获得的消息包到客户端类
+     * 解包调用message时记得调用解密！！！！！！！！！！
+     */
+    public void splitList();
+
+    /**
      * 断开连接
      */
     public void exit();

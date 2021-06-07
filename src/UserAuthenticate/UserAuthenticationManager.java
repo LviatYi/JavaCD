@@ -247,4 +247,5 @@ public class UserAuthenticationManager
          */
         return RegisterStatus.CONNECTION_FAILED;
     }
+
 }

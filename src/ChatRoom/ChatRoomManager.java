@@ -4,10 +4,10 @@ package ChatRoom;
  * 聊天室管理类
  * 单例模式
  *
- * @author May_bebe
- * @version TODO
+ * @author LviatYi
+ * @version 1.0
  * @className ChatRoomManager
- * @date 2021/6/6
+ * @date 2021/6/7
  */
 public class ChatRoomManager {
     /**
@@ -17,9 +17,7 @@ public class ChatRoomManager {
     /**
      * 隐藏默认构造函数
      */
-    private ChatRoomManager()
-    {
-    }
+    private ChatRoomManager(){}
 
     /**
      * 单例模式

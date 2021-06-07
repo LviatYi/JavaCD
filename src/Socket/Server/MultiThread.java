@@ -1,7 +1,13 @@
 package Socket.Server;
 
+import Socket.tools.Message;
+import Socket.tools.ThreadManager;
+import jdk.dynalink.linker.LinkerServices;
+
+import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /*
  * 定义一个管理类，相当于一个中介，处理线程，转发消息
@@ -10,14 +16,85 @@ import java.util.ArrayList;
 
 public class MultiThread {
     //保存线程处理的对象
-    private static ArrayList<ServerThread> stList=new ArrayList();
+    private static ArrayList<ServerThread> stList=new ArrayList<>();
+    private static ArrayList<ThreadManager> groupList = new ArrayList<>();
     //不需要实例化类，因此构造器为私有
     private MultiThread() {}
-
-    //将一个客户对应的线程处理对象加入到队列中
+    //将这个线程处理对象加入到队列中
     public static void addClient(ServerThread st) throws IOException {
-        stList.add(st);//将这个线程处理对象加入到队列中
+        stList.add(st);
     }
 
+    /**
+     * 添加群聊
+     * @param id 拉进群聊的人账号id
+     * @param groupID 群聊id（服务器生成）
+     */
+    public static void addGroup(ArrayList<String> id,int groupID)
+    {
+        ThreadManager temp =new ThreadManager();
+        for (int i = 0; i < stList.size(); i++)
+        {
+            ServerThread st = stList.get(i);
+            if(id.contains(st.SocketID))
+            {
+                temp.arrayList.add(st);
+            }
+        }
+        groupList.add(temp);
+    }
 
+    /**
+     * 获取群聊在线人数
+     * @param groupID 群聊ID
+     * @return 返回人数
+     * [警告]可能出现问题
+     */
+    public static int getOnlineNumber(String groupID)
+    {
+        ThreadManager threadManager = null;
+        for (int i = 0; i < groupList.size(); i++) {
+            threadManager = groupList.get(i);
+            if(groupID.equals(threadManager.GroupID))
+            {
+                break;
+            }
+        }
+        return threadManager.MemberID.length;
+    }
+
+    /**
+     * 聊天室在线转发
+     * @param message 消息包
+     * @param groupID 聊天群号
+     * @throws IOException 发送io
+     */
+    public static void castGroupMsg(Message message,String groupID) throws IOException {
+        ThreadManager threadManager = null;
+        for (int i = 0; i < groupList.size(); i++) {
+            threadManager = groupList.get(i);
+            if(groupID.equals(threadManager.GroupID))
+            {
+                break;
+            }
+        }
+        for (int i = 0; i < threadManager.arrayList.size(); i++) {
+            ServerThread st =threadManager.arrayList.get(i);
+            st.sendMsg(message);//发消息给每一个客户机
+        }
+    }
+
+    /**
+     * 发送私聊消息
+     * @param message 消息包
+     * @throws IOException 发送io
+     */
+    public static void castPrivateMSG(Message message) throws IOException{
+        for (int i = 0; i < stList.size(); i++) {
+            ServerThread st = stList.get(i);
+            if (st.SocketID.equals(message.id)){
+                st.sendMsg(message);
+            }
+        }
+    }
 }

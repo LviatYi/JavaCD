@@ -1,3 +1,6 @@
+package Socket.Client;
+
+import Encrypt.EncryptionImpl;
 import Socket.Client.Client;
 import Socket.Client.ClientThreadIn;
 import Socket.Client.ClientThreadOut;
@@ -22,9 +25,11 @@ public class ClientImpl implements Client {
         client();
     }
 
-    public void sendGroup(String text) {
+    public void sendGroup(String text,String senderID,String groupID) {
         Message mes = new Message();
         mes.message = encryption.encryptContent(text);
+        mes.senderId = senderID;
+        mes.groupID =groupID;
         mes.type = Message.transportType.SEND_GROUP_MESSAGE;
         String temp = JSONObject.toJSONString(mes);
         co.setMessage(String.valueOf(temp));
@@ -60,9 +65,8 @@ public class ClientImpl implements Client {
 
     //将ci中的Message列表拆分成群聊/私聊列表
     public void splitList() {
-
-        for (Message a : ci.msgList
-        ) {
+        for (Message a : ci.msgList)
+        {
             if (a.type == Message.transportType.SEND_GROUP_MESSAGE) {
                 multiChat.add(a);
             } else if (a.type == Message.transportType.SEND_PRIVATE_MESSAGE) {

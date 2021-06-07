@@ -18,8 +18,10 @@ public interface Client {
     /**
      *
      * @param text 传输的消息
+     * @param senderID 发送者id
+     * @param groupID 聊天群号
      */
-    public void sendGroup(String text);
+    public void sendGroup(String text,String senderID,String groupID);
 
     /**
      *
@@ -42,6 +44,12 @@ public interface Client {
      * @param password 登录密码
      */
     public void login(String id,String password);
+
+    /**
+     * 拆分获得的消息包到客户端类
+     * 解包调用message时记得调用解密！！！！！！！！！！
+     */
+    public void splitList();
 
     /**
      * 断开连接

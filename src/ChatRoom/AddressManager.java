@@ -7,16 +7,27 @@ import java.util.Vector;
  * 单例模式
  *
  * @author May_bebe
- * @version TODO
+ * @version 1.0
  * @className AddressManager
  * @date 2021/6/6
  */
 public class AddressManager {
 
     Vector<FriendInfo> friendList;
-    FriendInfo friendInfo=new FriendInfo();
+
+
+    /**
+     * 向数据库请求数据
+     */
     public void getInitialFriendList()
     {
+        FriendInfo friendInfo=new FriendInfo();
+        /*
+        * TODO_LviatYi 与数据库交接
+        * date 2021/6/7
+        */
+
+        //Exist for debug
         for(int i=0;i<5;i++)
         {
             friendInfo.setId("i"+"i"+"i");
@@ -82,19 +93,6 @@ public class AddressManager {
         WRONG_ID
     }
 
-    enum PrivateChatRoomStatus
-    {
-        /**
-         * 合格
-         */
-        QUALIFIED,
-        /**
-         * 已存在
-         */
-        EXISTED,
-    }
-
-    ChatRoomInfo chatRoom=new ChatRoomInfo();
 
 
     /**
@@ -227,55 +225,8 @@ public class AddressManager {
         }
         return false;
     }
-    /**
-     * 创建私聊
-     *
-     * @param chatRoomId 聊天室id
-     *
-     * @return 创建私聊结果
-     */
-    public PrivateChatRoomStatus getPrivateChatRoom(String chatRoomId)
-    {
-
-        if(compareChatRoomId(chatRoomId))
-        {
-            return PrivateChatRoomStatus.EXISTED;
-        }
 
 
-        /**
-         * TODO 添加一个PL？
-         */
-        /**
-         * TODO chatRoom.id and title ++++++++++
-         */
-        return PrivateChatRoomStatus.QUALIFIED;
-    }
 
-
-    /**
-     * 创建群聊获取新聊天室id
-     *
-     * @return 新聊天室id
-     */
-    public String getNewChatRoomId()
-    {
-        String newChatRoomId="";
-        /**
-         * TODO 向数据库请求新房间号id
-         */
-        return newChatRoomId;
-    }
-
-    public void setGroupChatRoom()
-    {
-        String id=getNewChatRoomId();
-        /**
-         * TODO chatRoom.id and title ++++++++++
-         */
-        /**
-         * TODO 新加个PL？
-         */
-    }
 }
 

@@ -123,10 +123,6 @@ public class SettingManager {
         {
             return ModifyNameStatus.TOO_LONG;
         }
-        if(this.name==name)
-        {
-            return ModifyNameStatus.SAME;
-        }
         this.name = name;
         return ModifyNameStatus.QUALIFIED;
     }

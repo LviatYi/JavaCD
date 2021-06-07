@@ -52,10 +52,6 @@ public class SettingManager {
          */
         EMPTY,
         /**
-         * 相同
-         */
-        SAME,
-        /**
          * 过长
          */
         TOO_LONG

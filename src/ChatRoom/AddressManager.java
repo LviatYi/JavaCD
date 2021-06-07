@@ -12,6 +12,18 @@ import java.util.ArrayList;
  * @date 2021/6/6
  */
 public class AddressManager {
+
+    Vector<FriendInfo> friendList;
+    FriendInfo friendInfo=new FriendInfo();
+    public void getInitialFriendList()
+    {
+        for(int i=0;i<5;i++)
+        {
+            friendInfo.setId("i"+"i"+"i");
+            friendInfo.setName("i"+"i"+"i"+"i");
+            friendList.addElement(friendInfo);
+        }
+    }
     /**
      * 添加好友状态
      */

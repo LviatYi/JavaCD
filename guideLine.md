@@ -60,7 +60,7 @@
 | calculate | 数值计算                                 | calculateCommission          |
 |    do     | 执行某个过程或流程                       | doOrderCancelJob             |
 | dispatch  | 判断程序流程转向                         | dispatchUserRequest          |
-|   start   | 开始                                     | startOrderProcessing         |
+|   Socket.start   | 开始                                     | startOrderProcessing         |
 |   stop    | 结束                                     | stopOrderProcessing          |
 |   send    | 发送某个消息或事件                       | sendOrderPai dMessage        |
 |  receive  | 接受消息或时间                           | receiveOrderPai dMessgae     |

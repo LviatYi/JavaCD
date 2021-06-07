@@ -1,19 +1,19 @@
 package DataBase;
 
 import java.sql.*;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
 
 import Socket.tools.*;
 
 /*****************************/
-public class Connect<date> implements Database
+public class Connect implements Database
         {
     private Connection con;
     private Statement sta;
     private ResultSet rs;
     public static String[] list;
-    public enum LoginStatus
+     public enum LoginStatus
     {
         /**
          * 登录成功
@@ -69,7 +69,7 @@ public class Connect<date> implements Database
        //System.out.println("建立表成功");
 
    }*/
-   int sui(){
+   String sui(){
        int num= (int) Math.floor(Math.random()*11);
        while(num<6||num>10)
            num= (int) Math.floor(Math.random()*11);
@@ -79,7 +79,10 @@ public class Connect<date> implements Database
        //System.out.println(num);
        int a= (int) Math.pow(10,(num-1));
        int random6=(int)((Math.random()*9+1)*a);
-       return random6;
+       String a1=String.valueOf(random6);
+       //System.out.println(a1);
+       return a1;
+
 
    }
 
@@ -99,14 +102,19 @@ public class Connect<date> implements Database
     public int Register(String password, String name)//注册   添加id，密码，账号
     {
         con=getConnection();
-        try{String sql="insert into userInfo (password,name) values(?,?)";
+        try{String sql="insert into userInfo (id,password,name,;leftTime) values(?,?,?,?)";
             PreparedStatement st=con.prepareStatement(sql);
-            st.setString(1,password);
-            st.setString(2,name);
+            String a=sui();
+            String b=Tool.getTime();
+            st.setString(1,a);
+            st.setString(2,password);
+            st.setString(3,name);
+            st.setString(4,b);
             int rs=st.executeUpdate();
-            int a=sui();
-            return a;
+            int c=Integer.parseInt(a);
+            return c;
             }catch (SQLException e){e.printStackTrace();}
+
         return 0;
     }
 
@@ -151,7 +159,7 @@ public List<Message> GetMessage(String id) {
         con = getConnection();
 
         try {   Statement st = con.createStatement();
-            String sql = "SELECT sender,receiver,message" +
+            String sql = "SELECT message.sender,message.receiver,message.message" +
                     "FROM message a,userInfo b" +
                     " where b.leftTime > a.dateTime and a.receiver = '"+id+"'" +
                     "or b.leftTime > a.dateTime and a.receiver = NULL";
@@ -260,17 +268,18 @@ public List<Message> GetMessage(String id) {
             }catch (SQLException e){e.printStackTrace();}
     }*/
 
-            public void SetMessage(String sender,String receiver,String message,String type)
+            public void SetMessage(String sender,String receiver,String message,String id)
             {
                 con=getConnection();
-                try{String sql="insert into message (sender,receiver,message,dateTime,type) values(?,?,?,?,?)";
+                try{String sql="insert into message (sender,receiver,message,dateTime,id) values(?,?,?,?,?)";
                     PreparedStatement st=con.prepareStatement(sql);
                     String datetime=Tool.getTime();
                     st.setString(1,sender);
                     st.setString(2,receiver);
                     st.setString(3,message);
                     st.setString(4,datetime);
-                    st.setString(5,type);
+                   // st.setString(5,type);
+                    st.setString(5,id);
                     int rs=st.executeUpdate();
                 }catch (SQLException e){e.printStackTrace();}
             }

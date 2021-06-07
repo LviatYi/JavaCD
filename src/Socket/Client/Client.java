@@ -19,8 +19,9 @@ public interface Client {
      *
      * @param text 传输的消息
      * @param senderID 发送者id
+     * @param groupID 聊天群号
      */
-    public void sendGroup(String text,String senderID);
+    public void sendGroup(String text,String senderID,String groupID);
 
     /**
      *

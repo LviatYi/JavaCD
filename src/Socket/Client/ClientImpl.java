@@ -25,10 +25,11 @@ public class ClientImpl implements Client {
         client();
     }
 
-    public void sendGroup(String text,String senderID) {
+    public void sendGroup(String text,String senderID,String groupID) {
         Message mes = new Message();
         mes.message = encryption.encryptContent(text);
         mes.senderId = senderID;
+        mes.groupID =groupID;
         mes.type = Message.transportType.SEND_GROUP_MESSAGE;
         String temp = JSONObject.toJSONString(mes);
         co.setMessage(String.valueOf(temp));

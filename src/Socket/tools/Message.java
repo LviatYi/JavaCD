@@ -14,6 +14,7 @@ public class Message {
     public String senderId;
     public String receiverId;
     public String message;
+    public String groupID;
     public transportType type;
     public MSGLoginStatus loginStatus;
     public MSGRegisterStatus registerStatus;

@@ -25,9 +25,9 @@ public interface Database {
      *
      * @param password 用户密码
      * @param name 用户昵称
-     * @return SUCCESS 录入信息
+     * @return  录入信息并返回一个6-10的随机数字
      */
-    //public DataBase.Connect.RegisterStatus Register( String password, String name);
+    int  Register( String password, String name);
 
    /**
      //* 修改数据库中的密码

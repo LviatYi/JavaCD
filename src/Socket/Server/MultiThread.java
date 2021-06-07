@@ -1,7 +1,9 @@
 package Socket.Server;
 
 import Socket.tools.Message;
+import jdk.dynalink.linker.LinkerServices;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -12,7 +14,8 @@ import java.util.ArrayList;
 
 public class MultiThread {
     //保存线程处理的对象
-    private static ArrayList<ServerThread> stList=new ArrayList();
+    private static ArrayList<ServerThread> stList=new ArrayList<>();
+    private static ArrayList<ArrayList<ServerThread>> groupList = new ArrayList<>();
     //不需要实例化类，因此构造器为私有
     private MultiThread() {}
 
@@ -21,6 +24,19 @@ public class MultiThread {
         stList.add(st);//将这个线程处理对象加入到队列中
     }
 
+    public static void addGroup(ArrayList<String> id,int groupID)
+    {
+        ArrayList<ServerThread> temp =new ArrayList<>();
+        for (int i = 0; i < stList.size(); i++)
+        {
+            ServerThread st = stList.get(i);
+            if(id.contains(st.SocketID))
+            {
+
+            }
+        }
+        groupList.add(temp);
+    }
     public static void castGroupMsg(Message message) throws IOException {
         for (int i = 0; i < stList.size(); i++) {
             ServerThread st = stList.get(i);

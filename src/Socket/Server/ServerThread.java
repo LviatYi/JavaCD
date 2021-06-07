@@ -8,6 +8,8 @@ import com.alibaba.fastjson.JSONObject;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 /*
  * 每当有客户机和服务器连接时，都要定义一个接受对象来进行数据的传输
@@ -88,7 +90,10 @@ public class ServerThread extends Thread{
                             sendMsg(temp);
                             SocketID= message.id;
                             MultiThread.addClient(this);//认证成功，把这个用户加入服务器队列
-                            //TODO 发送历史消息
+                            List<Message> oldMsg = database.GetMessage(SocketID);
+                            for (Message old:oldMsg) {
+                                sendMsg(old);
+                            }
                             break;
                         }
                         case ID_NOT_EXIST:
@@ -127,6 +132,7 @@ public class ServerThread extends Thread{
             }
         }
         //关闭连接
+        database.UpdateLeftTime(SocketID);
         this.closeMe();
     }
 

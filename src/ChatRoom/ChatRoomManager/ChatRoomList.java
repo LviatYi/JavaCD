@@ -1,4 +1,4 @@
-package ChatRoom;
+package ChatRoom.ChatRoomManager;
 
 import java.util.Vector;
 

@@ -19,7 +19,7 @@ import java.awt.event.ActionListener;
  * @className ChatRoomGui
  * @date 2021/6/4
  */
-public class ChatRoomGui extends JFrame implements ActionListener {
+public class ChatRoomGui extends JFrame implements ActionListener,ChatRoomGuiControl {
     /*
      * TODO_LviatYi 添加聊天管理类接口
      * =JchatManager.getJchatManager();
@@ -408,6 +408,9 @@ public class ChatRoomGui extends JFrame implements ActionListener {
             "        </div>\n" +
             "    </body>\n" +
             "</html>\n";
+    private String confirmStr="Please Confirm";
+    private String confirmNewChatRoomStr ="Do you want to create a NEW chat room?";
+    private String confirmNewChatRoomNameStr= "Confirm the name of the NEW chat room.";
     /*
      * TODO_LviatYi 用户名状态
      * date 2021/6/6
@@ -564,5 +567,32 @@ public class ChatRoomGui extends JFrame implements ActionListener {
      */
     public static void main(String[] args) {
         ChatRoomGui chatRoomGui = new ChatRoomGui();
+    }
+
+    @Override
+    public boolean confirmNewChatRoom() {
+        if(JOptionPane.showConfirmDialog(null, confirmNewChatRoomStr, confirmStr, JOptionPane.OK_CANCEL_OPTION)==JOptionPane.OK_OPTION){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public String confirmChatRoomName() {
+        return JOptionPane.showInputDialog(null,confirmNewChatRoomNameStr,JOptionPane.OK_OPTION);
+    }
+
+    @Override
+    public void updateChatRoomListPl() {
+        ChatRoomList chatRoomList=chatRoomManager.getChatRoomList();
+        chatRoomListPl.removeAll();
+        for(ChatRoomInfo chatRoomInfo:chatRoomList.getList()){
+            chatRoomListPl.add(new ChatRoomPanel(chatRoomInfo.getChatRoomId(),chatRoomInfo.getChatRoomName()));
+        }
+        chatRoomListPl.updateUI();
+    }
+
+    @Override
+    public void updateFriendListPl() {
     }
 }

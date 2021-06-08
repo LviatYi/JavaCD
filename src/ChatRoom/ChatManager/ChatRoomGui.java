@@ -1,4 +1,4 @@
-package ChatRoom;
+package ChatRoom.ChatManager;
 
 /**
  * 为主程序提供用户反馈与消息通知.
@@ -8,7 +8,7 @@ package ChatRoom;
  * @interfaceName ChatRoomGuiControl
  * @date 2021/6/7
  */
-public interface ChatRoomGuiControl {
+public interface ChatRoomGui {
     /**
      * 确认是否创建新的聊天室.
      * @return boolean

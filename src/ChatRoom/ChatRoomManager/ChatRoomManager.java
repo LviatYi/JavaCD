@@ -1,6 +1,6 @@
 package ChatRoom.ChatRoomManager;
 
-import ChatRoom.ChatRoomGuiControl;
+import ChatRoom.ChatManager.ChatRoomGui;
 
 /**
  * 聊天室管理类
@@ -13,7 +13,7 @@ import ChatRoom.ChatRoomGuiControl;
  */
 public class ChatRoomManager {
     ChatRoomList chatRoomList;
-    ChatRoomGuiControl chatRoomGuiControl;
+    ChatRoomGui chatRoomGuiControl;
     /**
      * 单例指针
      */

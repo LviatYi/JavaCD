@@ -1,4 +1,4 @@
-package ChatRoom;
+package ChatRoom.ChatManager;
 
 /**
  * 向客户端发送消息

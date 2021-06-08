@@ -1,4 +1,4 @@
-package ChatRoom;
+package ChatRoom.ChatManager;
 
 /**
  * 聊天管理类.

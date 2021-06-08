@@ -2,6 +2,7 @@ package ChatRoom;
 
 import ChatRoom.ChatRoomManager.*;
 import ChatRoom.FriendManager.AddressManager;
+import ChatRoom.SettingManager.SettingManager;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -20,7 +21,7 @@ import java.awt.event.ActionListener;
  * @className ChatRoomGui
  * @date 2021/6/4
  */
-public class ChatRoomGui extends JFrame implements ActionListener, ChatRoomGuiControl {
+public class ChatRoomGui extends JFrame implements ActionListener, ChatRoom.ChatManager.ChatRoomGui {
     /**
      * 聊天室信息面板.
      * 用于展示聊天室信息.

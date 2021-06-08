@@ -8,7 +8,6 @@ import com.alibaba.fastjson.JSONObject;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.List;
 
 /*
@@ -26,6 +25,7 @@ public class ServerThread extends Thread{
     public EncryptionImpl encryption= new EncryptionImpl();
     public String SocketID;
 
+    @Override
     public void run() {
         try {
             processSocket();

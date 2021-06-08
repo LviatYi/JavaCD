@@ -1,8 +1,8 @@
-package ChatRoom;
+package ChatRoom.FriendManager;
 
 /**
  * @author May_bebe
- * @version TODO
+ * @version 1.0
  * @className FriendInfo
  * @date 2021/6/6
  */

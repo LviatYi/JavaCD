@@ -1,8 +1,8 @@
-package ChatRoom;
+package ChatRoom.ChatRoomManager;
 
 /**
  * @author May_bebe
- * @version TODO
+ * @version 1.0
  * @className ChatRoom
  * @date 2021/6/6
  */
@@ -16,6 +16,7 @@ public class ChatRoomInfo
         this.chatRoomId=chatRoomId;
         this.chatRoomName=chatRoomName;
     }
+
     public ChatRoomInfo(ChatRoomInfo chatRoomInfo){
         this.chatRoomName=chatRoomInfo.getChatRoomName();
         this.chatRoomId=chatRoomInfo.getChatRoomId();
@@ -34,7 +35,5 @@ public class ChatRoomInfo
     }
 
     public void setChatRoomName(String chatRoomName) { this.chatRoomName = chatRoomName; }
-
-
 
 }

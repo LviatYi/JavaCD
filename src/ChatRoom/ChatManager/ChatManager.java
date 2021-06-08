@@ -10,5 +10,10 @@ package ChatRoom.ChatManager;
  * @className ChatManager
  * @date 2021/6/7
  */
-public class ChatManager {
+public class ChatManager implements ClientChatManager{
+
+    @Override
+    public boolean Receiver(Message message) {
+        return false;
+    }
 }

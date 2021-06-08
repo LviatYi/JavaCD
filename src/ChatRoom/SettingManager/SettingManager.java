@@ -1,17 +1,21 @@
 package ChatRoom.SettingManager;
 
+import ChatRoom.ChatRoomGuiControl;
+
 /**
  * @author May_bebe
  * @version 1.0
  * @className SettingManager
- * @date 2021/6/6
+ * @date 2021/6/8
  */
 public class SettingManager {
+
+    ChatRoomGuiControl chatRoomGuiControl;
+
     /**
      * 修改密码状态
      */
-    enum ModifyPasswordStatus
-    {
+    enum ModifyPasswordStatus {
         /**
          * 合格
          */
@@ -20,10 +24,6 @@ public class SettingManager {
          * 空
          */
         EMPTY,
-        /**
-         * 相同
-         */
-        SAME,
         /**
          * 过短
          */
@@ -35,14 +35,17 @@ public class SettingManager {
         /**
          * 过简
          */
-        EASY
+        EASY,
+        /**
+         * 不同
+         */
+        DIFFERENT
     }
 
     /**
      * 昵称状态
      */
-    enum ModifyNameStatus
-    {
+    enum ModifyNameStatus {
         /**
          * 合格
          */
@@ -56,8 +59,6 @@ public class SettingManager {
          */
         TOO_LONG
     }
-
-
 
     /**
      * 最短 password
@@ -76,22 +77,14 @@ public class SettingManager {
      */
     final String PASSWORD_PATTERN = "^(?![A-Za-z]+$)(?![0-9]+$)(?![\\W]+$)[A-Za-z0-9\\W].*$";
     /**
-     * 昵称
-     */
-    private String name;
-    /**
-     * 密码
-     */
-    private String password;
-    /**
      * 单例指针
      */
-    private static SettingManager instance=null;
+    private static SettingManager instance = null;
+
     /**
      * 隐藏默认构造函数
      */
-    private SettingManager()
-    {
+    private SettingManager() {
     }
 
     /**
@@ -99,28 +92,31 @@ public class SettingManager {
      *
      * @return 设置权限管理器
      */
-    public static SettingManager getSettingManager()
-    {
-        if(instance==null)
-        {
-            instance=new SettingManager();
+    public static SettingManager getSettingManager() {
+        if (instance == null) {
+            instance = new SettingManager();
         }
         return instance;
     }
+
     /**
-     * 检测修改昵称合法性并尝试修改昵称
+     * 修改昵称
      *
      * @param name 昵称
      * @return 修改昵称结果
+     * 空昵称 EMPTY
+     * 过长昵称 TOO_LONG
+     * 成功修改昵称 QUALIFIED
      */
     public ModifyNameStatus modifyName(String name)
     {
+
         if (name.length() == 0)
         {
             return ModifyNameStatus.EMPTY;
         }
-        if (name.length() > NAME_MAX)
-        {
+        if (name.length() > NAME_MAX) {
+            chatRoomGuiControl.confirmWrongModifyName();
             return ModifyNameStatus.TOO_LONG;
         }
         this.name = name;
@@ -128,34 +124,34 @@ public class SettingManager {
     }
 
     /**
-     * 检测修改密码合法性并尝试修改密码
+     * 修改密码
      *
      * @param password 密码
      * @return 修改密码结果
+     * 空密码 EMPTY
+     * 密码过短 TOO_SHORT
+     * 密码过长 TOO_LONG
+     * 密码过简 EASY
+     * 密码和确认密码不相同 DIFFERENT
+     * 成功修改密码 QUALIFIED
      */
-    public ModifyPasswordStatus setModifyPassword(String password)
-    {
-        if (password.length() == 0)
-        {
-            return ModifyPasswordStatus.EMPTY;
-        }
-        if (password.length() < PASSWORD_MIN)
-        {
+    public ModifyPasswordStatus setModifyPassword(String password) {
+
+
+        if (password.length() < PASSWORD_MIN) {
+            chatRoomGuiControl.confirmWrongModifyPassword();
             return ModifyPasswordStatus.TOO_SHORT;
         }
-        if (password.length() > PASSWORD_MAX)
-        {
+        if (password.length() > PASSWORD_MAX) {
+            chatRoomGuiControl.confirmWrongModifyPassword();
             return ModifyPasswordStatus.TOO_LONG;
         }
-        if (!password.matches(PASSWORD_PATTERN))
-        {
+        if (!password.matches(PASSWORD_PATTERN)) {
+            chatRoomGuiControl.confirmWrongModifyPassword();
             return ModifyPasswordStatus.EASY;
-        }
-        if(this.password==password)
-        {
-            return ModifyPasswordStatus.SAME;
         }
         this.password = password;
         return ModifyPasswordStatus.QUALIFIED;
     }
+
 }

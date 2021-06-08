@@ -122,26 +122,25 @@ public class Connect //implements Database
     }
 
 
-    public boolean ModifyPassword(String id,String password_original,String password_now)//修改密码
+    public boolean ModifyPassword(String id,String password_now)//修改密码
     {               con=getConnection();
-        try{String sql="update userInfo set password=? where id=? and password=?";
+        try{String sql="update userInfo set password=? where id=?";
             PreparedStatement st=con.prepareStatement(sql);
             st.setString(1,password_now);
             st.setString(2,id);
-            st.setString(3,password_original);
             int rs=st.executeUpdate();
             // System.out.println("修改password成功");
             return true;
         }catch(SQLException e){e.printStackTrace();}
         return false;
     }
-    public boolean ModifyName(String id,String name_original,String name_now)//修改昵称
+    public boolean ModifyName(String id,String name_now)//修改昵称
     {               con=getConnection();
         try{String sql="update userInfo set name=? where id=? and name=?";
             PreparedStatement st=con.prepareStatement(sql);
             st.setString(1,name_now);
             st.setString(2,id);
-            st.setString(3,name_original);
+
             int rs=st.executeUpdate();
             return true;
             //System.out.println("修改name成功");
@@ -190,9 +189,6 @@ public class Connect //implements Database
         }
         return msg;
     }
-
-
-
 
 
     public boolean SetMessage(String sender,String receiver,String message,String id)

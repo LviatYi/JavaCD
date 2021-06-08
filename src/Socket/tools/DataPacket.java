@@ -1,5 +1,7 @@
 package Socket.tools;
 
+import java.util.Date;
+
 /**
  * Created with IntelliJ IDEA.
  *
@@ -9,6 +11,7 @@ package Socket.tools;
  */
 public class DataPacket {
     public String id;
+    public String friendRequestID;
     public String name;
     public String password;
     public String senderId;
@@ -18,7 +21,8 @@ public class DataPacket {
     public MSGLoginStatus loginStatus;
     public String geyHistoryGroupID;
     public MSGRegisterStatus registerStatus;
-    public String sendTime;
+    public Date datetime;
+
 
 
 
@@ -32,7 +36,7 @@ public class DataPacket {
         GET_HISTORY_MESSAGE,
         ADD_FRIEND,
         DEL_FRIEND,
-        RETURN_FRIEND
+        RETURN_FRIEND_LIST
     }
     public enum MSGLoginStatus{
         /**

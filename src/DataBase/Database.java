@@ -2,6 +2,7 @@ package DataBase;
 
 import Socket.tools.DataPacket;
 
+import java.util.Date;
 import java.util.List;
 
 public interface Database {
@@ -48,10 +49,11 @@ public interface Database {
   * @param groupId 账号
   * @param sender 发送者
   * @param message 内容
+  * @param datetime 客户端发送时间
   * 时间自动给出
   *@return  true/false
   */
-    boolean SetMessage(String sender,String message,String groupId);
+    boolean SetMessage(String sender, String message, String groupId, Date datetime);
 
     /**
      * 将对应用户的离开时间改为当前系统时间
@@ -77,10 +79,11 @@ public interface Database {
 
     /**
      * 输入好友账号将信息从数据库中删除
-     * @param id 好友账号
+     * @param id 自己ID
+     * @param id_friend 好友ID
      *           @return  true/false
      */
-     boolean DeleteFriend(String id);
+     boolean DeleteFriend(String id,String id_friend);
 
     /**
      * 返回Friend 数组

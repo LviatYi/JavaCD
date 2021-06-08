@@ -2,6 +2,7 @@ package DataBase;
 
 import java.sql.*;
 import java.util.*;
+import java.util.Date;
 import java.util.List;
 
 import Socket.tools.*;
@@ -13,6 +14,13 @@ public class Connect //implements Database
     private Statement sta;
     private ResultSet rs;
     public static String[] list;
+
+    public void SetMessage(String senderId, String decryptContent, String groupID, Date datetime) {
+    }
+
+    public void CreateFriend(String id, String friendRequestID) {
+    }
+
     public enum LoginStatus
     {
         /**
@@ -223,7 +231,7 @@ public class Connect //implements Database
         }catch (SQLException e){e.printStackTrace();}
         return false;
     }
-    public boolean DeleteFriend(String id)//删除好友
+    public boolean DeleteFriend(String s, String id)//删除好友
     {
         con=getConnection();
         try{String sql="delete from friend where id_friend=? ";
@@ -236,6 +244,9 @@ public class Connect //implements Database
         return false;
     }
 
+    public String[] getFriend(){
+        //TODO
+    }
    // public static void main(String[] args) throws SQLException {//测试部分
        // DataBase.Connect db=new DataBase.Connect();
         //System.out.println(db.Register("11","11"));

@@ -8,6 +8,7 @@ import com.alibaba.fastjson.JSONObject;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.Date;
 
 /*
  * 每当有客户机和服务器连接时，都要定义一个接受对象来进行数据的传输
@@ -98,7 +99,7 @@ public class ServerThread extends Thread{
                 //保存数据并向聊天室转发
                 case SEND_MESSAGE:
                 {
-                    database.SetMessage(dataPacket.senderId,null,encryption.decryptContent(dataPacket.message), dataPacket.groupID);
+                    database.SetMessage(dataPacket.senderId,encryption.decryptContent(dataPacket.message),dataPacket.groupID, dataPacket.datetime);
                     MultiThread.castGroupMsg(dataPacket, dataPacket.groupID);//群发给在线用户已经收到的群发消息
                     break;
                 }
@@ -114,19 +115,28 @@ public class ServerThread extends Thread{
                     database.ModifyPassword(dataPacket.id, dataPacket.password);
                     break;
                 }
-                //增加名字
+                //增加好友
                 case ADD_FRIEND:
                 {
-                    database.CreateFriend(dataPacket.receiverId, dataPacket.senderId);
+                    database.CreateFriend(dataPacket.id, dataPacket.friendRequestID);
                     //TODO
                 }
+                //删除好友
                 case DEL_FRIEND:
                 {
-                    database.DeleteFriend(dataPacket.id);
+                    database.DeleteFriend(dataPacket.id,dataPacket.friendRequestID);
                 }
+                //返回好友列表
                 case RETURN_FRIEND_LIST:
                 {
-                    //TODO 等待数据库添加
+                    String[] friend1 = database.getFriend();
+                    for (String friend:friend1)
+                    {
+                        DataPacket temp = new DataPacket();
+                        temp.friendRequestID =friend;
+                        temp.type = DataPacket.transportType.RETURN_FRIEND_LIST;
+                        sendMsg(temp);
+                    }
                 }
             }
         }

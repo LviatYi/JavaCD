@@ -42,7 +42,6 @@ public class MultiThread {
         groupList.add(temp);
     }
 
-    public static void
     /**
      * 获取群聊在线人数
      * @param groupID 群聊ID

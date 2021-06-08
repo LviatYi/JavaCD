@@ -29,4 +29,11 @@ public interface ChatRoomGuiControl {
      * 更新 FriendListPl
      */
     void updateFriendListPl();
+
+    /**
+     *
+     */
+    void confirmWrongFriendId();
+
+    void confirmNoFriend();
 }

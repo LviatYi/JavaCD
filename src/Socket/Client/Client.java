@@ -23,13 +23,6 @@ public interface Client {
      */
     public void sendGroup(String text,String senderID,String groupID);
 
-    /**
-     *
-     * @param text 消息
-     * @param receiverID 接受者id
-     * @param senderID 发送者id
-     */
-    public void sendPrivate(String text,String receiverID,String senderID);
 
     /**
      *

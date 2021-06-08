@@ -12,12 +12,14 @@ public class Message {
     public String name;
     public String password;
     public String senderId;
-    public String receiverId;
     public String message;
     public String groupID;
     public transportType type;
     public MSGLoginStatus loginStatus;
+    public String geyHistoryGroupID;
     public MSGRegisterStatus registerStatus;
+    public String sendTime;
+
 
     public enum transportType{
         EXIT,
@@ -26,7 +28,8 @@ public class Message {
         SEND_GROUP_MESSAGE,
         SEND_PRIVATE_MESSAGE,
         MODIFY_NAME,
-        MODIFY_PASSWORD
+        MODIFY_PASSWORD,
+        GET_HISTORY_MESSAGE
     }
     public enum MSGLoginStatus{
         /**

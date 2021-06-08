@@ -5,6 +5,8 @@
 * [介绍](#Description)
 * [元素](#Component)
 * [实体关系图](#Er)
+* [功能](#Function)
+* [接口](#Interface)
 * [类图](#Class)
 * [状态图](#Statu)
 
@@ -95,6 +97,21 @@ Message ||..|| ChatRoom : Send to
 ChatRoom }o..|{ User
 @endUML
 ```
+
+## <a id="Interface">接口</a>
+
+数据库系统主要向通讯系统提供接口。  
+
+应实现如下功能：  
+
+* 添加用户  
+* 注销用户
+* 用户添加聊天室
+* 注销聊天室
+
+## <a id="Function">功能</a>
+
+## <a id="Interface">接口</a>
 
 ## <a id="Class">类图</a>
 

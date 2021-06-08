@@ -7,33 +7,22 @@ package ChatRoom.FriendManager;
  * @date 2021/6/6
  */
 public class FriendInfo {
-    private String friendId;
-    private String friendName;
+    private String id;
+    private String name;
 
-    public FriendInfo(String friendId,String friendName)
-    {
-        this.friendId=friendId;
-        this.friendName=friendName;
-    }
-    public FriendInfo(FriendInfo friendInfo)
-    {
-        this.friendId=friendInfo.getFriendId();
-        this.friendName=friendInfo.getFriendName();
+    public String getId() {
+        return id;
     }
 
-    public String getFriendId() {
-        return friendId;
+    public String getName() {
+        return name;
     }
 
-    public String getFriendName() {
-        return friendName;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public void setFriendId(String friendId) {
-        this.friendId = friendId;
-    }
-
-    public void setFriendName(String friendName) {
-        this.friendName = friendName;
+    public void setName(String name) {
+        this.name = name;
     }
 }

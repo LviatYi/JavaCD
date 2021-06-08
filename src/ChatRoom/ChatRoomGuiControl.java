@@ -22,19 +22,6 @@ public interface ChatRoomGuiControl {
     String confirmChatRoomName();
 
     /**
-     * 添加好友时确认没有此用户
-     */
-    void confirmWrongFriendId();
-    /**
-     * 添加好友时已有此好友
-     */
-    void confirmHavingFriend();
-    /**
-     * 删除好友时没有此好友
-     */
-    void confirmNoFriend();
-
-    /**
      * 更新 ChatRoomListPl
      */
     void updateChatRoomListPl();
@@ -42,11 +29,4 @@ public interface ChatRoomGuiControl {
      * 更新 FriendListPl
      */
     void updateFriendListPl();
-
-    /**
-     *
-     */
-    void confirmWrongFriendId();
-
-    void confirmNoFriend();
 }

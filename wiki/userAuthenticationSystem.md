@@ -4,6 +4,8 @@
 
 * [介绍](#Description)
 * [元素](#Component)
+* [功能](#Function)
+* [接口](#Interface)
 * [类图](#Class)
 * [状态图](#Statu)
 
@@ -64,6 +66,10 @@
   * 转到注册
 * 登录失败（密码错误）
   * 重输密码
+
+## <a id="Function">功能</a>
+
+## <a id="Interface">接口</a>
 
 ## <a id="Class">类图</a>
 

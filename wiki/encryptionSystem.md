@@ -1,5 +1,9 @@
 # Wiki - 加密系统
 
+## <a id="Function">功能</a>
+
+## <a id="Interface">接口</a>
+
 <!-- TODO_LviatYi -->
 
 [UAS]:./userAuthenticationSystem.md

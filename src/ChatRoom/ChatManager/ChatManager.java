@@ -1,5 +1,7 @@
 package ChatRoom.ChatManager;
 
+import java.util.Date;
+
 /**
  * 聊天管理类.
  * 负责管理聊天界面与聊天信息缓存.
@@ -11,9 +13,15 @@ package ChatRoom.ChatManager;
  * @date 2021/6/7
  */
 public class ChatManager implements ClientChatManager{
-
     @Override
-    public boolean Receiver(Message message) {
+    public boolean receiver(String content, String senderId, String chatRoomId, Date date) {
         return false;
     }
+
+    @Override
+    public boolean receiver(Message message) {
+        return false;
+    }
+
+
 }

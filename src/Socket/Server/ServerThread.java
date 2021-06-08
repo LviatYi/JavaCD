@@ -2,13 +2,12 @@ package Socket.Server;
 
 import DataBase.Connect;
 import Encrypt.EncryptionImpl;
-import Socket.tools.Message;
+import Socket.tools.DataPacket;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.List;
 
 /*
  * 每当有客户机和服务器连接时，都要定义一个接受对象来进行数据的传输
@@ -34,31 +33,28 @@ public class ServerThread extends Thread{
         }
     }
 
-
-
-
     private void processSocket() throws IOException {
 
         InputStream ins = client.getInputStream();
         ous = new DataOutputStream(client.getOutputStream());
         BufferedReader brd=new BufferedReader(new InputStreamReader(ins));
 
-        while(JSON.parseObject(brd.readLine(),Message.class).type!= Message.transportType.EXIT)
+        while(JSON.parseObject(brd.readLine(), DataPacket.class).type!= DataPacket.transportType.EXIT)
         {
-            Message message = JSON.parseObject(brd.readLine(), Message.class);
-            switch (message.type)
+            DataPacket dataPacket = JSON.parseObject(brd.readLine(), DataPacket.class);
+            switch (dataPacket.type)
             {
                 //注册
                 case REGISTER:
                 {
-                    int ID = database.Register(message.name,message.password);
-                    Message temp = new Message();
+                    int ID = database.Register(dataPacket.name, dataPacket.password);
+                    DataPacket temp = new DataPacket();
                     if (ID == 0) {
-                        temp.registerStatus = Message.MSGRegisterStatus.CONNECTION_FAILED;
-                        temp.type = Message.transportType.REGISTER;
+                        temp.registerStatus = DataPacket.MSGRegisterStatus.CONNECTION_FAILED;
+                        temp.type = DataPacket.transportType.REGISTER;
                     } else {
-                        temp.registerStatus = Message.MSGRegisterStatus.SUCCESS;
-                        temp.type = Message.transportType.REGISTER;
+                        temp.registerStatus = DataPacket.MSGRegisterStatus.SUCCESS;
+                        temp.type = DataPacket.transportType.REGISTER;
                         temp.id = String.valueOf(ID);
                     }
                     sendMsg(temp);
@@ -67,66 +63,70 @@ public class ServerThread extends Thread{
                 //登录
                 case LOGIN:
                 {
-                    Connect.LoginStatus loginStatus = database.LogIn(message.id,message.password);
+                    Connect.LoginStatus loginStatus = database.LogIn(dataPacket.id, dataPacket.password);
                     switch (loginStatus)
                     {
                         case SUCCESS: {
-                            Message temp= new Message();
-                            temp.loginStatus = Message.MSGLoginStatus.SUCCESS;
-                            temp.type = Message.transportType.LOGIN;
+                            DataPacket temp= new DataPacket();
+                            temp.loginStatus = DataPacket.MSGLoginStatus.SUCCESS;
+                            temp.type = DataPacket.transportType.LOGIN;
                             sendMsg(temp);
-                            SocketID= message.id;
+                            SocketID= dataPacket.id;
+                            //TODO
                             MultiThread.addClient(this);//认证成功，把这个用户加入服务器队列
-                            List<Message> oldMsg = database.GetMessage(SocketID);
-                            for (Message old:oldMsg) {
-                                sendMsg(old);
-                            }
                             break;
                         }
                         case ID_NOT_EXIST:
                         {
-                            Message temp= new Message();
-                            temp.loginStatus = Message.MSGLoginStatus.ID_NOT_EXIST;
-                            temp.type = Message.transportType.LOGIN;
+                            DataPacket temp= new DataPacket();
+                            temp.loginStatus = DataPacket.MSGLoginStatus.ID_NOT_EXIST;
+                            temp.type = DataPacket.transportType.LOGIN;
                             sendMsg(temp);
                             break;
                         }
                         case PASSWORD_ERROR:
                         {
-                            Message temp= new Message();
-                            temp.loginStatus = Message.MSGLoginStatus.PASSWORD_ERROR;
-                            temp.type = Message.transportType.LOGIN;
+                            DataPacket temp= new DataPacket();
+                            temp.loginStatus = DataPacket.MSGLoginStatus.PASSWORD_ERROR;
+                            temp.type = DataPacket.transportType.LOGIN;
                             sendMsg(temp);
                             break;
                         }
                     }
                     break;
                 }
-                //群发消息
-                case SEND_GROUP_MESSAGE:
+                //保存数据并向聊天室转发
+                case SEND_MESSAGE:
                 {
-                    database.SetMessage(message.senderId,null,encryption.decryptContent(message.message),message.groupID);
-                    MultiThread.castGroupMsg(message,message.groupID);//群发给在线用户已经收到的群发消息
-                    break;
-                }
-                //私聊消息
-                case SEND_PRIVATE_MESSAGE:
-                {
-                    database.SetMessage(message.senderId,message.receiverId,encryption.decryptContent(message.message),null);
-                    MultiThread.castPrivateMSG(message);
+                    database.SetMessage(dataPacket.senderId,null,encryption.decryptContent(dataPacket.message), dataPacket.groupID);
+                    MultiThread.castGroupMsg(dataPacket, dataPacket.groupID);//群发给在线用户已经收到的群发消息
                     break;
                 }
                 //修改名字
                 case MODIFY_NAME:
                 {
-                    database.ModifyName(message.id,message.name);
+                    database.ModifyName(dataPacket.id, dataPacket.name);
                     break;
                 }
                 //修改密码
                 case MODIFY_PASSWORD:
                 {
-                    database.ModifyPassword(message.id,message.password);
+                    database.ModifyPassword(dataPacket.id, dataPacket.password);
                     break;
+                }
+                //增加名字
+                case ADD_FRIEND:
+                {
+                    database.CreateFriend(dataPacket.receiverId, dataPacket.senderId);
+                    //TODO
+                }
+                case DEL_FRIEND:
+                {
+                    database.DeleteFriend(dataPacket.id);
+                }
+                case RETURN_FRIEND_LIST:
+                {
+                    //TODO 等待数据库添加
                 }
             }
         }
@@ -136,8 +136,9 @@ public class ServerThread extends Thread{
     }
 
 
+
     //输出消息类
-    public void sendMsg(Message msg) throws IOException {
+    public void sendMsg(DataPacket msg) throws IOException {
         String temp = JSONObject.toJSONString(msg);
         ous.writeUTF(temp);
         ous.flush();

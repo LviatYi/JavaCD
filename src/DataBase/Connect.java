@@ -163,8 +163,8 @@ public class Connect //implements Database
     }
 
 
-    public List<Message> GetMessage(String id) {
-        List<Message> msg = new ArrayList<>();
+    public List<DataPacket> GetMessage(String id) {
+        List<DataPacket> msg = new ArrayList<>();
         con = getConnection();
 
         try {   Statement st = con.createStatement();
@@ -175,12 +175,12 @@ public class Connect //implements Database
 
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()){
-                Message message = new Message();
-                message.senderId = rs.getString("sender");
-                message.receiverId = rs.getString("receiver");
-                message.message = rs.getString("message");
+                DataPacket dataPacket = new DataPacket();
+                dataPacket.senderId = rs.getString("sender");
+                dataPacket.receiverId = rs.getString("receiver");
+                dataPacket.message = rs.getString("message");
 
-                msg.add(message);
+                msg.add(dataPacket);
             }
 
 

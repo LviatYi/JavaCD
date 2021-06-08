@@ -1,9 +1,7 @@
 package DataBase;
 
-import Socket.tools.Message;
+import Socket.tools.DataPacket;
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
 
 public interface Database {
@@ -47,14 +45,13 @@ public interface Database {
 
  /**
   * 添加消息至数据库
-  * @param id 账号
+  * @param groupId 账号
   * @param sender 发送者
-  * @param receiver 接收者
   * @param message 内容
   * 时间自动给出
   *@return  true/false
   */
-      boolean SetMessage(String sender,String receiver,String message,String id);
+    boolean SetMessage(String sender,String message,String groupId);
 
     /**
      * 将对应用户的离开时间改为当前系统时间
@@ -68,16 +65,15 @@ public interface Database {
      * @param id
      * @return 消息集
      */
-     List<Message> GetMessage(String id);
+     List<DataPacket> GetMessage(String id);
 
     /**
      * 添加好友信息至好友表（friend）
      * @param id 自己账号
      * @param id_friend 好友账号
-     * @param name_friend 好友昵称
      *@return  true/false
      */
-     boolean  CreateFriend(String id,String id_friend,String name_friend);
+     boolean  CreateFriend(String id,String id_friend);
 
     /**
      * 输入好友账号将信息从数据库中删除
@@ -86,5 +82,9 @@ public interface Database {
      */
      boolean DeleteFriend(String id);
 
-
+    /**
+     * 返回Friend 数组
+     * @return String 数组
+     */
+     String[] getFriend();
 }

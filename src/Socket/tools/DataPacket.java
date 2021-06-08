@@ -7,7 +7,7 @@ package Socket.tools;
  * @Date: 2021/06/05/11:24
  * @Description: Message class for json
  */
-public class Message {
+public class DataPacket {
     public String id;
     public String name;
     public String password;
@@ -26,11 +26,13 @@ public class Message {
         EXIT,
         LOGIN,
         REGISTER,
-        SEND_GROUP_MESSAGE,
-        SEND_PRIVATE_MESSAGE,
+        SEND_MESSAGE,
         MODIFY_NAME,
         MODIFY_PASSWORD,
-        GET_HISTORY_MESSAGE
+        GET_HISTORY_MESSAGE,
+        ADD_FRIEND,
+        DEL_FRIEND,
+        RETURN_FRIEND
     }
     public enum MSGLoginStatus{
         /**

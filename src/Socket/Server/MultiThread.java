@@ -1,6 +1,6 @@
 package Socket.Server;
 
-import Socket.tools.Message;
+import Socket.tools.DataPacket;
 import Socket.tools.ThreadManager;
 
 import java.io.IOException;
@@ -18,6 +18,7 @@ public class MultiThread {
     //不需要实例化类，因此构造器为私有
     private MultiThread() {}
     //将这个线程处理对象加入到队列中
+
     public static void addClient(ServerThread st) throws IOException {
         stList.add(st);
     }
@@ -41,6 +42,7 @@ public class MultiThread {
         groupList.add(temp);
     }
 
+    public static void
     /**
      * 获取群聊在线人数
      * @param groupID 群聊ID
@@ -62,11 +64,11 @@ public class MultiThread {
 
     /**
      * 聊天室在线转发
-     * @param message 消息包
+     * @param dataPacket 消息包
      * @param groupID 聊天群号
      * @throws IOException 发送io
      */
-    public static void castGroupMsg(Message message,String groupID) throws IOException {
+    public static void castGroupMsg(DataPacket dataPacket, String groupID) throws IOException {
         ThreadManager threadManager = null;
         for (int i = 0; i < groupList.size(); i++) {
             threadManager = groupList.get(i);
@@ -77,21 +79,7 @@ public class MultiThread {
         }
         for (int i = 0; i < threadManager.arrayList.size(); i++) {
             ServerThread st =threadManager.arrayList.get(i);
-            st.sendMsg(message);//发消息给每一个客户机
-        }
-    }
-
-    /**
-     * 发送私聊消息
-     * @param message 消息包
-     * @throws IOException 发送io
-     */
-    public static void castPrivateMSG(Message message) throws IOException{
-        for (int i = 0; i < stList.size(); i++) {
-            ServerThread st = stList.get(i);
-            if (st.SocketID.equals(message.id)){
-                st.sendMsg(message);
-            }
+            st.sendMsg(dataPacket);//发消息给每一个客户机
         }
     }
 }

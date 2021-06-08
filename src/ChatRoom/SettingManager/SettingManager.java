@@ -1,4 +1,4 @@
-package ChatRoom;
+package ChatRoom.SettingManager;
 
 /**
  * @author May_bebe

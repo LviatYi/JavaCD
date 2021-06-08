@@ -1,10 +1,11 @@
-package ChatRoom;
+package ChatRoom.FriendManager;
 
 import java.util.Vector;
 
 /**
- * 通讯录管理类
- * 单例模式
+ * 通讯录管理类.
+ * 主管好友系统.
+ * 单例模式.
  *
  * @author May_bebe
  * @version 1.0
@@ -12,14 +13,15 @@ import java.util.Vector;
  * @date 2021/6/6
  */
 public class AddressManager {
-
+    /**
+     * 通讯录
+     */
     Vector<FriendInfo> friendList;
-
 
     /**
      * 向数据库请求数据
      */
-    public void getInitialFriendList()
+    public void getServerFriendList()
     {
         FriendInfo friendInfo=new FriendInfo();
         /*

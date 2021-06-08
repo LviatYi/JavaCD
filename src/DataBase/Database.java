@@ -25,23 +25,26 @@ public interface Database {
      *
      * @param password 用户密码
      * @param name 用户昵称
-     * @return  录入信息并返回一个6-10的随机数字
+     * @return  录入信息并返回一个6-10的随机数字id（不重复）
      */
     int  Register( String password, String name);
 
    /**
      //* 修改数据库中的密码
-     * @param password_original 修改前的密码
+     * @param id 用户id
      * @param password_now 修改后的密码
+    * @return  true/false
      */
-     void ModifyPassword(String password_original,String password_now);
+     boolean ModifyPassword(String id,String password_now);
 
     /**
      * 修改昵称
+     * @param id 用户id
      * @param name_original 修改前的昵称
      * @param name_now 修改后的昵称
+     *                 @return  true/false
      */
-     void ModifyName(String name_original,String name_now);
+     boolean ModifyName(String id,String name_original,String name_now);
 
  /**
   * 添加消息至数据库
@@ -50,15 +53,16 @@ public interface Database {
   * @param receiver 接收者
   * @param message 内容
   * 时间自动给出
-  *
+  *@return  true/false
   */
-      void SetMessage(String sender,String receiver,String message,String id);
+      boolean SetMessage(String sender,String receiver,String message,String id);
 
     /**
      * 将对应用户的离开时间改为当前系统时间
      * @param userId 用户id
+     *               @return  true/false
      */
-     void UpdateLeftTime(String userId);
+     boolean UpdateLeftTime(String userId);
 
     /**
      * 选择dateTime时间以后的信息
@@ -72,14 +76,16 @@ public interface Database {
      * @param id 自己账号
      * @param id_friend 好友账号
      * @param name_friend 好友昵称
+     *@return  true/false
      */
-     void  CreateFriend(String id,String id_friend,String name_friend);
+     boolean  CreateFriend(String id,String id_friend,String name_friend);
 
     /**
      * 输入好友账号将信息从数据库中删除
      * @param id 好友账号
+     *           @return  true/false
      */
-     void DeleteFriend(String id);
+     boolean DeleteFriend(String id);
 
 
 }

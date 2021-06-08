@@ -31,7 +31,13 @@ public class Message {
      */
     private Date sendTime;
 
-
+    /**
+     * 默认构造函数.
+     * 将 sendTime 设置为系统当前时间.
+     * @param content 聊天内容
+     * @param senderId 发送者 Id
+     * @param chatRoomId 聊天室 Id
+     */
     Message(String content,String senderId,String chatRoomId){
         this.content=content;
         this.senderId=senderId;
@@ -51,17 +57,35 @@ public class Message {
         this.sendTime=message.getSendTime();
     }
 
-    String getChatRoomId(){
+    /**
+     * 隐藏默认构造函数.
+     * 不允许不完整的信息.
+     */
+    private Message(){};
+
+    public String getChatRoomId(){
         return this.chatRoomId;
     }
-
-    String getContent(){
+    public String getContent(){
         return this.content;
     }
-    String getSenderId(){
+    public String getSenderId(){
         return this.senderId;
     }
-    Date getSendTime(){
+
+    /**
+     * 获取发送时间
+     * @return 发送时间
+     */
+    public Date getSendTime(){
         return this.getSendTime();
+    }
+
+    /**
+     * 获取发送时间的时间戳
+     * @return 发送时间的时间戳
+     */
+    public long getSendTimeLong(){
+        return this.sendTime.getTime();
     }
 }

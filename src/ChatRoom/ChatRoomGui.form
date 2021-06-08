@@ -518,7 +518,9 @@
                                 <preferred-size width="150" height="-1"/>
                               </grid>
                             </constraints>
-                            <properties/>
+                            <properties>
+                              <text value=""/>
+                            </properties>
                           </component>
                           <component id="7e3a3" class="javax.swing.JLabel" binding="setPassword2StatusLb">
                             <constraints>

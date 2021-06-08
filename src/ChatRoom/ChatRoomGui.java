@@ -402,6 +402,10 @@ public class ChatRoomGui extends JFrame implements ActionListener, ChatRoom.Chat
     private String confirmStr = "Please Confirm";
     private String confirmNewChatRoomStr = "Do you want to create a NEW chat room?";
     private String confirmNewChatRoomNameStr = "Confirm the name of the NEW chat room.";
+    private String confirmWrongFriendIdStr="id does not exist!";
+    private String confirmHavingFriendStr="You already have this friend!";
+    private String confirmNoFriendStr="You do not have such friend!";
+    private String confirmModifyNameTitleStr="Modify Name";
     /*
      * TODO_LviatYi 用户名状态
      * date 2021/6/6
@@ -638,4 +642,18 @@ public class ChatRoomGui extends JFrame implements ActionListener, ChatRoom.Chat
         LoadFriendThread loadFriendThread = new LoadFriendThread();
         loadFriendThread.start();
     }
+
+    @Override
+    public void confirmWrongFriendId()
+    {
+        JOptionPane.showMessageDialog(null,confirmWrongFriendIdStr);
+    }
+
+    @Override
+    public void confirmHavingFriend(){JOptionPane.showMessageDialog(null,confirmHavingFriendStr);}
+
+    @Override
+    public void confirmNoFriend(){JOptionPane.showMessageDialog(null,confirmNoFriendStr);}
+
+
 }

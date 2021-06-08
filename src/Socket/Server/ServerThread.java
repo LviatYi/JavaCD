@@ -119,14 +119,13 @@ public class ServerThread extends Thread{
                 //修改名字
                 case MODIFY_NAME:
                 {
-                    database.ModifyName(message.name,message.id);
-                    //TODO 等待数据库修改
+                    database.ModifyName(message.id,message.name);
                     break;
                 }
                 //修改密码
                 case MODIFY_PASSWORD:
                 {
-                    database.ModifyPassword(message.password,message.id);
+                    database.ModifyPassword(message.id,message.password);
                     break;
                 }
             }

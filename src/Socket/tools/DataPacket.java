@@ -36,7 +36,8 @@ public class DataPacket {
         GET_HISTORY_MESSAGE,
         ADD_FRIEND,
         DEL_FRIEND,
-        RETURN_FRIEND_LIST
+        RETURN_FRIEND_LIST,
+        RETURN_GROUP_LIST
     }
     public enum MSGLoginStatus{
         /**

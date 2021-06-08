@@ -23,17 +23,51 @@ public class ClientImpl implements Client {
         client();
     }
 
+
+    public void addFriend(String userID,String receiverID){
+        DataPacket mes = new DataPacket();
+        mes.type = DataPacket.transportType.ADD_FRIEND;
+        mes.id = userID;
+        mes.friendRequestID = receiverID;
+        String temp = JSONObject.toJSONString(mes);
+        co.setMessage(temp);
+    }
+
+    public void deleteFriend(String userID,String receiverID){
+        DataPacket mes = new DataPacket();
+        mes.type = DataPacket.transportType.DEL_FRIEND;
+        mes.id = userID;
+        mes.friendRequestID = receiverID;
+        String temp = JSONObject.toJSONString(mes);
+        co.setMessage(temp);
+    }
+
+    public void getFriendList(String userID){
+        DataPacket mes = new DataPacket();
+        mes.type = DataPacket.transportType.RETURN_FRIEND_LIST;
+        mes.id = userID;
+        String temp = JSONObject.toJSONString(mes);
+        co.setMessage(temp);
+    }
+
+    public void getGroupList(String userID){
+        DataPacket mes = new DataPacket();
+        mes.type = DataPacket.transportType.RETURN_GROUP_LIST;
+        mes.id = userID;
+        String temp = JSONObject.toJSONString(mes);
+        co.setMessage(temp);
+    }
+
     //    发送群聊消息
     public void sendGroup(String text, String senderID, String groupID) {
         DataPacket mes = new DataPacket();
         mes.message = encryption.encryptContent(text);
         mes.senderId = senderID;
         mes.groupID = groupID;
-        mes.type = DataPacket.transportType.SEND_GROUP_MESSAGE;
+        mes.type = DataPacket.transportType.SEND_MESSAGE;
         String temp = JSONObject.toJSONString(mes);
         co.setMessage(temp);
     }
-
 
 
     //    发送注册消息
@@ -56,7 +90,8 @@ public class ClientImpl implements Client {
         co.setMessage(temp);
     }
 
-    public void getHistoryMessage(String userID,String groupID) {
+    //获取特定群的历史记录
+    public void getHistoryMessage(String userID, String groupID) {
         DataPacket mes = new DataPacket();
         mes.type = DataPacket.transportType.GET_HISTORY_MESSAGE;
         mes.id = userID;

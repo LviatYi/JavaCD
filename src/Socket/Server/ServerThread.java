@@ -9,6 +9,7 @@ import com.alibaba.fastjson.JSONObject;
 import java.io.*;
 import java.net.Socket;
 import java.util.Date;
+import java.util.List;
 
 /*
  * 每当有客户机和服务器连接时，都要定义一个接受对象来进行数据的传输
@@ -103,6 +104,11 @@ public class ServerThread extends Thread{
                     MultiThread.castGroupMsg(dataPacket, dataPacket.groupID);//群发给在线用户已经收到的群发消息
                     break;
                 }
+                case ADD_GROUP:
+                {
+
+                    break;
+                }
                 //修改名字
                 case MODIFY_NAME:
                 {
@@ -119,12 +125,14 @@ public class ServerThread extends Thread{
                 case ADD_FRIEND:
                 {
                     database.CreateFriend(dataPacket.id, dataPacket.friendRequestID);
+                    break;
                     //TODO
                 }
                 //删除好友
                 case DEL_FRIEND:
                 {
                     database.DeleteFriend(dataPacket.id,dataPacket.friendRequestID);
+                    break;
                 }
                 //返回好友列表
                 case RETURN_FRIEND_LIST:
@@ -137,15 +145,39 @@ public class ServerThread extends Thread{
                         temp.type = DataPacket.transportType.RETURN_FRIEND_LIST;
                         sendMsg(temp);
                     }
+                    break;
+                }
+                //返回群聊成员列表
+                case RETURN_GROUP_LIST:
+                {
+                    String[] group1 = database.getGroup(dataPacket.groupID);
+                    for (String group:group1)
+                    {
+                        DataPacket temp = new DataPacket();
+                        temp.friendRequestID =group;
+                        temp.type = DataPacket.transportType.RETURN_GROUP_LIST;
+                        sendMsg(temp);
+                    }
+                    break;
+                }
+                //返回群聊历史记录
+                case GET_HISTORY_MESSAGE:
+                {
+                    List<DataPacket> temp = database.GetGroupMessage(dataPacket.groupID);
+                    for(DataPacket dataPacket1:temp)
+                    {
+                        dataPacket1.type = DataPacket.transportType.GET_HISTORY_MESSAGE;
+                        sendMsg(dataPacket1);
+                    }
+                    break;
                 }
             }
         }
+
         //关闭连接
         database.UpdateLeftTime(SocketID);
         this.closeMe();
     }
-
-
 
     //输出消息类
     public void sendMsg(DataPacket msg) throws IOException {
@@ -153,8 +185,10 @@ public class ServerThread extends Thread{
         ous.writeUTF(temp);
         ous.flush();
     }
+
     //关闭当前客户机与服务器的连接。
     public void closeMe() throws IOException {
         client.close();
     }
+
 }

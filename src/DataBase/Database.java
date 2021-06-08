@@ -16,7 +16,7 @@ public interface Database {
       *         PASSWORD_ERROR  账号存在&密码错误
       *         ID_NOT_EXIST   账号不存在
       */
-     //public DataBase.Connect.LoginStatus Login(String id, String password);
+     Connect.LoginStatus LogIn(String id, String password);
 
 
     /**
@@ -62,12 +62,15 @@ public interface Database {
      */
      boolean UpdateLeftTime(String userId);
 
+
     /**
-     * 选择dateTime时间以后的信息
-     * @param id
-     * @return 消息集
+     * 返回聊天室历史消息
+     * @param groupID 聊天室ID
+     * @return DataPacket list
      */
-     List<DataPacket> GetMessage(String id);
+     List<DataPacket> GetGroupMessage(String groupID);
+
+     boolean AddGroup();
 
     /**
      * 添加好友信息至好友表（friend）
@@ -90,4 +93,11 @@ public interface Database {
      * @return String 数组
      */
      String[] getFriend();
+
+    /**
+     * 返回group成员
+     * @param groupId  聊天室ID
+     * @return String 数组
+     */
+     String[] getGroup(String groupId);
 }

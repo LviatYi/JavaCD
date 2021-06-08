@@ -25,6 +25,7 @@ public class ClientImpl implements Client {
         client();
     }
 
+//    发送群聊消息
     public void sendGroup(String text,String senderID,String groupID) {
         Message mes = new Message();
         mes.message = encryption.encryptContent(text);
@@ -35,6 +36,7 @@ public class ClientImpl implements Client {
         co.setMessage(temp);
     }
 
+//    发送私聊消息
     public void sendPrivate(String text, String receiverID, String senderID) {
         Message mes = new Message();
         mes.receiverId = receiverID;
@@ -45,6 +47,7 @@ public class ClientImpl implements Client {
         co.setMessage(temp);
     }
 
+//    发送注册消息
     public void register(String name, String password) {
         Message mes = new Message();
         mes.name = name;
@@ -54,6 +57,7 @@ public class ClientImpl implements Client {
         co.setMessage(temp);
     }
 
+//    发送登录消息
     public void login(String id, String password) {
         Message mes = new Message();
         mes.id = id;
@@ -75,6 +79,7 @@ public class ClientImpl implements Client {
         }
     }
 
+//    改名
     public void modifyName(String newName,String UserID)
     {
         Message mes = new Message();
@@ -85,6 +90,7 @@ public class ClientImpl implements Client {
         co.setMessage(temp);
     }
 
+//    改密码
     public void modifyPassword(String newPassword,String UserID)
     {
         Message mes = new Message();

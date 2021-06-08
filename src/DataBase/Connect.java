@@ -134,13 +134,13 @@ public class Connect //implements Database
         }catch(SQLException e){e.printStackTrace();}
         return false;
     }
-    public boolean ModifyName(String id,String name_original,String name_now)//修改昵称
+    public boolean ModifyName(String id,String name_now)//修改昵称
     {               con=getConnection();
-        try{String sql="update userInfo set name=? where id=? and name=?";
+        try{String sql="update userInfo set name=? where id=?";
             PreparedStatement st=con.prepareStatement(sql);
             st.setString(1,name_now);
             st.setString(2,id);
-            st.setString(3,name_original);
+
             int rs=st.executeUpdate();
             return true;
             //System.out.println("修改name成功");
@@ -189,9 +189,6 @@ public class Connect //implements Database
         }
         return msg;
     }
-
-
-
 
 
     public boolean SetMessage(String sender,String receiver,String message,String id)

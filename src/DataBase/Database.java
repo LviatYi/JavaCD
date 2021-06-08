@@ -40,11 +40,10 @@ public interface Database {
     /**
      * 修改昵称
      * @param id 用户id
-     * @param name_original 修改前的昵称
      * @param name_now 修改后的昵称
      *                 @return  true/false
      */
-     boolean ModifyName(String id,String name_original,String name_now);
+     boolean ModifyName(String id,String name_now);
 
  /**
   * 添加消息至数据库

@@ -52,6 +52,19 @@ public interface Client {
     public void splitList();
 
     /**
+     *
+     * @param newName 新名字
+     * @param UserID 用户ID
+     */
+    public void modifyName(String newName,String UserID);
+
+    /**
+     *
+     * @param newPassword 新密码
+     * @param UserID 用户ID
+     */
+    public void modifyPassword(String newPassword,String UserID);
+    /**
      * 断开连接
      */
     public void exit();

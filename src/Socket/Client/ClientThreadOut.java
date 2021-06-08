@@ -15,6 +15,7 @@ public class ClientThreadOut extends Thread{
 
     public void setSocket(Socket socket){this.server =socket;}
 
+    @Override
     public void run()
     {
         Out();

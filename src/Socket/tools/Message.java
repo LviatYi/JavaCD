@@ -25,6 +25,8 @@ public class Message {
         REGISTER,
         SEND_GROUP_MESSAGE,
         SEND_PRIVATE_MESSAGE,
+        MODIFY_NAME,
+        MODIFY_PASSWORD
     }
     public enum MSGLoginStatus{
         /**

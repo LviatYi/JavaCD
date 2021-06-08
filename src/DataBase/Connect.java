@@ -1,14 +1,14 @@
 package DataBase;
 
 import java.sql.*;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
 
 import Socket.tools.*;
 
 /*****************************/
-public class Connect<date> implements Database
-        {
+public class Connect //implements Database
+{
     private Connection con;
     private Statement sta;
     private ResultSet rs;
@@ -32,17 +32,7 @@ public class Connect<date> implements Database
          */
         PASSWORD_ERROR
     }
-   public enum RegisterStatus
-            {
-                /**
-                 * 注册成功
-                 */
-                SUCCESS,
-                /**
-                 * 网络未连接
-                 */
-                CONNECTION_FAILED
-            }
+
     static {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -55,99 +45,131 @@ public class Connect<date> implements Database
      * 加载驱动程序
      */
     public Connection getConnection() {
-        String url = "jdbc:sqlserver://127.0.0.1:1433;DatabaseName=JavaCD";
+        String url = "jdbc:sqlserver://127.0.0.1:1433;DatabaseName=test";
         try {
-            con = DriverManager.getConnection(url, "SA", "JavaCD2021");
+            con = DriverManager.getConnection(url, "sa", "111111");
             sta = con.createStatement();
-            //System.out.println("连接成功");
+            System.out.println("连接成功");
         } catch (SQLException e) {
-           // System.out.println("连接失败");
+             System.out.println("连接失败");
             e.printStackTrace();
         }
         return con;
     }
 
 
-   /*public void Establish() throws SQLException//建立数据库的表
-   {con=getConnection();//连接之前的数据库
-       Statement stat = con.createStatement();
-       //创建表test
-       stat.executeUpdate("create table sign(id varchar(10), password varchar(20),name varchar(10))");
-       stat.executeUpdate("create table friend(id varchar(10), id_friend varchar(10),name_friend varchar(50))");
-       stat.executeUpdate("create table new(sender varchar(50), message text,datetime text)");
-       stat.executeUpdate("create table new3(sender varchar(50), receiver varchar(50),message text,datetime text)");
-       //System.out.println("建立表成功");
+    /*public void Establish() throws SQLException//建立数据库的表
+    {con=getConnection();//连接之前的数据库
+        Statement stat = con.createStatement();
+        //创建表test
+        stat.executeUpdate("create table userInfo(id varchar(10), password varchar(20),name varchar(10),leftTime datetime)");
+        stat.executeUpdate("create table message(sender varchar(50),receiver varchar(50) ,message text,dateTime datetime,id varchar(50))");
+        stat.executeUpdate("create table friend(id varchar(50), id_friend varchar(50),name_friend varchar(50))");
+        //System.out.println("建立表成功");
 
-   }*/
+    }*/
+    String sui(){
+        int num= (int) Math.floor(Math.random()*11);
+        while(num<6||num>10)
+            num= (int) Math.floor(Math.random()*11);
+        //System.out.println(num);
+        int a= (int) Math.pow(10,(num-1));
+        int random6=(int)((Math.random()*9+1)*a);
+        String a1=String.valueOf(random6);
+        con=getConnection();
+        try{
+            Statement st=con.createStatement();
+            String sql="select id from userInfo where id='"+a1+"'";
+            ResultSet rs=st.executeQuery(sql);
+            if(rs.next()){sui();}
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        //System.out.println(a1);
+        return a1;
+    }
 
-
-    public LoginStatus LogIn(String id,String password)   //登录  查询name和password是否与数据库匹配
+    public LoginStatus LogIn(String id,String password)   //登录  查询id和password是否与数据库匹配
     {       con=getConnection();
         try{Statement st = con.createStatement();
             String sql = "SELECT * FROM userInfo where id='" + id + "'";//and password ='" + password + "'"\;
             ResultSet rs = st.executeQuery(sql);
             while(rs.next()) {
-                System.out.println(rs.getString(2));
-                System.out.println(password);
+                //System.out.println(rs.getString(2));
+                //System.out.println(password);
                 String m1=rs.getString(2);
                 if(password.equals(m1)) return LoginStatus.SUCCESS;
-               else{ return LoginStatus.PASSWORD_ERROR;}}
+                else{ return LoginStatus.PASSWORD_ERROR;}}
         }catch(SQLException e){e.printStackTrace();}return LoginStatus.ID_NOT_EXIST;}
 
-    public RegisterStatus Register(String password,String name)//注册   添加id，密码，账号
+    public int Register(String password, String name)//注册   添加id，密码，账号
     {
         con=getConnection();
-        try{String sql="insert into userInfo (password,name) values(?,?)";
+        try{String sql="insert into userInfo (id,password,name,;leftTime) values(?,?,?,?)";
             PreparedStatement st=con.prepareStatement(sql);
+            String a=sui();
+            String b=Tool.getTime();
+            st.setString(1,a);
             st.setString(2,password);
             st.setString(3,name);
+            st.setString(4,b);
             int rs=st.executeUpdate();
-            return RegisterStatus.SUCCESS;
-            }catch (SQLException e){e.printStackTrace();return null;}
+            int c=Integer.parseInt(a);
+            return c;
+        }catch (SQLException e){e.printStackTrace();}
+
+        return 0;
     }
 
 
-    public void ModifyPassword(String password_original,String password_now)//修改密码
+    public boolean ModifyPassword(String id,String password_original,String password_now)//修改密码
     {               con=getConnection();
-        try{String sql="update userInfo set password=? where password=?";
+        try{String sql="update userInfo set password=? where id=? and password=?";
             PreparedStatement st=con.prepareStatement(sql);
             st.setString(1,password_now);
-            st.setString(2,password_original);
+            st.setString(2,id);
+            st.setString(3,password_original);
             int rs=st.executeUpdate();
-           // System.out.println("修改password成功");
+            // System.out.println("修改password成功");
+            return true;
         }catch(SQLException e){e.printStackTrace();}
-
+        return false;
     }
-    public void ModifyName(String name_original,String name_now)//修改昵称
+    public boolean ModifyName(String id,String name_original,String name_now)//修改昵称
     {               con=getConnection();
-        try{String sql="update userInfo set name=? where name=?";
+        try{String sql="update userInfo set name=? where id=? and name=?";
             PreparedStatement st=con.prepareStatement(sql);
             st.setString(1,name_now);
-            st.setString(2,name_original);
+            st.setString(2,id);
+            st.setString(3,name_original);
             int rs=st.executeUpdate();
-            System.out.println("修改name成功");
+            return true;
+            //System.out.println("修改name成功");
         }catch(SQLException e){e.printStackTrace();}
-
+        return false;
     }
-public void UpdateLeftTime(String userId)
-{
-    con=getConnection();
-    try{String sql="update userInfo set leftTime=? where id=userId?";
-        PreparedStatement st=con.prepareStatement(sql);
-        String datetime=Tool.getTime();
-        st.setString(2,datetime);
-        int rs=st.executeUpdate();
-        //System.out.println("修改name成功");
-    }catch(SQLException e){e.printStackTrace();}
-}
+    public boolean UpdateLeftTime(String userId)
+    {
+        con=getConnection();
+        try{String sql="update userInfo set leftTime=? where id=?";
+            PreparedStatement st=con.prepareStatement(sql);
+            String datetime=Tool.getTime();
+            st.setString(1,datetime);
+            st.setString(2,userId);
+            int rs=st.executeUpdate();
+            return true;
+            //System.out.println("修改name成功");
+        }catch(SQLException e){e.printStackTrace();}
+        return false;
+    }
 
 
-public List<Message> GetMessage(String id) {
+    public List<Message> GetMessage(String id) {
         List<Message> msg = new ArrayList<>();
         con = getConnection();
 
         try {   Statement st = con.createStatement();
-            String sql = "SELECT sender,receiver,message" +
+            String sql = "SELECT message.sender,message.receiver,message.message" +
                     "FROM message a,userInfo b" +
                     " where b.leftTime > a.dateTime and a.receiver = '"+id+"'" +
                     "or b.leftTime > a.dateTime and a.receiver = NULL";
@@ -167,111 +189,31 @@ public List<Message> GetMessage(String id) {
             e.printStackTrace();
         }
         return msg;
-}
-
-
-
-    //Tool.timeCompare();
-    /*public String GetNews(String sender) {//查询与sender匹配的消息并输出(群)
-        con = getConnection();
-        try {   Statement st = con.createStatement();
-            String sql = "SELECT * FROM multiChat where sender='" + sender + "'";
-            ResultSet rs = st.executeQuery(sql);
-            while(rs.next()) {
-                String m1 = rs.getString(1);
-                String m2 = rs.getString(2);
-                String m3 = rs.getString(3);
-                return ("发送者："+m1+" 消息："+m2+" 时间："+m3);
-                //System.out.println(m2);
-                //System.out.println(m3)
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
-    public String GetNews1Sender(String sender) {//查询与sender匹配的消息并输出(私聊)
-        con = getConnection();
-        try {   Statement st = con.createStatement();
-            String sql = "SELECT * FROM privateChat where sender='" + sender + "'";
-            ResultSet rs = st.executeQuery(sql);
-            while(rs.next()) {
-                String m1 = rs.getString(1);
-                String m2 = rs.getString(2);
-                String m3 = rs.getString(3);
-                String m4=rs.getString(4);
-                return ("发送者："+m1+" 接收者："+m2+" 消息："+m3+" 时间： "+m4);
-                //  System.out.println(m2);
-                //System.out.println(m3);
-                //System.out.println(m4);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-    public String GetNews1Receiver(String receiver) {//查询与receiver匹配的消息并输出(私聊)
-        con = getConnection();
-        try {   Statement st = con.createStatement();
-            String sql = "SELECT * FROM privateChat where  receiver='" + receiver + "'";
-            ResultSet rs = st.executeQuery(sql);
-            while(rs.next()) {
-                String m1 = rs.getString(1);
-                String m2 = rs.getString(2);
-                String m3 = rs.getString(3);
-                String m4 = rs.getString(4);
-                return ("发送者："+m1+" 接收者："+m2+" 消息："+m3+" 时间： "+m4);
-                // System.out.println(m2);
-                //System.out.println(m3);
-                // System.out.println(m4);}
-            }} catch (SQLException e) {
-            e.printStackTrace();
 
-        }
-    return null;}*/
 
-   /* public void SetNews(String sender,String message)//增加消息("群聊")
+
+
+
+    public boolean SetMessage(String sender,String receiver,String message,String id)
     {
         con=getConnection();
-        try{String sql="insert into multiChat (sender,message,datetime) values(?,?,?)";
-            PreparedStatement st=con.prepareStatement(sql);
-            String datetime=Tool.getTime();
-            st.setString(1,sender);
-            st.setString(2,message);
-            st.setString(3,datetime);
-            int rs=st.executeUpdate();
-            }catch (SQLException e){e.printStackTrace();}
-    }
-    public void SetNews1(String sender,String receiver,String message)//增加消息（私聊）
-    {
-        con=getConnection();
-        try{String sql="insert into privateChat (sender,receiver,message,datetime) values(?,?,?,?)";
+        try{String sql="insert into message (sender,receiver,message,dateTime,id) values(?,?,?,?,?)";
             PreparedStatement st=con.prepareStatement(sql);
             String datetime=Tool.getTime();
             st.setString(1,sender);
             st.setString(2,receiver);
             st.setString(3,message);
             st.setString(4,datetime);
+            // st.setString(5,type);
+            st.setString(5,id);
             int rs=st.executeUpdate();
-            }catch (SQLException e){e.printStackTrace();}
-    }*/
+            return true;
+        }catch (SQLException e){e.printStackTrace();}
+        return false;
+    }
 
-            public void SetMessage(String sender,String receiver,String message,String type)
-            {
-                con=getConnection();
-                try{String sql="insert into message (sender,receiver,message,dateTime,type) values(?,?,?,?,?)";
-                    PreparedStatement st=con.prepareStatement(sql);
-                    String datetime=Tool.getTime();
-                    st.setString(1,sender);
-                    st.setString(2,receiver);
-                    st.setString(3,message);
-                    st.setString(4,datetime);
-                    st.setString(5,type);
-                    int rs=st.executeUpdate();
-                }catch (SQLException e){e.printStackTrace();}
-            }
-
-    public void  CreateFriend(String id,String id_friend,String name_friend)//添加好友数据
+    public boolean  CreateFriend(String id,String id_friend,String name_friend)//添加好友数据
     {
 
         con=getConnection();
@@ -281,30 +223,37 @@ public List<Message> GetMessage(String id) {
             st.setString(2,id_friend);
             st.setString(3,name_friend);
             int rs=st.executeUpdate();
-            }catch (SQLException e){e.printStackTrace();}
+            return true;
+        }catch (SQLException e){e.printStackTrace();}
+        return false;
     }
-    public void DeleteFriend(String id)//删除好友
+    public boolean DeleteFriend(String id)//删除好友
     {
         con=getConnection();
-        try{String sql="delete from friend where id=? ";
+        try{String sql="delete from friend where id_friend=? ";
             PreparedStatement st=con.prepareStatement(sql);
             st.setString(1,id);
             int rs=st.executeUpdate();
-            System.out.println("删除好友成功");}catch(SQLException e){e.printStackTrace();}
+            // System.out.println("删除好友成功");
+            return true;
+        }catch(SQLException e){e.printStackTrace();}
+        return false;
     }
 
-    //public static void main(String[] args) throws SQLException {//测试部分
-     //DataBase.Connect db=new DataBase.Connect();
-     //String id="290111";
-     //String password="qwerasdf";
-     //String name="jdasda";
-    // String time="2021-06-06 19:35:33:110";
+   // public static void main(String[] args) throws SQLException {//测试部分
+       // DataBase.Connect db=new DataBase.Connect();
+        //System.out.println(db.Register("11","11"));
+       // String id="test";
+       // String password="123";
+       // String name="jdasda";
+        // String time="2021-06-06 19:35:33:110";
         //System.out.println(db.register(id,name,password));
-       // System.out.println(db.LogIn(id,name));
-       // String a=Tool.getTime();
+        // System.out.println(db.LogIn(id,name));
+        // String a=Tool.getTime();
         //System.out.println(a);
         //db.GetMessage(time);
-       // System.out.println(Tool.getTime());
+        // System.out.println(Tool.getTime());
+        //System.out.println(db.Register(password,name));
 
     }
 

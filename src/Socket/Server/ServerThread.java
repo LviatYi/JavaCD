@@ -8,7 +8,6 @@ import com.alibaba.fastjson.JSONObject;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.List;
 
 /*
@@ -26,11 +25,11 @@ public class ServerThread extends Thread{
     public EncryptionImpl encryption= new EncryptionImpl();
     public String SocketID;
 
+    @Override
     public void run() {
         try {
             processSocket();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -39,7 +38,6 @@ public class ServerThread extends Thread{
 
 
     private void processSocket() throws IOException {
-        // TODO Auto-generated method stub
 
         InputStream ins = client.getInputStream();
         ous = new DataOutputStream(client.getOutputStream());
@@ -53,28 +51,17 @@ public class ServerThread extends Thread{
                 //注册
                 case REGISTER:
                 {
-                    Connect.RegisterStatus registerStatus = database.Register(message.name,message.password);
-                    switch (registerStatus)
-                    {
-                        case SUCCESS:
-                        {
-                            Message temp= new Message();
-                            temp.registerStatus= Message.MSGRegisterStatus.SUCCESS;
-                            temp.type = Message.transportType.REGISTER;
-                            //TODO 获取服务器分配ID
-//                            temp.id = getidfromdatabase
-                            sendMsg(temp);
-                            break;
-                        }
-                        case CONNECTION_FAILED:
-                        {
-                            Message temp= new Message();
-                            temp.registerStatus= Message.MSGRegisterStatus.CONNECTION_FAILED;
-                            temp.type = Message.transportType.REGISTER;
-                            sendMsg(temp);
-                            break;
-                        }
+                    int ID = database.Register(message.name,message.password);
+                    Message temp = new Message();
+                    if (ID == 0) {
+                        temp.registerStatus = Message.MSGRegisterStatus.CONNECTION_FAILED;
+                        temp.type = Message.transportType.REGISTER;
+                    } else {
+                        temp.registerStatus = Message.MSGRegisterStatus.SUCCESS;
+                        temp.type = Message.transportType.REGISTER;
+                        temp.id = String.valueOf(ID);
                     }
+                    sendMsg(temp);
                     break;
                 }
                 //登录
@@ -118,16 +105,28 @@ public class ServerThread extends Thread{
                 //群发消息
                 case SEND_GROUP_MESSAGE:
                 {
-                    //TODO 删除type,添加groupID属性
-                    database.SetMessage(message.senderId,null,encryption.decryptContent(message.message),"群发");
+                    database.SetMessage(message.senderId,null,encryption.decryptContent(message.message),message.groupID);
                     MultiThread.castGroupMsg(message,message.groupID);//群发给在线用户已经收到的群发消息
                     break;
                 }
                 //私聊消息
                 case SEND_PRIVATE_MESSAGE:
                 {
-                    database.SetMessage(message.senderId,message.receiverId,encryption.decryptContent(message.message),"私聊");
+                    database.SetMessage(message.senderId,message.receiverId,encryption.decryptContent(message.message),null);
                     MultiThread.castPrivateMSG(message);
+                    break;
+                }
+                //修改名字
+                case MODIFY_NAME:
+                {
+                    database.ModifyName(message.name,message.id);
+                    //TODO 等待数据库修改
+                    break;
+                }
+                //修改密码
+                case MODIFY_PASSWORD:
+                {
+                    database.ModifyPassword(message.password,message.id);
                     break;
                 }
             }

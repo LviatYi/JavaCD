@@ -25,9 +25,9 @@ public interface Database {
      *
      * @param password 用户密码
      * @param name 用户昵称
-     * @return SUCCESS 录入信息
+     * @return  录入信息并返回一个6-10的随机数字
      */
-    //public DataBase.Connect.RegisterStatus Register( String password, String name);
+    int  Register( String password, String name);
 
    /**
      //* 修改数据库中的密码
@@ -45,14 +45,14 @@ public interface Database {
 
  /**
   * 添加消息至数据库
+  * @param id 账号
   * @param sender 发送者
   * @param receiver 接收者
   * @param message 内容
-  * @param type 消息种类
   * 时间自动给出
   *
   */
-      void SetMessage(String sender,String receiver,String message,String type);
+      void SetMessage(String sender,String receiver,String message,String id);
 
     /**
      * 将对应用户的离开时间改为当前系统时间

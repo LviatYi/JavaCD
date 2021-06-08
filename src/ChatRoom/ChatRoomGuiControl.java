@@ -33,7 +33,6 @@ public interface ChatRoomGuiControl {
     /**
      *
      */
-    void confirmWrongFriendId();
 
-    void confirmNoFriend();
+    void confirmWrongModifyPassword();
 }

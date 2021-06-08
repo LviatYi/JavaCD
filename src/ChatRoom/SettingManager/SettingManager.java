@@ -110,15 +110,6 @@ public class SettingManager {
      */
     public ModifyNameStatus modifyName(String name) {
 
-        if (name.length() == 0) {
-            //弹出窗口 失败修改昵称
-            chatRoomGuiControl.confirmWrongModifyName();
-            return ModifyNameStatus.EMPTY;
-        }
-        if (name.length() > NAME_MAX) {
-            chatRoomGuiControl.confirmWrongModifyName();
-            return ModifyNameStatus.TOO_LONG;
-        }
         return ModifyNameStatus.QUALIFIED;
     }
 
@@ -136,19 +127,6 @@ public class SettingManager {
      */
     public ModifyPasswordStatus setModifyPassword(String password) {
 
-
-        if (password.length() < PASSWORD_MIN) {
-            chatRoomGuiControl.confirmWrongModifyPassword();
-            return ModifyPasswordStatus.TOO_SHORT;
-        }
-        if (password.length() > PASSWORD_MAX) {
-            chatRoomGuiControl.confirmWrongModifyPassword();
-            return ModifyPasswordStatus.TOO_LONG;
-        }
-        if (!password.matches(PASSWORD_PATTERN)) {
-            chatRoomGuiControl.confirmWrongModifyPassword();
-            return ModifyPasswordStatus.EASY;
-        }
         return ModifyPasswordStatus.QUALIFIED;
     }
 

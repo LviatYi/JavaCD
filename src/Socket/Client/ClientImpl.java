@@ -25,12 +25,14 @@ public class ClientImpl implements Client {
         client();
     }
 
-    public void sendGroup(String text) {
+    public void sendGroup(String text,String senderID,String groupID) {
         Message mes = new Message();
         mes.message = encryption.encryptContent(text);
+        mes.senderId = senderID;
+        mes.groupID =groupID;
         mes.type = Message.transportType.SEND_GROUP_MESSAGE;
         String temp = JSONObject.toJSONString(mes);
-        co.setMessage(String.valueOf(temp));
+        co.setMessage(temp);
     }
 
     public void sendPrivate(String text, String receiverID, String senderID) {
@@ -40,7 +42,7 @@ public class ClientImpl implements Client {
         mes.message = encryption.encryptContent(text);
         mes.type = Message.transportType.SEND_PRIVATE_MESSAGE;
         String temp = JSONObject.toJSONString(mes);
-        co.setMessage(String.valueOf(temp));
+        co.setMessage(temp);
     }
 
     public void register(String name, String password) {
@@ -49,7 +51,7 @@ public class ClientImpl implements Client {
         mes.password = encryption.encryptPassword(password);
         mes.type = Message.transportType.REGISTER;
         String temp = JSONObject.toJSONString(mes);
-        co.setMessage(String.valueOf(temp));
+        co.setMessage(temp);
     }
 
     public void login(String id, String password) {
@@ -58,20 +60,39 @@ public class ClientImpl implements Client {
         mes.password = encryption.encryptPassword(password);
         mes.type = Message.transportType.LOGIN;
         String temp = JSONObject.toJSONString(mes);
-        co.setMessage(String.valueOf(temp));
+        co.setMessage(temp);
     }
 
     //将ci中的Message列表拆分成群聊/私聊列表
     public void splitList() {
-
-        for (Message a : ci.msgList
-        ) {
+        for (Message a : ci.msgList)
+        {
             if (a.type == Message.transportType.SEND_GROUP_MESSAGE) {
                 multiChat.add(a);
             } else if (a.type == Message.transportType.SEND_PRIVATE_MESSAGE) {
                 privateChat.add(a);
             }
         }
+    }
+
+    public void modifyName(String newName,String UserID)
+    {
+        Message mes = new Message();
+        mes.id =UserID;
+        mes.type= Message.transportType.MODIFY_NAME;
+        mes.name=newName;
+        String temp = JSONObject.toJSONString(mes);
+        co.setMessage(temp);
+    }
+
+    public void modifyPassword(String newPassword,String UserID)
+    {
+        Message mes = new Message();
+        mes.id =UserID;
+        mes.type= Message.transportType.MODIFY_PASSWORD;
+        mes.password = encryption.encryptPassword(newPassword);
+        String temp = JSONObject.toJSONString(mes);
+        co.setMessage(temp);
     }
 
     private void client() throws IOException {
@@ -86,6 +107,6 @@ public class ClientImpl implements Client {
         Message mes = new Message();
         mes.type = Message.transportType.EXIT;
         String temp = JSONObject.toJSONString(mes);
-        co.setMessage(String.valueOf(temp));
+        co.setMessage(temp);
     }
 }

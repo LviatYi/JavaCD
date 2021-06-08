@@ -8,6 +8,8 @@ import com.alibaba.fastjson.JSONObject;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 /*
  * 每当有客户机和服务器连接时，都要定义一个接受对象来进行数据的传输
@@ -22,12 +24,12 @@ public class ServerThread extends Thread{
     }
     public Connect database = new Connect();
     public EncryptionImpl encryption= new EncryptionImpl();
+    public String SocketID;
 
     public void run() {
         try {
             processSocket();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -36,7 +38,6 @@ public class ServerThread extends Thread{
 
 
     private void processSocket() throws IOException {
-        // TODO Auto-generated method stub
 
         InputStream ins = client.getInputStream();
         ous = new DataOutputStream(client.getOutputStream());
@@ -50,33 +51,88 @@ public class ServerThread extends Thread{
                 //注册
                 case REGISTER:
                 {
-                    database.register(message.name,message.password);
-                    sendMsg();
+                    int ID = database.Register(message.name,message.password);
+                    Message temp = new Message();
+                    if (ID == 0) {
+                        temp.registerStatus = Message.MSGRegisterStatus.CONNECTION_FAILED;
+                        temp.type = Message.transportType.REGISTER;
+                    } else {
+                        temp.registerStatus = Message.MSGRegisterStatus.SUCCESS;
+                        temp.type = Message.transportType.REGISTER;
+                        temp.id = String.valueOf(ID);
+                    }
+                    sendMsg(temp);
+                    break;
                 }
                 //登录
                 case LOGIN:
                 {
+                    Connect.LoginStatus loginStatus = database.LogIn(message.id,message.password);
+                    switch (loginStatus)
+                    {
+                        case SUCCESS: {
+                            Message temp= new Message();
+                            temp.loginStatus = Message.MSGLoginStatus.SUCCESS;
+                            temp.type = Message.transportType.LOGIN;
+                            sendMsg(temp);
+                            SocketID= message.id;
+                            MultiThread.addClient(this);//认证成功，把这个用户加入服务器队列
+                            List<Message> oldMsg = database.GetMessage(SocketID);
+                            for (Message old:oldMsg) {
+                                sendMsg(old);
+                            }
+                            break;
+                        }
+                        case ID_NOT_EXIST:
+                        {
+                            Message temp= new Message();
+                            temp.loginStatus = Message.MSGLoginStatus.ID_NOT_EXIST;
+                            temp.type = Message.transportType.LOGIN;
+                            sendMsg(temp);
+                            break;
+                        }
+                        case PASSWORD_ERROR:
+                        {
+                            Message temp= new Message();
+                            temp.loginStatus = Message.MSGLoginStatus.PASSWORD_ERROR;
+                            temp.type = Message.transportType.LOGIN;
+                            sendMsg(temp);
+                            break;
+                        }
+                    }
+                    break;
                 }
                 //群发消息
                 case SEND_GROUP_MESSAGE:
                 {
+                    database.SetMessage(message.senderId,null,encryption.decryptContent(message.message),message.groupID);
+                    MultiThread.castGroupMsg(message,message.groupID);//群发给在线用户已经收到的群发消息
+                    break;
                 }
                 //私聊消息
                 case SEND_PRIVATE_MESSAGE:
                 {
+                    database.SetMessage(message.senderId,message.receiverId,encryption.decryptContent(message.message),null);
+                    MultiThread.castPrivateMSG(message);
+                    break;
+                }
+                //修改名字
+                case MODIFY_NAME:
+                {
+                    database.ModifyName(message.name,message.id);
+                    //TODO 等待数据库修改
+                    break;
+                }
+                //修改密码
+                case MODIFY_PASSWORD:
+                {
+                    database.ModifyPassword(message.password,message.id);
+                    break;
                 }
             }
         }
-
-        //调用数据库，验证用户是否存在
-        //database();
-//        if(!loginState) {
-//            //如果不存在这个账号则关闭
-//            this.closeMe();
-//            return;
-//        }
-        MultiThread.addClient(this);//认证成功，把这个用户加入服务器队列
         //关闭连接
+        database.UpdateLeftTime(SocketID);
         this.closeMe();
     }
 

@@ -21,6 +21,10 @@ public class SettingManager {
          */
         EMPTY,
         /**
+         * 相同
+         */
+        SAME,
+        /**
          * 过短
          */
         TOO_SHORT,
@@ -109,7 +113,7 @@ public class SettingManager {
      * @param name 昵称
      * @return 修改昵称结果
      */
-    public ModifyNameStatus setModifyName(String name)
+    public ModifyNameStatus modifyName(String name)
     {
         if (name.length() == 0)
         {
@@ -146,6 +150,10 @@ public class SettingManager {
         if (!password.matches(PASSWORD_PATTERN))
         {
             return ModifyPasswordStatus.EASY;
+        }
+        if(this.password==password)
+        {
+            return ModifyPasswordStatus.SAME;
         }
         this.password = password;
         return ModifyPasswordStatus.QUALIFIED;

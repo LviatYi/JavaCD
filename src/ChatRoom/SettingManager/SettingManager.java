@@ -108,17 +108,18 @@ public class SettingManager {
      * 过长昵称 TOO_LONG
      * 成功修改昵称 QUALIFIED
      */
-    public ModifyNameStatus modifyName(String name) {
+    public ModifyNameStatus modifyName(String name)
+    {
 
-        if (name.length() == 0) {
-            //弹出窗口 失败修改昵称
-            chatRoomGuiControl.confirmWrongModifyName();
+        if (name.length() == 0)
+        {
             return ModifyNameStatus.EMPTY;
         }
         if (name.length() > NAME_MAX) {
             chatRoomGuiControl.confirmWrongModifyName();
             return ModifyNameStatus.TOO_LONG;
         }
+        this.name = name;
         return ModifyNameStatus.QUALIFIED;
     }
 
@@ -149,6 +150,7 @@ public class SettingManager {
             chatRoomGuiControl.confirmWrongModifyPassword();
             return ModifyPasswordStatus.EASY;
         }
+        this.password = password;
         return ModifyPasswordStatus.QUALIFIED;
     }
 

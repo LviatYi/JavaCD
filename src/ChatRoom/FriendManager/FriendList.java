@@ -28,7 +28,6 @@ public class FriendList {
          * 好友列表中不存在
          */
         LIST_NOT_EXIST,
-
     }
 
     /**

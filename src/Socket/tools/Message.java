@@ -19,6 +19,7 @@ public class Message {
     public MSGLoginStatus loginStatus;
     public MSGRegisterStatus registerStatus;
 
+
     public enum transportType{
         EXIT,
         LOGIN,
@@ -26,7 +27,8 @@ public class Message {
         SEND_GROUP_MESSAGE,
         SEND_PRIVATE_MESSAGE,
         MODIFY_NAME,
-        MODIFY_PASSWORD
+        MODIFY_PASSWORD,
+        GET_HISTORY_MESSAGE
     }
     public enum MSGLoginStatus{
         /**

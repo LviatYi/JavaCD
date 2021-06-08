@@ -6,6 +6,7 @@ import Socket.Client.ClientThreadIn;
 import Socket.Client.ClientThreadOut;
 import Socket.tools.Message;
 import com.alibaba.fastjson.JSONObject;
+import org.omg.CORBA.PUBLIC_MEMBER;
 
 import java.io.*;
 import java.net.Socket;
@@ -25,18 +26,18 @@ public class ClientImpl implements Client {
         client();
     }
 
-//    发送群聊消息
-    public void sendGroup(String text,String senderID,String groupID) {
+    //    发送群聊消息
+    public void sendGroup(String text, String senderID, String groupID) {
         Message mes = new Message();
         mes.message = encryption.encryptContent(text);
         mes.senderId = senderID;
-        mes.groupID =groupID;
+        mes.groupID = groupID;
         mes.type = Message.transportType.SEND_GROUP_MESSAGE;
         String temp = JSONObject.toJSONString(mes);
         co.setMessage(temp);
     }
 
-//    发送私聊消息
+    //    发送私聊消息
     public void sendPrivate(String text, String receiverID, String senderID) {
         Message mes = new Message();
         mes.receiverId = receiverID;
@@ -47,7 +48,7 @@ public class ClientImpl implements Client {
         co.setMessage(temp);
     }
 
-//    发送注册消息
+    //    发送注册消息
     public void register(String name, String password) {
         Message mes = new Message();
         mes.name = name;
@@ -57,7 +58,7 @@ public class ClientImpl implements Client {
         co.setMessage(temp);
     }
 
-//    发送登录消息
+    //    发送登录消息
     public void login(String id, String password) {
         Message mes = new Message();
         mes.id = id;
@@ -67,24 +68,29 @@ public class ClientImpl implements Client {
         co.setMessage(temp);
     }
 
-
-//    改名
-    public void modifyName(String newName,String UserID)
-    {
+    public void getHistoryMessage(String userID,String groupID) {
         Message mes = new Message();
-        mes.id =UserID;
-        mes.type= Message.transportType.MODIFY_NAME;
-        mes.name=newName;
+        mes.type = Message.transportType.GET_HISTORY_MESSAGE;
+        mes.id = userID;
+        //TODO
+    }
+
+
+    //    改名
+    public void modifyName(String newName, String UserID) {
+        Message mes = new Message();
+        mes.id = UserID;
+        mes.type = Message.transportType.MODIFY_NAME;
+        mes.name = newName;
         String temp = JSONObject.toJSONString(mes);
         co.setMessage(temp);
     }
 
-//    改密码
-    public void modifyPassword(String newPassword,String UserID)
-    {
+    //    改密码
+    public void modifyPassword(String newPassword, String UserID) {
         Message mes = new Message();
-        mes.id =UserID;
-        mes.type= Message.transportType.MODIFY_PASSWORD;
+        mes.id = UserID;
+        mes.type = Message.transportType.MODIFY_PASSWORD;
         mes.password = encryption.encryptPassword(newPassword);
         String temp = JSONObject.toJSONString(mes);
         co.setMessage(temp);

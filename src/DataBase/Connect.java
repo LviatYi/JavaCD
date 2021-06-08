@@ -136,7 +136,7 @@ public class Connect //implements Database
     }
     public boolean ModifyName(String id,String name_now)//修改昵称
     {               con=getConnection();
-        try{String sql="update userInfo set name=? where id=? and name=?";
+        try{String sql="update userInfo set name=? where id=?";
             PreparedStatement st=con.prepareStatement(sql);
             st.setString(1,name_now);
             st.setString(2,id);

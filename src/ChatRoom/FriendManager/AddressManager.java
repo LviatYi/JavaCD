@@ -1,6 +1,6 @@
 package ChatRoom.FriendManager;
 
-import java.util.Vector;
+import ChatRoom.ChatRoomGuiControl;
 
 /**
  * 通讯录管理类.
@@ -13,98 +13,10 @@ import java.util.Vector;
  * @date 2021/6/6
  */
 public class AddressManager {
-    /**
-     * 通讯录
-     */
-    Vector<FriendInfo> friendList;
 
-    /**
-     * 向数据库请求数据
-     */
-    public void getServerFriendList()
-    {
-        FriendInfo friendInfo=new FriendInfo();
-        /*
-        * TODO_LviatYi 与数据库交接
-        * date 2021/6/7
-        */
+    FriendList friendList;
+    ChatRoomGuiControl chatRoomGuiControl;
 
-        //Exist for debug
-        for(int i=0;i<5;i++)
-        {
-            friendInfo.setId("i"+"i"+"i");
-            friendInfo.setName("i"+"i"+"i"+"i");
-            friendList.addElement(friendInfo);
-        }
-    }
-    /**
-     * 添加好友状态
-     */
-    enum AddFriendStatus
-    {
-        /**
-         * 合格
-         */
-        QUALIFIED,
-        /**
-         * 空
-         */
-        EMPTY,
-        /**
-         * 过长
-         */
-        TOO_LONG,
-        /**
-         * 过短
-         */
-        TOO_SHORT,
-        /**
-         * 好友已存在
-         */
-        EXISTED,
-        /**
-         * 无此ID
-         */
-        WRONG_ID
-    }
-
-    /**
-     * 删除好友
-     */
-    enum DeleteFriendStatus
-    {
-        /**
-         * 合格
-         */
-        QUALIFIED,
-        /**
-         * 空
-         */
-        EMPTY,
-        /**
-         * 过长
-         */
-        TOO_LONG,
-        /**
-         * 过短
-         */
-        TOO_SHORT,
-        /**
-         * 无此好友ID
-         */
-        WRONG_ID
-    }
-
-
-
-    /**
-     * 最短 ID
-     */
-    final int ID_MIN = 6;
-    /**
-     * 最长 ID
-     */
-    final int ID_MAX = 10;
     /**
      * 单例指针
      */
@@ -130,109 +42,73 @@ public class AddressManager {
         return instance;
     }
 
-    public boolean compareFriendId(String compareId)
+    /**
+     * 添加好友
+     *
+     * @param friendId 添加的好友的id
+     * @return 添加好友的状态
+     * 添加成功 QUALIFIED
+     * 已存在此好友 ADDED
+     * 没有这个id WRONG_ID
+     */
+    public FriendList.FriendStatus addFriend(String friendId)
     {
-        if(true) {
+        if(friendList.findLocal(friendId)!=null)
+        {
+            // TODO: 2021/6/8
+            return FriendList.FriendStatus.ADDED;
+/**
+ * TODO May_bebe
+ */
+        }
+        else
+        {
+            FriendInfo friendInfo=new FriendInfo(null,null);
             /**
-             * TODO 数据库在该用户好友中找到相同id
+             * TODO 通知服务器查找用户
              */
-            return true;
-        }
-       return false;
-
-    }
-
-    /**
-     * 检测添加好友合法性并尝试添加
-     *
-     * @param id 好友id
-     *
-     * @return 添加好友结果
-     */
-    public AddFriendStatus addFriend(String id)
-    {
-        if(id.length()==0)
-        {
-            return AddFriendStatus.EMPTY;
-        }
-        if(id.length()<ID_MIN)
-        {
-            return AddFriendStatus.TOO_SHORT;
-        }
-        if(id.length()>ID_MAX)
-        {
-            return AddFriendStatus.TOO_LONG;
-        }
-        for (FriendInfo info : friendList) {
-
-            if (id.equals(info.getId())) {
-                return AddFriendStatus.EXISTED;
-            }
-        }
-        if(!compareFriendId(id))
-        {
-            return AddFriendStatus.WRONG_ID;
-        }
-        /**
-         * TODO friendInfo.id and name ++++++++++
-         */
-        return AddFriendStatus.QUALIFIED;
-    }
-
-    /**
-     * 检测删除好友合法性并尝试删除
-     *
-     * @param id 好友id
-     *
-     * @return 删除好友结果
-     */
-    public DeleteFriendStatus deleteFriend(String id)
-    {
-        if(id.length()==0)
-        {
-            return DeleteFriendStatus.EMPTY;
-        }
-        if(id.length()<ID_MIN)
-        {
-            return DeleteFriendStatus.TOO_SHORT;
-        }
-        if(id.length()>ID_MAX)
-        {
-            return DeleteFriendStatus.TOO_LONG;
-        }
-        for(int i = 0; i< friendList.size(); i++)
-        {
-            /**
-             * TODO 向数据库要个该用户的所有好友id
-             **/
-            if(compareFriendId(id))
+            if(friendInfo.getFriendId()!=null)
             {
                 /**
-                 * TODO friendInfo.id and name ----------
+                 * TODO 通知服务器要该用户的昵称
                  */
-                return DeleteFriendStatus.QUALIFIED;
+                friendList.add(new FriendInfo(friendId,friendInfo.getFriendName()));
+                chatRoomGuiControl.updateFriendListPl();
+                return FriendList.FriendStatus.QUALIFIED;
+            }
+            else
+            {
+                chatRoomGuiControl.confirmWrongFriendId();
+                return FriendList.FriendStatus.LIST_NOT_EXIST;
             }
         }
-        return DeleteFriendStatus.WRONG_ID;
     }
 
-    public boolean compareChatRoomId(String chatRoomId)
+    /**
+     * 删除好友
+     *
+     * @param friendId 好友id
+     * @return 删除好友结果
+     * 成功删除好友 QUALIFIED
+     * 没有该好友 WRONG_ID
+     */
+    public FriendList.FriendStatus delFriend(String friendId)
     {
-        if(true)
+        if(friendList.findLocal(friendId)!=null)
         {
-            /**
-             * TODO 数据库找到该用户的现有聊天室列表与形参相同
-             */
-            // TODO: 2021/6/8
-            /*
-            * TODO_LviatYi
-            * date 2021/6/8
-            * 
-            */
-            return true;
+            friendList.del(friendId);
+            chatRoomGuiControl.updateFriendListPl();
+            return FriendList.FriendStatus.QUALIFIED;
         }
-        return false;
+        else
+        {
+            chatRoomGuiControl.confirmNoFriend();
+            return FriendList.FriendStatus.LIST_NOT_EXIST;
+        }
+
     }
+
+
 
 
 

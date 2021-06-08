@@ -4,6 +4,7 @@ import ChatRoom.ChatRoomGuiControl;
 import ChatRoom.ChatRoomManager.*;
 import ChatRoom.FriendManager.AddressManager;
 import ChatRoom.SettingManager.SettingManager;
+import Socket.tools.Message;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -263,6 +264,10 @@ public class ChatRoomGui extends JFrame implements ActionListener, ChatRoomGuiCo
      * 设置管理类
      */
     private SettingManager settingManager = SettingManager.getSettingManager();
+    /**
+     * 当前聊天室信息
+     */
+    private ChatRoomInfo currentChatRoomInfo;
 
     /**
      * GUI 元素
@@ -478,6 +483,8 @@ public class ChatRoomGui extends JFrame implements ActionListener, ChatRoomGuiCo
         sendMsgBtn.setText(sendMsgBtnStr);
         exitBtn.setText(exitBtnStr);
 
+        currentChatRoomInfo=new ChatRoomInfo();
+
         // 添加侦听器
         addChatRoomBtn.addActionListener(this);
         addFriendBtn.addActionListener(this);
@@ -589,13 +596,14 @@ public class ChatRoomGui extends JFrame implements ActionListener, ChatRoomGuiCo
 
     @Override
     public void actionPerformed(ActionEvent event) {
+        String input;
         switch (event.getActionCommand()) {
             case "addChatRoom":
-                String chatRoomId=chatRoomIdTf.getText();
-                if (chatRoomId.equals(new String(""))) {
+                input=chatRoomIdTf.getText();
+                if (input.equals(new String(""))) {
                     return;
                 }
-                switch (chatRoomManager.join(chatRoomId)) {
+                switch (chatRoomManager.join(input)) {
                     case QUALIFIED:
                         /*
                          * TODO_LviatYi 申请聊天管理 转到该聊天室
@@ -617,10 +625,49 @@ public class ChatRoomGui extends JFrame implements ActionListener, ChatRoomGuiCo
                 }
                 break;
             case "delChatRoom":
+                input=chatRoomIdTf.getText();
+                if(input.equals(new String(""))){
+                    return;
+                }
+                switch (chatRoomManager.delete(input)){
+                    case QUALIFIED:
+                        /*
+                        * TODO_LviatYi 申请聊天管理 关闭聊天界面
+                        * date 2021/6/8
+                        */
+                        break;
+                    default:
+                        break;
+                }
                 break;
             case "addFriend":
+                input=friendIdTf.getText();
+                if(input.equals(new String(""))){
+                    return;
+                }
+                /*
+                * TODO_LviatYi 好友管理类
+                * date 2021/6/8
+                */
                 break;
             case "delFriend":
+                input=friendIdTf.getText();
+                if(input.equals(new String(""))){
+                    return;
+                }
+                /*
+                * TODO_LviatYi 好友管理类
+                * date 2021/6/8
+                */
+            case "moreMsg":
+                /*
+                * TODO_LviatYi 向服务器索取聊天记录
+                * date 2021/6/8
+                */
+            case "send":
+            case "exit":
+
+            default:
                 break;
         }
     }
@@ -649,6 +696,4 @@ public class ChatRoomGui extends JFrame implements ActionListener, ChatRoomGuiCo
         LoadFriendThread loadFriendThread = new LoadFriendThread();
         loadFriendThread.start();
     }
-
-
 }

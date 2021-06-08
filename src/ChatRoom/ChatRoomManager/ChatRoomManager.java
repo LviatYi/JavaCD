@@ -97,6 +97,7 @@ public class ChatRoomManager {
      */
     public ChatRoomList.ChatRoomStatus delete(String chatRoomId){
         chatRoomList.del(chatRoomId);
+        chatRoomGuiControl.updateChatRoomListPl();
         return ChatRoomList.ChatRoomStatus.QUALIFIED;
     }
 

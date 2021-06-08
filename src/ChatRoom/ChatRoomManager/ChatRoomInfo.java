@@ -22,6 +22,11 @@ public class ChatRoomInfo
         this.chatRoomId=chatRoomInfo.getChatRoomId();
     }
 
+    public ChatRoomInfo(){
+        this.chatRoomName="";
+        this.chatRoomId="";
+    }
+
     public String getChatRoomId() {
         return chatRoomId;
     }

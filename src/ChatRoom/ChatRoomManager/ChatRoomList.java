@@ -105,8 +105,9 @@ public class ChatRoomList {
         return chatRoomInfo.getChatRoomId();
     }
 
-    public void del(String chatRoomId) {
+    public String del(String chatRoomId) {
         list.removeIf(chatRoomInfo -> chatRoomInfo.getChatRoomId().equals(chatRoomId));
+        return chatRoomId;
     }
 
     public Vector<ChatRoomInfo> getList(){

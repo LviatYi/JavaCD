@@ -1,6 +1,6 @@
 package ChatRoom.ChatRoomManager;
 
-import ChatRoom.ChatManager.ChatRoomGui;
+import ChatRoom.ChatRoomGuiControl;
 
 /**
  * 聊天室管理类
@@ -13,7 +13,7 @@ import ChatRoom.ChatManager.ChatRoomGui;
  */
 public class ChatRoomManager {
     ChatRoomList chatRoomList;
-    ChatRoomGui chatRoomGuiControl;
+    ChatRoomGuiControl chatRoomGuiControl;
     /**
      * 单例指针
      */
@@ -51,6 +51,7 @@ public class ChatRoomManager {
      * @return 加入聊天室状态.
      *  如果加入成功则返回 QUALIFIED.
      *  如果新建成功则返回 NEW.
+     *  如果已经加入则返回 JOINED
      *  如果取消新建则返回 CANCEL.
      */
     public ChatRoomList.ChatRoomStatus join(String chatRoomId) {
@@ -69,14 +70,11 @@ public class ChatRoomManager {
                 if (chatRoomGuiControl.confirmNewChatRoom()) {
                     String chatRoomName=chatRoomGuiControl.confirmChatRoomName();
                     /*
-                     * TODO_LviatYi 确认聊天室名
-                     * date 2021/6/7
-                     */
-                    /*
                      * TODO_LviatYi 通知服务器添加新的聊天室
                      * date 2021/6/7
                      */
                     chatRoomList.add(new ChatRoomInfo(chatRoomId,chatRoomName));
+                    chatRoomGuiControl.updateChatRoomListPl();
                     //新建聊天室
                     return ChatRoomList.ChatRoomStatus.NEW;
                 }else
@@ -85,6 +83,8 @@ public class ChatRoomManager {
                 }
             }else{
                 chatRoomList.add(new ChatRoomInfo(chatRoomInfo));
+                chatRoomGuiControl.updateChatRoomListPl();
+                //加入成功
                 return ChatRoomList.ChatRoomStatus.QUALIFIED;
             }
         }

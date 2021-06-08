@@ -27,3 +27,6 @@ hs_err_pid*
 *.iml
 out
 gen
+
+# JChat Environment
+!*/fastjson-1.2.53.jar

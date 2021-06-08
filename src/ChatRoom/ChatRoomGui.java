@@ -1,5 +1,6 @@
 package ChatRoom;
 
+import ChatRoom.ChatRoomGuiControl;
 import ChatRoom.ChatRoomManager.*;
 import ChatRoom.FriendManager.AddressManager;
 import ChatRoom.SettingManager.SettingManager;
@@ -21,7 +22,7 @@ import java.awt.event.ActionListener;
  * @className ChatRoomGui
  * @date 2021/6/4
  */
-public class ChatRoomGui extends JFrame implements ActionListener, ChatRoom.ChatManager.ChatRoomGui {
+public class ChatRoomGui extends JFrame implements ActionListener, ChatRoomGuiControl {
     /**
      * 聊天室信息面板.
      * 用于展示聊天室信息.
@@ -525,13 +526,13 @@ public class ChatRoomGui extends JFrame implements ActionListener, ChatRoom.Chat
         public void run() {
             super.run();
             chatRoomListPl.removeAll();
-            try{
+            try {
                 ChatRoomList chatRoomList = chatRoomManager.getChatRoomList();
                 for (ChatRoomInfo chatRoomInfo : chatRoomList.getList()) {
                     chatRoomListPl.add(new ChatRoomPanel(chatRoomInfo.getChatRoomId(), chatRoomInfo.getChatRoomName()));
                 }
-            }catch (NullPointerException exception){
-                JOptionPane.showMessageDialog(null,"You don't have any friends,loser.");
+            } catch (NullPointerException exception) {
+                JOptionPane.showMessageDialog(null, "You don't have any friends,loser.");
             }
 
             chatRoomListPl.updateUI();
@@ -590,20 +591,30 @@ public class ChatRoomGui extends JFrame implements ActionListener, ChatRoom.Chat
     public void actionPerformed(ActionEvent event) {
         switch (event.getActionCommand()) {
             case "addChatRoom":
-                if (chatRoomIdTf.getText().equals(new String(""))) {
+                String chatRoomId=chatRoomIdTf.getText();
+                if (chatRoomId.equals(new String(""))) {
                     return;
                 }
-                    switch (chatRoomManager.join(chatRoomIdTf.getText())){
-                        case QUALIFIED:
-                        case NEW:
-                        case JOINED:
-
-                        case CANCEL:
-                            break;
-                        case NOT_EXIST:
-                        default:
-                            break;
-                    }
+                switch (chatRoomManager.join(chatRoomId)) {
+                    case QUALIFIED:
+                        /*
+                         * TODO_LviatYi 申请聊天管理 转到该聊天室
+                         * date 2021/6/8
+                         */
+                    case NEW:
+                        /*
+                         * TODO_LviatYi 申请聊天管理 转到该聊天室
+                         * date 2021/6/8
+                         */
+                    case JOINED:
+                        /*
+                         * TODO_LviatYi 申请聊天管理 转到该聊天室
+                         * date 2021/6/8
+                         */
+                    case CANCEL:
+                    default:
+                        break;
+                }
                 break;
             case "delChatRoom":
                 break;
@@ -638,4 +649,6 @@ public class ChatRoomGui extends JFrame implements ActionListener, ChatRoom.Chat
         LoadFriendThread loadFriendThread = new LoadFriendThread();
         loadFriendThread.start();
     }
+
+
 }

@@ -12,10 +12,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.text.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 
 /**
  * Jchat 聊天室 Gui.
@@ -27,7 +24,7 @@ import java.awt.event.MouseListener;
  * @className ChatRoomGui
  * @date 2021/6/4
  */
-public class ChatRoomGui extends JFrame implements ActionListener, ChatRoomGuiControl {
+public class ChatRoomGui extends JFrame implements ActionListener, FocusListener, ChatRoomGuiControl {
     //自定义面板
 
     /**
@@ -353,6 +350,7 @@ public class ChatRoomGui extends JFrame implements ActionListener, ChatRoomGuiCo
     private JPanel inputPl;
     private JPanel inputControlPl;
     private JPanel chatRoomControlPl;
+    private JPanel friendControlPl;
     private JPanel chatRoomListPl;
     private JPanel friendListPl;
     private JPanel setNamePl;
@@ -360,11 +358,10 @@ public class ChatRoomGui extends JFrame implements ActionListener, ChatRoomGuiCo
     private JPanel confirmPl;
     private JPanel setPassword2Pl;
     private JPanel leftContainerPl;
-    private JPanel friendControlPl;
     private JLabel noMoreMsgLb;
-    private JLabel setNameStatusLb;
-    private JLabel setPasswordStatusLb;
-    private JLabel setPassword2StatusLb;
+    private JLabel nameStatusLb;
+    private JLabel PasswordStatusLb;
+    private JLabel password2StatusLb;
     private JLabel userNameLb;
     private JLabel userIdLb;
     private JTabbedPane toolTabs;
@@ -380,9 +377,9 @@ public class ChatRoomGui extends JFrame implements ActionListener, ChatRoomGuiCo
     private JButton exitBtn;
     private JTextField chatRoomIdTf;
     private JTextField friendIdTf;
-    private JTextField setNameTf;
-    private JPasswordField setPasswordTf;
-    private JPasswordField setPassword2Tf;
+    private JTextField nameTf;
+    private JPasswordField passwordTf;
+    private JPasswordField password2Tf;
     private JLabel chatRoomListLoadingStatusLb;
     private JLabel addressListLoadingStatusLb;
     private JLabel chatRoomTitleLb;
@@ -478,18 +475,6 @@ public class ChatRoomGui extends JFrame implements ActionListener, ChatRoomGuiCo
     private String confirmStr = "Please Confirm";
     private String confirmNewChatRoomStr = "Do you want to create a NEW chat room?";
     private String confirmNewChatRoomNameStr = "Confirm the name of the NEW chat room.";
-    /*
-     * TODO_LviatYi 用户名状态
-     * date 2021/6/6
-     */
-    /*
-     * TODO_LviatYi 密码状态
-     * date 2021/6/6
-     */
-    /*
-     * TODO_LviatYi UserId UserName 显示
-     * date 2021/6/6
-     */
 
     private String userNameLbStr = "<html>\n" +
             "    <body>\n" +
@@ -512,6 +497,68 @@ public class ChatRoomGui extends JFrame implements ActionListener, ChatRoomGuiCo
             "        </div>\n" +
             "    </body>\n" +
             "</html>";
+    /**
+     * 正确状态文本
+     */
+    private String qualifiedStatusStr = "<html>\n" +
+            "    <body>\n" +
+            "        <div style=\"font-size: 10px;font-family: 'Trebuchet MS';color: rgb(154, 205, 50)\">\n" +
+            "            <div>Right</div>\n" +
+            "        </div>\n" +
+            "    </body>\n" +
+            "</html>\n";
+    /**
+     * 空状态文本
+     */
+    private String emptyStatusStr = "<html>\n" +
+            "    <body>\n" +
+            "        <div style=\"font-size: 10px; font-family:'Trebuchet MS';color: rgb(245, 66, 66);\">\n" +
+            "            <div>\n" +
+            "                Cannot be empty\n" +
+            "            </div>\n" +
+            "        </div>\n" +
+            "    </body>\n" +
+            "</html>\n";
+    /**
+     * 过长状态文本
+     */
+    private String tooLongStatusStr = "<html>\n" +
+            "    <body>\n" +
+            "        <div style=\"font-size: 10px;font-family: 'Trebuchet MS';color: rgb(245, 66, 66)\">\n" +
+            "            <div>That's too long</div>\n" +
+            "        </div>\n" +
+            "    </body>\n" +
+            "</html>\n";
+    /**
+     * 过短状态文本
+     */
+    private String tooShortStatusStr = "<html>\n" +
+            "    <body>\n" +
+            "        <div style=\"font-size: 10px;font-family: 'Trebuchet MS';color: rgb(245, 66, 66)\">\n" +
+            "            <div>That's too short</div>\n" +
+            "        </div>\n" +
+            "    </body>\n" +
+            "</html>\n";
+    /**
+     * 过简状态文本
+     */
+    private String easyStatusStr = "<html>\n" +
+            "    <body>\n" +
+            "        <div style=\"font-size: 10px;font-family: 'Trebuchet MS';color: rgb(245, 66, 66)\">\n" +
+            "            <div>That's too easy</div>\n" +
+            "        </div>\n" +
+            "    </body>\n" +
+            "</html>\n";
+    /**
+     * 不同状态文本
+     */
+    private String differentStatusStr = "<html>\n" +
+            "    <body>\n" +
+            "        <div style=\"font-size: 10px;font-family: 'Trebuchet MS';color: rgb(245, 66, 66)\">\n" +
+            "            <div>Two passwords are inconsistent</div>\n" +
+            "        </div>\n" +
+            "    </body>\n" +
+            "</html>\n";
 
     /**
      * 覆写默认构造函数。
@@ -550,9 +597,9 @@ public class ChatRoomGui extends JFrame implements ActionListener, ChatRoomGuiCo
          */
         chatRoomTitleLb.setText(noChatRoomSelected);
         noMoreMsgLb.setText(noMoreMsgLbStr);
-        setNameStatusLb.setText(setNameLbStr);
-        setPasswordStatusLb.setText("");
-        setPassword2StatusLb.setText("");
+        nameStatusLb.setText("");
+        PasswordStatusLb.setText("");
+        password2StatusLb.setText("");
         userNameLb.setText(settingManager.getSelfName());
         userIdLb.setText(settingManager.getSelfId());
         setNamePl.setBorder(BorderFactory.createTitledBorder(setNameLbStr));
@@ -568,6 +615,10 @@ public class ChatRoomGui extends JFrame implements ActionListener, ChatRoomGuiCo
         sendMsgBtn.setText(sendMsgBtnStr);
         exitBtn.setText(exitBtnStr);
 
+//        NameStatusLb.setVisible(false);
+//        setPasswordStatusLb.setVisible(false);
+//        password2StatusLb.setVisible(false);
+
         // 添加侦听器
         addChatRoomBtn.addActionListener(this);
         delChatRoomBtn.addActionListener(this);
@@ -577,6 +628,14 @@ public class ChatRoomGui extends JFrame implements ActionListener, ChatRoomGuiCo
         sendMsgBtn.addActionListener(this);
         exitBtn.addActionListener(this);
         confirmSetBtn.addActionListener(this);
+        nameTf.addFocusListener(this);
+        passwordTf.addFocusListener(this);
+        password2Tf.addFocusListener(this);
+
+        //添加快捷键
+        inputTf.getInputMap().put(KeyStroke.getKeyStroke('\n', InputEvent.CTRL_MASK), "sendMsg");
+        inputTf.getActionMap().put("sendMsg", sendMsg);
+
 
         noMoreMsgLb.setVisible(false);
         moreMsgBtn.setVisible(false);
@@ -607,8 +666,7 @@ public class ChatRoomGui extends JFrame implements ActionListener, ChatRoomGuiCo
         loadChatRoomThread.start();
         loadFriendThread.start();
 
-//        updateChatPl();
-
+        updateChatPl();
     }
 
     private void prepareLoadingGui() {
@@ -723,10 +781,7 @@ public class ChatRoomGui extends JFrame implements ActionListener, ChatRoomGuiCo
                 if ("".equals(chatManager.getCurrentChatRoomInfo().getChatRoomId())) {
                     break;
                 }
-                Message message = new Message(this.inputTf.getText(), settingManager.getSelfId(), chatManager.getCurrentChatRoomInfo().getChatRoomId());
-                chatManager.send(message);
-                this.inputTf.setText("");
-                updateChatPl();
+                sendMessage();
                 break;
             case "exitRoom":
                 if (chatManager.getCurrentChatRoomInfo().getChatRoomId().equals("")) {
@@ -739,6 +794,80 @@ public class ChatRoomGui extends JFrame implements ActionListener, ChatRoomGuiCo
                 break;
         }
     }
+
+    @Override
+    public void focusGained(FocusEvent event) {
+        if (event.getSource() == nameTf) {
+            nameTf.selectAll();
+        } else if (event.getSource() == passwordTf) {
+            passwordTf.selectAll();
+        } else if (event.getSource() == password2Tf) {
+            password2Tf.selectAll();
+        }
+
+    }
+
+    @Override
+    public void focusLost(FocusEvent event) {
+        if (event.getSource() == nameTf) {
+            switch (settingManager.userAuthenticationManager.setName(new String((nameTf.getText())))) {
+                case QUALIFIED:
+                    nameStatusLb.setText(qualifiedStatusStr);
+                    break;
+                case TOO_LONG:
+                    nameStatusLb.setText(tooLongStatusStr);
+                    break;
+                case EMPTY:
+                default:
+                    break;
+
+            }
+        } else if (event.getSource() == passwordTf) {
+            switch (settingManager.userAuthenticationManager.setPassword(new String(passwordTf.getPassword()))) {
+                //password 输入正确
+                case QUALIFIED:
+                    checkTwicePasswordInput();
+                    break;
+                //输入过长
+                case TOO_LONG:
+                    PasswordStatusLb.setText(qualifiedStatusStr);
+                    break;
+                //输入过短
+                case TOO_SHORT:
+                    PasswordStatusLb.setText(tooShortStatusStr);
+                    break;
+                //输入过简
+                case EASY:
+                    PasswordStatusLb.setText(easyStatusStr);
+                    break;
+                case EMPTY:
+                default:
+                    break;
+            }
+        } else if (event.getSource() == password2Tf) {
+            checkTwicePasswordInput();
+        }
+    }
+
+    private void checkTwicePasswordInput() {
+        if ((new String(password2Tf.getPassword())).equals(new String(passwordTf.getPassword()))) {
+            //password2 输入一致
+            password2StatusLb.setText(qualifiedStatusStr);
+        } else {
+            //password2 输入不一致
+            password2StatusLb.setText(differentStatusStr);
+        }
+    }
+
+    /**
+     * 快捷键事件
+     */
+    private Action sendMsg = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            sendMessage();
+        }
+    };
 
     @Override
     public boolean confirmNewChatRoom() {
@@ -810,6 +939,13 @@ public class ChatRoomGui extends JFrame implements ActionListener, ChatRoomGuiCo
         msgPl.removeAll();
     }
 
+    private void sendMessage() {
+        Message message = new Message(this.inputTf.getText(), settingManager.getSelfId(), chatManager.getCurrentChatRoomInfo().getChatRoomId());
+        chatManager.send(message);
+        this.inputTf.setText("");
+        updateChatPl();
+    }
+
     /**
      * 将 JScrollPane 控件下拉到底部.
      * 垃圾 swing ,并不能到最底部,比较看脸.
@@ -874,7 +1010,7 @@ public class ChatRoomGui extends JFrame implements ActionListener, ChatRoomGuiCo
      * 根据 本地缓存 刷新 好友列表 GUI
      */
     private void updateFriendPl() {
-        friendPl.removeAll();
+        friendListPl.removeAll();
         try {
             FriendList friendList = addressManager.getFriendList();
             for (FriendInfo friendInfo : friendList.getList()) {

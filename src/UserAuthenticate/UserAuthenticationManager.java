@@ -13,13 +13,11 @@ import Status.*;
  * @className UserAuthenticationManager
  * @date 2021/6/2
  */
-public class UserAuthenticationManager
-{
+public class UserAuthenticationManager {
     /**
      * 密码状态
      */
-    enum PasswordStatus
-    {
+    public enum PasswordStatus {
         /**
          * 合格
          */
@@ -45,8 +43,7 @@ public class UserAuthenticationManager
     /**
      * 昵称状态
      */
-    enum NameStatus
-    {
+    public enum  NameStatus {
         /**
          * 合格
          */
@@ -64,8 +61,7 @@ public class UserAuthenticationManager
     /**
      * 账号状态
      */
-    enum IdStatus
-    {
+    public enum IdStatus {
         /**
          * 合格
          */
@@ -75,8 +71,6 @@ public class UserAuthenticationManager
          */
         EMPTY
     }
-
-
 
     /**
      * 最短 ID
@@ -137,8 +131,7 @@ public class UserAuthenticationManager
     /**
      * 隐藏默认构造函数
      */
-    private UserAuthenticationManager()
-    {
+    private UserAuthenticationManager() {
     }
 
     /**
@@ -146,10 +139,8 @@ public class UserAuthenticationManager
      *
      * @return 用户权限管理器
      */
-    public static UserAuthenticationManager getUserAuthenticationManager()
-    {
-        if (instance == null)
-        {
+    public static UserAuthenticationManager getUserAuthenticationManager() {
+        if (instance == null) {
             instance = new UserAuthenticationManager();
         }
 
@@ -162,10 +153,8 @@ public class UserAuthenticationManager
      * @param id 账号
      * @return id 设置结果
      */
-    public IdStatus setId(String id)
-    {
-        if (id.length() == 0)
-        {
+    public IdStatus setId(String id) {
+        if (id.length() == 0) {
             return IdStatus.EMPTY;
         }
         this.id = id;
@@ -178,14 +167,11 @@ public class UserAuthenticationManager
      * @param name 昵称
      * @return 设置结果
      */
-    public NameStatus setName(String name)
-    {
-        if (name.length() == 0)
-        {
+    public NameStatus setName(String name) {
+        if (name.length() == 0) {
             return NameStatus.EMPTY;
         }
-        if (name.length() > NAME_MAX)
-        {
+        if (name.length() > NAME_MAX) {
             return NameStatus.TOO_LONG;
         }
         this.name = name;
@@ -198,22 +184,17 @@ public class UserAuthenticationManager
      * @param password 密码
      * @return 设置结果
      */
-    public PasswordStatus setPassword(String password)
-    {
-        if (password.length() == 0)
-        {
+    public PasswordStatus setPassword(String password) {
+        if (password.length() == 0) {
             return PasswordStatus.EMPTY;
         }
-        if (password.length() < PASSWORD_MIN)
-        {
+        if (password.length() < PASSWORD_MIN) {
             return PasswordStatus.TOO_SHORT;
         }
-        if (password.length() > PASSWORD_MAX)
-        {
+        if (password.length() > PASSWORD_MAX) {
             return PasswordStatus.TOO_LONG;
         }
-        if (!password.matches(PASSWORD_PATTERN))
-        {
+        if (!password.matches(PASSWORD_PATTERN)) {
             return PasswordStatus.EASY;
         }
         this.password = password;
@@ -225,8 +206,7 @@ public class UserAuthenticationManager
      *
      * @return 登录状态
      */
-    public LoginStatus login()
-    {
+    public LoginStatus login() {
         /**
          * TODO_LviatYi 登录函数
          * date 2021/6/4
@@ -239,8 +219,7 @@ public class UserAuthenticationManager
      *
      * @return 注册状态
      */
-    public RegisterStatus register()
-    {
+    public RegisterStatus register() {
         /**
          * TODO_LviatYi 尝试注册
          * date 2021/6/4
@@ -248,4 +227,11 @@ public class UserAuthenticationManager
         return RegisterStatus.CONNECTION_FAILED;
     }
 
+    public void SetNew() {
+        /*
+         * TODO_LviatYi 修改用户名、密码
+         * date 2021/6/9
+         */
+
+    }
 }

@@ -1,6 +1,8 @@
 package ChatRoom.SettingManager;
 
 import ChatRoom.ChatRoomGuiControl;
+import UserAuthenticate.UserAuthenticationGui;
+import UserAuthenticate.UserAuthenticationManager;
 
 /**
  * @author May_bebe
@@ -11,7 +13,7 @@ import ChatRoom.ChatRoomGuiControl;
 public class SettingManager {
     private String selfId;
     private String selfName;
-    ChatRoomGuiControl chatRoomGuiControl;
+    public UserAuthenticationManager userAuthenticationManager;
 
 
     /**
@@ -20,6 +22,7 @@ public class SettingManager {
     private SettingManager(String selfId,String selfName) {
         this.selfId=selfId;
         this.selfName=selfName;
+        userAuthenticationManager=UserAuthenticationManager.getUserAuthenticationManager();
     }
 
     /**

@@ -3,7 +3,6 @@ package Socket.Client;
 import Encrypt.EncryptionImpl;
 import Socket.tools.DataPacket;
 import com.alibaba.fastjson.JSONObject;
-import org.omg.CORBA.PUBLIC_MEMBER;
 
 import java.io.*;
 import java.net.Socket;

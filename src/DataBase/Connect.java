@@ -8,19 +8,12 @@ import java.util.List;
 import Socket.tools.*;
 
 /*****************************/
-public class Connect //implements Database
+public class Connect implements Database
 {
     private Connection con;
     private Statement sta;
     private ResultSet rs;
     public static String[] list;
-
-    public void SetMessage(String senderId, String decryptContent, String groupID, Date datetime) {
-    }
-
-    public void CreateFriend(String id, String friendRequestID) {
-    }
-
     public enum LoginStatus
     {
         /**
@@ -155,6 +148,12 @@ public class Connect //implements Database
         }catch(SQLException e){e.printStackTrace();}
         return false;
     }
+
+    @Override
+    public boolean SetMessage(String sender, String message, String groupId, Date datetime) {
+        return false;
+    }
+
     public boolean UpdateLeftTime(String userId)
     {
         con=getConnection();
@@ -185,7 +184,6 @@ public class Connect //implements Database
             while (rs.next()){
                 DataPacket dataPacket = new DataPacket();
                 dataPacket.senderId = rs.getString("sender");
-                dataPacket.receiverId = rs.getString("receiver");
                 dataPacket.message = rs.getString("message");
 
                 msg.add(dataPacket);
@@ -246,8 +244,28 @@ public class Connect //implements Database
 
     public String[] getFriend(){
         //TODO
+        return  null;
     }
-   // public static void main(String[] args) throws SQLException {//测试部分
+    public String[] getGroup(String groupId)
+    {
+            return null;
+    }
+    public List<DataPacket> GetGroupMessage(String groupID)
+    {
+            return null;
+    }
+
+    @Override
+    public String AddGroup(boolean isPrivate)
+    {
+        return null;
+    }
+
+    @Override
+    public boolean CreateFriend(String id, String id_friend) {
+        return false;
+    }
+    // public static void main(String[] args) throws SQLException {//测试部分
        // DataBase.Connect db=new DataBase.Connect();
         //System.out.println(db.Register("11","11"));
        // String id="test";

@@ -1,6 +1,5 @@
 package ChatRoom;
 
-import ChatRoom.ChatRoomGuiControl;
 import ChatRoom.ChatRoomManager.*;
 import ChatRoom.FriendManager.AddressManager;
 import ChatRoom.SettingManager.SettingManager;
@@ -22,7 +21,7 @@ import java.awt.event.ActionListener;
  * @className ChatRoomGui
  * @date 2021/6/4
  */
-public class ChatRoomGui extends JFrame implements ActionListener, ChatRoomGuiControl {
+public class ChatRoomGui extends JFrame implements ActionListener, ChatRoom.ChatManager.ChatRoomGui {
     /**
      * 聊天室信息面板.
      * 用于展示聊天室信息.
@@ -403,6 +402,10 @@ public class ChatRoomGui extends JFrame implements ActionListener, ChatRoomGuiCo
     private String confirmStr = "Please Confirm";
     private String confirmNewChatRoomStr = "Do you want to create a NEW chat room?";
     private String confirmNewChatRoomNameStr = "Confirm the name of the NEW chat room.";
+    private String confirmWrongFriendIdStr="id does not exist!";
+    private String confirmHavingFriendStr="You already have this friend!";
+    private String confirmNoFriendStr="You do not have such friend!";
+    private String confirmModifyNameTitleStr="Modify Name";
     /*
      * TODO_LviatYi 用户名状态
      * date 2021/6/6
@@ -526,13 +529,13 @@ public class ChatRoomGui extends JFrame implements ActionListener, ChatRoomGuiCo
         public void run() {
             super.run();
             chatRoomListPl.removeAll();
-            try {
+            try{
                 ChatRoomList chatRoomList = chatRoomManager.getChatRoomList();
                 for (ChatRoomInfo chatRoomInfo : chatRoomList.getList()) {
                     chatRoomListPl.add(new ChatRoomPanel(chatRoomInfo.getChatRoomId(), chatRoomInfo.getChatRoomName()));
                 }
-            } catch (NullPointerException exception) {
-                JOptionPane.showMessageDialog(null, "You don't have any friends,loser.");
+            }catch (NullPointerException exception){
+                JOptionPane.showMessageDialog(null,"You don't have any friends,loser.");
             }
 
             chatRoomListPl.updateUI();
@@ -591,30 +594,20 @@ public class ChatRoomGui extends JFrame implements ActionListener, ChatRoomGuiCo
     public void actionPerformed(ActionEvent event) {
         switch (event.getActionCommand()) {
             case "addChatRoom":
-                String chatRoomId=chatRoomIdTf.getText();
-                if (chatRoomId.equals(new String(""))) {
+                if (chatRoomIdTf.getText().equals(new String(""))) {
                     return;
                 }
-                switch (chatRoomManager.join(chatRoomId)) {
-                    case QUALIFIED:
-                        /*
-                         * TODO_LviatYi 申请聊天管理 转到该聊天室
-                         * date 2021/6/8
-                         */
-                    case NEW:
-                        /*
-                         * TODO_LviatYi 申请聊天管理 转到该聊天室
-                         * date 2021/6/8
-                         */
-                    case JOINED:
-                        /*
-                         * TODO_LviatYi 申请聊天管理 转到该聊天室
-                         * date 2021/6/8
-                         */
-                    case CANCEL:
-                    default:
-                        break;
-                }
+                    switch (chatRoomManager.join(chatRoomIdTf.getText())){
+                        case QUALIFIED:
+                        case NEW:
+                        case JOINED:
+
+                        case CANCEL:
+                            break;
+                        case NOT_EXIST:
+                        default:
+                            break;
+                    }
                 break;
             case "delChatRoom":
                 break;
@@ -649,6 +642,18 @@ public class ChatRoomGui extends JFrame implements ActionListener, ChatRoomGuiCo
         LoadFriendThread loadFriendThread = new LoadFriendThread();
         loadFriendThread.start();
     }
+
+    @Override
+    public void confirmWrongFriendId()
+    {
+        JOptionPane.showMessageDialog(null,confirmWrongFriendIdStr);
+    }
+
+    @Override
+    public void confirmHavingFriend(){JOptionPane.showMessageDialog(null,confirmHavingFriendStr);}
+
+    @Override
+    public void confirmNoFriend(){JOptionPane.showMessageDialog(null,confirmNoFriendStr);}
 
 
 }

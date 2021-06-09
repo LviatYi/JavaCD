@@ -1,5 +1,7 @@
 package ChatRoom.SettingManager;
 
+
+
 /**
  * @author May_bebe
  * @version 1.0
@@ -7,6 +9,8 @@ package ChatRoom.SettingManager;
  * @date 2021/6/6
  */
 public class SettingManager {
+
+
     /**
      * 修改密码状态
      */
@@ -20,10 +24,6 @@ public class SettingManager {
          * 空
          */
         EMPTY,
-        /**
-         * 相同
-         */
-        SAME,
         /**
          * 过短
          */
@@ -115,6 +115,7 @@ public class SettingManager {
      */
     public ModifyNameStatus modifyName(String name)
     {
+
         if (name.length() == 0)
         {
             return ModifyNameStatus.EMPTY;
@@ -124,6 +125,7 @@ public class SettingManager {
             return ModifyNameStatus.TOO_LONG;
         }
         this.name = name;
+
         return ModifyNameStatus.QUALIFIED;
     }
 
@@ -150,10 +152,6 @@ public class SettingManager {
         if (!password.matches(PASSWORD_PATTERN))
         {
             return ModifyPasswordStatus.EASY;
-        }
-        if(this.password==password)
-        {
-            return ModifyPasswordStatus.SAME;
         }
         this.password = password;
         return ModifyPasswordStatus.QUALIFIED;

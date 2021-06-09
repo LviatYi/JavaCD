@@ -368,7 +368,7 @@ public class ChatRoomGui extends JFrame implements ActionListener, ChatRoomGuiCo
     private JLabel userNameLb;
     private JLabel userIdLb;
     private JTabbedPane toolTabs;
-    private JScrollPane friendSp;
+    private JScrollPane leftSp;
     private JScrollPane chatSp;
     private JButton addFriendBtn;
     private JButton delFriendBtn;

@@ -2,19 +2,18 @@ package DataBase;
 
 import java.sql.*;
 import java.util.*;
+import java.util.Date;
 import java.util.List;
 
 import Socket.tools.*;
 
-/*****************************/
-public class Connect //implements Database
-{
+public class Connect implements Database {
     private Connection con;
     private Statement sta;
     private ResultSet rs;
     public static String[] list;
-    public enum LoginStatus
-    {
+
+    public enum LoginStatus {
         /**
          * 登录成功
          */
@@ -51,37 +50,28 @@ public class Connect //implements Database
             sta = con.createStatement();
             System.out.println("连接成功");
         } catch (SQLException e) {
-             System.out.println("连接失败");
+            System.out.println("连接失败");
             e.printStackTrace();
         }
         return con;
     }
 
-
-    /*public void Establish() throws SQLException//建立数据库的表
-    {con=getConnection();//连接之前的数据库
-        Statement stat = con.createStatement();
-        //创建表test
-        stat.executeUpdate("create table userInfo(id varchar(10), password varchar(20),name varchar(10),leftTime datetime)");
-        stat.executeUpdate("create table message(sender varchar(50),receiver varchar(50) ,message text,dateTime datetime,id varchar(50))");
-        stat.executeUpdate("create table friend(id varchar(50), id_friend varchar(50),name_friend varchar(50))");
-        //System.out.println("建立表成功");
-
-    }*/
-    String sui(){
-        int num= (int) Math.floor(Math.random()*11);
-        while(num<6||num>10)
-            num= (int) Math.floor(Math.random()*11);
+    String sui() {
+        int num = (int) Math.floor(Math.random() * 11);
+        while (num < 6 || num > 10)
+            num = (int) Math.floor(Math.random() * 11);
         //System.out.println(num);
-        int a= (int) Math.pow(10,(num-1));
-        int random6=(int)((Math.random()*9+1)*a);
-        String a1=String.valueOf(random6);
-        con=getConnection();
-        try{
-            Statement st=con.createStatement();
-            String sql="select id from userInfo where id='"+a1+"'";
-            ResultSet rs=st.executeQuery(sql);
-            if(rs.next()){sui();}
+        int a = (int) Math.pow(10, (num - 1));
+        int random6 = (int) ((Math.random() * 9 + 1) * a);
+        String a1 = String.valueOf(random6);
+        con = getConnection();
+        try {
+            Statement st = con.createStatement();
+            String sql = "select id from userInfo where id='" + a1 + "'";
+            ResultSet rs = st.executeQuery(sql);
+            if (rs.next()) {
+                sui();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -89,169 +79,150 @@ public class Connect //implements Database
         return a1;
     }
 
-    public LoginStatus LogIn(String id,String password)   //登录  查询id和password是否与数据库匹配
-    {       con=getConnection();
-        try{Statement st = con.createStatement();
+    @Override
+    public LoginStatus LogIn(String id, String password)   //登录  查询id和password是否与数据库匹配
+    {
+        con = getConnection();
+        try {
+            Statement st = con.createStatement();
             String sql = "SELECT * FROM userInfo where id='" + id + "'";//and password ='" + password + "'"\;
             ResultSet rs = st.executeQuery(sql);
-            while(rs.next()) {
+            while (rs.next()) {
                 //System.out.println(rs.getString(2));
                 //System.out.println(password);
-                String m1=rs.getString(2);
-                if(password.equals(m1)) return LoginStatus.SUCCESS;
-                else{ return LoginStatus.PASSWORD_ERROR;}}
-        }catch(SQLException e){e.printStackTrace();}return LoginStatus.ID_NOT_EXIST;}
+                String m1 = rs.getString(2);
+                if (password.equals(m1)) return LoginStatus.SUCCESS;
+                else {
+                    return LoginStatus.PASSWORD_ERROR;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return LoginStatus.ID_NOT_EXIST;
+    }
 
+    @Override
     public int Register(String password, String name)//注册   添加id，密码，账号
     {
-        con=getConnection();
-        try{String sql="insert into userInfo (id,password,name,;leftTime) values(?,?,?,?)";
-            PreparedStatement st=con.prepareStatement(sql);
-            String a=sui();
-            String b=Tool.getTime();
-            st.setString(1,a);
-            st.setString(2,password);
-            st.setString(3,name);
-            st.setString(4,b);
-            int rs=st.executeUpdate();
-            int c=Integer.parseInt(a);
+        con = getConnection();
+        try {
+            String sql = "insert into userInfo (id,password,name,;leftTime) values(?,?,?,?)";
+            PreparedStatement st = con.prepareStatement(sql);
+            String a = sui();
+            String b = Tool.getTime();
+            st.setString(1, a);
+            st.setString(2, password);
+            st.setString(3, name);
+            st.setString(4, b);
+            int rs = st.executeUpdate();
+            int c = Integer.parseInt(a);
             return c;
-        }catch (SQLException e){e.printStackTrace();}
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         return 0;
     }
 
 
-    public boolean ModifyPassword(String id,String password_now)//修改密码
-    {               con=getConnection();
-        try{String sql="update userInfo set password=? where id=?";
-            PreparedStatement st=con.prepareStatement(sql);
-            st.setString(1,password_now);
-            st.setString(2,id);
-            int rs=st.executeUpdate();
+    @Override
+    public boolean ModifyPassword(String id, String password_now)//修改密码
+    {
+        con = getConnection();
+        try {
+            String sql = "update userInfo set password=? where id=?";
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setString(1, password_now);
+            st.setString(2, id);
+            int rs = st.executeUpdate();
             // System.out.println("修改password成功");
             return true;
-        }catch(SQLException e){e.printStackTrace();}
-        return false;
-    }
-    public boolean ModifyName(String id,String name_now)//修改昵称
-    {               con=getConnection();
-        try{String sql="update userInfo set name=? where id=?";
-            PreparedStatement st=con.prepareStatement(sql);
-            st.setString(1,name_now);
-            st.setString(2,id);
-
-            int rs=st.executeUpdate();
-            return true;
-            //System.out.println("修改name成功");
-        }catch(SQLException e){e.printStackTrace();}
-        return false;
-    }
-    public boolean UpdateLeftTime(String userId)
-    {
-        con=getConnection();
-        try{String sql="update userInfo set leftTime=? where id=?";
-            PreparedStatement st=con.prepareStatement(sql);
-            String datetime=Tool.getTime();
-            st.setString(1,datetime);
-            st.setString(2,userId);
-            int rs=st.executeUpdate();
-            return true;
-            //System.out.println("修改name成功");
-        }catch(SQLException e){e.printStackTrace();}
-        return false;
-    }
-
-
-    public List<Message> GetMessage(String id) {
-        List<Message> msg = new ArrayList<>();
-        con = getConnection();
-
-        try {   Statement st = con.createStatement();
-            String sql = "SELECT message.sender,message.receiver,message.message" +
-                    "FROM message a,userInfo b" +
-                    " where b.leftTime > a.dateTime and a.receiver = '"+id+"'" +
-                    "or b.leftTime > a.dateTime and a.receiver = NULL";
-
-            ResultSet rs = st.executeQuery(sql);
-            while (rs.next()){
-                Message message = new Message();
-                message.senderId = rs.getString("sender");
-                message.receiverId = rs.getString("receiver");
-                message.message = rs.getString("message");
-
-                msg.add(message);
-            }
-
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return msg;
-    }
-
-
-    public boolean SetMessage(String sender,String receiver,String message,String id)
-    {
-        con=getConnection();
-        try{String sql="insert into message (sender,receiver,message,dateTime,id) values(?,?,?,?,?)";
-            PreparedStatement st=con.prepareStatement(sql);
-            String datetime=Tool.getTime();
-            st.setString(1,sender);
-            st.setString(2,receiver);
-            st.setString(3,message);
-            st.setString(4,datetime);
-            // st.setString(5,type);
-            st.setString(5,id);
-            int rs=st.executeUpdate();
-            return true;
-        }catch (SQLException e){e.printStackTrace();}
         return false;
     }
 
-    public boolean  CreateFriend(String id,String id_friend,String name_friend)//添加好友数据
+    @Override
+    public boolean ModifyName(String id, String name_now)//修改昵称
     {
+        con = getConnection();
+        try {
+            String sql = "update userInfo set name=? where id=?";
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setString(1, name_now);
+            st.setString(2, id);
 
-        con=getConnection();
-        try{String sql="insert into friend (id,id_friend,name_friend) values(?,?,?)";
-            PreparedStatement st=con.prepareStatement(sql);
-            st.setString(1,id);
-            st.setString(2,id_friend);
-            st.setString(3,name_friend);
-            int rs=st.executeUpdate();
+            int rs = st.executeUpdate();
             return true;
-        }catch (SQLException e){e.printStackTrace();}
-        return false;
-    }
-    public boolean DeleteFriend(String id)//删除好友
-    {
-        con=getConnection();
-        try{String sql="delete from friend where id_friend=? ";
-            PreparedStatement st=con.prepareStatement(sql);
-            st.setString(1,id);
-            int rs=st.executeUpdate();
-            // System.out.println("删除好友成功");
-            return true;
-        }catch(SQLException e){e.printStackTrace();}
+            //System.out.println("修改name成功");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return false;
     }
 
-   // public static void main(String[] args) throws SQLException {//测试部分
-       // DataBase.Connect db=new DataBase.Connect();
-        //System.out.println(db.Register("11","11"));
-       // String id="test";
-       // String password="123";
-       // String name="jdasda";
-        // String time="2021-06-06 19:35:33:110";
-        //System.out.println(db.register(id,name,password));
-        // System.out.println(db.LogIn(id,name));
-        // String a=Tool.getTime();
-        //System.out.println(a);
-        //db.GetMessage(time);
-        // System.out.println(Tool.getTime());
-        //System.out.println(db.Register(password,name));
-
+    //TODO
+    //增加消息至消息表
+    //重新构建消息表，其中属性有(发送者，发送内容，发送聊天室ID，发送时间)
+    @Override
+    public boolean SetMessage(String sender, String message, String groupId, Date datetime) {
+        return false;
     }
+
+    //TODO
+    //删除好友
+    //在发起人的好友表中删除旧好友并且在旧好友的好友表中删除发起人
+    //好友表为索引
+    @Override
+    public boolean DeleteFriend(String s, String id)//删除好友
+    {
+        return true;
+    }
+
+    //TODO
+    //返回传入ID的好友列表
+    //好友列表使用索引在数据库创建
+    @Override
+    public String[] getFriend(String id) {
+        return null;
+    }
+
+    //TODO
+    //返回传入聊天室的组员
+    @Override
+    public String[] getGroup(String groupId) {
+        return null;
+    }
+
+    //TODO
+    //返回传入聊天室的历史记录
+    @Override
+    public List<DataPacket> GetGroupMessage(String groupID) {
+        return null;
+    }
+
+    //TODO
+    //增加聊天室
+    //返回聊天室ID
+    //ID为随机并存入数据库聊天室表
+    //聊天室表为索引，存储聊天室组员ID和属性聊天室ID
+    @Override
+    public String AddGroup(boolean isPrivate) {
+        return null;
+    }
+
+    //TODO
+    //增加好友
+    //在发起人的好友表中添加新增好友并且在新增好友的好友表中增加发起人
+    //好友表为索引
+    @Override
+    public boolean CreateFriend(String id, String id_friend) {
+        return false;
+    }
+
+}
 
 
 

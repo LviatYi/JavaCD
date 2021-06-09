@@ -1,5 +1,7 @@
 package Socket.tools;
 
+import java.util.Date;
+
 /**
  * Created with IntelliJ IDEA.
  *
@@ -7,26 +9,37 @@ package Socket.tools;
  * @Date: 2021/06/05/11:24
  * @Description: Message class for json
  */
-public class Message {
+public class DataPacket {
     public String id;
+    public String friendRequestID;
     public String name;
     public String password;
     public String senderId;
-    public String receiverId;
     public String message;
     public String groupID;
     public transportType type;
     public MSGLoginStatus loginStatus;
+    public String geyHistoryGroupID;
     public MSGRegisterStatus registerStatus;
+    public Date datetime;
+
+
+
 
     public enum transportType{
         EXIT,
         LOGIN,
         REGISTER,
-        SEND_GROUP_MESSAGE,
-        SEND_PRIVATE_MESSAGE,
+        SEND_MESSAGE,
         MODIFY_NAME,
-        MODIFY_PASSWORD
+        MODIFY_PASSWORD,
+        GET_HISTORY_MESSAGE,
+        ADD_GROUP,
+        ADD_PRIVATE_GROUP,
+        ADD_FRIEND,
+        DEL_FRIEND,
+        RETURN_FRIEND_LIST,
+        RETURN_GROUP_LIST
     }
     public enum MSGLoginStatus{
         /**

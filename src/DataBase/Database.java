@@ -1,9 +1,8 @@
 package DataBase;
 
-import Socket.tools.Message;
+import Socket.tools.DataPacket;
 
-import java.sql.Connection;
-import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 public interface Database {
@@ -17,7 +16,7 @@ public interface Database {
       *         PASSWORD_ERROR  账号存在&密码错误
       *         ID_NOT_EXIST   账号不存在
       */
-     //public DataBase.Connect.LoginStatus Login(String id, String password);
+     Connect.LoginStatus LogIn(String id, String password);
 
 
     /**
@@ -45,46 +44,57 @@ public interface Database {
      */
      boolean ModifyName(String id,String name_now);
 
- /**
-  * 添加消息至数据库
-  * @param id 账号
-  * @param sender 发送者
-  * @param receiver 接收者
-  * @param message 内容
-  * 时间自动给出
-  *@return  true/false
-  */
-      boolean SetMessage(String sender,String receiver,String message,String id);
+    /**
+     * 添加消息至数据库
+     * @param groupId 账号
+     * @param sender 发送者
+     * @param message 内容
+     * @param datetime 客户端发送时间
+     * 时间自动给出
+     *@return  true/false
+     */
+    boolean SetMessage(String sender, String message, String groupId, Date datetime);
 
     /**
-     * 将对应用户的离开时间改为当前系统时间
-     * @param userId 用户id
-     *               @return  true/false
+     * 返回聊天室历史消息
+     * @param groupID 聊天室ID
+     * @return DataPacket list
      */
-     boolean UpdateLeftTime(String userId);
+     List<DataPacket> GetGroupMessage(String groupID);
 
     /**
-     * 选择dateTime时间以后的信息
-     * @param id
-     * @return 消息集
+     *
+     * @param isPrivate 是否是私有，在数据库聊天室属性添加私有为true
+     * @return 返回随机群号（不重复）
      */
-     List<Message> GetMessage(String id);
-
+     String AddGroup(boolean isPrivate);
     /**
      * 添加好友信息至好友表（friend）
      * @param id 自己账号
      * @param id_friend 好友账号
-     * @param name_friend 好友昵称
      *@return  true/false
      */
-     boolean  CreateFriend(String id,String id_friend,String name_friend);
+     boolean  CreateFriend(String id,String id_friend);
 
     /**
      * 输入好友账号将信息从数据库中删除
-     * @param id 好友账号
+     * @param id 自己ID
+     * @param id_friend 好友ID
      *           @return  true/false
      */
-     boolean DeleteFriend(String id);
+     boolean DeleteFriend(String id,String id_friend);
 
+    /**
+     * 返回Friend 数组
+     * @param id 获取ID账号的好友列表
+     * @return String 数组
+     */
+     String[] getFriend(String id);
 
+    /**
+     * 返回group成员
+     * @param groupId  聊天室ID
+     * @return String 数组
+     */
+     String[] getGroup(String groupId);
 }

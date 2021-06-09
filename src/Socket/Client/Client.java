@@ -23,13 +23,6 @@ public interface Client {
      */
     public void sendGroup(String text,String senderID,String groupID);
 
-    /**
-     *
-     * @param text 消息
-     * @param receiverID 接受者id
-     * @param senderID 发送者id
-     */
-    public void sendPrivate(String text,String receiverID,String senderID);
 
     /**
      *
@@ -44,12 +37,6 @@ public interface Client {
      * @param password 登录密码
      */
     public void login(String id,String password);
-
-    /**
-     * 拆分获得的消息包到客户端类
-     * 解包调用message时记得调用解密！！！！！！！！！！
-     */
-    public void splitList();
 
     /**
      *

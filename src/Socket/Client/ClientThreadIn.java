@@ -1,6 +1,6 @@
 package Socket.Client;
 
-import Socket.tools.Message;
+import Socket.tools.DataPacket;
 import com.alibaba.fastjson.JSON;
 
 import java.io.*;
@@ -12,7 +12,6 @@ public class ClientThreadIn extends Thread {
 
     private Socket server;
     public boolean exit = false;
-    public List<Message> msgList = new ArrayList<>();
 
     public ClientThreadIn() {
     }
@@ -33,7 +32,8 @@ public class ClientThreadIn extends Thread {
             while (!exit) {
                 DataInputStream in = new DataInputStream(server.getInputStream());
                 String str = in.readUTF();
-                msgList.add(JSON.parseObject(str, Message.class));
+                DataPacket dp = JSON.parseObject(str,DataPacket.class);
+
             }
         } catch (IOException e) {
             e.printStackTrace();

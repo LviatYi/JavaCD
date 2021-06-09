@@ -35,6 +35,7 @@ public class DataPacket {
         MODIFY_PASSWORD,
         GET_HISTORY_MESSAGE,
         ADD_GROUP,
+        ADD_PRIVATE_GROUP,
         ADD_FRIEND,
         DEL_FRIEND,
         RETURN_FRIEND_LIST,

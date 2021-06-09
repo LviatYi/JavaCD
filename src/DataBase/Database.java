@@ -70,8 +70,12 @@ public interface Database {
      */
      List<DataPacket> GetGroupMessage(String groupID);
 
-     boolean AddGroup();
-
+    /**
+     *
+     * @param isPrivate 是否是私有，在数据库聊天室属性添加私有为true
+     * @return 返回随机群号（不重复）
+     */
+     String AddGroup(boolean isPrivate);
     /**
      * 添加好友信息至好友表（friend）
      * @param id 自己账号

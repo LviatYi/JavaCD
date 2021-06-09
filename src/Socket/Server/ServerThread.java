@@ -8,7 +8,6 @@ import com.alibaba.fastjson.JSONObject;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.Date;
 import java.util.List;
 
 /*
@@ -106,7 +105,18 @@ public class ServerThread extends Thread{
                 }
                 case ADD_GROUP:
                 {
-
+                    DataPacket temp = new DataPacket();
+                    temp.groupID=database.AddGroup(false);
+                    temp.type = DataPacket.transportType.ADD_GROUP;
+                    sendMsg(temp);
+                    break;
+                }
+                case ADD_PRIVATE_GROUP:
+                {
+                    DataPacket temp = new DataPacket();
+                    temp.groupID=database.AddGroup(true);
+                    temp.type = DataPacket.transportType.ADD_PRIVATE_GROUP;
+                    sendMsg(temp);
                     break;
                 }
                 //修改名字

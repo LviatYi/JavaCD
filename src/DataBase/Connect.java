@@ -256,8 +256,9 @@ public class Connect implements Database
     }
 
     @Override
-    public boolean AddGroup() {
-        return false;
+    public String AddGroup(boolean isPrivate)
+    {
+        return null;
     }
 
     @Override

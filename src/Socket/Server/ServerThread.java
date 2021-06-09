@@ -108,7 +108,7 @@ public class ServerThread extends Thread{
                     DataPacket temp = new DataPacket();
                     temp.chatRoomID =database.CreateChatRoom(false);
                     temp.type = DataPacket.transportType.CREATE_CHATROOM;
-                    MultiThread.addGroup(dataPacket.id,temp.chatRoomID);
+                    MultiThread.addChatRoom(dataPacket.id,temp.chatRoomID);
                     sendMsg(temp);
                     break;
                 }
@@ -117,7 +117,7 @@ public class ServerThread extends Thread{
                     DataPacket temp = new DataPacket();
                     temp.chatRoomID =database.CreateChatRoom(true);
                     temp.type = DataPacket.transportType.CREATE_PRIVATE_CHATROOM;
-                    MultiThread.addGroup(dataPacket.id,temp.chatRoomID);
+                    MultiThread.addChatRoom(dataPacket.id,temp.chatRoomID);
                     sendMsg(temp);
                     break;
                 }

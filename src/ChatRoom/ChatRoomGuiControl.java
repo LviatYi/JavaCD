@@ -30,9 +30,4 @@ public interface ChatRoomGuiControl {
      */
     void updateFriendListPl();
 
-    /**
-     *
-     */
-
-    void confirmWrongModifyPassword();
 }

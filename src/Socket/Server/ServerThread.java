@@ -147,7 +147,7 @@ public class ServerThread extends Thread{
                 //返回好友列表
                 case RETURN_FRIEND_LIST:
                 {
-                    String[] friend1 = database.getFriend();
+                    String[] friend1 = database.getFriend(dataPacket.id);
                     for (String friend:friend1)
                     {
                         DataPacket temp = new DataPacket();
@@ -185,7 +185,6 @@ public class ServerThread extends Thread{
         }
 
         //关闭连接
-        database.UpdateLeftTime(SocketID);
         this.closeMe();
     }
 

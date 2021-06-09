@@ -44,24 +44,16 @@ public interface Database {
      */
      boolean ModifyName(String id,String name_now);
 
- /**
-  * 添加消息至数据库
-  * @param groupId 账号
-  * @param sender 发送者
-  * @param message 内容
-  * @param datetime 客户端发送时间
-  * 时间自动给出
-  *@return  true/false
-  */
-    boolean SetMessage(String sender, String message, String groupId, Date datetime);
-
     /**
-     * 将对应用户的离开时间改为当前系统时间
-     * @param userId 用户id
-     *               @return  true/false
+     * 添加消息至数据库
+     * @param groupId 账号
+     * @param sender 发送者
+     * @param message 内容
+     * @param datetime 客户端发送时间
+     * 时间自动给出
+     *@return  true/false
      */
-     boolean UpdateLeftTime(String userId);
-
+    boolean SetMessage(String sender, String message, String groupId, Date datetime);
 
     /**
      * 返回聊天室历史消息
@@ -94,9 +86,10 @@ public interface Database {
 
     /**
      * 返回Friend 数组
+     * @param id 获取ID账号的好友列表
      * @return String 数组
      */
-     String[] getFriend();
+     String[] getFriend(String id);
 
     /**
      * 返回group成员

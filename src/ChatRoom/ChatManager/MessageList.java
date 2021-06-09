@@ -6,7 +6,7 @@ import java.util.Vector;
  * 聊天室的聊天记录
  *
  * @author LviatYi
- * @version TODO_LviatYi
+ * @version 1.0
  * @className MessageList
  * @date 2021/6/8
  */
@@ -52,7 +52,8 @@ public class MessageList {
         return this.chatRoomId;
     }
 
-    Vector<Message> getList() {
+    public Vector<Message> getList() {
         return this.list;
     }
+
 }

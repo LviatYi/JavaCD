@@ -1,10 +1,12 @@
 package ChatRoom;
 
-import ChatRoom.ChatRoomGuiControl;
+import ChatRoom.ChatManager.ChatManager;
+import ChatRoom.ChatManager.Message;
 import ChatRoom.ChatRoomManager.*;
 import ChatRoom.FriendManager.AddressManager;
+import ChatRoom.FriendManager.FriendInfo;
+import ChatRoom.FriendManager.FriendList;
 import ChatRoom.SettingManager.SettingManager;
-import Socket.tools.Message;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -12,6 +14,8 @@ import javax.swing.text.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 /**
  * Jchat 聊天室 Gui.
@@ -24,6 +28,8 @@ import java.awt.event.ActionListener;
  * @date 2021/6/4
  */
 public class ChatRoomGui extends JFrame implements ActionListener, ChatRoomGuiControl {
+    //自定义面板
+
     /**
      * 聊天室信息面板.
      * 用于展示聊天室信息.
@@ -31,40 +37,76 @@ public class ChatRoomGui extends JFrame implements ActionListener, ChatRoomGuiCo
     private class ChatRoomPanel extends JPanel {
         @Override
         public void setBorder(Border border) {
-            super.setBorder(BorderFactory.createEtchedBorder());
+            super.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2));
         }
 
-        private String chatRoomId;
-        private String chatRoomName;
+        @Override
+        public void setBackground(Color bg) {
+            super.setBackground(Color.LIGHT_GRAY);
+        }
+
+        private ChatRoomInfo chatRoomInfo;
         private JLabel nameLb;
         private JLabel idLb;
 
         /**
-         * @param chatRoomId   聊天室 ID
-         * @param chatRoomName 聊天室 Name
+         * @param chatRoomInfo 聊天室信息
          */
-        public ChatRoomPanel(String chatRoomId, String chatRoomName) {
-            nameLb = new JLabel();
-            idLb = new JLabel();
+        public ChatRoomPanel(ChatRoomInfo chatRoomInfo) {
+            this.chatRoomInfo = chatRoomInfo;
             this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
             this.add(nameLb);
             this.add(idLb);
-            this.chatRoomName = chatRoomName;
-            this.chatRoomId = chatRoomId;
+
+            this.chatRoomInfo.setChatRoomName(chatRoomInfo.getChatRoomName());
+            this.chatRoomInfo.setChatRoomId(chatRoomInfo.getChatRoomId());
+
             this.nameLb.setText("<html>\n" +
                     "    <body>\n" +
                     "        <div style=\"font-size: 16px;font-family: 'Trebuchet MS';\">\n" +
-                    chatRoomName +
+                    chatRoomInfo.getChatRoomName() +
                     "        </div>\n" +
                     "    </body>\n" +
                     "</html>\n");
             this.idLb.setText("<html>\n" +
                     "    <body>\n" +
                     "        <div style=\"font-size: 12px;font-family: 'Trebuchet MS';\">\n" +
-                    chatRoomId +
+                    chatRoomInfo.getChatRoomId() +
                     "        </div>\n" +
                     "    </body>\n" +
                     "</html>\n");
+
+            this.addMouseListener(new MouseListener() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    chatManager.setCurrentChatRoomInfo(getChatRoomInfo());
+                    updateChatPl(getChatRoomInfo());
+                }
+
+                @Override
+                public void mousePressed(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    setBackground(new Color(200, 200, 200));
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    setBackground(Color.LIGHT_GRAY);
+                }
+            });
+        }
+
+        public ChatRoomInfo getChatRoomInfo() {
+            return chatRoomInfo;
         }
     }
 
@@ -75,48 +117,76 @@ public class ChatRoomGui extends JFrame implements ActionListener, ChatRoomGuiCo
     private class FriendPanel extends JPanel {
         @Override
         public void setBorder(Border border) {
-            super.setBorder(BorderFactory.createEtchedBorder());
+            super.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2));
         }
 
-        private String friendId;
-        private String friendName;
+        @Override
+        public void setBackground(Color bg) {
+            super.setBackground(Color.LIGHT_GRAY);
+        }
+
+        private FriendInfo friendInfo;
         private JLabel nameLb;
         private JLabel idLb;
 
         /**
-         * @param friendId   好友 ID
-         * @param friendName 好友 Name
+         * @param friendInfo 好友信息
          */
-        public FriendPanel(String friendId, String friendName) {
+        public FriendPanel(FriendInfo friendInfo) {
             nameLb = new JLabel();
             idLb = new JLabel();
             this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
             this.add(nameLb);
             this.add(idLb);
-            this.friendName = friendName;
-            this.friendId = friendId;
+            this.friendInfo = friendInfo;
             this.nameLb.setText("<html>\n" +
                     "    <body>\n" +
                     "        <div style=\"font-size: 16px;font-family: 'Trebuchet MS';\">\n" +
-                    friendName +
+                    this.friendInfo.getFriendName() +
                     "        </div>\n" +
                     "    </body>\n" +
                     "</html>\n");
             this.idLb.setText("<html>\n" +
                     "    <body>\n" +
                     "        <div style=\"font-size: 12px;font-family: 'Trebuchet MS';\">\n" +
-                    friendId +
+                    this.friendInfo.getFriendId() +
                     "        </div>\n" +
                     "    </body>\n" +
                     "</html>\n");
+            this.addMouseListener(new MouseListener() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    entryFriendChatRoom(friendInfo.getFriendId());
+                }
+
+                @Override
+                public void mousePressed(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    setBackground(new Color(200, 200, 200));
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    setBackground(Color.LIGHT_GRAY);
+                }
+            });
         }
 
-        public void setFriendId(String friendId) {
-            this.friendId = friendId;
+        public void setFriendInfo(FriendInfo friendInfo) {
+            this.friendInfo = friendInfo;
         }
 
-        public void setFriendName(String friendName) {
-            this.friendName = friendName;
+        public FriendInfo getFriendInfo() {
+            return friendInfo;
         }
     }
 
@@ -248,26 +318,25 @@ public class ChatRoomGui extends JFrame implements ActionListener, ChatRoomGuiCo
                 senderLb.setHorizontalAlignment(SwingConstants.LEFT);
                 this.add(thisMsgPl, BorderLayout.WEST);
             }
-
         }
     }
 
     /**
-     * 聊天管理类
+     * 聊天室管理类
      */
-    private ChatRoomManager chatRoomManager = ChatRoomManager.getChatRoomManager();
+    private ChatRoomManager chatRoomManager;
     /**
      * 通讯录管理类
      */
-    private AddressManager addressManager = AddressManager.getAddressManager();
+    private AddressManager addressManager;
     /**
      * 设置管理类
      */
-    private SettingManager settingManager = SettingManager.getSettingManager();
+    private SettingManager settingManager;
     /**
-     * 当前聊天室信息
+     * 聊天管理类
      */
-    private ChatRoomInfo currentChatRoomInfo;
+    private ChatManager chatManager;
 
     /**
      * GUI 元素
@@ -316,13 +385,14 @@ public class ChatRoomGui extends JFrame implements ActionListener, ChatRoomGuiCo
     private JPasswordField setPassword2Tf;
     private JLabel chatRoomListLoadingStatusLb;
     private JLabel addressListLoadingStatusLb;
+    private JLabel chatRoomTitleLb;
+    private JTextPane inputTf;
 
     /**
      * 附加线程
      */
     private LoadChatRoomThread loadChatRoomThread = new LoadChatRoomThread();
     private LoadFriendThread loadFriendThread = new LoadFriendThread();
-    private LoadMessageThread loadMessageThread = new LoadMessageThread();
 
     /**
      * 窗口标题文本
@@ -416,7 +486,6 @@ public class ChatRoomGui extends JFrame implements ActionListener, ChatRoomGuiCo
      * TODO_LviatYi 密码状态
      * date 2021/6/6
      */
-
     /*
      * TODO_LviatYi UserId UserName 显示
      * date 2021/6/6
@@ -436,11 +505,26 @@ public class ChatRoomGui extends JFrame implements ActionListener, ChatRoomGuiCo
             "        </div>\n" +
             "    </body>\n" +
             "</html>\n";
+    private String noChatRoomSelected = "<html>\n" +
+            "    <body>\n" +
+            "        <div style=\"font-size: 16px;font-family: 'Trebuchet MS';\">\n" +
+            "            No chat room selected\n" +
+            "        </div>\n" +
+            "    </body>\n" +
+            "</html>";
 
     /**
      * 覆写默认构造函数。
      */
-    public ChatRoomGui() {
+    public ChatRoomGui(String selfId, String selfName) {
+        this.chatRoomManager = ChatRoomManager.getChatRoomManager();
+        this.addressManager = AddressManager.getAddressManager();
+        this.settingManager = SettingManager.getSettingManager(selfId, selfName);
+        this.chatManager = ChatManager.getChatManager();
+
+        this.settingManager.setSelfId(selfId);
+        this.settingManager.setSelfName(selfName);
+
         prepareGui();
 
     }
@@ -464,12 +548,13 @@ public class ChatRoomGui extends JFrame implements ActionListener, ChatRoomGuiCo
         /**
          * 加载提示文字
          */
+        chatRoomTitleLb.setText(noChatRoomSelected);
         noMoreMsgLb.setText(noMoreMsgLbStr);
         setNameStatusLb.setText(setNameLbStr);
         setPasswordStatusLb.setText("");
         setPassword2StatusLb.setText("");
-        userNameLb.setText(loading);
-        userIdLb.setText(loading);
+        userNameLb.setText(settingManager.getSelfName());
+        userIdLb.setText(settingManager.getSelfId());
         setNamePl.setBorder(BorderFactory.createTitledBorder(setNameLbStr));
         setPasswordPl.setBorder(BorderFactory.createTitledBorder(setPasswordLbStr));
         setPassword2Pl.setBorder(BorderFactory.createTitledBorder(setPassword2LbStr));
@@ -483,19 +568,22 @@ public class ChatRoomGui extends JFrame implements ActionListener, ChatRoomGuiCo
         sendMsgBtn.setText(sendMsgBtnStr);
         exitBtn.setText(exitBtnStr);
 
-        currentChatRoomInfo=new ChatRoomInfo();
-
         // 添加侦听器
         addChatRoomBtn.addActionListener(this);
-        addFriendBtn.addActionListener(this);
         delChatRoomBtn.addActionListener(this);
+        addFriendBtn.addActionListener(this);
         delFriendBtn.addActionListener(this);
         moreMsgBtn.addActionListener(this);
         sendMsgBtn.addActionListener(this);
         exitBtn.addActionListener(this);
         confirmSetBtn.addActionListener(this);
 
-        //限制 仅数字输入
+        noMoreMsgLb.setVisible(false);
+        moreMsgBtn.setVisible(false);
+
+        /**
+         * Document:仅限数字
+         */
         class IntegerDocument extends PlainDocument {
             @Override
             public void insertString(int offset, String s, AttributeSet attributeSet) throws BadLocationException {
@@ -508,6 +596,7 @@ public class ChatRoomGui extends JFrame implements ActionListener, ChatRoomGuiCo
                 super.insertString(offset, s, attributeSet);
             }
         }
+
         chatRoomIdTf.setDocument(new IntegerDocument());
         friendIdTf.setDocument(new IntegerDocument());
 
@@ -517,32 +606,21 @@ public class ChatRoomGui extends JFrame implements ActionListener, ChatRoomGuiCo
 
         loadChatRoomThread.start();
         loadFriendThread.start();
-        loadMessageThread.start();
+
+//        updateChatPl();
 
     }
 
     private void prepareLoadingGui() {
         chatRoomListLoadingStatusLb.setText(loading);
         addressListLoadingStatusLb.setText(loading);
-        userNameLb.setText(loading);
-        userIdLb.setText(loading);
     }
 
     private class LoadChatRoomThread extends Thread {
         @Override
         public void run() {
             super.run();
-            chatRoomListPl.removeAll();
-            try {
-                ChatRoomList chatRoomList = chatRoomManager.getChatRoomList();
-                for (ChatRoomInfo chatRoomInfo : chatRoomList.getList()) {
-                    chatRoomListPl.add(new ChatRoomPanel(chatRoomInfo.getChatRoomId(), chatRoomInfo.getChatRoomName()));
-                }
-            } catch (NullPointerException exception) {
-                JOptionPane.showMessageDialog(null, "You don't have any friends,loser.");
-            }
-
-            chatRoomListPl.updateUI();
+            updateChatRoomPl();
         }
     }
 
@@ -550,35 +628,10 @@ public class ChatRoomGui extends JFrame implements ActionListener, ChatRoomGuiCo
         @Override
         public void run() {
             super.run();
-            /*
-             * TODO_LviatYi 加载 FriendList 并绘制 FriendListPanel
-             * date 2021/6/6
-             */
-//            chatRoomListPl.add(new JButton("Hello"));
-            chatRoomListPl.updateUI();
+            updateFriendPl();
         }
     }
 
-    private class LoadMessageThread extends Thread {
-        @Override
-        public void run() {
-            super.run();
-            /*
-             * TODO_LviatYi 加载 new message
-             * date 2021/6/6
-             */
-            msgPl.add(new MessagePanel("Hello World!AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", true));
-            /**
-             * 2021.06.07 1:30-2:20
-             * 持续尝试解决控件不显示问题
-             * 最终得知 Swing 的 Panel 不刷新 bug
-             * 真他妈的气人
-             * 特此留念
-             */
-
-            msgPl.updateUI();
-        }
-    }
 
     /*
      * TODO_LviatYi 结束后需删除
@@ -591,82 +644,97 @@ public class ChatRoomGui extends JFrame implements ActionListener, ChatRoomGuiCo
      * @param args 传入参数
      */
     public static void main(String[] args) {
-        ChatRoomGui chatRoomGui = new ChatRoomGui();
+        ChatRoomGui chatRoomGui = new ChatRoomGui("123456", "Abc");
     }
 
+    /**
+     * action 触发事件
+     *
+     * @param event
+     */
     @Override
     public void actionPerformed(ActionEvent event) {
         String input;
         switch (event.getActionCommand()) {
             case "addChatRoom":
-                input=chatRoomIdTf.getText();
-                if (input.equals(new String(""))) {
+                input = chatRoomIdTf.getText();
+                if ("".equals(input)) {
                     return;
                 }
                 switch (chatRoomManager.join(input)) {
                     case QUALIFIED:
-                        /*
-                         * TODO_LviatYi 申请聊天管理 转到该聊天室
-                         * date 2021/6/8
-                         */
                     case NEW:
-                        /*
-                         * TODO_LviatYi 申请聊天管理 转到该聊天室
-                         * date 2021/6/8
-                         */
+                        updateChatRoom();
                     case JOINED:
-                        /*
-                         * TODO_LviatYi 申请聊天管理 转到该聊天室
-                         * date 2021/6/8
-                         */
+                        updateCurrentChatRoom(input);
+                        break;
                     case CANCEL:
                     default:
                         break;
                 }
                 break;
             case "delChatRoom":
-                input=chatRoomIdTf.getText();
-                if(input.equals(new String(""))){
+                input = chatRoomIdTf.getText();
+                if ("".equals(input)) {
                     return;
                 }
-                switch (chatRoomManager.delete(input)){
+                switch (chatRoomManager.delete(input)) {
                     case QUALIFIED:
-                        /*
-                        * TODO_LviatYi 申请聊天管理 关闭聊天界面
-                        * date 2021/6/8
-                        */
+                        updateChatPl();
                         break;
                     default:
                         break;
                 }
                 break;
             case "addFriend":
-                input=friendIdTf.getText();
-                if(input.equals(new String(""))){
+                input = friendIdTf.getText();
+                if ("".equals(input)) {
                     return;
                 }
-                /*
-                * TODO_LviatYi 好友管理类
-                * date 2021/6/8
-                */
+                switch (addressManager.addFriend(input)) {
+                    case QUALIFIED:
+                    case ADDED:
+                        updateChatPl(chatRoomManager.getPrivateChatRoom(settingManager.getSelfId(), input));
+                        break;
+                    default:
+                        break;
+                }
                 break;
             case "delFriend":
-                input=friendIdTf.getText();
-                if(input.equals(new String(""))){
+                input = friendIdTf.getText();
+                if ("".equals(input)) {
                     return;
                 }
-                /*
-                * TODO_LviatYi 好友管理类
-                * date 2021/6/8
-                */
+                switch (addressManager.delFriend(input)) {
+                    case QUALIFIED:
+                        updateChatPl();
+                        break;
+                    case NOT_EXIST:
+                    default:
+                        break;
+                }
+                break;
             case "moreMsg":
-                /*
-                * TODO_LviatYi 向服务器索取聊天记录
-                * date 2021/6/8
-                */
-            case "send":
-            case "exit":
-
+                chatManager.pullChatRoomMessageList(chatManager.getCurrentChatRoomInfo().getChatRoomId());
+                updateChatPl(chatManager.getCurrentChatRoomInfo());
+                noMoreMsgLb.setVisible(true);
+                break;
+            case "sendMsg":
+                if ("".equals(chatManager.getCurrentChatRoomInfo().getChatRoomId())) {
+                    break;
+                }
+                Message message = new Message(this.inputTf.getText(), settingManager.getSelfId(), chatManager.getCurrentChatRoomInfo().getChatRoomId());
+                chatManager.send(message);
+                this.inputTf.setText("");
+                updateChatPl();
+                break;
+            case "exitRoom":
+                if (chatManager.getCurrentChatRoomInfo().getChatRoomId().equals("")) {
+                    break;
+                }
+                chatRoomManager.delete(chatManager.getCurrentChatRoomInfo().getChatRoomId());
+                updateChatPl();
+                break;
             default:
                 break;
         }
@@ -686,14 +754,145 @@ public class ChatRoomGui extends JFrame implements ActionListener, ChatRoomGuiCo
     }
 
     @Override
-    public void updateChatRoomListPl() {
-        LoadMessageThread loadMessageThread = new LoadMessageThread();
-        loadMessageThread.start();
+    public void updateChatRoom() {
+        LoadChatRoomThread loadChatRoomThread = new LoadChatRoomThread();
+        loadChatRoomThread.start();
     }
 
     @Override
-    public void updateFriendListPl() {
+    public void updateFriend() {
         LoadFriendThread loadFriendThread = new LoadFriendThread();
         loadFriendThread.start();
+    }
+
+    @Override
+    public void updateMessage() {
+        updateChatPl();
+    }
+
+    /**
+     * 根据 本地缓存 刷新 聊天窗口 GUI
+     *
+     * @param chatRoomInfo 需要的聊天室信息
+     */
+    private void updateChatPl(ChatRoomInfo chatRoomInfo) {
+        msgPl.add(new MessagePanel("Hello World!\nHere's a MessagePanel for test.", true));
+        updateCurrentChatRoom(chatRoomInfo.getChatRoomId());
+
+        for (Message message : chatManager.getChatRoomMessageList(chatRoomInfo.getChatRoomId()).getList()) {
+            msgPl.add(new MessagePanel(message.getContent(), message.getSenderId().equals(settingManager.getSelfId())));
+        }
+
+        /**
+         * 2021.06.07 1:30-2:20
+         * 持续尝试解决控件不显示问题
+         * 最终得知 Swing 的 Panel 不刷新 bug
+         * 真他妈的气人
+         * 特此留念
+         */
+        pack();
+
+        mainPl.updateUI();
+        msgPl.revalidate();
+        chatPl.revalidate();
+        chatSp.revalidate();
+        mainPl.revalidate();
+        chatSp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+        chatSp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+
+        scrollToBottom(chatSp);
+    }
+
+    /**
+     * 清空聊天页面
+     */
+    private void updateChatPl() {
+        msgPl.removeAll();
+    }
+
+    /**
+     * 将 JScrollPane 控件下拉到底部.
+     * 垃圾 swing ,并不能到最底部,比较看脸.
+     *
+     * @param jScrollPane
+     */
+    private void scrollToBottom(JScrollPane jScrollPane) {
+        jScrollPane.revalidate();
+        jScrollPane.getVerticalScrollBar().setValue(Integer.MAX_VALUE);
+    }
+
+    /**
+     * 更新当前聊天界面.
+     * 同时会更改 chatPl 标题.
+     *
+     * @param chatRoomId 一个本地存在的 chatRoomId
+     */
+    private boolean updateCurrentChatRoom(String chatRoomId) {
+        if (chatRoomManager.getChatRoomList().findLocal(chatRoomId) != null) {
+            String title = "<html>\n" +
+                    "    <body>\n" +
+                    "        <div style=\"font-size: 24px;font-family: 'Trebuchet MS';\">\n" +
+                    chatRoomManager.getChatRoomList().findLocal(chatRoomId).getChatRoomName() +
+                    "        </div>\n" +
+                    "        <div style=\"font-size: 24px;font-family: 'Trebuchet MS';\">\n" +
+                    "            \" | \"\n" +
+                    "        </div>\n" +
+                    "        <div style=\"font-size: 12px;font-family: 'Trebuchet MS';\">\n" +
+                    chatRoomId +
+                    "        </div>\n" +
+                    "    </body>\n" +
+                    "</html>";
+
+            chatRoomTitleLb.setText(title);
+            updateChatPl();
+            return true;
+        } else {
+            chatRoomTitleLb.setText("");
+            updateChatPl(null);
+            return false;
+        }
+    }
+
+    /**
+     * 根据 本地缓存 刷新 聊天室列表 GUI
+     */
+    private void updateChatRoomPl() {
+        chatRoomListPl.removeAll();
+        try {
+            ChatRoomList chatRoomList = chatRoomManager.getChatRoomList();
+            for (ChatRoomInfo chatRoomInfo : chatRoomList.getList()) {
+                chatRoomListPl.add(new ChatRoomPanel(chatRoomInfo));
+            }
+        } catch (NullPointerException exception) {
+            JOptionPane.showMessageDialog(null, "You don't have any friends,loser.");
+        }
+
+        chatRoomListPl.updateUI();
+    }
+
+    /**
+     * 根据 本地缓存 刷新 好友列表 GUI
+     */
+    private void updateFriendPl() {
+        friendPl.removeAll();
+        try {
+            FriendList friendList = addressManager.getFriendList();
+            for (FriendInfo friendInfo : friendList.getList()) {
+                friendPl.add(new FriendPanel(friendInfo));
+            }
+        } catch (NullPointerException exception) {
+            JOptionPane.showMessageDialog(null, "You don't have any friends,loser.");
+        }
+
+        chatRoomListPl.updateUI();
+    }
+
+    /**
+     * 进入好友聊天室
+     *
+     * @param friendId 好友 ID
+     */
+    private void entryFriendChatRoom(String friendId) {
+        updateChatPl(chatRoomManager.getPrivateChatRoom(settingManager.getSelfId(), friendId));
     }
 }

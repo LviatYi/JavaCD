@@ -22,12 +22,20 @@ public interface ChatRoomGuiControl {
     String confirmChatRoomName();
 
     /**
-     * 更新 ChatRoomListPl
+     * 更新 ChatRoomListPl.
+     * 请在更新聊天室时调用.
      */
-    void updateChatRoomListPl();
+    void updateChatRoom();
     /**
-     * 更新 FriendListPl
+     * 更新 FriendListPl.
+     * 请在更新好友时调用.
      */
-    void updateFriendListPl();
+    void updateFriend();
+
+    /**
+     * 更新 MsgPl.
+     * 请在更新消息后调用.
+     */
+    void updateMessage();
 
 }

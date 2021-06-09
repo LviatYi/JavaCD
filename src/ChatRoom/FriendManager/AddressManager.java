@@ -49,10 +49,6 @@ public class AddressManager {
      */
     public FriendList.FriendStatus addFriend(String friendId) {
         if (friendList.findLocal(friendId) != null) {
-            /*
-             * TODO_LviatYi 切换到该好友的聊天页
-             * date 2021/6/9
-             */
             return FriendList.FriendStatus.ADDED;
         } else {
             FriendInfo friendInfo = new FriendInfo(friendId, null);
@@ -66,7 +62,7 @@ public class AddressManager {
              * date 2021/6/9
              */
             friendList.add(friendInfo);
-            chatRoomGuiControl.updateFriendListPl();
+            chatRoomGuiControl.updateFriend();
             //添加成功
             return FriendList.FriendStatus.QUALIFIED;
         }
@@ -83,16 +79,20 @@ public class AddressManager {
     public FriendList.FriendStatus delFriend(String friendId) {
         if (friendList.findLocal(friendId) != null) {
             friendList.del(friendId);
-            chatRoomGuiControl.updateFriendListPl();
+            chatRoomGuiControl.updateFriend();
             /*
              * TODO_LviatYi 通知数据库删除好友
              * date 2021/6/8
              */
-            chatRoomGuiControl.updateFriendListPl();
+            chatRoomGuiControl.updateFriend();
             return FriendList.FriendStatus.QUALIFIED;
         } else {
             return FriendList.FriendStatus.NOT_EXIST;
         }
+    }
+
+    public FriendList getFriendList(){
+        return friendList;
     }
 }
 

@@ -9,9 +9,30 @@ import ChatRoom.ChatRoomGuiControl;
  * @date 2021/6/8
  */
 public class SettingManager {
-
+    private String selfId;
+    private String selfName;
     ChatRoomGuiControl chatRoomGuiControl;
 
+
+    /**
+     * 隐藏默认构造函数
+     */
+    private SettingManager(String selfId,String selfName) {
+        this.selfId=selfId;
+        this.selfName=selfName;
+    }
+
+    /**
+     * 单例模式
+     *
+     * @return 设置权限管理器
+     */
+    public static SettingManager getSettingManager(String selfId,String selfName) {
+        if (instance == null) {
+            instance = new SettingManager(selfId,selfName);
+        }
+        return instance;
+    }
     /**
      * 修改密码状态
      */
@@ -81,23 +102,6 @@ public class SettingManager {
      */
     private static SettingManager instance = null;
 
-    /**
-     * 隐藏默认构造函数
-     */
-    private SettingManager() {
-    }
-
-    /**
-     * 单例模式
-     *
-     * @return 设置权限管理器
-     */
-    public static SettingManager getSettingManager() {
-        if (instance == null) {
-            instance = new SettingManager();
-        }
-        return instance;
-    }
 
     /**
      * 修改昵称
@@ -130,4 +134,16 @@ public class SettingManager {
         return ModifyPasswordStatus.QUALIFIED;
     }
 
+    public String getSelfId() {
+        return selfId;
+    }
+    public String getSelfName(){
+        return selfName;
+    }
+    public void setSelfId(String selfId) {
+        this.selfId = selfId;
+    }
+    public void setSelfName(String selfName) {
+        this.selfName = selfName;
+    }
 }

@@ -59,11 +59,15 @@ public class ChatRoomManager {
             //已加入
             return ChatRoomList.ChatRoomStatus.JOINED;
         } else {
-            ChatRoomInfo chatRoomInfo=new ChatRoomInfo(null ,null);
+            ChatRoomInfo chatRoomInfo=new ChatRoomInfo(null ,null,null);
             /*
              * TODO_LviatYi 通知服务器查找聊天室
              * date 2021/6/7
              */
+            /*
+            * TODO_LviatYi 私有不让进
+            * date 2021/6/9
+            */
             //不存在聊天室
             if (chatRoomInfo.getChatRoomId()==null)
             {
@@ -73,17 +77,19 @@ public class ChatRoomManager {
                      * TODO_LviatYi 通知服务器添加新的聊天室
                      * date 2021/6/7
                      */
-                    chatRoomList.add(new ChatRoomInfo(chatRoomId,chatRoomName));
-                    chatRoomGuiControl.updateChatRoomListPl();
+                    chatRoomList.add(new ChatRoomInfo(chatRoomId,chatRoomName, ChatRoomInfo.ChatRoomType.PUBLIC));
                     //新建聊天室
                     return ChatRoomList.ChatRoomStatus.NEW;
                 }else
                 {
                     return ChatRoomList.ChatRoomStatus.CANCEL;
                 }
-            }else{
+            }else if(chatRoomInfo.getChatRoomType() == ChatRoomInfo.ChatRoomType.PRIVATE)
+            {
+                return ChatRoomList.ChatRoomStatus.PRIVATE;
+            }else {
                 chatRoomList.add(new ChatRoomInfo(chatRoomInfo));
-                chatRoomGuiControl.updateChatRoomListPl();
+                chatRoomGuiControl.updateChatRoom();
                 //加入成功
                 return ChatRoomList.ChatRoomStatus.QUALIFIED;
             }
@@ -97,8 +103,26 @@ public class ChatRoomManager {
      */
     public ChatRoomList.ChatRoomStatus delete(String chatRoomId){
         chatRoomList.del(chatRoomId);
-        chatRoomGuiControl.updateChatRoomListPl();
+        chatRoomGuiControl.updateChatRoom();
         return ChatRoomList.ChatRoomStatus.QUALIFIED;
+    }
+
+    /**
+     * 根据好友关系 获取私人聊天室.
+     * @param userId1
+     * @param userId2
+     * @return 私人聊天室信息.
+     *   若无则返回 null.
+     */
+    public ChatRoomInfo getPrivateChatRoom(String userId1,String userId2){
+        ChatRoomInfo chatRoomInfo=null;
+
+        /*
+        * TODO_LviatYi 通知服务器查找私聊聊天室信息
+        * date 2021/6/9
+        */
+        chatRoomList.add(chatRoomInfo);
+        return chatRoomInfo;
     }
 
     /**
@@ -107,6 +131,14 @@ public class ChatRoomManager {
      */
     public ChatRoomList getChatRoomList(){
         return chatRoomList;
+    }
+
+    public boolean isEmpty(){
+        if(this.getChatRoomList().getList().isEmpty()){
+            return true;
+        }else {
+            return false;
+        }
     }
 }
 

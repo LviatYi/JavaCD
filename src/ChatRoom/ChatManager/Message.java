@@ -38,19 +38,19 @@ public class Message {
      * @param senderId 发送者 Id
      * @param chatRoomId 聊天室 Id
      */
-    Message(String content,String senderId,String chatRoomId){
+    public Message(String content,String senderId,String chatRoomId){
         this.content=content;
         this.senderId=senderId;
         this.chatRoomId=chatRoomId;
         this.sendTime=new Date();
     }
-    Message(String content,String senderId,String chatRoomId,Date date){
+    public Message(String content,String senderId,String chatRoomId,Date date){
         this.content=content;
         this.senderId=senderId;
         this.chatRoomId=chatRoomId;
         this.sendTime=date;
     }
-    Message(Message message){
+    public Message(Message message){
         this.content=message.getContent();
         this.senderId=message.getSenderId();
         this.chatRoomId=message.getChatRoomId();

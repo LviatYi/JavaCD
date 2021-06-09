@@ -209,7 +209,7 @@ public class Connect implements Database {
     //ID为随机并存入数据库聊天室表
     //聊天室表为索引，存储聊天室组员ID和属性聊天室ID
     @Override
-    public String AddGroup(boolean isPrivate) {
+    public String CreateChatRoom(boolean isPrivate) {
         return null;
     }
 
@@ -222,6 +222,19 @@ public class Connect implements Database {
         return false;
     }
 
+    //TODO
+    //添加ID所有者到指定聊天室
+    @Override
+    public boolean AddChatRoom(String id, String chatroomID) {
+        return false;
+    }
+
+    //TODO
+    //从指定聊天室删除ID所有者
+    @Override
+    public boolean DelChatRoom(String id, String chatroomID) {
+        return false;
+    }
 }
 
 

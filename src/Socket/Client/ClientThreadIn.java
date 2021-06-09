@@ -32,7 +32,7 @@ public class ClientThreadIn extends Thread {
             while (!exit) {
                 DataInputStream in = new DataInputStream(server.getInputStream());
                 String str = in.readUTF();
-                DataPacket dp = JSON.parseObject(str,DataPacket.class);
+                DataPacket dp = JSON.parseObject(str, DataPacket.class);
 
             }
         } catch (IOException e) {

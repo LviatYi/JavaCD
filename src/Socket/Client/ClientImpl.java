@@ -23,7 +23,7 @@ public class ClientImpl implements Client {
     }
 
 
-    public void addFriend(String userID,String receiverID){
+    public void addFriend(String userID, String receiverID) {
         DataPacket mes = new DataPacket();
         mes.type = DataPacket.transportType.ADD_FRIEND;
         mes.id = userID;
@@ -32,7 +32,7 @@ public class ClientImpl implements Client {
         co.setMessage(temp);
     }
 
-    public void deleteFriend(String userID,String receiverID){
+    public void deleteFriend(String userID, String receiverID) {
         DataPacket mes = new DataPacket();
         mes.type = DataPacket.transportType.DEL_FRIEND;
         mes.id = userID;
@@ -41,7 +41,7 @@ public class ClientImpl implements Client {
         co.setMessage(temp);
     }
 
-    public void getFriendList(String userID){
+    public void getFriendList(String userID) {
         DataPacket mes = new DataPacket();
         mes.type = DataPacket.transportType.RETURN_FRIEND_LIST;
         mes.id = userID;
@@ -49,7 +49,7 @@ public class ClientImpl implements Client {
         co.setMessage(temp);
     }
 
-    public void getGroupList(String userID){
+    public void getGroupList(String userID) {
         DataPacket mes = new DataPacket();
         mes.type = DataPacket.transportType.RETURN_GROUP_LIST;
         mes.id = userID;

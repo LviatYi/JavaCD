@@ -289,14 +289,15 @@ public class Connect implements Database {
             Statement st = con.createStatement();
             String sql = "select * from Message where ChatRoomId='" + groupID + "'";
             ResultSet rs = st.executeQuery(sql);
-            List<DataPacket> aa=new ArrayList<DataPacket>();
+            List<DataPacket> message_get=new ArrayList<DataPacket>();
             while(rs.next())
             {
                 String senderId= rs.getString(1);
                 String groupId=rs.getString(2);
                 String message=rs.getString(3);
                 Date datetime=rs.getDate(4);
-            aa.add();
+            message_get.add();
+
 
             }
         }catch (SQLException e){

@@ -1,39 +1,37 @@
 package Socket.Client;
 
-import Socket.tools.Message;
+import ChatRoom.ChatManager.ChatManager;
+import Socket.tools.DataPacket;
 import com.alibaba.fastjson.JSON;
-
 import java.io.*;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ClientThreadIn extends Thread {
-
+    private ChatManager parent;
     private Socket server;
     public boolean exit = false;
-    public List<Message> msgList = new ArrayList<>();
 
-    public ClientThreadIn() {
+    public ClientThreadIn(ChatManager chatManager) {
+        this.parent = chatManager;
     }
 
     public void setSocket(Socket socket) {
         this.server = socket;
     }
 
-
     @Override
     public void run() {
         In();
     }
-
 
     private void In() {
         try {
             while (!exit) {
                 DataInputStream in = new DataInputStream(server.getInputStream());
                 String str = in.readUTF();
-                msgList.add(JSON.parseObject(str, Message.class));
+                DataPacket dp = JSON.parseObject(str, DataPacket.class);
+                parent.receiver(dp.msg);
+                //TODO 拆分服务器发来的消息
             }
         } catch (IOException e) {
             e.printStackTrace();

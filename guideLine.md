@@ -95,9 +95,9 @@
 
 ### 暂存时 必须 包含信息
 
-**必须** 使用 `git commit -m [message]` 命令。
+**必须** 使用 `git commit -m [dataPacket]` 命令。
 
-其中 `message` 包含工作内容的大致说明，请使用不带拼音的英文。
+其中 `dataPacket` 包含工作内容的大致说明，请使用不带拼音的英文。
 
 ### `push` 命令 必须 包含分支
 

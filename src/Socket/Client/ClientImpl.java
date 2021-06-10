@@ -1,5 +1,6 @@
 package Socket.Client;
 
+import ChatRoom.ChatManager.Message;
 import ChatRoom.ChatRoomManager.ChatRoomInfo;
 import Encrypt.EncryptionImpl;
 import Socket.tools.DataPacket;
@@ -7,8 +8,7 @@ import com.alibaba.fastjson.JSONObject;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
+
 
 
 public class ClientImpl implements Client {
@@ -16,8 +16,6 @@ public class ClientImpl implements Client {
     private ClientThreadOut co = null;
     private ClientThreadIn ci = null;
     private final EncryptionImpl encryption = new EncryptionImpl();
-    public List<DataPacket> privateChat = new ArrayList<>();
-    public List<DataPacket> multiChat = new ArrayList<>();
 
     public void run() throws IOException {
         client();
@@ -80,11 +78,11 @@ public class ClientImpl implements Client {
     }
 
     //    发送群聊消息
-    public void sendGroup(String text, String senderID, String chatRoomID) {
+    public void sendGroup(Message msg) {
         DataPacket mes = new DataPacket();
-        mes.message = encryption.encryptContent(text);
-        mes.senderId = senderID;
-        mes.chatRoomID = chatRoomID;
+        mes.message = encryption.encryptContent(msg.getContent());
+        mes.senderId = msg.getSenderId();
+        mes.chatRoomID = msg.getChatRoomId();
         mes.type = DataPacket.transportType.SEND_MESSAGE;
         String temp = JSONObject.toJSONString(mes);
         co.setMessage(temp);
@@ -121,6 +119,7 @@ public class ClientImpl implements Client {
         co.setMessage(temp);
     }
 
+//退出聊天室
     public void exitChatRoom(String userID,String chatRoomID){
         DataPacket mes = new DataPacket();
         mes.type= DataPacket.transportType.EXIT_CHATROOM;
@@ -130,6 +129,24 @@ public class ClientImpl implements Client {
         co.setMessage(temp);
     }
 
+    //通过聊天室ID查找特定聊天室信息
+    public void findChatRoomInfo(String chatRoomID){
+        DataPacket mes = new DataPacket();
+        mes.type = DataPacket.transportType.FIND_CHATROOM_INFO_THROUGH_ID;
+        mes.chatRoomID = chatRoomID;
+        String temp = JSONObject.toJSONString(mes);
+        co.setMessage(temp);
+    }
+
+    //查找私有聊天室信息
+    public void findChatRoomInfo(String userID1,String userID2){
+        DataPacket mes = new DataPacket();
+        mes.type = DataPacket.transportType.FIND_CHATROOM_INFO_THROUGH_USER;
+        mes.id = userID1;
+        mes.friendRequestID = userID2;
+        String temp = JSONObject.toJSONString(mes);
+        co.setMessage(temp);
+    }
 
     //    改名
     public void modifyName(String newName, String UserID) {

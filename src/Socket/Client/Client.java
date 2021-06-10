@@ -1,5 +1,6 @@
 package Socket.Client;
 
+import ChatRoom.ChatManager.Message;
 import ChatRoom.ChatRoomManager.ChatRoomInfo;
 
 import java.io.IOException;
@@ -19,11 +20,9 @@ public interface Client {
 
     /**
      *
-     * @param text 传输的消息
-     * @param senderID 发送者id
-     * @param chatRoomID 聊天群号
+     * @param msg 传输的消息对象
      */
-    public void sendGroup(String text,String senderID,String chatRoomID);
+    public void sendGroup(Message msg);
 
 
     /**
@@ -105,5 +104,17 @@ public interface Client {
      */
     public void exitChatRoom(String userID,String chatRoomID);
 
+    /**
+     *
+     * @param chatRoomID 查询的聊天室ID
+     */
+    public void findChatRoomInfo(String chatRoomID);
+
+    /**
+     *
+     * @param userID1 成员ID1
+     * @param userID2 成员ID2
+     */
+    public void findChatRoomInfo(String userID1,String userID2);
 
 }

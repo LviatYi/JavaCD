@@ -43,6 +43,8 @@ public class DataPacket {
         ADD_CHATROOM,
         DEL_CHATROOM,
         EXIT_CHATROOM,
+        FIND_CHATROOM_INFO_THROUGH_ID,
+        FIND_CHATROOM_INFO_THROUGH_USER,
         ADD_FRIEND,
         DEL_FRIEND,
         RETURN_FRIEND_LIST,

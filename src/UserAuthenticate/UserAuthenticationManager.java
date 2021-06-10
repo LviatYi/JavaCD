@@ -116,10 +116,6 @@ public class UserAuthenticationManager {
     private static UserAuthenticationManager instance = null;
 
     /**
-     * 加密接口
-     */
-    private Encryption encryption;
-    /**
      * 通信接口
      */
     /**
@@ -227,11 +223,11 @@ public class UserAuthenticationManager {
         return RegisterStatus.CONNECTION_FAILED;
     }
 
-    public void SetNew() {
+    public boolean setNew() {
         /*
          * TODO_LviatYi 修改用户名、密码
          * date 2021/6/9
          */
-
+        return false;
     }
 }

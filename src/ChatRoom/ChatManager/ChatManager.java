@@ -1,7 +1,9 @@
 package ChatRoom.ChatManager;
 
+import ChatRoom.ChatRoomGui;
 import ChatRoom.ChatRoomGuiControl;
 import ChatRoom.ChatRoomManager.ChatRoomInfo;
+import ChatRoom.FriendManager.FriendInfo;
 
 import javax.management.loading.MLet;
 import java.util.Date;
@@ -18,19 +20,29 @@ import java.util.Vector;
  * @date 2021/6/7
  */
 public class ChatManager implements ClientChatManager {
+    ChatRoomGui chatRoomGui;
     ChatRoomInfo currentChatRoomInfo;
 
-    ChatRoomGuiControl chatRoomGuiControl;
     private Vector<MessageList> chatRoomMessageRepo;
+
+    /**
+     * 单例指针
+     */
     private static ChatManager instance=null;
 
-    private ChatManager(){
+    /**
+     * 隐藏默认构造函数
+     */
+    private ChatManager(){}
+
+    private ChatManager(ChatRoomGui parent){
+        this.chatRoomGui=parent;
         currentChatRoomInfo =new ChatRoomInfo();
     }
 
-    public static ChatManager getChatManager(){
+    public static ChatManager getChatManager(ChatRoomGui parent){
         if(instance==null){
-            instance=new ChatManager();
+            instance=new ChatManager(parent);
         }
         return instance;
     }

@@ -1,6 +1,9 @@
 package ChatRoom.FriendManager;
 
+import ChatRoom.ChatManager.ClientChatManager;
+import ChatRoom.ChatRoomGui;
 import ChatRoom.ChatRoomGuiControl;
+import ChatRoom.ChatRoomManager.ChatRoomList;
 
 /**
  * 通讯录管理类.
@@ -12,10 +15,9 @@ import ChatRoom.ChatRoomGuiControl;
  * @className AddressManager
  * @date 2021/6/6
  */
-public class AddressManager {
-
+public class AddressManager implements ClientAddressManager {
+    ChatRoomGui chatRoomGui;
     FriendList friendList;
-    ChatRoomGuiControl chatRoomGuiControl;
 
     /**
      * 单例指针
@@ -25,8 +27,14 @@ public class AddressManager {
     /**
      * 隐藏默认构造函数
      */
-    private AddressManager(){
-        friendList=new FriendList();
+    private AddressManager(ChatRoomGui parent){
+        this.chatRoomGui=parent;
+        FriendList serverFriendList = getServerFriendList();
+        if (serverFriendList != null) {
+            friendList = serverFriendList;
+        } else {
+            friendList = new FriendList();
+        }
     }
 
     /**
@@ -34,9 +42,9 @@ public class AddressManager {
      *
      * @return 通讯录权限管理器
      */
-    public static AddressManager getAddressManager() {
+    public static AddressManager getAddressManager(ChatRoomGui parent) {
         if (instance == null) {
-            instance = new AddressManager();
+            instance = new AddressManager(parent);
         }
         return instance;
     }
@@ -64,7 +72,7 @@ public class AddressManager {
              * date 2021/6/9
              */
             friendList.add(friendInfo);
-            chatRoomGuiControl.updateFriend();
+            chatRoomGui.updateFriend();
             //添加成功
             return FriendList.FriendStatus.QUALIFIED;
         }
@@ -81,12 +89,11 @@ public class AddressManager {
     public FriendList.FriendStatus delFriend(String friendId) {
         if (friendList.findLocal(friendId) != null) {
             friendList.del(friendId);
-            chatRoomGuiControl.updateFriend();
             /*
              * TODO_LviatYi 通知数据库删除好友
              * date 2021/6/8
              */
-            chatRoomGuiControl.updateFriend();
+            chatRoomGui.updateFriend();
             return FriendList.FriendStatus.QUALIFIED;
         } else {
             return FriendList.FriendStatus.NOT_EXIST;
@@ -97,10 +104,25 @@ public class AddressManager {
         return friendList;
     }
 
-//    @Override
-//    public void test(){
-//    friendList.add(f)
-//        chatRoomGuiControl.updateFriend();
-//    }
+    private FriendList getServerFriendList() {
+        /*
+         * TODO_LviatYi 向服务器请求该用户的好友列表
+         * date 2021/6/7
+         */
+        return null;
+    }
+    @Override
+    public boolean addFriend(FriendInfo friendInfo) {
+        this.friendList.add(friendInfo);
+        chatRoomGui.updateFriend();
+        return false;
+    }
+
+    @Override
+    public boolean addFriend(String friendId, String friendName) {
+        this.friendList.add(new FriendInfo(friendId,friendName));
+        chatRoomGui.updateFriend();
+        return false;
+    }
 }
 

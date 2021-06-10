@@ -30,11 +30,11 @@ public class MultiThread {
      */
     public static void addChatRoom(String id, String groupID)
     {
-        ThreadManager temp =new ThreadManager();
+
         for (int i = 0; i < stList.size(); i++)
         {
             ServerThread st = stList.get(i);
-            if(id.contains(st.SocketID))
+            if(id.equals(st.SocketID))
             {
                 temp.arrayList.add(st);
             }
@@ -50,7 +50,7 @@ public class MultiThread {
      */
     public static int getOnlineNumber(String groupID)
     {
-        ThreadManager threadManager = null;
+        ThreadManager threadManager =new ThreadManager();
         for (int i = 0; i < groupList.size(); i++) {
             threadManager = groupList.get(i);
             if(groupID.equals(threadManager.GroupID))
@@ -68,7 +68,7 @@ public class MultiThread {
      * @throws IOException 发送io
      */
     public static void castGroupMsg(DataPacket dataPacket, String groupID) throws IOException {
-        ThreadManager threadManager = null;
+        ThreadManager threadManager = new ThreadManager();
         for (int i = 0; i < groupList.size(); i++) {
             threadManager = groupList.get(i);
             if(groupID.equals(threadManager.GroupID))

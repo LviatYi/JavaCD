@@ -1,8 +1,11 @@
 package Socket.tools;
 
 import ChatRoom.ChatManager.Message;
+import ChatRoom.ChatRoomManager.ChatRoomInfo;
+import ChatRoom.FriendManager.FriendInfo;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -26,9 +29,11 @@ public class DataPacket {
     public MSGRegisterStatus registerStatus;
     public Message msg;
     public Date datetime;
-
-
-
+    public int systemTip;
+    public ChatRoomInfo chatRoomInfo;
+    public List<FriendInfo> friendList;
+    public List<ChatRoomInfo> groupList;
+    public List<Message> historyMessageList;
 
     public enum transportType{
         EXIT,
@@ -40,8 +45,7 @@ public class DataPacket {
         GET_HISTORY_MESSAGE,
         CREATE_CHATROOM,
         CREATE_PRIVATE_CHATROOM,
-        ADD_CHATROOM,
-        DEL_CHATROOM,
+        JOIN_CHATROOM,
         EXIT_CHATROOM,
         FIND_CHATROOM_INFO_THROUGH_ID,
         FIND_CHATROOM_INFO_THROUGH_USER,

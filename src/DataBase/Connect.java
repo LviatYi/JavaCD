@@ -230,11 +230,9 @@ public class Connect implements Database {
         return false;
     }
 
-    //TODO
-    //返回传入ID的好友列表
-    //好友列表使用索引在数据库创建
+    //TODO 修改
     @Override
-    public String[] getFriend(String id) {
+    public List<String> getFriend(String id) {
         con = getConnection();
         try {
             Statement st = con.createStatement();
@@ -306,13 +304,9 @@ public class Connect implements Database {
         return null;
     }
 
-    //TODO
-    //增加聊天室
-    //返回聊天室ID
-    //ID为随机并存入数据库聊天室表
-    //聊天室表为索引，存储聊天室组员ID和属性聊天室ID
+    //TODO 增加名字
     @Override
-    public String AddGroup(boolean isPrivate) {
+    public String CreateChatRoom(boolean isPrivate) {
         con = getConnection();
         try {
             String sql = "insert into ChatRoom(ChatRoomId,Property) values(?,?)";
@@ -360,8 +354,19 @@ public class Connect implements Database {
         return false;
     }
 
+    //TODO
+    @Override
+    public boolean AddChatRoom(String id, String chatroomID) {
+        return false;
+    }
 
-   // public static void main(String[] args) {
+    @Override
+    public boolean DelChatRoom(String chatroomID) {
+        return false;
+    }
+
+
+    // public static void main(String[] args) {
        // Connect db=new Connect();
        // System.out.println(db.sui());//输出id
         //db.Register("nuist","南信大");//注册

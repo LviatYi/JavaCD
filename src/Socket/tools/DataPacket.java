@@ -19,6 +19,7 @@ public class DataPacket {
     public String senderId;
     public String message;
     public String chatRoomID;
+    public String chatRoomName;
     public transportType type;
     public MSGLoginStatus loginStatus;
     public String geyHistoryGroupID;

@@ -1,5 +1,6 @@
 package Socket.Client;
 
+import ChatRoom.ChatRoomManager.ChatRoomInfo;
 import Encrypt.EncryptionImpl;
 import Socket.tools.DataPacket;
 import com.alibaba.fastjson.JSONObject;
@@ -40,6 +41,24 @@ public class ClientImpl implements Client {
         mes.friendRequestID = receiverID;
         String temp = JSONObject.toJSONString(mes);
         co.setMessage(temp);
+    }
+
+    //创建聊天室
+    public void addChatRoom(String chatRoomName, ChatRoomInfo.ChatRoomType chatRoomType){
+        if(chatRoomType== ChatRoomInfo.ChatRoomType.PUBLIC){
+            DataPacket mes = new DataPacket();
+            mes.type = DataPacket.transportType.CREATE_CHATROOM;
+            mes.chatRoomName = chatRoomName;
+            String temp = JSONObject.toJSONString(mes);
+            co.setMessage(temp);
+        }
+        else if (chatRoomType== ChatRoomInfo.ChatRoomType.PRIVATE){
+            DataPacket mes = new DataPacket();
+            mes.type = DataPacket.transportType.CREATE_PRIVATE_CHATROOM;
+            mes.chatRoomName = chatRoomName;
+            String temp = JSONObject.toJSONString(mes);
+            co.setMessage(temp);
+        }
     }
 
     //返回好友列表

@@ -1,5 +1,7 @@
 package Socket.Client;
 
+import ChatRoom.ChatRoomManager.ChatRoomInfo;
+
 import java.io.IOException;
 
 /**
@@ -55,4 +57,46 @@ public interface Client {
      * 断开连接
      */
     public void exit();
+
+    /**
+     *
+     * @param chatRoomName 聊天室名
+     * @param chatRoomType 聊天室类型
+     */
+    public void addChatRoom(String chatRoomName, ChatRoomInfo.ChatRoomType chatRoomType);
+
+    /**
+     *
+     * @param userID 自己的ID
+     * @param receiverID 被添加者的ID
+     */
+    public void addFriend(String userID, String receiverID);
+
+    /**
+     *
+     * @param userID 自己的ID
+     * @param receiverID 被删除者的ID
+     */
+    public void deleteFriend(String userID, String receiverID);
+
+    /**
+     *
+     * @param userID 自己的ID
+     */
+    public void getFriendList(String userID);
+
+    /**
+     *
+     * @param userID 自己的ID
+     */
+    public void getGroupList(String userID);
+
+    /**
+     *
+     * @param userID 自己的ID
+     * @param groupID 群聊的ID
+     */
+    public void getHistoryMessage(String userID, String groupID);
+
+
 }

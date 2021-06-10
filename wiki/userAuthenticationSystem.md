@@ -69,15 +69,24 @@
 
 ## <a id="Function">功能</a>
 
+* 提供用户认证。
+  * 注册 用户通过提供符合标准的 UserName Password 进行注册。
+  * 登录 用户通过提供 UserId Password 进行验证。
+    这会调用 通讯系统 的 用户验证 接口。  
+    当验证成功口进入 聊天系统 的 GUI 界面。
+  * 验证密码时，若连接失败时将弹出提示窗口。
+
 ## <a id="Interface">接口</a>
+
+用户认证系统不对外提供任何接口。  
 
 ## <a id="Class">类图</a>
 
-<!-- TODO_LviatYi -->
+略
 
 ## <a id="Statu">状态图</a>
 
-<!-- TODO_LviatYi -->
+略
 
 [UAS]:./userAuthenticationSystem.md
 [CS]:./chatSystem.md

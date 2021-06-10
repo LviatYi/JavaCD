@@ -95,6 +95,9 @@ LviatYi
 
 May_bebe
 
+* 注： 最终劳动成果以文档注释中的 `author` 为准。
+* 又注： 任何劳动成果都是值得尊重的，虽心有余而力不足，则尽力可勉
+
 [UAS]:./wiki/userAuthenticationSystem.md
 [ABS]:./wiki/addressBookSystem.md
 [CS]:./wiki/chatSystem.md

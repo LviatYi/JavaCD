@@ -31,15 +31,10 @@ public class ChatRoomGui extends JFrame implements ActionListener, FocusListener
      * 聊天室信息面板.
      * 用于展示聊天室信息.
      */
-    private class ChatRoomPanel extends JPanel {
+    private class ChatRoomPanel extends JPanel implements MouseListener {
         @Override
         public void setBorder(Border border) {
             super.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2));
-        }
-
-        @Override
-        public void setBackground(Color bg) {
-            super.setBackground(Color.LIGHT_GRAY);
         }
 
         private ChatRoomInfo chatRoomInfo;
@@ -50,6 +45,7 @@ public class ChatRoomGui extends JFrame implements ActionListener, FocusListener
          * @param chatRoomInfo 聊天室信息
          */
         public ChatRoomPanel(ChatRoomInfo chatRoomInfo) {
+
             this.chatRoomInfo = chatRoomInfo;
             this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
             this.add(nameLb);
@@ -73,54 +69,60 @@ public class ChatRoomGui extends JFrame implements ActionListener, FocusListener
                     "    </body>\n" +
                     "</html>\n");
 
-            this.addMouseListener(new MouseListener() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    chatManager.setCurrentChatRoomInfo(getChatRoomInfo());
-                    updateChatPl(getChatRoomInfo());
-                }
+            this.setBackground(Color.LIGHT_GRAY);
+            this.addMouseListener(this);
 
-                @Override
-                public void mousePressed(MouseEvent e) {
-
-                }
-
-                @Override
-                public void mouseReleased(MouseEvent e) {
-
-                }
-
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    setBackground(new Color(200, 200, 200));
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    setBackground(Color.LIGHT_GRAY);
-                }
-            });
         }
 
         public ChatRoomInfo getChatRoomInfo() {
             return chatRoomInfo;
         }
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            updateChatPl(getChatRoomInfo());
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+
+        }
+
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            if (getVisibleRect().contains(e.getPoint())) {
+                this.setBackground(new Color(250, 250, 250));
+                super.paintChildren(super.getGraphics());
+            }
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            if (!getVisibleRect().contains(e.getPoint())) {
+                this.setBackground(Color.LIGHT_GRAY);
+                super.paintChildren(this.getGraphics());
+            }
+
+        }
+
     }
 
     /**
      * 好友信息面板.
      * 用于展示好友信息.
      */
-    private class FriendPanel extends JPanel {
+    private class FriendPanel extends JPanel implements MouseListener {
         @Override
         public void setBorder(Border border) {
             super.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2));
         }
 
-        @Override
-        public void setBackground(Color bg) {
-            super.setBackground(Color.LIGHT_GRAY);
-        }
 
         private FriendInfo friendInfo;
         private JLabel nameLb;
@@ -150,32 +152,8 @@ public class ChatRoomGui extends JFrame implements ActionListener, FocusListener
                     "        </div>\n" +
                     "    </body>\n" +
                     "</html>\n");
-            this.addMouseListener(new MouseListener() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    entryFriendChatRoom(friendInfo.getFriendId());
-                }
-
-                @Override
-                public void mousePressed(MouseEvent e) {
-
-                }
-
-                @Override
-                public void mouseReleased(MouseEvent e) {
-
-                }
-
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    setBackground(new Color(200, 200, 200));
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    setBackground(Color.LIGHT_GRAY);
-                }
-            });
+            this.setBackground(Color.LIGHT_GRAY);
+            this.addMouseListener(this);
         }
 
         public void setFriendInfo(FriendInfo friendInfo) {
@@ -185,6 +163,39 @@ public class ChatRoomGui extends JFrame implements ActionListener, FocusListener
         public FriendInfo getFriendInfo() {
             return friendInfo;
         }
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            entryFriendChatRoom(friendInfo.getFriendId());
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            if (getVisibleRect().contains(e.getPoint())) {
+                this.setBackground(new Color(250, 250, 250));
+                super.paintChildren(super.getGraphics());
+            }
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            if (!getVisibleRect().contains(e.getPoint())) {
+                this.setBackground(Color.LIGHT_GRAY);
+                super.paintChildren(this.getGraphics());
+            }
+
+        }
+
     }
 
     /**
@@ -277,12 +288,13 @@ public class ChatRoomGui extends JFrame implements ActionListener, FocusListener
             messageContentPl = new MessageContentPanel(msgContent);
             this.setPreferredSize(new Dimension(messageContentPl.getSize().width + 30, messageContentPl.getSize().height + 30));
 
-//            //Border for Debug
+            //Exist for DEBUG
 //            this.setBorder(BorderFactory.createLineBorder(Color.GREEN));
 //            thisMsgPl.setBorder(BorderFactory.createLineBorder(Color.YELLOW));
 //            senderPl.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 //            senderLb.setBorder(BorderFactory.createLineBorder(Color.BLUE));
 //            messageContentPl.setBorder(BorderFactory.createLineBorder(Color.RED));
+            //End
 
             //布局设置
             thisMsgPl.add(senderPl);
@@ -615,10 +627,6 @@ public class ChatRoomGui extends JFrame implements ActionListener, FocusListener
         sendMsgBtn.setText(sendMsgBtnStr);
         exitBtn.setText(exitBtnStr);
 
-//        NameStatusLb.setVisible(false);
-//        setPasswordStatusLb.setVisible(false);
-//        password2StatusLb.setVisible(false);
-
         // 添加侦听器
         addChatRoomBtn.addActionListener(this);
         delChatRoomBtn.addActionListener(this);
@@ -696,14 +704,12 @@ public class ChatRoomGui extends JFrame implements ActionListener, FocusListener
      * date 2021/6/6
      */
 
-    /**
-     * Exist for debug
-     *
-     * @param args 传入参数
-     */
+    //Exist for DEBUG
     public static void main(String[] args) {
         ChatRoomGui chatRoomGui = new ChatRoomGui("123456", "Abc");
     }
+    //End
+
 
     /**
      * action 触发事件
@@ -900,18 +906,27 @@ public class ChatRoomGui extends JFrame implements ActionListener, FocusListener
     }
 
     /**
-     * 根据 本地缓存 刷新 聊天窗口 GUI
+     * 根据 本地缓存 刷新 聊天窗口 GUI.
+     * 若聊天室信息为空则直接返回.
      *
      * @param chatRoomInfo 需要的聊天室信息
      */
     private void updateChatPl(ChatRoomInfo chatRoomInfo) {
-        msgPl.add(new MessagePanel("Hello World!\nHere's a MessagePanel for test.", true));
-        updateCurrentChatRoom(chatRoomInfo.getChatRoomId());
 
+        //Exist for DEBUG
+        msgPl.add(new MessagePanel("Hello World!\nHere's a MessagePanel for test.", true));
+        //End
+
+        if (chatRoomInfo == null) {
+            return;
+        }
+
+        updateCurrentChatRoom(chatRoomInfo.getChatRoomId());
         for (Message message : chatManager.getChatRoomMessageList(chatRoomInfo.getChatRoomId()).getList()) {
             msgPl.add(new MessagePanel(message.getContent(), message.getSenderId().equals(settingManager.getSelfId())));
         }
 
+        //Exist for COMPLAIN
         /**
          * 2021.06.07 1:30-2:20
          * 持续尝试解决控件不显示问题
@@ -919,6 +934,8 @@ public class ChatRoomGui extends JFrame implements ActionListener, FocusListener
          * 真他妈的气人
          * 特此留念
          */
+        //End
+
         pack();
 
         mainPl.updateUI();
@@ -961,7 +978,8 @@ public class ChatRoomGui extends JFrame implements ActionListener, FocusListener
      * 更新当前聊天界面.
      * 同时会更改 chatPl 标题.
      *
-     * @param chatRoomId 一个本地存在的 chatRoomId
+     * @param chatRoomId 一个本地存在的 chatRoomId.
+     * @return 若成功则返回 true.若找不到相应聊天室则返回 false.
      */
     private boolean updateCurrentChatRoom(String chatRoomId) {
         if (chatRoomManager.getChatRoomList().findLocal(chatRoomId) != null) {
@@ -1014,7 +1032,8 @@ public class ChatRoomGui extends JFrame implements ActionListener, FocusListener
         try {
             FriendList friendList = addressManager.getFriendList();
             for (FriendInfo friendInfo : friendList.getList()) {
-                friendPl.add(new FriendPanel(friendInfo));
+                FriendPanel friendPanel = new FriendPanel(friendInfo);
+                friendListPl.add(friendPanel);
             }
         } catch (NullPointerException exception) {
             JOptionPane.showMessageDialog(null, "You don't have any friends,loser.");
@@ -1024,11 +1043,23 @@ public class ChatRoomGui extends JFrame implements ActionListener, FocusListener
     }
 
     /**
-     * 进入好友聊天室
+     * 进入好友聊天室.
+     * 若无聊天室则自动创建.
      *
      * @param friendId 好友 ID
+     * @return 返回好友聊天室信息.若生成失败则返回 null.
      */
-    private void entryFriendChatRoom(String friendId) {
-        updateChatPl(chatRoomManager.getPrivateChatRoom(settingManager.getSelfId(), friendId));
+    private ChatRoomInfo entryFriendChatRoom(String friendId) {
+        ChatRoomInfo chatRoomInfo = chatRoomManager.getPrivateChatRoom(settingManager.getSelfId(), friendId);
+        if (chatRoomInfo == null) {
+            chatRoomInfo = chatRoomManager.createChatRoom(null, null, ChatRoomInfo.ChatRoomType.PRIVATE);
+        }
+        if (chatRoomInfo == null) {
+            return null;
+        } else {
+            updateChatPl(chatRoomInfo);
+            return chatRoomInfo;
+        }
+
     }
 }

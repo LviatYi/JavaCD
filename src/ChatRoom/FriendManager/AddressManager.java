@@ -25,7 +25,9 @@ public class AddressManager {
     /**
      * 隐藏默认构造函数
      */
-    private AddressManager(){}
+    private AddressManager(){
+        friendList=new FriendList();
+    }
 
     /**
      * 单例模式
@@ -94,5 +96,11 @@ public class AddressManager {
     public FriendList getFriendList(){
         return friendList;
     }
+
+//    @Override
+//    public void test(){
+//    friendList.add(f)
+//        chatRoomGuiControl.updateFriend();
+//    }
 }
 

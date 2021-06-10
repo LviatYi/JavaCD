@@ -31,6 +31,13 @@ public class FriendList {
 
     }
 
+    public FriendList(){
+        list=new Vector<FriendInfo>();
+        list.add(new FriendInfo("123","123"));
+        list.add(new FriendInfo("456","456"));
+        list.add(new FriendInfo("789","789"));
+    }
+
     /**
      * 在缓存中按照 FriendID 寻找 Friend
      *

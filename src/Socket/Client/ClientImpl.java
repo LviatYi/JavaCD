@@ -22,7 +22,7 @@ public class ClientImpl implements Client {
         client();
     }
 
-
+    //增加好友
     public void addFriend(String userID, String receiverID) {
         DataPacket mes = new DataPacket();
         mes.type = DataPacket.transportType.ADD_FRIEND;
@@ -32,6 +32,7 @@ public class ClientImpl implements Client {
         co.setMessage(temp);
     }
 
+    //删除好友
     public void deleteFriend(String userID, String receiverID) {
         DataPacket mes = new DataPacket();
         mes.type = DataPacket.transportType.DEL_FRIEND;
@@ -41,6 +42,7 @@ public class ClientImpl implements Client {
         co.setMessage(temp);
     }
 
+    //返回好友列表
     public void getFriendList(String userID) {
         DataPacket mes = new DataPacket();
         mes.type = DataPacket.transportType.RETURN_FRIEND_LIST;
@@ -49,6 +51,7 @@ public class ClientImpl implements Client {
         co.setMessage(temp);
     }
 
+    //返回群聊列表
     public void getGroupList(String userID) {
         DataPacket mes = new DataPacket();
         mes.type = DataPacket.transportType.RETURN_GROUP_LIST;

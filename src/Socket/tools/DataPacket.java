@@ -1,5 +1,7 @@
 package Socket.tools;
 
+import ChatRoom.ChatManager.Message;
+
 import java.util.Date;
 
 /**
@@ -21,6 +23,7 @@ public class DataPacket {
     public MSGLoginStatus loginStatus;
     public String geyHistoryGroupID;
     public MSGRegisterStatus registerStatus;
+    public Message msg;
     public Date datetime;
 
 

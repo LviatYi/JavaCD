@@ -99,24 +99,38 @@ public class ServerThread extends Thread{
                 //保存数据并向聊天室转发
                 case SEND_MESSAGE:
                 {
-                    database.SetMessage(dataPacket.senderId,encryption.decryptContent(dataPacket.message),dataPacket.groupID, dataPacket.datetime);
-                    MultiThread.castGroupMsg(dataPacket, dataPacket.groupID);//群发给在线用户已经收到的群发消息
+                    database.SetMessage(dataPacket.senderId,encryption.decryptContent(dataPacket.message),dataPacket.chatRoomID, dataPacket.datetime);
+                    MultiThread.castGroupMsg(dataPacket, dataPacket.chatRoomID);//群发给在线用户已经收到的群发消息
                     break;
                 }
-                case ADD_GROUP:
+                case CREATE_CHATROOM:
                 {
                     DataPacket temp = new DataPacket();
-                    temp.groupID=database.AddGroup(false);
-                    temp.type = DataPacket.transportType.ADD_GROUP;
+                    temp.chatRoomID =database.CreateChatRoom(false);
+                    temp.type = DataPacket.transportType.CREATE_CHATROOM;
+                    MultiThread.addGroup(dataPacket.id,temp.chatRoomID);
                     sendMsg(temp);
                     break;
                 }
-                case ADD_PRIVATE_GROUP:
+                case CREATE_PRIVATE_CHATROOM:
                 {
                     DataPacket temp = new DataPacket();
-                    temp.groupID=database.AddGroup(true);
-                    temp.type = DataPacket.transportType.ADD_PRIVATE_GROUP;
+                    temp.chatRoomID =database.CreateChatRoom(true);
+                    temp.type = DataPacket.transportType.CREATE_PRIVATE_CHATROOM;
+                    MultiThread.addGroup(dataPacket.id,temp.chatRoomID);
                     sendMsg(temp);
+                    break;
+                }
+                case ADD_CHATROOM:
+                {
+                    database.AddChatRoom(dataPacket.id,dataPacket.chatRoomID);
+                    //TODO
+                    break;
+                }
+                case DEL_CHATROOM:
+                {
+                    database.DelChatRoom(dataPacket.id,dataPacket.chatRoomID);
+                    //TODO
                     break;
                 }
                 //修改名字
@@ -160,7 +174,7 @@ public class ServerThread extends Thread{
                 //返回群聊成员列表
                 case RETURN_GROUP_LIST:
                 {
-                    String[] group1 = database.getGroup(dataPacket.groupID);
+                    String[] group1 = database.getGroup(dataPacket.chatRoomID);
                     for (String group:group1)
                     {
                         DataPacket temp = new DataPacket();
@@ -173,7 +187,7 @@ public class ServerThread extends Thread{
                 //返回群聊历史记录
                 case GET_HISTORY_MESSAGE:
                 {
-                    List<DataPacket> temp = database.GetGroupMessage(dataPacket.groupID);
+                    List<DataPacket> temp = database.GetGroupMessage(dataPacket.chatRoomID);
                     for(DataPacket dataPacket1:temp)
                     {
                         dataPacket1.type = DataPacket.transportType.GET_HISTORY_MESSAGE;

@@ -63,11 +63,12 @@ public interface Database {
      List<DataPacket> GetGroupMessage(String groupID);
 
     /**
-     *
+     * 添加聊天室进聊天室表（）
      * @param isPrivate 是否是私有，在数据库聊天室属性添加私有为true
      * @return 返回随机群号（不重复）
      */
-     String AddGroup(boolean isPrivate);
+     String CreateChatRoom(boolean isPrivate);
+
     /**
      * 添加好友信息至好友表（friend）
      * @param id 自己账号
@@ -75,6 +76,22 @@ public interface Database {
      *@return  true/false
      */
      boolean  CreateFriend(String id,String id_friend);
+
+    /**
+     * 添加ID所有者到指定聊天室
+     * @param id 添加进聊天室的人
+     * @param chatroomID 添加进的聊天室
+     * @return 成功
+     */
+     boolean AddChatRoom(String id,String chatroomID);
+
+    /**
+     * 从指定聊天室删除ID所有者
+     * @param id 删除聊天室里指定的人
+     * @param chatroomID 删除人所在聊天室
+     * @return 成功
+     */
+    boolean DelChatRoom(String id,String chatroomID);
 
     /**
      * 输入好友账号将信息从数据库中删除

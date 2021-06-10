@@ -62,7 +62,7 @@ public class ClientImpl implements Client {
         DataPacket mes = new DataPacket();
         mes.message = encryption.encryptContent(text);
         mes.senderId = senderID;
-        mes.groupID = groupID;
+        mes.chatRoomID = groupID;
         mes.type = DataPacket.transportType.SEND_MESSAGE;
         String temp = JSONObject.toJSONString(mes);
         co.setMessage(temp);

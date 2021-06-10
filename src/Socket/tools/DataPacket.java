@@ -16,7 +16,7 @@ public class DataPacket {
     public String password;
     public String senderId;
     public String message;
-    public String groupID;
+    public String chatRoomID;
     public transportType type;
     public MSGLoginStatus loginStatus;
     public String geyHistoryGroupID;
@@ -34,8 +34,10 @@ public class DataPacket {
         MODIFY_NAME,
         MODIFY_PASSWORD,
         GET_HISTORY_MESSAGE,
-        ADD_GROUP,
-        ADD_PRIVATE_GROUP,
+        CREATE_CHATROOM,
+        CREATE_PRIVATE_CHATROOM,
+        ADD_CHATROOM,
+        DEL_CHATROOM,
         ADD_FRIEND,
         DEL_FRIEND,
         RETURN_FRIEND_LIST,

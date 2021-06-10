@@ -28,7 +28,7 @@ public class MultiThread {
      * @param id 拉进群聊的人账号id
      * @param groupID 群聊id（服务器生成）
      */
-    public static void addGroup(ArrayList<String> id,int groupID)
+    public static void addGroup(String id,String groupID)
     {
         ThreadManager temp =new ThreadManager();
         for (int i = 0; i < stList.size(); i++)

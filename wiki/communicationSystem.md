@@ -128,6 +128,15 @@
     **return** void
     在随后调用对方接口发送消息，结束后不提供结束标记，另由聊天系统与数据库系统实现量子纠缠通信，表达没有更多信息。
 
+* **setUserInfo** (UserId,UserName,Password)
+    > UserId 为必填
+    > 其他信息可能为空
+
+    **return** 信息更改状态
+    > Boolean 即可
+
+    通知数据库按照 UserId 进行查找，随后对非空值进行覆写即可。
+
 ### Server （服务端通信管理器）
 
 ## <a id="Class">类图</a>

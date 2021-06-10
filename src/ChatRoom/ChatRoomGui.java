@@ -576,10 +576,10 @@ public class ChatRoomGui extends JFrame implements ActionListener, FocusListener
      * 覆写默认构造函数。
      */
     public ChatRoomGui(String selfId, String selfName) {
-        this.chatRoomManager = ChatRoomManager.getChatRoomManager();
-        this.addressManager = AddressManager.getAddressManager();
-        this.settingManager = SettingManager.getSettingManager(selfId, selfName);
-        this.chatManager = ChatManager.getChatManager();
+        this.chatRoomManager = ChatRoomManager.getChatRoomManager(this);
+        this.addressManager = AddressManager.getAddressManager(this);
+        this.settingManager = SettingManager.getSettingManager(this,selfId, selfName);
+        this.chatManager = ChatManager.getChatManager(this);
 
         this.settingManager.setSelfId(selfId);
         this.settingManager.setSelfName(selfName);
@@ -796,6 +796,12 @@ public class ChatRoomGui extends JFrame implements ActionListener, FocusListener
                 chatRoomManager.delete(chatManager.getCurrentChatRoomInfo().getChatRoomId());
                 updateChatPl();
                 break;
+            case "confirmSet":
+                if (settingManager.userAuthenticationManager.setNew()) {
+                    updateMyInfoPl();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Unknown Error");
+                }
             default:
                 break;
         }
@@ -833,10 +839,11 @@ public class ChatRoomGui extends JFrame implements ActionListener, FocusListener
                 //password 输入正确
                 case QUALIFIED:
                     checkTwicePasswordInput();
+                    PasswordStatusLb.setText(qualifiedStatusStr);
                     break;
                 //输入过长
                 case TOO_LONG:
-                    PasswordStatusLb.setText(qualifiedStatusStr);
+                    PasswordStatusLb.setText(tooLongStatusStr);
                     break;
                 //输入过短
                 case TOO_SHORT:
@@ -1021,7 +1028,7 @@ public class ChatRoomGui extends JFrame implements ActionListener, FocusListener
             JOptionPane.showMessageDialog(null, "You don't have any friends,loser.");
         }
 
-        chatRoomListPl.updateUI();
+        chatRoomPl.updateUI();
     }
 
     /**
@@ -1039,7 +1046,27 @@ public class ChatRoomGui extends JFrame implements ActionListener, FocusListener
             JOptionPane.showMessageDialog(null, "You don't have any friends,loser.");
         }
 
-        chatRoomListPl.updateUI();
+        friendPl.updateUI();
+    }
+
+    /**
+     * 更新用户信息
+     */
+    private void updateMyInfoPl() {
+        userIdLb.setText("<html>\n" +
+                "    <body>\n" +
+                "        <div style=\"font-size: 32px; font-family: 'Trebuchet MS'\">\n" +
+                settingManager.getSelfId() +
+                "        </div>\n" +
+                "    </body>\n" +
+                "</html>\n");
+        userNameLb.setText("<html>\n" +
+                "    <body>\n" +
+                "        <div style=\"font-size: 32px; font-family: 'Trebuchet MS'\">\n" +
+                settingManager.getSelfName() +
+                "        </div>\n" +
+                "    </body>\n" +
+                "</html>\n");
     }
 
     /**

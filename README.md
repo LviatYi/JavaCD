@@ -55,6 +55,7 @@
 * 整体进度规划与控制
 * 维护团队沟通
 * 文档编纂
+* 客户端前端服务程序
 
 LviatYi
 
@@ -67,6 +68,7 @@ TopKang / IMposter
 
 ### Back-end engineer 后端工程师
 
+* 客户端前端通信程序
 * 服务器后端程序
 * 服务器后台
 
@@ -92,6 +94,9 @@ LviatYi
 * 端到端通信加密
 
 May_bebe
+
+* 注： 最终劳动成果以文档注释中的 `author` 为准。
+* 又注： 任何劳动成果都是值得尊重的，虽心有余而力不足，则尽力可勉
 
 [UAS]:./wiki/userAuthenticationSystem.md
 [ABS]:./wiki/addressBookSystem.md

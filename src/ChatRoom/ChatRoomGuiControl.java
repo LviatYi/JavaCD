@@ -22,24 +22,20 @@ public interface ChatRoomGuiControl {
     String confirmChatRoomName();
 
     /**
-     * 添加好友时确认没有此用户
+     * 更新 ChatRoomListPl.
+     * 请在更新聊天室时调用.
      */
-    void confirmWrongFriendId();
+    void updateChatRoom();
     /**
-     * 添加好友时已有此好友
+     * 更新 FriendListPl.
+     * 请在更新好友时调用.
      */
-    void confirmHavingFriend();
-    /**
-     * 删除好友时没有此好友
-     */
-    void confirmNoFriend();
+    void updateFriend();
 
     /**
-     * 更新 ChatRoomListPl
+     * 更新 MsgPl.
+     * 请在更新消息后调用.
      */
-    void updateChatRoomListPl();
-    /**
-     * 更新 FriendListPl
-     */
-    void updateFriendListPl();
+    void updateMessage();
+
 }

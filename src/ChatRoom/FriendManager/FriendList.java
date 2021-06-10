@@ -11,7 +11,7 @@ import java.util.Vector;
 public class FriendList {
     private Vector<FriendInfo> list;
 
-    public enum FriendStatus{
+    public enum FriendStatus {
         /**
          * 合格
          */
@@ -21,9 +21,21 @@ public class FriendList {
          */
         ADDED,
         /**
-         * 无此好友用户
+         * 账号不存在
          */
-        WRONG_ID,
+        NOT_EXIST,
+        /**
+         * 好友列表中不存在
+         */
+        LIST_NOT_EXIST,
+
+    }
+
+    public FriendList(){
+        list=new Vector<FriendInfo>();
+        list.add(new FriendInfo("123","123"));
+        list.add(new FriendInfo("456","456"));
+        list.add(new FriendInfo("789","789"));
     }
 
     /**
@@ -32,27 +44,25 @@ public class FriendList {
      * @param friendId 好友id
      * @return 好友id，找不到返回空
      */
-    public FriendInfo findLocal(String friendId)
-    {
-        for(FriendInfo friendInfo:list)
-        {
-            if(friendInfo.getFriendId().equals((friendId)))
-            {
+    public FriendInfo findLocal(String friendId) {
+        for (FriendInfo friendInfo : list) {
+            if (friendInfo.getFriendId().equals((friendId))) {
                 return friendInfo;
             }
         }
         return null;
     }
 
-    public String add(FriendInfo friendInfo)
-    {
+    public String add(FriendInfo friendInfo) {
         list.add(friendInfo);
         return friendInfo.getFriendId();
     }
-    public void del(String friendId)
-    {
+
+    public void del(String friendId) {
         list.removeIf(friendInfo -> friendInfo.getFriendId().equals(friendId));
     }
 
-
+    public Vector<FriendInfo> getList() {
+        return list;
+    }
 }

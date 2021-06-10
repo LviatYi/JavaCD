@@ -19,6 +19,10 @@ public class ChatRoomList {
          */
         QUALIFIED,
         /**
+         * 未知错误
+         */
+        ERROR,
+        /**
          * 已加入
          */
         JOINED,
@@ -33,7 +37,11 @@ public class ChatRoomList {
         /**
          * 取消操作
          */
-        CANCEL
+        CANCEL,
+        /**
+         * 私有聊天室
+         */
+        PRIVATE,
     }
 
     /**
@@ -43,9 +51,39 @@ public class ChatRoomList {
      * @return ChatRoomID, 找不到则返回空
      */
     public ChatRoomInfo findLocal(String chatRoomId) {
+        if(list.isEmpty()){
+            return null;
+        }
         for (ChatRoomInfo chatRoomInfo : list) {
             if (chatRoomInfo.getChatRoomId().equals(chatRoomId)) {
                 return chatRoomInfo;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 在缓存中按照 好友关系 寻找 ChatRoom.
+     *
+     * @param userId1
+     * @param userId2
+     * @return ChatRoomInfo 若返回 null 则无好友聊天室.
+     */
+    public ChatRoomInfo findLocal(String userId1, String userId2) {
+        for (ChatRoomInfo chatRoomInfo : list) {
+            if (chatRoomInfo.getFriendList() == null) {
+                ChatRoomInfo chatRoomInfoServer = new ChatRoomInfo(null);
+                /*
+                 * TODO_LviatYi 从服务器获得私聊聊天室
+                 * date 2021/6/9
+                 */
+                return chatRoomInfoServer;
+            } else {
+                if (chatRoomInfo.getChatRoomType() == ChatRoomInfo.ChatRoomType.PRIVATE) {
+                    if (chatRoomInfo.hasMember(userId1) && chatRoomInfo.hasMember(userId2)) {
+                        return chatRoomInfo;
+                    }
+                }
             }
         }
         return null;
@@ -100,16 +138,25 @@ public class ChatRoomList {
         return null;
     }
 
+    /**
+     * 向聊天室列表记录一条新的聊天室信息.
+     * @param chatRoomInfo
+     * @return
+     */
     public String add(ChatRoomInfo chatRoomInfo) {
+        if(chatRoomInfo ==null){
+            return null;
+        }
         list.add(0, chatRoomInfo);
         return chatRoomInfo.getChatRoomId();
     }
 
-    public void del(String chatRoomId) {
+    public String del(String chatRoomId) {
         list.removeIf(chatRoomInfo -> chatRoomInfo.getChatRoomId().equals(chatRoomId));
+        return chatRoomId;
     }
 
-    public Vector<ChatRoomInfo> getList(){
+    public Vector<ChatRoomInfo> getList() {
         return this.list;
     }
 

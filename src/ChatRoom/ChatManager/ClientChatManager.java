@@ -1,5 +1,7 @@
 package ChatRoom.ChatManager;
 
+import java.util.Date;
+
 /**
  * 向客户端发送消息
  *
@@ -14,5 +16,7 @@ public interface ClientChatManager {
      * @param message 消息
      * @return 传输成功时 返回 true
      */
-    boolean Receiver(Message message);
+    boolean receiver(Message message);
+    boolean receiver(String content, String senderId, String chatRoomId, Date date);
+//    boolean addFriend();
 }

@@ -19,6 +19,10 @@ public class ChatRoomList {
          */
         QUALIFIED,
         /**
+         * 未知错误
+         */
+        ERROR,
+        /**
          * 已加入
          */
         JOINED,
@@ -134,7 +138,15 @@ public class ChatRoomList {
         return null;
     }
 
+    /**
+     * 向聊天室列表记录一条新的聊天室信息.
+     * @param chatRoomInfo
+     * @return
+     */
     public String add(ChatRoomInfo chatRoomInfo) {
+        if(chatRoomInfo ==null){
+            return null;
+        }
         list.add(0, chatRoomInfo);
         return chatRoomInfo.getChatRoomId();
     }

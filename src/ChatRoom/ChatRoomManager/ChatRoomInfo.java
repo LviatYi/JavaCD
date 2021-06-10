@@ -18,7 +18,7 @@ public class ChatRoomInfo {
     private Vector<FriendInfo> friendList;
 
 
-    enum ChatRoomType {
+    public enum ChatRoomType {
         /**
          * 公共聊天室
          */

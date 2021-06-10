@@ -61,24 +61,18 @@ public class ChatRoomManager {
         } else {
             ChatRoomInfo chatRoomInfo=new ChatRoomInfo(null ,null,null);
             /*
-             * TODO_LviatYi 通知服务器查找聊天室
+             * TODO_LviatYi 通知服务器查找聊天室.
+             *  提供 ChatRoomId.
+             *  返回聊天室信息.
              * date 2021/6/7
              */
-            /*
-            * TODO_LviatYi 私有不让进
-            * date 2021/6/9
-            */
-            //不存在聊天室
             if (chatRoomInfo.getChatRoomId()==null)
             {
                 if (chatRoomGuiControl.confirmNewChatRoom()) {
-                    String chatRoomName=chatRoomGuiControl.confirmChatRoomName();
-                    /*
-                     * TODO_LviatYi 通知服务器添加新的聊天室
-                     * date 2021/6/7
-                     */
-                    chatRoomList.add(new ChatRoomInfo(chatRoomId,chatRoomName, ChatRoomInfo.ChatRoomType.PUBLIC));
-                    //新建聊天室
+                    chatRoomInfo=createChatRoom(chatRoomId,chatRoomGuiControl.confirmChatRoomName(), ChatRoomInfo.ChatRoomType.PUBLIC);
+                    if(chatRoomInfo==null){
+                        return ChatRoomList.ChatRoomStatus.ERROR;
+                    }
                     return ChatRoomList.ChatRoomStatus.NEW;
                 }else
                 {
@@ -97,6 +91,30 @@ public class ChatRoomManager {
     }
 
     /**
+     * 创建一个聊天室.
+     * 首先通知服务器.
+     * 随后在本地创建.
+     * @param chatRoomId ChatRoomId 当权限为私有时允许为空.
+     * @param chatRoomName ChatRoomName 当权限为私有时允许为空.
+     * @param chatRoomType ChatRoomType 不允许为空.扩展时需重构！需要将 ChatRoomType 更新为 Int 类型.
+     * @return 返回聊天室信息.若新增失败则返回 null.
+     */
+    public ChatRoomInfo createChatRoom(String chatRoomId, String chatRoomName, ChatRoomInfo.ChatRoomType chatRoomType){
+        ChatRoomInfo chatRoomInfo=new ChatRoomInfo(chatRoomId,chatRoomName, chatRoomType);
+        /*
+         * TODO_LviatYi 通知服务器添加新的聊天室
+         *  一定提供一个指定为私有权限的聊天室.
+         *  若为私有，要求补全 ChatRoomId.且 ChatRoomName 可无视（允许为空）.
+         *  最后请返回 ChatRoomInfo.
+         * date 2021/6/7
+         */
+        if(chatRoomInfo.getChatRoomId()!=null){
+            chatRoomList.add(chatRoomInfo);
+        }
+        return chatRoomInfo;
+    }
+
+    /**
      * 退出聊天室
      * @param chatRoomId 退出聊天室的 ChatRoomId
      * @return 保证完全删除
@@ -109,6 +127,7 @@ public class ChatRoomManager {
 
     /**
      * 根据好友关系 获取私人聊天室.
+     * 若无私人聊天室则返回空.
      * @param userId1
      * @param userId2
      * @return 私人聊天室信息.
@@ -116,12 +135,13 @@ public class ChatRoomManager {
      */
     public ChatRoomInfo getPrivateChatRoom(String userId1,String userId2){
         ChatRoomInfo chatRoomInfo=null;
-
         /*
         * TODO_LviatYi 通知服务器查找私聊聊天室信息
         * date 2021/6/9
         */
-        chatRoomList.add(chatRoomInfo);
+        if (chatRoomInfo!=null){
+            chatRoomList.add(chatRoomInfo);
+        }
         return chatRoomInfo;
     }
 

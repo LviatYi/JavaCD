@@ -1,5 +1,8 @@
 package Socket.Client;
 
+import ChatRoom.ChatManager.Message;
+import ChatRoom.ChatRoomManager.ChatRoomInfo;
+
 import java.io.IOException;
 
 /**
@@ -17,19 +20,10 @@ public interface Client {
 
     /**
      *
-     * @param text 传输的消息
-     * @param senderID 发送者id
-     * @param groupID 聊天群号
+     * @param msg 传输的消息对象
      */
-    public void sendGroup(String text,String senderID,String groupID);
+    public void sendGroup(Message msg);
 
-    /**
-     *
-     * @param text 消息
-     * @param receiverID 接受者id
-     * @param senderID 发送者id
-     */
-    public void sendPrivate(String text,String receiverID,String senderID);
 
     /**
      *
@@ -44,12 +38,6 @@ public interface Client {
      * @param password 登录密码
      */
     public void login(String id,String password);
-
-    /**
-     * 拆分获得的消息包到客户端类
-     * 解包调用message时记得调用解密！！！！！！！！！！
-     */
-    public void splitList();
 
     /**
      *
@@ -68,4 +56,64 @@ public interface Client {
      * 断开连接
      */
     public void exit();
+
+    /**
+     *
+     * @param chatRoomName 聊天室名
+     * @param chatRoomType 聊天室类型
+     */
+    public void addChatRoom(String chatRoomName, ChatRoomInfo.ChatRoomType chatRoomType);
+
+    /**
+     *
+     * @param userID 自己的ID
+     * @param receiverID 被添加者的ID
+     */
+    public void addFriend(String userID, String receiverID);
+
+    /**
+     *
+     * @param userID 自己的ID
+     * @param receiverID 被删除者的ID
+     */
+    public void deleteFriend(String userID, String receiverID);
+
+    /**
+     *
+     * @param userID 自己的ID
+     */
+    public void getFriendList(String userID);
+
+    /**
+     *
+     * @param userID 自己的ID
+     */
+    public void getGroupList(String userID);
+
+    /**
+     *
+     * @param chatRoomID 群聊的ID
+     */
+    public void getHistoryMessage(String chatRoomID);
+
+    /**
+     *
+     * @param userID 自己的ID
+     * @param chatRoomID 群聊的ID
+     */
+    public void exitChatRoom(String userID,String chatRoomID);
+
+    /**
+     *
+     * @param chatRoomID 查询的聊天室ID
+     */
+    public void findChatRoomInfo(String chatRoomID);
+
+    /**
+     *
+     * @param userID1 成员ID1
+     * @param userID2 成员ID2
+     */
+    public void findChatRoomInfo(String userID1,String userID2);
+
 }

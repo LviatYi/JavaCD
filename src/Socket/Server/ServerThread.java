@@ -48,15 +48,15 @@ public class ServerThread extends Thread{
                 //注册
                 case REGISTER:
                 {
-                    int ID = database.Register(dataPacket.name, dataPacket.password);
+                    int id = database.Register(dataPacket.name, dataPacket.password);
                     DataPacket temp = new DataPacket();
-                    if (ID == 0) {
+                    if (id == 0) {
                         temp.registerStatus = DataPacket.MSGRegisterStatus.CONNECTION_FAILED;
                         temp.type = DataPacket.transportType.REGISTER;
                     } else {
                         temp.registerStatus = DataPacket.MSGRegisterStatus.SUCCESS;
                         temp.type = DataPacket.transportType.REGISTER;
-                        temp.id = String.valueOf(ID);
+                        temp.id = String.valueOf(id);
                     }
                     sendMsg(temp);
                     break;

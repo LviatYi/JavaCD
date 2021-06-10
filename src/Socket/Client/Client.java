@@ -21,9 +21,9 @@ public interface Client {
      *
      * @param text 传输的消息
      * @param senderID 发送者id
-     * @param groupID 聊天群号
+     * @param chatRoomID 聊天群号
      */
-    public void sendGroup(String text,String senderID,String groupID);
+    public void sendGroup(String text,String senderID,String chatRoomID);
 
 
     /**
@@ -94,9 +94,16 @@ public interface Client {
     /**
      *
      * @param userID 自己的ID
-     * @param groupID 群聊的ID
+     * @param chatRoomID 群聊的ID
      */
-    public void getHistoryMessage(String userID, String groupID);
+    public void getHistoryMessage(String userID, String chatRoomID);
+
+    /**
+     *
+     * @param userID 自己的ID
+     * @param chatRoomID 群聊的ID
+     */
+    public void exitChatRoom(String userID,String chatRoomID);
 
 
 }

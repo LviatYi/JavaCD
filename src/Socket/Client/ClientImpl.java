@@ -80,11 +80,11 @@ public class ClientImpl implements Client {
     }
 
     //    发送群聊消息
-    public void sendGroup(String text, String senderID, String groupID) {
+    public void sendGroup(String text, String senderID, String chatRoomID) {
         DataPacket mes = new DataPacket();
         mes.message = encryption.encryptContent(text);
         mes.senderId = senderID;
-        mes.chatRoomID = groupID;
+        mes.chatRoomID = chatRoomID;
         mes.type = DataPacket.transportType.SEND_MESSAGE;
         String temp = JSONObject.toJSONString(mes);
         co.setMessage(temp);
@@ -112,11 +112,20 @@ public class ClientImpl implements Client {
     }
 
     //获取特定群的历史记录
-    public void getHistoryMessage(String userID, String groupID) {
+    public void getHistoryMessage(String userID, String chatRoomID) {
         DataPacket mes = new DataPacket();
         mes.type = DataPacket.transportType.GET_HISTORY_MESSAGE;
         mes.id = userID;
-        mes.geyHistoryGroupID = groupID;
+        mes.geyHistoryGroupID = chatRoomID;
+        String temp = JSONObject.toJSONString(mes);
+        co.setMessage(temp);
+    }
+
+    public void exitChatRoom(String userID,String chatRoomID){
+        DataPacket mes = new DataPacket();
+        mes.type= DataPacket.transportType.EXIT_CHATROOM;
+        mes.id=userID;
+        mes.chatRoomID=chatRoomID;
         String temp = JSONObject.toJSONString(mes);
         co.setMessage(temp);
     }

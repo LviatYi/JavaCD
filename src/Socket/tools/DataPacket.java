@@ -42,6 +42,7 @@ public class DataPacket {
         CREATE_PRIVATE_CHATROOM,
         ADD_CHATROOM,
         DEL_CHATROOM,
+        EXIT_CHATROOM,
         ADD_FRIEND,
         DEL_FRIEND,
         RETURN_FRIEND_LIST,

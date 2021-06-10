@@ -50,7 +50,7 @@ public interface Database {
      * @param sender 发送者
      * @param message 内容
      * @param datetime 客户端发送时间
-     * 时间自动给出
+     *
      *@return  true/false
      */
     boolean SetMessage(String sender, String message, String groupId, Date datetime);
@@ -67,7 +67,14 @@ public interface Database {
      * @param isPrivate 是否是私有，在数据库聊天室属性添加私有为true
      * @return 返回随机群号（不重复）
      */
-     String CreateChatRoom(boolean isPrivate);
+     String CreateChatRoom(boolean isPrivate,String chatroomName);
+
+    /**
+     * 删除指定聊天室
+     * @param chatroomID 聊天室
+     * @return 成功
+     */
+    boolean DelChatRoom(String chatroomID);
 
     /**
      * 添加好友信息至好友表（friend）
@@ -86,14 +93,6 @@ public interface Database {
      boolean AddChatRoom(String id,String chatroomID);
 
     /**
-     * 从指定聊天室删除ID所有者
-     * @param id 删除聊天室里指定的人
-     * @param chatroomID 删除人所在聊天室
-     * @return 成功
-     */
-    boolean DelChatRoom(String id,String chatroomID);
-
-    /**
      * 输入好友账号将信息从数据库中删除
      * @param id 自己ID
      * @param id_friend 好友ID
@@ -106,7 +105,7 @@ public interface Database {
      * @param id 获取ID账号的好友列表
      * @return String 数组
      */
-     String[] getFriend(String id);
+     List<String> getFriend(String id);
 
     /**
      * 返回group成员

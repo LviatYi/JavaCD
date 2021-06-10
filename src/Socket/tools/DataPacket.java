@@ -19,6 +19,7 @@ public class DataPacket {
     public String senderId;
     public String message;
     public String chatRoomID;
+    public String chatRoomName;
     public transportType type;
     public MSGLoginStatus loginStatus;
     public String geyHistoryGroupID;
@@ -41,6 +42,9 @@ public class DataPacket {
         CREATE_PRIVATE_CHATROOM,
         ADD_CHATROOM,
         DEL_CHATROOM,
+        EXIT_CHATROOM,
+        FIND_CHATROOM_INFO_THROUGH_ID,
+        FIND_CHATROOM_INFO_THROUGH_USER,
         ADD_FRIEND,
         DEL_FRIEND,
         RETURN_FRIEND_LIST,

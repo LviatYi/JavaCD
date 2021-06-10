@@ -296,7 +296,7 @@ public class Connect implements Database {
                 String groupId=rs.getString(2);
                 String message=rs.getString(3);
                 Date datetime=rs.getDate(4);
-            message_get.add();
+            //message_get.add();
 
 
             }

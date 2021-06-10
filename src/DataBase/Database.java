@@ -50,7 +50,7 @@ public interface Database {
      * @param sender 发送者
      * @param message 内容
      * @param datetime 客户端发送时间
-     * 时间自动给出
+     *
      *@return  true/false
      */
     boolean SetMessage(String sender, String message, String groupId, Date datetime);

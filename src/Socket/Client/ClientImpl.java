@@ -13,11 +13,13 @@ public class ClientImpl implements Client {
     private ClientThreadOut co = null;
     private ClientThreadIn ci = null;
     private final EncryptionImpl encryption = new EncryptionImpl();
+    @Override
     public void run() throws IOException {
         client();
     }
 
     //增加好友
+    @Override
     public void addFriend(String userID, String receiverID) {
         DataPacket mes = new DataPacket();
         mes.type = DataPacket.transportType.ADD_FRIEND;
@@ -29,6 +31,7 @@ public class ClientImpl implements Client {
     }
 
     //删除好友
+    @Override
     public void deleteFriend(String userID, String receiverID) {
         DataPacket mes = new DataPacket();
         mes.type = DataPacket.transportType.DEL_FRIEND;
@@ -40,6 +43,7 @@ public class ClientImpl implements Client {
     }
 
     //创建聊天室
+    @Override
     public void addChatRoom(String chatRoomName, ChatRoomInfo.ChatRoomType chatRoomType){
         if(chatRoomType== ChatRoomInfo.ChatRoomType.PUBLIC){
             DataPacket mes = new DataPacket();
@@ -59,6 +63,7 @@ public class ClientImpl implements Client {
     }
 
     //返回好友列表
+    @Override
     public void getFriendList(String userID) {
         DataPacket mes = new DataPacket();
         mes.type = DataPacket.transportType.RETURN_FRIEND_LIST;

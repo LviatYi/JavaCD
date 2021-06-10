@@ -5,9 +5,12 @@ import java.util.*;
 import java.util.Date;
 import java.util.List;
 
+import ChatRoom.FriendManager.FriendInfo;
+import ChatRoom.FriendManager.FriendList;
 import Socket.tools.*;
 
 public class Connect implements Database {
+
     private Connection con;
     private Statement sta;
     private ResultSet rs;
@@ -59,11 +62,13 @@ public class Connect implements Database {
     int sui() {
         int num = (int) Math.floor(Math.random() * 11);
         while (num < 6 || num > 10)
+        {
             num = (int) Math.floor(Math.random() * 11);
+        }
         //System.out.println(num);
         int a = (int) Math.pow(10, (num - 1));
         int random6 = (int) ((Math.random() * 9 + 1) * a);
-       // String a1 = String.valueOf(random6);
+        // String a1 = String.valueOf(random6);
         con = getConnection();
         try {
             Statement st = con.createStatement();
@@ -78,10 +83,12 @@ public class Connect implements Database {
         //System.out.println(a1);
         return random6;
     }
+
     int sui1() {
         int num = (int) Math.floor(Math.random() * 11);
-        while (num < 6 || num > 10)
+        while (num < 6 || num > 10) {
             num = (int) Math.floor(Math.random() * 11);
+        }
         //System.out.println(num);
         int a = (int) Math.pow(10, (num - 1));
         int random6 = (int) ((Math.random() * 9 + 1) * a);
@@ -132,7 +139,7 @@ public class Connect implements Database {
             String sql = "insert into User11(Id,Name,Password) values(?,?,?)";
             PreparedStatement st = con.prepareStatement(sql);
             int a = sui();
-           // String b = Tool.getTime();
+            // String b = Tool.getTime();
             st.setInt(1, a);
             st.setString(2, name);
             st.setString(3, password);
@@ -192,11 +199,11 @@ public class Connect implements Database {
         try {
             String sql = "insert into Message(SenderId,ChatRoomId,Message,Time) values(?,?,?,?)";
             PreparedStatement st = con.prepareStatement(sql);
-            int senderid=Integer.parseInt(sender);
-            int groupid=Integer.parseInt(groupId);
+            int senderid = Integer.parseInt(sender);
+            int groupid = Integer.parseInt(groupId);
             st.setInt(1, senderid);
-            st.setInt(2,groupid );
-            st.setString(3,message);
+            st.setInt(2, groupid);
+            st.setString(3, message);
             st.setDate(4, (java.sql.Date) datetime);
             int rs = st.executeUpdate();
             return true;
@@ -212,16 +219,17 @@ public class Connect implements Database {
     //好友表为索引
     @Override
     public boolean DeleteFriend(String s, String id)//删除好友
-    { con = getConnection();
+    {
+        con = getConnection();
         try {
             String sql = "delete from UserRelationship where( Id1=? and Id2=?) or (Id1=? and Id2=?)";
             PreparedStatement st = con.prepareStatement(sql);
-            int id1=Integer.parseInt(s);
-            int id2=Integer.parseInt(id);
+            int id1 = Integer.parseInt(s);
+            int id2 = Integer.parseInt(id);
             st.setInt(1, id1);
-            st.setInt(2,id2 );
+            st.setInt(2, id2);
             st.setInt(3, id2);
-            st.setInt(4,id1 );
+            st.setInt(4, id1);
             int rs = st.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -232,44 +240,50 @@ public class Connect implements Database {
 
     //TODO 修改
     @Override
-    public List<String> getFriend(String id) {
-        con = getConnection();
-        try {
-            Statement st = con.createStatement();
-            String sql = "select Id2 from UserRelationship where Id1='" + id + "'";;
-           ResultSet rs=st.executeQuery(sql);
-            //int id1=Integer.parseInt(id);
-            //st.setInt(1, id1);
-           int i=0;
-           String id_friend[] = new String[20];
-            while(rs.next())
-            {
-             id_friend[i++]= rs.getString(1);
-            }
-            return id_friend;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public FriendInfo getFriend(String friendId) {
+//        FriendInfo friendInfo=new FriendInfo("","");
+//
+//        con = getConnection();
+//        try {
+//            Statement st = con.createStatement();
+//            String sql = "select Id2 from UserRelationship where Id1='" + friendId + "'";
+//
+//            ResultSet rs = st.executeQuery(sql);
+//            //int id1=Integer.parseInt(userId);
+//            //st.setInt(1, id1);
+//            int i = 0;
+//            String id_friend[] = new String[20];
+//            while (rs.next()) {
+//                id_friend[i++] = rs.getString(1);
+//            }
+//            friendInfo.setFriendId(id_friend);
+//            return friendInfo;
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+        return null;
+    }
+
+    @Override
+    public FriendList getUserFriendList(FriendInfo userInfo) {
         return null;
     }
 
     //TODO
     //返回传入聊天室的组员
     @Override
-    public String[] getGroup(String groupId)
-    {
+    public String[] getGroup(String groupId) {
         con = getConnection();
         try {
             Statement st = con.createStatement();
             String sql = "select distinct SenderId from Message where ChatRoomId='" + groupId + "'";
-            ResultSet rs=st.executeQuery(sql);
+            ResultSet rs = st.executeQuery(sql);
             //int id1=Integer.parseInt(id);
             //st.setInt(1, id1);
-            int i=0;
+            int i = 0;
             String id_room[] = new String[20];
-            while(rs.next())
-            {
-                id_room[i++]= rs.getString(1);
+            while (rs.next()) {
+                id_room[i++] = rs.getString(1);
             }
             return id_room;
         } catch (SQLException e) {
@@ -287,38 +301,41 @@ public class Connect implements Database {
             Statement st = con.createStatement();
             String sql = "select * from Message where ChatRoomId='" + groupID + "'";
             ResultSet rs = st.executeQuery(sql);
-            List<DataPacket> message_get=new ArrayList<DataPacket>();
-            while(rs.next())
-            {
-                String senderId= rs.getString(1);
-                String groupId=rs.getString(2);
-                String message=rs.getString(3);
-                Date datetime=rs.getDate(4);
-            //message_get.add();
+            List<DataPacket> message_get = new ArrayList<DataPacket>();
+            while (rs.next()) {
+                String senderId = rs.getString(1);
+                String groupId = rs.getString(2);
+                String message = rs.getString(3);
+                Date datetime = rs.getDate(4);
+                //message_get.add();
 
 
             }
-        }catch (SQLException e){
-            e.printStackTrace();}
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         return null;
     }
 
     //TODO 增加名字
     @Override
-    public String CreateChatRoom(boolean isPrivate) {
+    public String CreateChatRoom(boolean isPrivate,String chatRoomName) {
         con = getConnection();
         try {
             String sql = "insert into ChatRoom(ChatRoomId,Property) values(?,?)";
             PreparedStatement st = con.prepareStatement(sql);
             int a = sui1();
-            String property  ;
-            if(isPrivate){property="true";}
-            else {property="false";}
+            String property;
+            if (isPrivate) {
+                property = "true";
+            } else {
+                property = "false";
+            }
             st.setInt(1, a);
             st.setString(2, property);
             int rs = st.executeUpdate();
-            String aa=String.valueOf(a);
+            String aa = String.valueOf(a);
             return aa;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -335,15 +352,15 @@ public class Connect implements Database {
     public boolean CreateFriend(String id, String id_friend) {
         con = getConnection();
         try {
-            int id1=Integer.parseInt(id);
-            int id2=Integer.parseInt(id_friend);
+            int id1 = Integer.parseInt(id);
+            int id2 = Integer.parseInt(id_friend);
             String sql = "insert into UserRelationship(Id1,Id2)\n" +
                     "values(?,?),(?,?); ";
             PreparedStatement st = con.prepareStatement(sql);
             st.setInt(1, id1);
-            st.setInt(2,id2 );
+            st.setInt(2, id2);
             st.setInt(3, id2);
-            st.setInt(4,id1 );
+            st.setInt(4, id1);
             int rs = st.executeUpdate();
 
 
@@ -367,19 +384,18 @@ public class Connect implements Database {
 
 
     // public static void main(String[] args) {
-       // Connect db=new Connect();
-       // System.out.println(db.sui());//输出id
-        //db.Register("nuist","南信大");//注册
-        //db.ModifyPassword("707890", "nuist11");//修改密码
-        //db.ModifyName("707890", "nuist11");//修改Name
-        //db.SetMessage("707890", "你好", "2686631", "2021-1-1");
-       // db.CreateFriend("123", "7859");//加好友
-        //db.DeleteFriend("707890", "123456");//删除好友
-        //String a[]=new String[20]; a=db.getFriend("123");
-        //for(int i=0;i<3;i++) System.out.println(a[i]);
-        //String a=db.AddGroup(false);//存入聊天室id
-        //System.out.println(a);
-
+    // Connect db=new Connect();
+    // System.out.println(db.sui());//输出id
+    //db.Register("nuist","南信大");//注册
+    //db.ModifyPassword("707890", "nuist11");//修改密码
+    //db.ModifyName("707890", "nuist11");//修改Name
+    //db.SetMessage("707890", "你好", "2686631", "2021-1-1");
+    // db.CreateFriend("123", "7859");//加好友
+    //db.DeleteFriend("707890", "123456");//删除好友
+    //String a[]=new String[20]; a=db.getFriend("123");
+    //for(int i=0;i<3;i++) System.out.println(a[i]);
+    //String a=db.AddGroup(false);//存入聊天室id
+    //System.out.println(a);
 
 }
 

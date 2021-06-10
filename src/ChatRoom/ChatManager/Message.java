@@ -1,6 +1,8 @@
 package ChatRoom.ChatManager;
 
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 import java.util.Date;
 import java.time.*;
 import java.util.Timer;
@@ -32,6 +34,12 @@ public class Message {
     private Date sendTime;
 
     /**
+     * 隐藏默认构造函数.
+     * 不允许不完整的信息.
+     */
+    private Message(){};
+
+    /**
      * 默认构造函数.
      * 将 sendTime 设置为系统当前时间.
      * @param content 聊天内容
@@ -57,11 +65,6 @@ public class Message {
         this.sendTime=message.getSendTime();
     }
 
-    /**
-     * 隐藏默认构造函数.
-     * 不允许不完整的信息.
-     */
-    private Message(){};
 
     public String getChatRoomId(){
         return this.chatRoomId;
@@ -71,6 +74,9 @@ public class Message {
     }
     public String getSenderId(){
         return this.senderId;
+    }
+    public Date getSendTime(){
+        return this.sendTime;
     }
     public void setContent(String content) {
         this.content = content;
@@ -83,14 +89,6 @@ public class Message {
     }
     public void setSendTime(Date sendTime) {
         this.sendTime = sendTime;
-    }
-
-    /**
-     * 获取发送时间
-     * @return 发送时间
-     */
-    public Date getSendTime(){
-        return this.getSendTime();
     }
 
     /**

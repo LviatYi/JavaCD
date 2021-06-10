@@ -53,6 +53,13 @@ public class FriendList {
         return null;
     }
 
+    public Vector<FriendInfo> getList() {
+        return list;
+    }
+    public void setList(Vector<FriendInfo> list) {
+        this.list = list;
+    }
+
     public String add(FriendInfo friendInfo) {
         list.add(friendInfo);
         return friendInfo.getFriendId();
@@ -62,7 +69,6 @@ public class FriendList {
         list.removeIf(friendInfo -> friendInfo.getFriendId().equals(friendId));
     }
 
-    public Vector<FriendInfo> getList() {
-        return list;
-    }
+
+
 }

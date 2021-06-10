@@ -10,7 +10,6 @@ import java.util.Vector;
  * @className ChatRoom
  * @date 2021/6/6
  */
-
 public class ChatRoomInfo {
     private String chatRoomId;
     private String chatRoomName;
@@ -41,21 +40,18 @@ public class ChatRoomInfo {
         this.chatRoomType = chatRoomType;
         this.setFriendList(null);
     }
-
     public ChatRoomInfo(String chatRoomId, String chatRoomName, ChatRoomType chatRoomType, Vector<FriendInfo> friendList) {
         this.setChatRoomId(chatRoomId);
         this.setChatRoomName(chatRoomName);
         this.setChatRoomType(chatRoomType);
         this.setFriendList(friendList);
     }
-
     public ChatRoomInfo(ChatRoomInfo chatRoomInfo) {
         this.setChatRoomName(chatRoomInfo.getChatRoomName());
         this.setChatRoomId(chatRoomInfo.getChatRoomId());
         this.setChatRoomType(chatRoomInfo.getChatRoomType());
         this.setFriendList(null);
     }
-
     public ChatRoomInfo() {
         this.setChatRoomName("");
         this.setChatRoomId("");
@@ -65,7 +61,6 @@ public class ChatRoomInfo {
     public String getChatRoomId() {
         return chatRoomId;
     }
-
     /**
      * 获得 ChatRoomName.
      * 若为私聊聊天室则设置为对方 Name.
@@ -81,11 +76,9 @@ public class ChatRoomInfo {
         }
         return chatRoomName;
     }
-
     public ChatRoomType getChatRoomType() {
         return this.chatRoomType;
     }
-
     /**
      * 受通信系统所限制，可能未赋值 FriendList
      *
@@ -95,19 +88,15 @@ public class ChatRoomInfo {
     public Vector<FriendInfo> getFriendList() {
         return friendList;
     }
-
     public void setFriendList(Vector<FriendInfo> friendList) {
         this.friendList = friendList;
     }
-
     public void setChatRoomId(String chatRoomId) {
         this.chatRoomId = chatRoomId;
     }
-
     public void setChatRoomName(String chatRoomName) {
         this.chatRoomName = chatRoomName;
     }
-
     public void setChatRoomType(ChatRoomType chatRoomType) {
         this.chatRoomType = chatRoomType;
     }

@@ -1,5 +1,7 @@
 package DataBase;
 
+import ChatRoom.FriendManager.FriendInfo;
+import ChatRoom.FriendManager.FriendList;
 import Socket.tools.DataPacket;
 
 import java.util.Date;
@@ -71,10 +73,10 @@ public interface Database {
 
     /**
      * 删除指定聊天室
-     * @param chatroomID 聊天室
+     * @param chatRoomId 聊天室
      * @return 成功
      */
-    boolean DelChatRoom(String chatroomID);
+    boolean DelChatRoom(String chatRoomId);
 
     /**
      * 添加好友信息至好友表（friend）
@@ -87,10 +89,10 @@ public interface Database {
     /**
      * 添加ID所有者到指定聊天室
      * @param id 添加进聊天室的人
-     * @param chatroomID 添加进的聊天室
+     * @param chatRoomId 添加进的聊天室
      * @return 成功
      */
-     boolean AddChatRoom(String id,String chatroomID);
+     boolean AddChatRoom(String id,String chatRoomId);
 
     /**
      * 输入好友账号将信息从数据库中删除
@@ -105,7 +107,7 @@ public interface Database {
      * @param id 获取ID账号的好友列表
      * @return String 数组
      */
-     List<String> getFriend(String id);
+     FriendInfo getFriend(String id);
 
     /**
      * 返回group成员
@@ -113,4 +115,12 @@ public interface Database {
      * @return String 数组
      */
      String[] getGroup(String groupId);
+
+
+    /**
+     * 获得用户的好友列表.
+     * @param userInfo 用户 Info
+     * @return 目标好友的好友列表.
+     */
+    FriendList getUserFriendList(FriendInfo userInfo);
 }

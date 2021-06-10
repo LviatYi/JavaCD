@@ -44,6 +44,13 @@ public class ChatRoomList {
         PRIVATE,
     }
 
+    public Vector<ChatRoomInfo> getList() {
+        return this.list;
+    }
+    public void setList(Vector<ChatRoomInfo> list) {
+        this.list = list;
+    }
+
     /**
      * 在缓存中按照 ChatRoomID 寻找 ChatRoom .
      *
@@ -140,25 +147,19 @@ public class ChatRoomList {
 
     /**
      * 向聊天室列表记录一条新的聊天室信息.
-     * @param chatRoomInfo
-     * @return
+     * @param chatRoomInfo 待记录的聊天室信息.
+     * @return chatRoomInfo
      */
-    public String add(ChatRoomInfo chatRoomInfo) {
+    public ChatRoomInfo add(ChatRoomInfo chatRoomInfo) {
         if(chatRoomInfo ==null){
             return null;
         }
         list.add(0, chatRoomInfo);
-        return chatRoomInfo.getChatRoomId();
+        return chatRoomInfo;
     }
 
     public String del(String chatRoomId) {
         list.removeIf(chatRoomInfo -> chatRoomInfo.getChatRoomId().equals(chatRoomId));
         return chatRoomId;
     }
-
-    public Vector<ChatRoomInfo> getList() {
-        return this.list;
-    }
-
-
 }

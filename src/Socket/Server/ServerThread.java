@@ -9,19 +9,22 @@ import java.io.*;
 import java.net.Socket;
 import java.util.List;
 
-/*
+/**
  * 每当有客户机和服务器连接时，都要定义一个接受对象来进行数据的传输
- * 从服务器的角度看，这个类就是客户端
+ *  从服务器的角度看，这个类就是客户端
  */
 public class ServerThread extends Thread{
+    /**
+     * 线程中的处理对象
+     */
+    private final Socket client;
 
-    private final Socket client;//线程中的处理对象
     private DataOutputStream ous ;
     public ServerThread(Socket client) {
         this.client=client;
     }
     public Connect database = new Connect();
-    public String SocketID;
+    public String socketId;
 
     @Override
     public void run() {
@@ -33,7 +36,6 @@ public class ServerThread extends Thread{
     }
 
     private void processSocket() throws IOException {
-
         InputStream ins = client.getInputStream();
         ous = new DataOutputStream(client.getOutputStream());
         BufferedReader brd=new BufferedReader(new InputStreamReader(ins));
@@ -70,7 +72,7 @@ public class ServerThread extends Thread{
                             temp.loginStatus = DataPacket.MSGLoginStatus.SUCCESS;
                             temp.type = DataPacket.transportType.LOGIN;
                             sendMsg(temp);
-                            SocketID= dataPacket.id;
+                            socketId = dataPacket.id;
                             //TODO
                             MultiThread.addClient(this);//认证成功，把这个用户加入服务器队列
                             break;
@@ -91,6 +93,8 @@ public class ServerThread extends Thread{
                             sendMsg(temp);
                             break;
                         }
+                        default:
+                            break;
                     }
                     break;
                 }
@@ -124,7 +128,7 @@ public class ServerThread extends Thread{
                 {
                     String ID;
                     DataPacket temp = new DataPacket();
-                    ID=temp.chatRoomID =database.CreateChatRoom(true);
+                    ID=temp.chatRoomID =database.CreateChatRoom(true,"");
                     if(ID.equals("-1"))
                     {
                         temp.systemTip =0;
@@ -183,7 +187,7 @@ public class ServerThread extends Thread{
                 case RETURN_FRIEND_LIST:
                 {
                     DataPacket temp = new DataPacket();
-                    temp.friendList = database.getFriend(dataPacket.id);
+//                    temp.friendList = database.getUserFriendList(dataPacket.friendInfo);
                     temp.type = DataPacket.transportType.RETURN_FRIEND_LIST;
                     sendMsg(temp);
                     break;
@@ -227,6 +231,8 @@ public class ServerThread extends Thread{
                     //TODO id,friendRequestID
                     //返回chatroominfo
                 }
+                default:
+                    break;
             }
         }
 

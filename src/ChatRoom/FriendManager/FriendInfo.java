@@ -24,15 +24,12 @@ public class FriendInfo {
     public String getFriendId() {
         return friendId;
     }
-
     public String getFriendName() {
         return friendName;
     }
-
     public void setFriendId(String friendId) {
         this.friendId = friendId;
     }
-
     public void setFriendName(String friendName) {
         this.friendName = friendName;
     }

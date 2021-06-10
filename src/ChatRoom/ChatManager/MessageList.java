@@ -11,49 +11,56 @@ import java.util.Vector;
  * @date 2021/6/8
  */
 public class MessageList {
-    Vector<Message> list;
-    String chatRoomId;
+    private Vector<Message> list;
+    private String chatRoomId;
 
+    /**
+     * 隐藏默认构造函数
+     */
     private MessageList() {
-        list = new Vector<Message>();
+        setList(new Vector<Message>());
     }
 
     public MessageList(String chatRoomId) {
-        list = new Vector<Message>();
-        this.chatRoomId = chatRoomId;
+        setList(new Vector<Message>());
+        this.setChatRoomId(chatRoomId);
+    }
+    public MessageList(String chatRoomId, Vector<Message> list) {
+        this.setChatRoomId(chatRoomId);
+        this.setList(list);
     }
 
-    public MessageList(String chatRoomId, Vector<Message> list) {
-        this.chatRoomId = chatRoomId;
+    public Vector<Message> getList() {
+        return this.list;
+    }
+    String getChatRoomId() {
+        return this.chatRoomId;
+    }
+    public void setList(Vector<Message> list) {
         this.list = list;
+    }
+    public void setChatRoomId(String chatRoomId) {
+        this.chatRoomId = chatRoomId;
     }
 
     String addMessage(Message message) {
-        if (message.getChatRoomId().equals(this.chatRoomId)) {
-            list.add(message);
+        if (message.getChatRoomId().equals(this.getChatRoomId())) {
+            getList().add(message);
             return this.getChatRoomId();
         } else {
             return null;
         }
     }
     String addMessage(MessageList messageList) {
-        if (messageList.getChatRoomId().equals(this.chatRoomId)) {
+        if (messageList.getChatRoomId().equals(this.getChatRoomId())) {
             for (Message message : messageList.getList()) {
                 this.addMessage(message);
             }
-            return this.chatRoomId;
+            return this.getChatRoomId();
         }
         return null;
     }
     void clearMessage(){
-        this.list.clear();
+        this.getList().clear();
     }
-    String getChatRoomId() {
-        return this.chatRoomId;
-    }
-
-    public Vector<Message> getList() {
-        return this.list;
-    }
-
 }

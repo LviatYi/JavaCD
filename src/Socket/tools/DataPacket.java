@@ -1,8 +1,11 @@
 package Socket.tools;
 
 import ChatRoom.ChatManager.Message;
+import ChatRoom.ChatManager.MessageList;
 import ChatRoom.ChatRoomManager.ChatRoomInfo;
+import ChatRoom.ChatRoomManager.ChatRoomList;
 import ChatRoom.FriendManager.FriendInfo;
+import ChatRoom.FriendManager.FriendList;
 
 import java.util.Date;
 import java.util.List;
@@ -31,9 +34,9 @@ public class DataPacket {
     public Date datetime;
     public int systemTip;
     public ChatRoomInfo chatRoomInfo;
-    public List<FriendInfo> friendList;
-    public List<ChatRoomInfo> groupList;
-    public List<Message> historyMessageList;
+    public FriendList friendList;
+    public ChatRoomList groupList;
+    public MessageList historyMessageList;
 
     public enum transportType{
         EXIT,

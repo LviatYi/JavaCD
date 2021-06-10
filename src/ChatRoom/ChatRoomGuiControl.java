@@ -2,6 +2,8 @@ package ChatRoom;
 
 import ChatRoom.ChatManager.Message;
 import ChatRoom.ChatRoomManager.ChatRoomInfo;
+import ChatRoom.FriendManager.FriendInfo;
+import ChatRoom.FriendManager.FriendList;
 
 /**
  * 为主程序提供用户反馈与消息通知.
@@ -41,4 +43,5 @@ public interface ChatRoomGuiControl {
      * @param message 消息.
      */
     void updateMessage(Message message);
+
 }

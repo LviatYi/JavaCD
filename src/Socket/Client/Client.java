@@ -92,10 +92,9 @@ public interface Client {
 
     /**
      *
-     * @param userID 自己的ID
      * @param chatRoomID 群聊的ID
      */
-    public void getHistoryMessage(String userID, String chatRoomID);
+    public void getHistoryMessage(String chatRoomID);
 
     /**
      *

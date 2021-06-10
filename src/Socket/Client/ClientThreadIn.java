@@ -1,30 +1,23 @@
 package Socket.Client;
 
-import ChatRoom.ChatManager.ClientChatManager;
-import ChatRoom.ChatManager.Message;
+import ChatRoom.ChatManager.ChatManager;
 import Socket.tools.DataPacket;
 import com.alibaba.fastjson.JSON;
-import ChatRoom.ChatManager.ClientChatManager;
-
-
 import java.io.*;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 public class ClientThreadIn extends Thread {
-
+    private ChatManager parent;
     private Socket server;
     public boolean exit = false;
 
-    public ClientThreadIn() {
+    public ClientThreadIn(ChatManager chatManager) {
+        this.parent = chatManager;
     }
 
     public void setSocket(Socket socket) {
         this.server = socket;
     }
-
 
     @Override
     public void run() {
@@ -37,8 +30,7 @@ public class ClientThreadIn extends Thread {
                 DataInputStream in = new DataInputStream(server.getInputStream());
                 String str = in.readUTF();
                 DataPacket dp = JSON.parseObject(str, DataPacket.class);
-                ClientChatManager a = null;
-                a.receiver(dp.msg);
+                parent.receiver(dp.msg);
                 //TODO 拆分服务器发来的消息
             }
         } catch (IOException e) {

@@ -5,18 +5,14 @@ import ChatRoom.ChatRoomManager.ChatRoomInfo;
 import Encrypt.EncryptionImpl;
 import Socket.tools.DataPacket;
 import com.alibaba.fastjson.JSONObject;
-
 import java.io.*;
 import java.net.Socket;
 
 
-
 public class ClientImpl implements Client {
-
     private ClientThreadOut co = null;
     private ClientThreadIn ci = null;
     private final EncryptionImpl encryption = new EncryptionImpl();
-
     public void run() throws IOException {
         client();
     }
@@ -29,6 +25,7 @@ public class ClientImpl implements Client {
         mes.friendRequestID = receiverID;
         String temp = JSONObject.toJSONString(mes);
         co.setMessage(temp);
+        //todo -1已有好友 0添加失败 1添加成功 systemTip
     }
 
     //删除好友
@@ -39,6 +36,7 @@ public class ClientImpl implements Client {
         mes.friendRequestID = receiverID;
         String temp = JSONObject.toJSONString(mes);
         co.setMessage(temp);
+        //todo 0失败 1成功
     }
 
     //创建聊天室
@@ -49,13 +47,14 @@ public class ClientImpl implements Client {
             mes.chatRoomName = chatRoomName;
             String temp = JSONObject.toJSONString(mes);
             co.setMessage(temp);
+            //todo 返回chatRoomID 0失败 1成功
         }
         else if (chatRoomType== ChatRoomInfo.ChatRoomType.PRIVATE){
             DataPacket mes = new DataPacket();
             mes.type = DataPacket.transportType.CREATE_PRIVATE_CHATROOM;
-            mes.chatRoomName = chatRoomName;
             String temp = JSONObject.toJSONString(mes);
             co.setMessage(temp);
+            //todo 返回chatRoomID 0失败 1成功
         }
     }
 
@@ -66,6 +65,7 @@ public class ClientImpl implements Client {
         mes.id = userID;
         String temp = JSONObject.toJSONString(mes);
         co.setMessage(temp);
+        //TODO 返回friendInfo List
     }
 
     //返回群聊列表
@@ -75,51 +75,54 @@ public class ClientImpl implements Client {
         mes.id = userID;
         String temp = JSONObject.toJSONString(mes);
         co.setMessage(temp);
+        //TODO 返回ChatRoomInfo List
     }
 
     //    发送群聊消息
     public void sendGroup(Message msg) {
         DataPacket mes = new DataPacket();
-        mes.message = encryption.encryptContent(msg.getContent());
         mes.senderId = msg.getSenderId();
+        mes.message = msg.getContent();
         mes.chatRoomID = msg.getChatRoomId();
+        mes.datetime = msg.getSendTime();
         mes.type = DataPacket.transportType.SEND_MESSAGE;
         String temp = JSONObject.toJSONString(mes);
         co.setMessage(temp);
     }
 
-
     //    发送注册消息
     public void register(String name, String password) {
         DataPacket mes = new DataPacket();
         mes.name = name;
-        mes.password = encryption.encryptPassword(password);
+        mes.password = password;
         mes.type = DataPacket.transportType.REGISTER;
         String temp = JSONObject.toJSONString(mes);
         co.setMessage(temp);
+        //todo 返回枚举类 和 id
     }
 
     //    发送登录消息
     public void login(String id, String password) {
         DataPacket mes = new DataPacket();
         mes.id = id;
-        mes.password = encryption.encryptPassword(password);
+        mes.password = password;
         mes.type = DataPacket.transportType.LOGIN;
         String temp = JSONObject.toJSONString(mes);
         co.setMessage(temp);
+        //todo 返回枚举类
     }
 
     //获取特定群的历史记录
-    public void getHistoryMessage(String userID, String chatRoomID) {
+    public void getHistoryMessage(String chatRoomID) {
         DataPacket mes = new DataPacket();
         mes.type = DataPacket.transportType.GET_HISTORY_MESSAGE;
-        mes.id = userID;
         mes.geyHistoryGroupID = chatRoomID;
         String temp = JSONObject.toJSONString(mes);
         co.setMessage(temp);
+        //todo 返回Message List
     }
 
-//退出聊天室
+    //退出聊天室
     public void exitChatRoom(String userID,String chatRoomID){
         DataPacket mes = new DataPacket();
         mes.type= DataPacket.transportType.EXIT_CHATROOM;
@@ -127,7 +130,10 @@ public class ClientImpl implements Client {
         mes.chatRoomID=chatRoomID;
         String temp = JSONObject.toJSONString(mes);
         co.setMessage(temp);
+        //todo 0/1
     }
+
+    //todo join chatRoom id chatRoomID type 0/1
 
     //通过聊天室ID查找特定聊天室信息
     public void findChatRoomInfo(String chatRoomID){
@@ -136,6 +142,7 @@ public class ClientImpl implements Client {
         mes.chatRoomID = chatRoomID;
         String temp = JSONObject.toJSONString(mes);
         co.setMessage(temp);
+        //todo 返回ChatRoomInfo
     }
 
     //查找私有聊天室信息
@@ -146,6 +153,7 @@ public class ClientImpl implements Client {
         mes.friendRequestID = userID2;
         String temp = JSONObject.toJSONString(mes);
         co.setMessage(temp);
+        //todo 返回ChatRoomInfo
     }
 
     //    改名
@@ -156,6 +164,7 @@ public class ClientImpl implements Client {
         mes.name = newName;
         String temp = JSONObject.toJSONString(mes);
         co.setMessage(temp);
+        //todo 0/1
     }
 
     //    改密码
@@ -163,9 +172,10 @@ public class ClientImpl implements Client {
         DataPacket mes = new DataPacket();
         mes.id = UserID;
         mes.type = DataPacket.transportType.MODIFY_PASSWORD;
-        mes.password = encryption.encryptPassword(newPassword);
+        mes.password = newPassword;
         String temp = JSONObject.toJSONString(mes);
         co.setMessage(temp);
+        //todo 0/1
     }
 
     private void client() throws IOException {

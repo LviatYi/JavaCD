@@ -114,11 +114,17 @@ public class ChatManager implements ClientChatManager {
 
     @Override
     public boolean receiver(String content, String senderId, String chatRoomId, Date date) {
+        /*
+        * TODO_LviatYi 接受消息操作
+        * date 2021/6/11
+        */
+        chatRoomGui.updateMessage(new Message(content,senderId,chatRoomId,date));
         return false;
     }
 
     @Override
     public boolean receiver(Message message) {
+        chatRoomGui.updateMessage(message);
         return false;
     }
 

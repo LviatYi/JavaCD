@@ -7,12 +7,14 @@ import ChatRoom.FriendManager.AddressManager;
 import ChatRoom.FriendManager.FriendInfo;
 import ChatRoom.FriendManager.FriendList;
 import ChatRoom.SettingManager.SettingManager;
+import jdk.jfr.SettingDefinition;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.text.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Date;
 
 /**
  * Jchat 聊天室 Gui.
@@ -32,10 +34,6 @@ public class ChatRoomGui extends JFrame implements ActionListener, FocusListener
      * 用于展示聊天室信息.
      */
     private class ChatRoomPanel extends JPanel implements MouseListener {
-        @Override
-        public void setBorder(Border border) {
-            super.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2));
-        }
 
         private ChatRoomInfo chatRoomInfo;
         private JLabel nameLb;
@@ -45,14 +43,12 @@ public class ChatRoomGui extends JFrame implements ActionListener, FocusListener
          * @param chatRoomInfo 聊天室信息
          */
         public ChatRoomPanel(ChatRoomInfo chatRoomInfo) {
-
-            this.chatRoomInfo = chatRoomInfo;
             this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+            this.chatRoomInfo = chatRoomInfo;
+            nameLb = new JLabel();
+            idLb = new JLabel();
             this.add(nameLb);
             this.add(idLb);
-
-            this.chatRoomInfo.setChatRoomName(chatRoomInfo.getChatRoomName());
-            this.chatRoomInfo.setChatRoomId(chatRoomInfo.getChatRoomId());
 
             this.nameLb.setText("<html>\n" +
                     "    <body>\n" +
@@ -69,9 +65,10 @@ public class ChatRoomGui extends JFrame implements ActionListener, FocusListener
                     "    </body>\n" +
                     "</html>\n");
 
+            //修改样式
+            this.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2));
             this.setBackground(Color.LIGHT_GRAY);
             this.addMouseListener(this);
-
         }
 
         public ChatRoomInfo getChatRoomInfo() {
@@ -80,19 +77,17 @@ public class ChatRoomGui extends JFrame implements ActionListener, FocusListener
 
         @Override
         public void mouseClicked(MouseEvent e) {
+            //点击则进入该聊天室
             updateChatPl(getChatRoomInfo());
         }
 
         @Override
         public void mousePressed(MouseEvent e) {
-
         }
 
         @Override
         public void mouseReleased(MouseEvent e) {
-
         }
-
 
         @Override
         public void mouseEntered(MouseEvent e) {
@@ -108,9 +103,7 @@ public class ChatRoomGui extends JFrame implements ActionListener, FocusListener
                 this.setBackground(Color.LIGHT_GRAY);
                 super.paintChildren(this.getGraphics());
             }
-
         }
-
     }
 
     /**
@@ -118,11 +111,7 @@ public class ChatRoomGui extends JFrame implements ActionListener, FocusListener
      * 用于展示好友信息.
      */
     private class FriendPanel extends JPanel implements MouseListener {
-        @Override
-        public void setBorder(Border border) {
-            super.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2));
-        }
-
+        //重新设置边界
 
         private FriendInfo friendInfo;
         private JLabel nameLb;
@@ -132,12 +121,13 @@ public class ChatRoomGui extends JFrame implements ActionListener, FocusListener
          * @param friendInfo 好友信息
          */
         public FriendPanel(FriendInfo friendInfo) {
+            this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+            this.friendInfo = friendInfo;
             nameLb = new JLabel();
             idLb = new JLabel();
-            this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
             this.add(nameLb);
             this.add(idLb);
-            this.friendInfo = friendInfo;
+
             this.nameLb.setText("<html>\n" +
                     "    <body>\n" +
                     "        <div style=\"font-size: 16px;font-family: 'Trebuchet MS';\">\n" +
@@ -152,31 +142,34 @@ public class ChatRoomGui extends JFrame implements ActionListener, FocusListener
                     "        </div>\n" +
                     "    </body>\n" +
                     "</html>\n");
+
+            //修改样式
+            this.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2));
             this.setBackground(Color.LIGHT_GRAY);
             this.addMouseListener(this);
         }
 
-        public void setFriendInfo(FriendInfo friendInfo) {
-            this.friendInfo = friendInfo;
-        }
 
         public FriendInfo getFriendInfo() {
             return friendInfo;
         }
 
+//        public void setFriendInfo(FriendInfo friendInfo) {
+//            this.friendInfo = friendInfo;
+//        }
+
         @Override
         public void mouseClicked(MouseEvent e) {
+            //点击则进入私聊聊天室
             entryFriendChatRoom(friendInfo.getFriendId());
         }
 
         @Override
         public void mousePressed(MouseEvent e) {
-
         }
 
         @Override
         public void mouseReleased(MouseEvent e) {
-
         }
 
         @Override
@@ -193,15 +186,15 @@ public class ChatRoomGui extends JFrame implements ActionListener, FocusListener
                 this.setBackground(Color.LIGHT_GRAY);
                 super.paintChildren(this.getGraphics());
             }
-
         }
-
     }
 
     /**
      * 聊天消息气泡
      */
     private class MessagePanel extends JPanel {
+        Message message;
+
         /**
          * 信息内容 Pl 类，包含信息内容
          */
@@ -214,34 +207,38 @@ public class ChatRoomGui extends JFrame implements ActionListener, FocusListener
             final private int MAX_MESSAGE_PANEL_WIDTH = 350;
 
             private class MessageContentTextPane extends JTextPane {
+                //覆写默认构造函数
                 public MessageContentTextPane() {
+                    //背景色设置为透明，否则将不能加载背景图片
                     setOpaque(false);
+                    //控制文本布局
+                    this.setMargin(new Insets(0, 30, 0, 30));
+                    this.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 24));
+                    this.setEditable(false);
                 }
 
+                //覆写绘制函数，以设置静态背景
                 @Override
                 public void paintComponent(Graphics g) {
                     //加载背景图
                     messagePanelBackgroundImg = new ImageIcon(getClass().getResource("./asset/JChatMessagePanelBg.png")).getImage();
 
-                    super.paintComponents(g);
+                    //绘制背景图
                     g.drawImage(messagePanelBackgroundImg, 0, 0, getSize().width, getSize().height, this);
-
                     super.paintComponent(g);
                 }
             }
 
+            //用于显示文本的面板
             private MessageContentTextPane messageContentTp;
 
+            //覆写默认构造函数
             public MessageContentPanel(String messageContent) {
                 this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-                messageContentTp = new MessageContentTextPane();
+                this.messageContentTp = new MessageContentTextPane();
                 this.messageContent = messageContentTp.getStyledDocument();
 
-                //控制文本布局
-                messageContentTp.setMargin(new Insets(0, 30, 0, 30));
-                messageContentTp.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 24));
-                messageContentTp.setEditable(false);
                 fontMetrics = messageContentTp.getFontMetrics(messageContentTp.getFont());
                 int fontHeight = fontMetrics.getHeight();
                 int lineWidth = 0;
@@ -261,7 +258,6 @@ public class ChatRoomGui extends JFrame implements ActionListener, FocusListener
                 messageContentTp.setDocument(this.messageContent);
 
                 this.setMaximumSize(new Dimension(messagePanelWidth + 60, messagePanelHeight));
-
                 this.add(messageContentTp);
             }
         }
@@ -274,18 +270,18 @@ public class ChatRoomGui extends JFrame implements ActionListener, FocusListener
          * 发送者 Pl，包含发送者信息
          */
         private JPanel senderPl;
-        private JPanel senderDirPl;
         private JPanel thisMsgPl;
         private JLabel senderLb;
 
-        public MessagePanel(String msgContent, boolean isSelf) {
+        public MessagePanel(Message message, boolean isSelf) {
+            this.message = message;
             this.setLayout(new BorderLayout());
             thisMsgPl = new JPanel();
             thisMsgPl.setLayout(new BoxLayout(thisMsgPl, BoxLayout.Y_AXIS));
             senderPl = new JPanel();
             senderPl.setLayout(new BoxLayout(senderPl, BoxLayout.X_AXIS));
             senderLb = new JLabel();
-            messageContentPl = new MessageContentPanel(msgContent);
+            messageContentPl = new MessageContentPanel(this.message.getContent());
             this.setPreferredSize(new Dimension(messageContentPl.getSize().width + 30, messageContentPl.getSize().height + 30));
 
             //Exist for DEBUG
@@ -311,7 +307,6 @@ public class ChatRoomGui extends JFrame implements ActionListener, FocusListener
                         "\n");
                 senderLb.setHorizontalAlignment(SwingConstants.RIGHT);
                 this.add(thisMsgPl, BorderLayout.EAST);
-
             } else {
                 senderLb.setText("<html>\n" +
                         "    <body>\n" +
@@ -578,7 +573,7 @@ public class ChatRoomGui extends JFrame implements ActionListener, FocusListener
     public ChatRoomGui(String selfId, String selfName) {
         this.chatRoomManager = ChatRoomManager.getChatRoomManager(this);
         this.addressManager = AddressManager.getAddressManager(this);
-        this.settingManager = SettingManager.getSettingManager(this,selfId, selfName);
+        this.settingManager = SettingManager.getSettingManager(this, selfId, selfName);
         this.chatManager = ChatManager.getChatManager(this);
 
         this.settingManager.setSelfId(selfId);
@@ -674,7 +669,9 @@ public class ChatRoomGui extends JFrame implements ActionListener, FocusListener
         loadChatRoomThread.start();
         loadFriendThread.start();
 
-        updateChatPl();
+        //Exist for DEBUG
+        updateChatPl(null);
+        //End
     }
 
     private void prepareLoadingGui() {
@@ -698,11 +695,6 @@ public class ChatRoomGui extends JFrame implements ActionListener, FocusListener
         }
     }
 
-
-    /*
-     * TODO_LviatYi 结束后需删除
-     * date 2021/6/6
-     */
 
     //Exist for DEBUG
     public static void main(String[] args) {
@@ -908,8 +900,10 @@ public class ChatRoomGui extends JFrame implements ActionListener, FocusListener
     }
 
     @Override
-    public void updateMessage() {
-        updateChatPl();
+    public void updateMessage(Message message) {
+        if (!message.getChatRoomId().equals(chatManager.getCurrentChatRoomInfo().getChatRoomId())) {
+            updateChatPl(chatRoomManager.findLocalChatRoom(message.getChatRoomId()));
+        }
     }
 
     /**
@@ -921,7 +915,7 @@ public class ChatRoomGui extends JFrame implements ActionListener, FocusListener
     private void updateChatPl(ChatRoomInfo chatRoomInfo) {
 
         //Exist for DEBUG
-        msgPl.add(new MessagePanel("Hello World!\nHere's a MessagePanel for test.", true));
+        msgPl.add(new MessagePanel(new Message("Hello!AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "", "", new Date()), true));
         //End
 
         if (chatRoomInfo == null) {
@@ -930,7 +924,7 @@ public class ChatRoomGui extends JFrame implements ActionListener, FocusListener
 
         updateCurrentChatRoom(chatRoomInfo.getChatRoomId());
         for (Message message : chatManager.getChatRoomMessageList(chatRoomInfo.getChatRoomId()).getList()) {
-            msgPl.add(new MessagePanel(message.getContent(), message.getSenderId().equals(settingManager.getSelfId())));
+            msgPl.add(new MessagePanel(message, message.getSenderId().equals(settingManager.getSelfId())));
         }
 
         //Exist for COMPLAIN
@@ -982,36 +976,47 @@ public class ChatRoomGui extends JFrame implements ActionListener, FocusListener
     }
 
     /**
-     * 更新当前聊天界面.
+     * 更新当前聊天界面到新的聊天室.
      * 同时会更改 chatPl 标题.
      *
-     * @param chatRoomId 一个本地存在的 chatRoomId.
+     * @param chatRoomInfo 一个本地存在的 chatRoom 的 chatRoomInfo.
      * @return 若成功则返回 true.若找不到相应聊天室则返回 false.
      */
-    private boolean updateCurrentChatRoom(String chatRoomId) {
-        if (chatRoomManager.getChatRoomList().findLocal(chatRoomId) != null) {
+    private boolean updateCurrentChatRoom(ChatRoomInfo chatRoomInfo) {
+        if (chatRoomManager.getChatRoomList().findLocal(chatRoomInfo.getChatRoomId()) != null) {
             String title = "<html>\n" +
                     "    <body>\n" +
                     "        <div style=\"font-size: 24px;font-family: 'Trebuchet MS';\">\n" +
-                    chatRoomManager.getChatRoomList().findLocal(chatRoomId).getChatRoomName() +
+                    chatRoomManager.getChatRoomList().findLocal(chatRoomInfo.getChatRoomId()).getChatRoomName() +
                     "        </div>\n" +
                     "        <div style=\"font-size: 24px;font-family: 'Trebuchet MS';\">\n" +
                     "            \" | \"\n" +
                     "        </div>\n" +
                     "        <div style=\"font-size: 12px;font-family: 'Trebuchet MS';\">\n" +
-                    chatRoomId +
+                    chatRoomInfo.getChatRoomId() +
                     "        </div>\n" +
                     "    </body>\n" +
                     "</html>";
 
             chatRoomTitleLb.setText(title);
-            updateChatPl();
+            updateChatPl(chatRoomInfo);
             return true;
         } else {
             chatRoomTitleLb.setText("");
             updateChatPl(null);
             return false;
         }
+    }
+
+    /**
+     * 更新当前聊天界面到新的聊天室.
+     * 同时会更改 chatPl 标题.
+     *
+     * @param chatRoomId 一个本地存在的 chatRoom 的 chatRoomId.
+     * @return 若成功则返回 true.若找不到相应聊天室则返回 false.
+     */
+    private boolean updateCurrentChatRoom(String chatRoomId) {
+        return updateCurrentChatRoom(chatRoomManager.findLocalChatRoom(chatRoomId));
     }
 
     /**
@@ -1087,6 +1092,5 @@ public class ChatRoomGui extends JFrame implements ActionListener, FocusListener
             updateChatPl(chatRoomInfo);
             return chatRoomInfo;
         }
-
     }
 }

@@ -66,7 +66,19 @@ public class ChatRoomInfo {
         return chatRoomId;
     }
 
+    /**
+     * 获得 ChatRoomName.
+     * 若为私聊聊天室则设置为对方 Name.
+     * @return ChatRoomName
+     */
     public String getChatRoomName() {
+        if (this.getChatRoomType() == ChatRoomType.PRIVATE) {
+            return null;
+            /*
+            * TODO_LviatYi 获得私聊聊天室 Name.即好友 Name.
+            * date 2021/6/10
+            */
+        }
         return chatRoomName;
     }
 
@@ -101,8 +113,8 @@ public class ChatRoomInfo {
     }
 
     public boolean hasMember(String friendId) {
-        for (FriendInfo friendInfo : getFriendList()        ) {
-            if(friendInfo.getFriendId().equals(friendId)){
+        for (FriendInfo friendInfo : getFriendList()) {
+            if (friendInfo.getFriendId().equals(friendId)) {
                 return true;
             }
         }

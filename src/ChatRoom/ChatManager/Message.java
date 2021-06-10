@@ -72,6 +72,18 @@ public class Message {
     public String getSenderId(){
         return this.senderId;
     }
+    public void setContent(String content) {
+        this.content = content;
+    }
+    public void setChatRoomId(String chatRoomId) {
+        this.chatRoomId = chatRoomId;
+    }
+    public void setSenderId(String senderId) {
+        this.senderId = senderId;
+    }
+    public void setSendTime(Date sendTime) {
+        this.sendTime = sendTime;
+    }
 
     /**
      * 获取发送时间
@@ -88,4 +100,6 @@ public class Message {
     public long getSendTimeLong(){
         return this.sendTime.getTime();
     }
+
+
 }

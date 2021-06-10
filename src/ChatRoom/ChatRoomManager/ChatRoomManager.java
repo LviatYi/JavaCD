@@ -163,12 +163,21 @@ public class ChatRoomManager {
         return chatRoomList;
     }
 
+    /**
+     * 按照 ChatRoomId 查找缓存中的聊天室信息.
+     * @param chatRoomId 聊天室 Id.
+     * @return chatRoomInfo
+     */
+    public ChatRoomInfo findLocalChatRoom(String  chatRoomId){
+        return chatRoomList.findLocal(chatRoomId);
+    }
+
+    /**
+     * 检查缓存的聊天室列表是否有聊天室.
+     * @return 是则返回 true
+     */
     public boolean isEmpty() {
-        if (this.getChatRoomList().getList().isEmpty()) {
-            return true;
-        } else {
-            return false;
-        }
+        return this.getChatRoomList().getList().isEmpty();
     }
 }
 

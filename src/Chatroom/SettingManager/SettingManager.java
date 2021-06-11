@@ -1,8 +1,6 @@
-package ChatRoom.SettingManager;
+package Chatroom.SettingManager;
 
-import ChatRoom.ChatRoomGui;
-import ChatRoom.ChatRoomGuiControl;
-import UserAuthenticate.UserAuthenticationGui;
+import Chatroom.ChatroomGui;
 import UserAuthenticate.UserAuthenticationManager;
 
 /**
@@ -12,7 +10,7 @@ import UserAuthenticate.UserAuthenticationManager;
  * @date 2021/6/8
  */
 public class SettingManager {
-    private ChatRoomGui chatRoomGui;
+    private ChatroomGui chatroomGui;
     private String selfId;
     private String selfName;
     public UserAuthenticationManager userAuthenticationManager;
@@ -21,8 +19,8 @@ public class SettingManager {
     /**
      * 隐藏默认构造函数
      */
-    private SettingManager(ChatRoomGui parent,String selfId,String selfName) {
-        this.chatRoomGui=parent;
+    private SettingManager(ChatroomGui parent, String selfId, String selfName) {
+        this.chatroomGui=parent;
         this.selfId=selfId;
         this.selfName=selfName;
         userAuthenticationManager=UserAuthenticationManager.getUserAuthenticationManager();
@@ -33,7 +31,7 @@ public class SettingManager {
      *
      * @return 设置权限管理器
      */
-    public static SettingManager getSettingManager(ChatRoomGui parent,String selfId,String selfName) {
+    public static SettingManager getSettingManager(ChatroomGui parent, String selfId, String selfName) {
         if (instance == null) {
             instance = new SettingManager(parent,selfId,selfName);
         }

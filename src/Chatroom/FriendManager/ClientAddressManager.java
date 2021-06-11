@@ -1,4 +1,4 @@
-package ChatRoom.FriendManager;
+package Chatroom.FriendManager;
 
 /**
  * 向客户端发送通讯录相关消息

@@ -1,7 +1,7 @@
 package Socket.Client;
 
-import ChatRoom.ChatManager.Message;
-import ChatRoom.ChatRoomManager.ChatRoomInfo;
+import Chatroom.ChatManager.Message;
+import Chatroom.ChatroomManager.ChatroomInfo;
 
 import java.io.IOException;
 
@@ -56,7 +56,7 @@ public interface Client {
      * @param chatRoomName 聊天室名
      * @param chatRoomType 聊天室类型
      */
-    public void addChatRoom(String chatRoomName, ChatRoomInfo.ChatRoomType chatRoomType);
+    public void addChatRoom(String chatRoomName, ChatroomInfo.ChatroomType chatRoomType);
 
     /**
      *

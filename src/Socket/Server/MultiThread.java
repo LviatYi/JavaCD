@@ -34,12 +34,12 @@ public class MultiThread {
         for (int i = 0; i < stList.size(); i++)
         {
             ServerThread st = stList.get(i);
-            if(id.equals(st.SocketID))
+            if(id.equals(st.socketId))
             {
-                temp.arrayList.add(st);
+//                temp.arrayList.add(st);
             }
         }
-        groupList.add(temp);
+//        grouplist.add(temp);
     }
 
     /**

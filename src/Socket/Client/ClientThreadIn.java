@@ -1,6 +1,6 @@
 package Socket.Client;
 
-import ChatRoom.ChatManager.ChatManager;
+import Chatroom.ChatManager.ChatManager;
 import Socket.tools.DataPacket;
 import com.alibaba.fastjson.JSON;
 import java.io.*;

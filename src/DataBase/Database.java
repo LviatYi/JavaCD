@@ -1,5 +1,10 @@
 package DataBase;
 
+import Chatroom.ChatManager.MessageList;
+import Chatroom.ChatroomManager.ChatroomInfo;
+import Chatroom.ChatroomManager.ChatroomList;
+import Chatroom.FriendManager.FriendInfo;
+import Chatroom.FriendManager.FriendList;
 import Socket.tools.DataPacket;
 
 import java.util.Date;
@@ -26,7 +31,7 @@ public interface Database {
      * @param name 用户昵称
      * @return  录入信息并返回一个6-10的随机数字id（不重复）
      */
-    int  Register( String password, String name);
+    int Register( String password, String name);
 
    /**
      //* 修改数据库中的密码
@@ -34,15 +39,15 @@ public interface Database {
      * @param password_now 修改后的密码
     * @return  true/false
      */
-     boolean ModifyPassword(String id,String password_now);
+     int ModifyPassword(String id,String password_now);
 
     /**
      * 修改昵称
      * @param id 用户id
      * @param name_now 修改后的昵称
-     *                 @return  true/false
+     * @return  0/1
      */
-     boolean ModifyName(String id,String name_now);
+     int ModifyName(String id,String name_now);
 
     /**
      * 添加消息至数据库
@@ -60,7 +65,7 @@ public interface Database {
      * @param groupID 聊天室ID
      * @return DataPacket list
      */
-     List<DataPacket> GetGroupMessage(String groupID);
+    MessageList GetGroupMessage(String groupID);
 
     /**
      * 添加聊天室进聊天室表（）
@@ -71,10 +76,18 @@ public interface Database {
 
     /**
      * 删除指定聊天室
-     * @param chatroomID 聊天室
+     * @param chatRoomId 聊天室
      * @return 成功
      */
-    boolean DelChatRoom(String chatroomID);
+    int DelChatRoom(String chatRoomId);
+
+    /**
+     * 退群
+     * @param id 退群人ID
+     * @param chatRoomID 退出聊天室ID
+     * @return 成功1 不成功0
+     */
+    int ExitChatRoom(String id,String chatRoomID);
 
     /**
      * 添加好友信息至好友表（friend）
@@ -82,15 +95,15 @@ public interface Database {
      * @param id_friend 好友账号
      *@return  true/false
      */
-     boolean  CreateFriend(String id,String id_friend);
+     int CreateFriend(String id,String id_friend);
 
     /**
      * 添加ID所有者到指定聊天室
      * @param id 添加进聊天室的人
-     * @param chatroomID 添加进的聊天室
+     * @param chatRoomId 添加进的聊天室
      * @return 成功
      */
-     boolean AddChatRoom(String id,String chatroomID);
+     int JoinChatRoom(String id, String chatRoomId);
 
     /**
      * 输入好友账号将信息从数据库中删除
@@ -98,19 +111,32 @@ public interface Database {
      * @param id_friend 好友ID
      *           @return  true/false
      */
-     boolean DeleteFriend(String id,String id_friend);
+     int DeleteFriend(String id,String id_friend);
 
     /**
      * 返回Friend 数组
      * @param id 获取ID账号的好友列表
      * @return String 数组
      */
-     List<String> getFriend(String id);
+     FriendInfo getFriend(String id);
 
     /**
-     * 返回group成员
-     * @param groupId  聊天室ID
-     * @return String 数组
+     * 获取id所在所有聊天室
+     * @param id  id人所在所有聊天室
+     * @return chatRoomList对象
      */
-     String[] getGroup(String groupId);
+     ChatroomList getGroup(String id);
+
+
+    /**
+     * 获得用户的好友列表.
+     * @param userInfo 用户 Info
+     * @return 目标好友的好友列表.
+     */
+    FriendInfo getUserFriendList(FriendInfo userInfo);
+
+    ChatroomInfo findChatRoomInfoThroughID(String chatroomID);
+
+    ChatroomInfo findChatRoomInfoThroughUser(String id,String friendID);
+
 }

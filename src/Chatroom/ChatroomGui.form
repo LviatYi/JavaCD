@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="ChatRoom.ChatRoomGui">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="Chatroom.ChatroomGui">
   <grid id="27dc6" binding="mainPl" layout-manager="GridLayoutManager" row-count="5" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
@@ -79,7 +79,7 @@
           </grid>
         </children>
       </scrollpane>
-      <grid id="3a299" binding="chatRoomTitlePl" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="3a299" binding="chatroomTitlePl" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
           <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
@@ -89,7 +89,7 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="8522f" class="javax.swing.JLabel" binding="chatRoomTitleLb">
+          <component id="8522f" class="javax.swing.JLabel" binding="chatroomTitleLb">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -131,7 +131,7 @@
                   <font/>
                 </border>
                 <children>
-                  <grid id="eafd0" binding="chatRoomPl" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                  <grid id="eafd0" binding="chatroomPl" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                     <margin top="0" left="0" bottom="0" right="0"/>
                     <constraints>
                       <tabbedpane title="&lt;html&gt;&#10;    &lt;body&gt;&#10;        &lt;div style=&quot;font-size: 12px;font-family: 'Trebuchet MS';&quot;&gt;&#10;            Chat Room&#10;        &lt;/div&gt;&#10;    &lt;/body&gt;&#10;&lt;/html&gt;&#10;"/>
@@ -141,7 +141,7 @@
                     </properties>
                     <border type="none"/>
                     <children>
-                      <grid id="65a7d" binding="chatRoomControlPl" layout-manager="GridLayoutManager" row-count="2" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                      <grid id="65a7d" binding="chatroomControlPl" layout-manager="GridLayoutManager" row-count="2" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                         <margin top="0" left="0" bottom="0" right="0"/>
                         <constraints>
                           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
@@ -151,7 +151,7 @@
                         <properties/>
                         <border type="none"/>
                         <children>
-                          <component id="e4f25" class="javax.swing.JTextField" binding="chatRoomIdTf">
+                          <component id="e4f25" class="javax.swing.JTextField" binding="chatroomIdTf">
                             <constraints>
                               <grid row="0" column="0" row-span="1" col-span="4" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                                 <preferred-size width="150" height="30"/>
@@ -173,31 +173,31 @@
                               </grid>
                             </constraints>
                           </hspacer>
-                          <component id="19fae" class="javax.swing.JButton" binding="addChatRoomBtn">
+                          <component id="19fae" class="javax.swing.JButton" binding="addChatroomBtn">
                             <constraints>
                               <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
                                 <maximum-size width="160" height="-1"/>
                               </grid>
                             </constraints>
                             <properties>
-                              <actionCommand value="addChatRoom"/>
+                              <actionCommand value="addChatroom"/>
                               <text value="Button"/>
                             </properties>
                           </component>
-                          <component id="710a3" class="javax.swing.JButton" binding="delChatRoomBtn">
+                          <component id="710a3" class="javax.swing.JButton" binding="delChatroomBtn">
                             <constraints>
                               <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
                                 <maximum-size width="160" height="-1"/>
                               </grid>
                             </constraints>
                             <properties>
-                              <actionCommand value="delChatRoom"/>
+                              <actionCommand value="delChatroom"/>
                               <text value="Button"/>
                             </properties>
                           </component>
                         </children>
                       </grid>
-                      <grid id="d24c" binding="chatRoomListPl" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                      <grid id="d24c" binding="chatroomListPl" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                         <margin top="0" left="0" bottom="0" right="0"/>
                         <constraints>
                           <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -205,7 +205,7 @@
                         <properties/>
                         <border type="none"/>
                         <children>
-                          <component id="ae62" class="javax.swing.JLabel" binding="chatRoomListLoadingStatusLb">
+                          <component id="ae62" class="javax.swing.JLabel" binding="chatroomListLoadingStatusLb">
                             <constraints>
                               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                             </constraints>

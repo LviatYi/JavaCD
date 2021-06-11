@@ -7,7 +7,7 @@ import Chatroom.ChatManager.Message;
  *
  * @author LviatYi
  * @version 1.0
- * @interfaceName ChatRoomGuiControl
+ * @interfaceName ChatroomGuiControl
  * @date 2021/6/7
  */
 public interface ChatroomGuiControl {
@@ -15,19 +15,19 @@ public interface ChatroomGuiControl {
      * 确认是否创建新的聊天室.
      * @return boolean
      */
-    boolean confirmNewChatRoom();
+    boolean confirmNewChatroom();
 
     /**
      * 确认新聊天室的名称.
-     * @return ChatRoomName
+     * @return ChatroomName
      */
-    String confirmChatRoomName();
+    String confirmChatroomName();
 
     /**
-     * 更新 ChatRoomListPl.
+     * 更新 ChatroomListPl.
      * 请在更新聊天室时调用.
      */
-    void updateChatRoom();
+    void updateChatroom();
     /**
      * 更新 FriendListPl.
      * 请在更新好友时调用.

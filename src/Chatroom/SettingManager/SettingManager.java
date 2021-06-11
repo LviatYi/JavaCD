@@ -10,7 +10,7 @@ import UserAuthenticate.UserAuthenticationManager;
  * @date 2021/6/8
  */
 public class SettingManager {
-    private ChatroomGui chatRoomGui;
+    private ChatroomGui chatroomGui;
     private String selfId;
     private String selfName;
     public UserAuthenticationManager userAuthenticationManager;
@@ -20,7 +20,7 @@ public class SettingManager {
      * 隐藏默认构造函数
      */
     private SettingManager(ChatroomGui parent, String selfId, String selfName) {
-        this.chatRoomGui=parent;
+        this.chatroomGui=parent;
         this.selfId=selfId;
         this.selfName=selfName;
         userAuthenticationManager=UserAuthenticationManager.getUserAuthenticationManager();

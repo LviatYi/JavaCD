@@ -17,7 +17,7 @@ import java.util.Vector;
  * @date 2021/6/7
  */
 public class ChatManager implements ClientChatManager {
-    ChatroomGui chatRoomGui;
+    ChatroomGui chatroomGui;
     ChatroomInfo currentChatroomInfo;
 
     private Vector<MessageList> chatroomMessageRepo;
@@ -33,7 +33,7 @@ public class ChatManager implements ClientChatManager {
     private ChatManager(){}
 
     private ChatManager(ChatroomGui parent){
-        this.chatRoomGui=parent;
+        this.chatroomGui =parent;
         currentChatroomInfo =new ChatroomInfo();
     }
 
@@ -47,16 +47,16 @@ public class ChatManager implements ClientChatManager {
     /**
      * 从服务器拉取聊天记录
      *
-     * @param chatRoomId 聊天室 Id
+     * @param chatroomId 聊天室 Id
      * @return 聊天记录组
      */
-    public MessageList pullChatroomMessageList(String chatRoomId) {
-//        MessageList chatRoomMessageList=;
+    public MessageList pullChatroomMessageList(String chatroomId) {
+//        MessageList chatroomMessageList=;
         /*
          * TODO_LviatYi 向服务器索要聊天记录
          * date 2021/6/9
          */
-//        return chatRoomMessageList;
+//        return chatroomMessageList;
         return null;
     }
 
@@ -87,7 +87,7 @@ public class ChatManager implements ClientChatManager {
         return true;
     }
 
-    public Vector<MessageList> recordNewMessage(String chatRoomId, Message message) {
+    public Vector<MessageList> recordNewMessage(String chatroomId, Message message) {
         return this.getChatroomMessageRepo();
     }
 
@@ -98,13 +98,13 @@ public class ChatManager implements ClientChatManager {
      * @param messageList 返回聊天室历史信息
      * @return
      */
-    public Vector<MessageList> recordNewChatRoomMessage(String chatroomId, MessageList messageList) {
+    public Vector<MessageList> recordNewChatroomMessage(String chatroomId, MessageList messageList) {
         this.chatroomMessageRepo.add(messageList);
         return chatroomMessageRepo;
     }
 
 // 不允许建立空表
-//    public Vector<MessageList> addNewChatRoomMessage(String chatroomId){
+//    public Vector<MessageList> addNewChatroomMessage(String chatroomId){
 //        this.chatroomMessageRepo.add(new MessageList(chatroomId));
 //        return chatroomMessageRepo;
 //    }
@@ -115,13 +115,13 @@ public class ChatManager implements ClientChatManager {
         * TODO_LviatYi 接受消息操作
         * date 2021/6/11
         */
-        chatRoomGui.updateMessage(new Message(content,senderId,chatroomId,date));
+        chatroomGui.updateMessage(new Message(content,senderId,chatroomId,date));
         return false;
     }
 
     @Override
     public boolean receiver(Message message) {
-        chatRoomGui.updateMessage(message);
+        chatroomGui.updateMessage(message);
         return false;
     }
 
@@ -135,7 +135,7 @@ public class ChatManager implements ClientChatManager {
      * @param chatroomId 聊天室 Id
      * @return 聊天记录组
      */
-    public MessageList getChatRoomMessageList(String chatroomId) {
+    public MessageList getChatroomMessageList(String chatroomId) {
         for (MessageList messageList : chatroomMessageRepo) {
             if(messageList.getChatroomId().equals(chatroomId)){
                 return messageList;
@@ -144,7 +144,7 @@ public class ChatManager implements ClientChatManager {
         return null;
     }
 
-    public void setCurrentChatRoomInfo(ChatroomInfo currentChatroomInfo) {
+    public void setCurrentChatroomInfo(ChatroomInfo currentChatroomInfo) {
         this.currentChatroomInfo = currentChatroomInfo;
     }
 

@@ -7,7 +7,7 @@ import java.util.Vector;
 /**
  * @author May_bebe
  * @version 1.0
- * @className ChatRoom
+ * @className Chatroom
  * @date 2021/6/6
  */
 public class ChatroomInfo {
@@ -63,9 +63,9 @@ public class ChatroomInfo {
         return chatroomId;
     }
     /**
-     * 获得 ChatRoomName.
+     * 获得 ChatroomName.
      * 若为私聊聊天室则设置为对方 Name.
-     * @return ChatRoomName
+     * @return ChatroomName
      */
     public String getChatroomName() {
         if (this.getChatroomType() == ChatroomType.PRIVATE) {

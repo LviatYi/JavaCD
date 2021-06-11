@@ -13,7 +13,7 @@ import Chatroom.ChatroomGui;
  * @date 2021/6/6
  */
 public class AddressManager implements ClientAddressManager {
-    ChatroomGui chatRoomGui;
+    ChatroomGui chatroomGui;
     FriendList friendList;
 
     /**
@@ -25,7 +25,7 @@ public class AddressManager implements ClientAddressManager {
      * 隐藏默认构造函数
      */
     private AddressManager(ChatroomGui parent){
-        this.chatRoomGui=parent;
+        this.chatroomGui=parent;
         FriendList serverFriendList = getServerFriendList();
         if (serverFriendList != null) {
             friendList = serverFriendList;
@@ -69,7 +69,7 @@ public class AddressManager implements ClientAddressManager {
              * date 2021/6/9
              */
             friendList.add(friendInfo);
-            chatRoomGui.updateFriend();
+            chatroomGui.updateFriend();
             //添加成功
             return FriendList.FriendStatus.QUALIFIED;
         }
@@ -90,7 +90,7 @@ public class AddressManager implements ClientAddressManager {
              * TODO_LviatYi 通知数据库删除好友
              * date 2021/6/8
              */
-            chatRoomGui.updateFriend();
+            chatroomGui.updateFriend();
             return FriendList.FriendStatus.QUALIFIED;
         } else {
             return FriendList.FriendStatus.NOT_EXIST;
@@ -111,14 +111,14 @@ public class AddressManager implements ClientAddressManager {
     @Override
     public boolean addFriend(FriendInfo friendInfo) {
         this.friendList.add(friendInfo);
-        chatRoomGui.updateFriend();
+        chatroomGui.updateFriend();
         return false;
     }
 
     @Override
     public boolean addFriend(String friendId, String friendName) {
         this.friendList.add(new FriendInfo(friendId,friendName));
-        chatRoomGui.updateFriend();
+        chatroomGui.updateFriend();
         return false;
     }
 }

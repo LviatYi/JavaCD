@@ -46,7 +46,7 @@ public class FriendList {
     }
 
     /**
-     * 在缓存中按照 FriendID 寻找 Friend
+     * 在缓存中按照 FriendID 寻找 FriendInfo.
      *
      * @param friendId 好友 id
      * @return 好友 info,找不到返回空.

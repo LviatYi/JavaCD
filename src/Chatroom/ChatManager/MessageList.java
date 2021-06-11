@@ -56,7 +56,6 @@ public class MessageList {
     String addMessage(Message message) {
         return addMessage(message, false);
     }
-
     /**
      * 添加多条信息到 MessageList 的末尾.
      *
@@ -66,7 +65,6 @@ public class MessageList {
     String addMessage(MessageList messageList) {
         return addMessage(messageList, false);
     }
-
     /**
      * 添加信息到 MessageList 的前端或末尾.
      *
@@ -113,8 +111,6 @@ public class MessageList {
         }
         return null;
     }
-
-
 
     /**
      * 加入历史记录.

@@ -107,7 +107,7 @@ UI 设计师提供了扁平化思路，因此诸多功能集与一身。
   * 并调用 GUI 的相应页面刷新。
 * receiveMessage()
   * 当用户成为信息发送对象时调用。  
-  * 当 Message 来自一个新的聊天室（客户端 ChatRoomList 中不存在）时：
+  * 当 Message 来自一个新的聊天室（客户端 ChatroomList 中不存在）时：
     * 本地客户端会添加新的聊天室。  
     * 会调用 GUI 的相应页面刷新。  
   * 否则，仅更新相应的 MessageList 表。  

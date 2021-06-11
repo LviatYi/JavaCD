@@ -11,8 +11,8 @@ public class ClientThreadIn extends Thread {
     private Socket server;
     public boolean exit = false;
 
-    public ClientThreadIn(ChatManager chatManager) {
-        this.parent = chatManager;
+    public void setParent(ChatManager parent) {
+        this.parent = parent;
     }
 
     public void setSocket(Socket socket) {
@@ -30,6 +30,14 @@ public class ClientThreadIn extends Thread {
                 DataInputStream in = new DataInputStream(server.getInputStream());
                 String str = in.readUTF();
                 DataPacket dp = JSON.parseObject(str, DataPacket.class);
+                switch (dp.type){
+                    case ADD_FRIEND:{
+                        //todo
+                    }
+                    case DEL_FRIEND:{
+                        //todo
+                    }
+                }
                 parent.receiver(dp.msg);
                 //TODO 拆分服务器发来的消息
             }

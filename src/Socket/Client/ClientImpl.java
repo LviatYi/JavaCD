@@ -1,8 +1,8 @@
 package Socket.Client;
 
+import ChatRoom.ChatManager.ChatManager;
 import ChatRoom.ChatManager.Message;
 import ChatRoom.ChatRoomManager.ChatRoomInfo;
-import Encrypt.EncryptionImpl;
 import Socket.tools.DataPacket;
 import com.alibaba.fastjson.JSONObject;
 import java.io.*;
@@ -10,11 +10,16 @@ import java.net.Socket;
 
 
 public class ClientImpl implements Client {
+    private ChatManager parent;
     private ClientThreadOut co = null;
     private ClientThreadIn ci = null;
-    private final EncryptionImpl encryption = new EncryptionImpl();
     public void run() throws IOException {
         client();
+    }
+
+    public ClientImpl(ChatManager parent) throws IOException{
+        this.parent = parent;
+        this.run();
     }
 
     //增加好友
@@ -130,10 +135,19 @@ public class ClientImpl implements Client {
         mes.chatRoomID=chatRoomID;
         String temp = JSONObject.toJSONString(mes);
         co.setMessage(temp);
+
         //todo 0/1
     }
 
     //todo join chatRoom id chatRoomID type 0/1
+    public void joinChatRoom(String userID, String chatRoomID){
+        DataPacket mes = new DataPacket();
+        mes.type = DataPacket.transportType.JOIN_CHATROOM;
+        mes.id = userID;
+        mes.chatRoomID = chatRoomID;
+        String temp = JSONObject.toJSONString(mes);
+        co.setMessage(temp);
+    }
 
     //通过聊天室ID查找特定聊天室信息
     public void findChatRoomInfo(String chatRoomID){
@@ -182,6 +196,7 @@ public class ClientImpl implements Client {
         Socket socket = new Socket("127.0.0.1", 9000);
         co.setSocket(socket);
         ci.setSocket(socket);
+        ci.setParent(parent);
         co.start();
         ci.start();
     }

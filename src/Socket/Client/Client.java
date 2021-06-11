@@ -13,12 +13,6 @@ import java.io.IOException;
 public interface Client {
 
     /**
-     * 启动客户端线程组
-     * @throws IOException 对哩
-     */
-    public void run() throws IOException;
-
-    /**
      *
      * @param msg 传输的消息对象
      */
@@ -115,5 +109,7 @@ public interface Client {
      * @param userID2 成员ID2
      */
     public void findChatRoomInfo(String userID1,String userID2);
+
+
 
 }

@@ -1,7 +1,6 @@
-package ChatRoom.ChatRoomManager;
+package Chatroom.ChatroomManager;
 
-import ChatRoom.ChatRoomGui;
-import ChatRoom.ChatRoomGuiControl;
+import Chatroom.ChatroomGui;
 
 /**
  * 聊天室管理类
@@ -12,24 +11,24 @@ import ChatRoom.ChatRoomGuiControl;
  * @className ChatRoomManager
  * @date 2021/6/7
  */
-public class ChatRoomManager {
-    ChatRoomGui chatRoomGui;
-    ChatRoomList chatRoomList;
+public class ChatroomManager {
+    ChatroomGui chatRoomGui;
+    ChatroomList chatRoomList;
     /**
      * 单例指针
      */
-    private static ChatRoomManager instance = null;
+    private static ChatroomManager instance = null;
 
     /**
      * 隐藏默认构造函数
      */
-    private ChatRoomManager(ChatRoomGui parent) {
+    private ChatroomManager(ChatroomGui parent) {
         this.chatRoomGui=parent;
-        ChatRoomList serverChatRoomList = getServerChatRoomList();
-        if (serverChatRoomList != null) {
-            chatRoomList = serverChatRoomList;
+        ChatroomList serverChatroomList = getServerChatRoomList();
+        if (serverChatroomList != null) {
+            chatRoomList = serverChatroomList;
         } else {
-            chatRoomList = new ChatRoomList();
+            chatRoomList = new ChatroomList();
         }
     }
 
@@ -38,14 +37,14 @@ public class ChatRoomManager {
      *
      * @return 聊天室权限管理器
      */
-    public static ChatRoomManager getChatRoomManager(ChatRoomGui parent) {
+    public static ChatroomManager getChatroomManager(ChatroomGui parent) {
         if (instance == null) {
-            instance = new ChatRoomManager(parent);
+            instance = new ChatroomManager(parent);
         }
         return instance;
     }
 
-    private ChatRoomList getServerChatRoomList() {
+    private ChatroomList getServerChatRoomList() {
         /*
          * TODO_LviatYi 向服务器请求该用户的聊天室列表
          * date 2021/6/7
@@ -63,35 +62,35 @@ public class ChatRoomManager {
      * 如果已经加入则返回 JOINED
      * 如果取消新建则返回 CANCEL.
      */
-    public ChatRoomList.ChatRoomStatus join(String chatRoomId) {
+    public ChatroomList.ChatroomStatus join(String chatRoomId) {
         if (chatRoomList.findLocal(chatRoomId) != null) {
             //已加入
-            return ChatRoomList.ChatRoomStatus.JOINED;
+            return ChatroomList.ChatroomStatus.JOINED;
         } else {
-            ChatRoomInfo chatRoomInfo = new ChatRoomInfo(null, null, null);
+            ChatroomInfo chatRoomInfo = new ChatroomInfo(null, null, null);
             /*
              * TODO_LviatYi 通知服务器查找聊天室.
              *  提供 ChatRoomId.
              *  返回聊天室信息.
              * date 2021/6/7
              */
-            if (chatRoomInfo.getChatRoomId() == null) {
+            if (chatRoomInfo.getChatroomId() == null) {
                 if (chatRoomGui.confirmNewChatRoom()) {
-                    chatRoomInfo = createChatRoom(chatRoomId, chatRoomGui.confirmChatRoomName(), ChatRoomInfo.ChatRoomType.PUBLIC);
+                    chatRoomInfo = createChatRoom(chatRoomId, chatRoomGui.confirmChatRoomName(), ChatroomInfo.ChatroomType.PUBLIC);
                     if (chatRoomInfo == null) {
-                        return ChatRoomList.ChatRoomStatus.ERROR;
+                        return ChatroomList.ChatroomStatus.ERROR;
                     }
-                    return ChatRoomList.ChatRoomStatus.NEW;
+                    return ChatroomList.ChatroomStatus.NEW;
                 } else {
-                    return ChatRoomList.ChatRoomStatus.CANCEL;
+                    return ChatroomList.ChatroomStatus.CANCEL;
                 }
-            } else if (chatRoomInfo.getChatRoomType() == ChatRoomInfo.ChatRoomType.PRIVATE) {
-                return ChatRoomList.ChatRoomStatus.PRIVATE;
+            } else if (chatRoomInfo.getChatroomType() == ChatroomInfo.ChatroomType.PRIVATE) {
+                return ChatroomList.ChatroomStatus.PRIVATE;
             } else {
-                chatRoomList.add(new ChatRoomInfo(chatRoomInfo));
+                chatRoomList.add(new ChatroomInfo(chatRoomInfo));
                 chatRoomGui.updateChatRoom();
                 //加入成功
-                return ChatRoomList.ChatRoomStatus.QUALIFIED;
+                return ChatroomList.ChatroomStatus.QUALIFIED;
             }
         }
     }
@@ -106,8 +105,8 @@ public class ChatRoomManager {
      * @param chatRoomType ChatRoomType 不允许为空.扩展时需重构！需要将 ChatRoomType 更新为 Int 类型.
      * @return 返回聊天室信息.若新增失败则返回 null.
      */
-    public ChatRoomInfo createChatRoom(String chatRoomId, String chatRoomName, ChatRoomInfo.ChatRoomType chatRoomType) {
-        ChatRoomInfo chatRoomInfo = new ChatRoomInfo(chatRoomId, chatRoomName, chatRoomType);
+    public ChatroomInfo createChatRoom(String chatRoomId, String chatRoomName, ChatroomInfo.ChatroomType chatRoomType) {
+        ChatroomInfo chatRoomInfo = new ChatroomInfo(chatRoomId, chatRoomName, chatRoomType);
         /*
          * TODO_LviatYi 通知服务器添加新的聊天室
          *  一定提供一个指定为私有权限的聊天室.
@@ -115,7 +114,7 @@ public class ChatRoomManager {
          *  最后请返回 ChatRoomInfo.
          * date 2021/6/7
          */
-        if (chatRoomInfo.getChatRoomId() != null) {
+        if (chatRoomInfo.getChatroomId() != null) {
             chatRoomList.add(chatRoomInfo);
         }
         return chatRoomInfo;
@@ -127,10 +126,10 @@ public class ChatRoomManager {
      * @param chatRoomId 退出聊天室的 ChatRoomId
      * @return 保证完全删除
      */
-    public ChatRoomList.ChatRoomStatus delete(String chatRoomId) {
+    public ChatroomList.ChatroomStatus delete(String chatRoomId) {
         chatRoomList.del(chatRoomId);
         chatRoomGui.updateChatRoom();
-        return ChatRoomList.ChatRoomStatus.QUALIFIED;
+        return ChatroomList.ChatroomStatus.QUALIFIED;
     }
 
     /**
@@ -142,8 +141,8 @@ public class ChatRoomManager {
      * @return 私人聊天室信息.
      * 若无则返回 null.
      */
-    public ChatRoomInfo getPrivateChatRoom(String userId1, String userId2) {
-        ChatRoomInfo chatRoomInfo = null;
+    public ChatroomInfo getPrivateChatRoom(String userId1, String userId2) {
+        ChatroomInfo chatRoomInfo = null;
         /*
          * TODO_LviatYi 通知服务器查找私聊聊天室信息
          * date 2021/6/9
@@ -159,7 +158,7 @@ public class ChatRoomManager {
      *
      * @return chatRoomList
      */
-    public ChatRoomList getChatRoomList() {
+    public ChatroomList getChatRoomList() {
         return chatRoomList;
     }
 
@@ -168,7 +167,7 @@ public class ChatRoomManager {
      * @param chatRoomId 聊天室 Id.
      * @return chatRoomInfo
      */
-    public ChatRoomInfo findLocalChatRoom(String  chatRoomId){
+    public ChatroomInfo findLocalChatRoom(String  chatRoomId){
         return chatRoomList.findLocal(chatRoomId);
     }
 

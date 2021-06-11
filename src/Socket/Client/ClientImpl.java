@@ -1,7 +1,7 @@
 package Socket.Client;
 
-import ChatRoom.ChatManager.Message;
-import ChatRoom.ChatRoomManager.ChatRoomInfo;
+import Chatroom.ChatManager.Message;
+import Chatroom.ChatroomManager.ChatroomInfo;
 import Encrypt.EncryptionImpl;
 import Socket.tools.DataPacket;
 import com.alibaba.fastjson.JSONObject;
@@ -13,11 +13,13 @@ public class ClientImpl implements Client {
     private ClientThreadOut co = null;
     private ClientThreadIn ci = null;
     private final EncryptionImpl encryption = new EncryptionImpl();
+    @Override
     public void run() throws IOException {
         client();
     }
 
     //增加好友
+    @Override
     public void addFriend(String userID, String receiverID) {
         DataPacket mes = new DataPacket();
         mes.type = DataPacket.transportType.ADD_FRIEND;
@@ -29,6 +31,7 @@ public class ClientImpl implements Client {
     }
 
     //删除好友
+    @Override
     public void deleteFriend(String userID, String receiverID) {
         DataPacket mes = new DataPacket();
         mes.type = DataPacket.transportType.DEL_FRIEND;
@@ -40,8 +43,9 @@ public class ClientImpl implements Client {
     }
 
     //创建聊天室
-    public void addChatRoom(String chatRoomName, ChatRoomInfo.ChatRoomType chatRoomType){
-        if(chatRoomType== ChatRoomInfo.ChatRoomType.PUBLIC){
+    @Override
+    public void addChatRoom(String chatRoomName, ChatroomInfo.ChatroomType chatRoomType){
+        if(chatRoomType== ChatroomInfo.ChatroomType.PUBLIC){
             DataPacket mes = new DataPacket();
             mes.type = DataPacket.transportType.CREATE_CHATROOM;
             mes.chatRoomName = chatRoomName;
@@ -49,7 +53,7 @@ public class ClientImpl implements Client {
             co.setMessage(temp);
             //todo 返回chatRoomID 0失败 1成功
         }
-        else if (chatRoomType== ChatRoomInfo.ChatRoomType.PRIVATE){
+        else if (chatRoomType== ChatroomInfo.ChatroomType.PRIVATE){
             DataPacket mes = new DataPacket();
             mes.type = DataPacket.transportType.CREATE_PRIVATE_CHATROOM;
             String temp = JSONObject.toJSONString(mes);
@@ -59,6 +63,7 @@ public class ClientImpl implements Client {
     }
 
     //返回好友列表
+    @Override
     public void getFriendList(String userID) {
         DataPacket mes = new DataPacket();
         mes.type = DataPacket.transportType.RETURN_FRIEND_LIST;
@@ -83,7 +88,7 @@ public class ClientImpl implements Client {
         DataPacket mes = new DataPacket();
         mes.senderId = msg.getSenderId();
         mes.message = msg.getContent();
-        mes.chatRoomID = msg.getChatRoomId();
+        mes.chatRoomID = msg.getChatroomId();
         mes.datetime = msg.getSendTime();
         mes.type = DataPacket.transportType.SEND_MESSAGE;
         String temp = JSONObject.toJSONString(mes);

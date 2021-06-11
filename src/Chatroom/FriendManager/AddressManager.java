@@ -1,9 +1,6 @@
-package ChatRoom.FriendManager;
+package Chatroom.FriendManager;
 
-import ChatRoom.ChatManager.ClientChatManager;
-import ChatRoom.ChatRoomGui;
-import ChatRoom.ChatRoomGuiControl;
-import ChatRoom.ChatRoomManager.ChatRoomList;
+import Chatroom.ChatroomGui;
 
 /**
  * 通讯录管理类.
@@ -16,7 +13,7 @@ import ChatRoom.ChatRoomManager.ChatRoomList;
  * @date 2021/6/6
  */
 public class AddressManager implements ClientAddressManager {
-    ChatRoomGui chatRoomGui;
+    ChatroomGui chatRoomGui;
     FriendList friendList;
 
     /**
@@ -27,7 +24,7 @@ public class AddressManager implements ClientAddressManager {
     /**
      * 隐藏默认构造函数
      */
-    private AddressManager(ChatRoomGui parent){
+    private AddressManager(ChatroomGui parent){
         this.chatRoomGui=parent;
         FriendList serverFriendList = getServerFriendList();
         if (serverFriendList != null) {
@@ -42,7 +39,7 @@ public class AddressManager implements ClientAddressManager {
      *
      * @return 通讯录权限管理器
      */
-    public static AddressManager getAddressManager(ChatRoomGui parent) {
+    public static AddressManager getAddressManager(ChatroomGui parent) {
         if (instance == null) {
             instance = new AddressManager(parent);
         }

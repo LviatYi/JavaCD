@@ -1,7 +1,6 @@
-package ChatRoom;
+package Chatroom;
 
-import ChatRoom.ChatManager.Message;
-import ChatRoom.ChatRoomManager.ChatRoomInfo;
+import Chatroom.ChatManager.Message;
 
 /**
  * 为主程序提供用户反馈与消息通知.
@@ -11,7 +10,7 @@ import ChatRoom.ChatRoomManager.ChatRoomInfo;
  * @interfaceName ChatRoomGuiControl
  * @date 2021/6/7
  */
-public interface ChatRoomGuiControl {
+public interface ChatroomGuiControl {
     /**
      * 确认是否创建新的聊天室.
      * @return boolean
@@ -41,4 +40,5 @@ public interface ChatRoomGuiControl {
      * @param message 消息.
      */
     void updateMessage(Message message);
+
 }

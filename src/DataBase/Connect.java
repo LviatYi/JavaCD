@@ -154,7 +154,7 @@ public class Connect implements Database {
 
 
     @Override
-    public boolean ModifyPassword(String id, String password_now)//修改密码
+    public int ModifyPassword(String id, String password_now)//修改密码
     {
         con = getConnection();
         try {
@@ -164,15 +164,15 @@ public class Connect implements Database {
             st.setString(2, id);
             int rs = st.executeUpdate();
             // System.out.println("修改password成功");
-            return true;
+            return 1;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
+        return 0;
     }
 
     @Override
-    public boolean ModifyName(String id, String name_now)//修改昵称
+    public int ModifyName(String id, String name_now)//修改昵称
     {
         con = getConnection();
         try {
@@ -182,12 +182,12 @@ public class Connect implements Database {
             st.setString(2, id);
 
             int rs = st.executeUpdate();
-            return true;
+            return 1;
             //System.out.println("修改name成功");
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
+        return 0;
     }
 
     //TODO
@@ -218,7 +218,7 @@ public class Connect implements Database {
     //在发起人的好友表中删除旧好友并且在旧好友的好友表中删除发起人
     //好友表为索引
     @Override
-    public boolean DeleteFriend(String s, String id)//删除好友
+    public int DeleteFriend(String s, String id)//删除好友
     {
         con = getConnection();
         try {
@@ -231,11 +231,11 @@ public class Connect implements Database {
             st.setInt(3, id2);
             st.setInt(4, id1);
             int rs = st.executeUpdate();
-            return true;
+            return 1;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
+        return 0;
     }
 
     //TODO 修改
@@ -344,12 +344,9 @@ public class Connect implements Database {
         return null;
     }
 
-    //TODO
-    //增加好友
-    //在发起人的好友表中添加新增好友并且在新增好友的好友表中增加发起人
-    //好友表为索引
+    //TODO 更改返回   -1已经有好友，0添加失败，1添加成功。
     @Override
-    public boolean CreateFriend(String id, String id_friend) {
+    public int CreateFriend(String id, String id_friend) {
         con = getConnection();
         try {
             int id1 = Integer.parseInt(id);
@@ -364,21 +361,21 @@ public class Connect implements Database {
             int rs = st.executeUpdate();
 
 
-            return true;
+            return 1;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
+        return 0;
     }
 
     //TODO
     @Override
-    public boolean AddChatRoom(String id, String chatroomID) {
+    public int JoinChatRoom(String id, String chatroomID) {
         return false;
     }
 
     @Override
-    public boolean DelChatRoom(String chatroomID) {
+    public int  DelChatRoom(String chatroomID) {
         return false;
     }
 

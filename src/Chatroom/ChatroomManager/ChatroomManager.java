@@ -1,6 +1,11 @@
 package Chatroom.ChatroomManager;
 
+import Chatroom.ChatManager.Message;
 import Chatroom.ChatroomGui;
+import Chatroom.ClientManager;
+import Chatroom.FriendManager.FriendInfo;
+
+import java.util.Date;
 
 /**
  * 聊天室管理类
@@ -11,7 +16,7 @@ import Chatroom.ChatroomGui;
  * @className ChatroomManager
  * @date 2021/6/7
  */
-public class ChatroomManager {
+public class ChatroomManager implements ClientManager {
     ChatroomGui chatroomGui;
     ChatroomList chatroomList;
     /**
@@ -23,7 +28,7 @@ public class ChatroomManager {
      * 隐藏默认构造函数
      */
     private ChatroomManager(ChatroomGui parent) {
-        this.chatroomGui =parent;
+        this.chatroomGui = parent;
         ChatroomList serverChatroomList = getServerChatroomList();
         if (serverChatroomList != null) {
             chatroomList = serverChatroomList;
@@ -63,7 +68,7 @@ public class ChatroomManager {
      * 如果取消新建则返回 CANCEL.
      */
     public ChatroomList.ChatroomStatus join(String chatroomId) {
-        if (chatroomList.findLocal(chatroomId) != null) {
+        if (chatroomList.find(chatroomId) != null) {
             //已加入
             return ChatroomList.ChatroomStatus.JOINED;
         } else {
@@ -164,19 +169,53 @@ public class ChatroomManager {
 
     /**
      * 按照 ChatroomId 查找缓存中的聊天室信息.
+     *
      * @param chatroomId 聊天室 Id.
-     * @return chatroomInfo
+     * @return chatroomInfo, 找不到则返回空.
      */
-    public ChatroomInfo findLocalChatroom(String  chatroomId){
-        return chatroomList.findLocal(chatroomId);
+    public ChatroomInfo findLocalChatroom(String chatroomId) {
+        return chatroomList.find(chatroomId);
     }
 
     /**
      * 检查缓存的聊天室列表是否有聊天室.
+     *
      * @return 是则返回 true
      */
     public boolean isEmpty() {
         return this.getChatroomList().getList().isEmpty();
+    }
+
+    @Override
+    @Deprecated
+    public boolean receiver(Message message) {
+        return false;
+    }
+
+    @Override
+    @Deprecated
+    public boolean receiver(String content, String senderId, String chatroomId, Date date) {
+        return false;
+    }
+
+    @Override
+    @Deprecated
+    public boolean receiver(FriendInfo friendInfo) {
+        return false;
+    }
+
+    @Override
+    public boolean receiver(ChatroomInfo chatroomInfo) {
+        if (chatroomInfo !=null){
+            ChatroomInfo localChatroom = findLocalChatroom(chatroomInfo.getChatroomId());
+            if (localChatroom != null) {
+                this.chatroomList.del(localChatroom.getChatroomId());
+                this.chatroomList.add(chatroomInfo);
+            }
+            this.chatroomList.add(chatroomInfo);
+            return true;
+        }
+        return false;
     }
 }
 

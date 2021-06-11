@@ -1,6 +1,11 @@
 package Chatroom.FriendManager;
 
+import Chatroom.ChatManager.Message;
 import Chatroom.ChatroomGui;
+import Chatroom.ChatroomManager.ChatroomInfo;
+import Chatroom.ClientManager;
+
+import java.util.Date;
 
 /**
  * 通讯录管理类.
@@ -12,8 +17,11 @@ import Chatroom.ChatroomGui;
  * @className AddressManager
  * @date 2021/6/6
  */
-public class AddressManager implements ClientAddressManager {
+public class AddressManager implements ClientAddressManager, ClientManager {
     ChatroomGui chatroomGui;
+    /**
+     * 本地通讯录
+     */
     FriendList friendList;
 
     /**
@@ -24,8 +32,8 @@ public class AddressManager implements ClientAddressManager {
     /**
      * 隐藏默认构造函数
      */
-    private AddressManager(ChatroomGui parent){
-        this.chatroomGui=parent;
+    private AddressManager(ChatroomGui parent) {
+        this.chatroomGui = parent;
         FriendList serverFriendList = getServerFriendList();
         if (serverFriendList != null) {
             friendList = serverFriendList;
@@ -55,7 +63,7 @@ public class AddressManager implements ClientAddressManager {
      * 已存在此好友 ADDED
      */
     public FriendList.FriendStatus addFriend(String friendId) {
-        if (friendList.findLocal(friendId) != null) {
+        if (friendList.findList(friendId) != null) {
             return FriendList.FriendStatus.ADDED;
         } else {
             FriendInfo friendInfo = new FriendInfo(friendId, null);
@@ -84,7 +92,7 @@ public class AddressManager implements ClientAddressManager {
      * 没有该好友 NOT_EXIST
      */
     public FriendList.FriendStatus delFriend(String friendId) {
-        if (friendList.findLocal(friendId) != null) {
+        if (friendList.findList(friendId) != null) {
             friendList.del(friendId);
             /*
              * TODO_LviatYi 通知数据库删除好友
@@ -97,7 +105,17 @@ public class AddressManager implements ClientAddressManager {
         }
     }
 
-    public FriendList getFriendList(){
+    /**
+     * 在本地通讯录中查找好友.
+     *
+     * @param friendId 好友 Id
+     * @return 好友 Info.
+     */
+    public FriendInfo findLocalFriend(String friendId) {
+        return friendList.findList(friendId);
+    }
+
+    public FriendList getFriendList() {
         return friendList;
     }
 
@@ -108,6 +126,7 @@ public class AddressManager implements ClientAddressManager {
          */
         return null;
     }
+
     @Override
     public boolean addFriend(FriendInfo friendInfo) {
         this.friendList.add(friendInfo);
@@ -117,8 +136,40 @@ public class AddressManager implements ClientAddressManager {
 
     @Override
     public boolean addFriend(String friendId, String friendName) {
-        this.friendList.add(new FriendInfo(friendId,friendName));
+        this.friendList.add(new FriendInfo(friendId, friendName));
         chatroomGui.updateFriend();
+        return false;
+    }
+
+    @Override
+    @Deprecated
+    public boolean receiver(Message message) {
+        return false;
+    }
+
+    @Override
+    @Deprecated
+    public boolean receiver(String content, String senderId, String chatroomId, Date date) {
+        return false;
+    }
+
+    @Override
+    public boolean receiver(FriendInfo friendInfo) {
+        if (friendInfo != null) {
+            FriendInfo localFriend = findLocalFriend(friendInfo.getFriendId());
+            if (localFriend != null) {
+                delFriend(localFriend.getFriendId());
+                addFriend(friendInfo);
+                return false;
+            }
+            addFriend(friendInfo);
+        }
+        return false;
+    }
+
+    @Override
+    @Deprecated
+    public boolean receiver(ChatroomInfo chatroomInfo) {
         return false;
     }
 }

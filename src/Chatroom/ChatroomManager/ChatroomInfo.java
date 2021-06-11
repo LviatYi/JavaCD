@@ -1,7 +1,10 @@
 package Chatroom.ChatroomManager;
 
+import Chatroom.ChatManager.Message;
+import Chatroom.ClientManager;
 import Chatroom.FriendManager.FriendInfo;
 
+import java.util.Date;
 import java.util.Vector;
 
 /**
@@ -10,7 +13,7 @@ import java.util.Vector;
  * @className Chatroom
  * @date 2021/6/6
  */
-public class ChatroomInfo {
+public class ChatroomInfo  {
     private String chatroomId;
     private String chatroomName;
     private ChatroomType chatroomType;
@@ -62,18 +65,26 @@ public class ChatroomInfo {
     public String getChatroomId() {
         return chatroomId;
     }
+
+    /**
+     * 获得 ChatroomName.
+     * @return ChatroomName.可能为空字符串.
+     */
+    public String getChatroomName() {
+        return chatroomName;
+    }
     /**
      * 获得 ChatroomName.
      * 若为私聊聊天室则设置为对方 Name.
      * @return ChatroomName
      */
-    public String getChatroomName() {
+    public String getChatroomName(String thisUserId){
         if (this.getChatroomType() == ChatroomType.PRIVATE) {
-            return null;
-            /*
-            * TODO_LviatYi 获得私聊聊天室 Name.即好友 Name.
-            * date 2021/6/10
-            */
+            for (FriendInfo friendInfo:friendList){
+                if (!friendInfo.getFriendId().equals(thisUserId)){
+                    return friendInfo.getFriendName();
+                }
+            }
         }
         return chatroomName;
     }

@@ -1,11 +1,7 @@
-package ChatRoom.ChatManager;
+package Chatroom.ChatManager;
 
-
-import com.alibaba.fastjson.annotation.JSONField;
 
 import java.util.Date;
-import java.time.*;
-import java.util.Timer;
 
 /**
  * 聊天记录类
@@ -27,7 +23,7 @@ public class Message {
     /**
      * 聊天记录所在的聊天室 ID
      */
-    private String chatRoomId;
+    private String chatroomId;
     /**
      * 发送时间
      */
@@ -44,30 +40,30 @@ public class Message {
      * 将 sendTime 设置为系统当前时间.
      * @param content 聊天内容
      * @param senderId 发送者 Id
-     * @param chatRoomId 聊天室 Id
+     * @param chatroomId 聊天室 Id
      */
-    public Message(String content,String senderId,String chatRoomId){
+    public Message(String content,String senderId,String chatroomId){
         this.content=content;
         this.senderId=senderId;
-        this.chatRoomId=chatRoomId;
+        this.chatroomId = chatroomId;
         this.sendTime=new Date();
     }
-    public Message(String content,String senderId,String chatRoomId,Date date){
+    public Message(String content, String senderId, String chatroomId, Date date){
         this.content=content;
         this.senderId=senderId;
-        this.chatRoomId=chatRoomId;
+        this.chatroomId = chatroomId;
         this.sendTime=date;
     }
     public Message(Message message){
         this.content=message.getContent();
         this.senderId=message.getSenderId();
-        this.chatRoomId=message.getChatRoomId();
+        this.chatroomId =message.getChatroomId();
         this.sendTime=message.getSendTime();
     }
 
 
-    public String getChatRoomId(){
-        return this.chatRoomId;
+    public String getChatroomId(){
+        return this.chatroomId;
     }
     public String getContent(){
         return this.content;
@@ -81,8 +77,8 @@ public class Message {
     public void setContent(String content) {
         this.content = content;
     }
-    public void setChatRoomId(String chatRoomId) {
-        this.chatRoomId = chatRoomId;
+    public void setChatroomId(String chatroomId) {
+        this.chatroomId = chatroomId;
     }
     public void setSenderId(String senderId) {
         this.senderId = senderId;

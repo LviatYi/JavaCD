@@ -1,7 +1,7 @@
 package DataBase;
 
-import ChatRoom.FriendManager.FriendInfo;
-import ChatRoom.FriendManager.FriendList;
+import Chatroom.FriendManager.FriendInfo;
+import Chatroom.FriendManager.FriendList;
 import Socket.tools.DataPacket;
 
 import java.util.Date;

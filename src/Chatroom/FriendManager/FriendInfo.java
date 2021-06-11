@@ -1,4 +1,4 @@
-package ChatRoom.FriendManager;
+package Chatroom.FriendManager;
 
 /**
  * @author May_bebe

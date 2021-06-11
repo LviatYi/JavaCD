@@ -1,14 +1,12 @@
 package Socket.tools;
 
-import ChatRoom.ChatManager.Message;
-import ChatRoom.ChatManager.MessageList;
-import ChatRoom.ChatRoomManager.ChatRoomInfo;
-import ChatRoom.ChatRoomManager.ChatRoomList;
-import ChatRoom.FriendManager.FriendInfo;
-import ChatRoom.FriendManager.FriendList;
+import Chatroom.ChatManager.Message;
+import Chatroom.ChatManager.MessageList;
+import Chatroom.ChatroomManager.ChatroomInfo;
+import Chatroom.ChatroomManager.ChatroomList;
+import Chatroom.FriendManager.FriendList;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -33,9 +31,9 @@ public class DataPacket {
     public Message msg;
     public Date datetime;
     public int systemTip;
-    public ChatRoomInfo chatRoomInfo;
+    public ChatroomInfo chatRoomInfo;
     public FriendList friendList;
-    public ChatRoomList groupList;
+    public ChatroomList groupList;
     public MessageList historyMessageList;
 
     public enum transportType{

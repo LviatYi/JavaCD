@@ -1,4 +1,4 @@
-package ChatRoom.ChatManager;
+package Chatroom.ChatManager;
 
 import java.util.Vector;
 
@@ -12,7 +12,7 @@ import java.util.Vector;
  */
 public class MessageList {
     private Vector<Message> list;
-    private String chatRoomId;
+    private String chatroomId;
 
     /**
      * 隐藏默认构造函数
@@ -21,42 +21,42 @@ public class MessageList {
         setList(new Vector<Message>());
     }
 
-    public MessageList(String chatRoomId) {
+    public MessageList(String chatroomId) {
         setList(new Vector<Message>());
-        this.setChatRoomId(chatRoomId);
+        this.setChatroomId(chatroomId);
     }
-    public MessageList(String chatRoomId, Vector<Message> list) {
-        this.setChatRoomId(chatRoomId);
+    public MessageList(String chatroomId, Vector<Message> list) {
+        this.setChatroomId(chatroomId);
         this.setList(list);
     }
 
     public Vector<Message> getList() {
         return this.list;
     }
-    String getChatRoomId() {
-        return this.chatRoomId;
+    String getChatroomId() {
+        return this.chatroomId;
     }
     public void setList(Vector<Message> list) {
         this.list = list;
     }
-    public void setChatRoomId(String chatRoomId) {
-        this.chatRoomId = chatRoomId;
+    public void setChatroomId(String chatroomId) {
+        this.chatroomId = chatroomId;
     }
 
     String addMessage(Message message) {
-        if (message.getChatRoomId().equals(this.getChatRoomId())) {
+        if (message.getChatroomId().equals(this.getChatroomId())) {
             getList().add(message);
-            return this.getChatRoomId();
+            return this.getChatroomId();
         } else {
             return null;
         }
     }
     String addMessage(MessageList messageList) {
-        if (messageList.getChatRoomId().equals(this.getChatRoomId())) {
+        if (messageList.getChatroomId().equals(this.getChatroomId())) {
             for (Message message : messageList.getList()) {
                 this.addMessage(message);
             }
-            return this.getChatRoomId();
+            return this.getChatroomId();
         }
         return null;
     }

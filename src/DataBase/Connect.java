@@ -5,8 +5,8 @@ import java.util.*;
 import java.util.Date;
 import java.util.List;
 
-import ChatRoom.FriendManager.FriendInfo;
-import ChatRoom.FriendManager.FriendList;
+import Chatroom.FriendManager.FriendInfo;
+import Chatroom.FriendManager.FriendList;
 import Socket.tools.*;
 
 public class Connect implements Database {

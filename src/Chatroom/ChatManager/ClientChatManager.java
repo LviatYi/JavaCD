@@ -1,6 +1,4 @@
-package ChatRoom.ChatManager;
-
-import ChatRoom.FriendManager.FriendInfo;
+package Chatroom.ChatManager;
 
 import java.util.Date;
 
@@ -24,10 +22,10 @@ public interface ClientChatManager {
      * 向对方线程上的客户端发送一条 Message
      * @param content 消息内容
      * @param senderId 发送方 Id
-     * @param chatRoomId 聊天室 Id
+     * @param chatroomId 聊天室 Id
      * @param date 日期
      * @return
      */
-    boolean receiver(String content, String senderId, String chatRoomId, Date date);
+    boolean receiver(String content, String senderId, String chatroomId, Date date);
 
 }

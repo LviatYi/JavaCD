@@ -1,4 +1,4 @@
-package ChatRoom.FriendManager;
+package Chatroom.FriendManager;
 
 import java.util.Vector;
 

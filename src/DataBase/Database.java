@@ -1,5 +1,8 @@
 package DataBase;
 
+import Chatroom.ChatManager.MessageList;
+import Chatroom.ChatroomManager.ChatroomInfo;
+import Chatroom.ChatroomManager.ChatroomList;
 import Chatroom.FriendManager.FriendInfo;
 import Chatroom.FriendManager.FriendList;
 import Socket.tools.DataPacket;
@@ -62,7 +65,7 @@ public interface Database {
      * @param groupID 聊天室ID
      * @return DataPacket list
      */
-     List<DataPacket> GetGroupMessage(String groupID);
+    MessageList GetGroupMessage(String groupID);
 
     /**
      * 添加聊天室进聊天室表（）
@@ -118,11 +121,11 @@ public interface Database {
      FriendInfo getFriend(String id);
 
     /**
-     * 返回group成员
-     * @param groupId  聊天室ID
-     * @return String 数组
+     * 获取id所在所有聊天室
+     * @param id  id人所在所有聊天室
+     * @return chatRoomList对象
      */
-     String[] getGroup(String groupId);
+     ChatroomList getGroup(String id);
 
 
     /**
@@ -130,5 +133,10 @@ public interface Database {
      * @param userInfo 用户 Info
      * @return 目标好友的好友列表.
      */
-    FriendList getUserFriendList(FriendInfo userInfo);
+    FriendInfo getUserFriendList(FriendInfo userInfo);
+
+    ChatroomInfo findChatRoomInfoThroughID(String chatroomID);
+
+    ChatroomInfo findChatRoomInfoThroughUser(String id,String friendID);
+
 }

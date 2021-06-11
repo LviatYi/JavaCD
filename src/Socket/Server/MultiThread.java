@@ -39,7 +39,7 @@ public class MultiThread {
 //                temp.arrayList.add(st);
             }
         }
-//        groupList.add(temp);
+//        grouplist.add(temp);
     }
 
     /**

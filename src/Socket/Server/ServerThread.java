@@ -7,7 +7,6 @@ import com.alibaba.fastjson.JSONObject;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.List;
 
 /**
  * 每当有客户机和服务器连接时，都要定义一个接受对象来进行数据的传输
@@ -203,45 +202,38 @@ public class ServerThread extends Thread{
                     temp.type = DataPacket.transportType.RETURN_FRIEND_LIST;
                     sendMsg(temp);
                     break;
-                    //TODO list<>
                 }
                 //返回ID所在所有群ID
                 case RETURN_GROUP_LIST:
                 {
-                    String[] group1 = database.getGroup(dataPacket.chatRoomID);
-                    for (String group:group1)
-                    {
-                        DataPacket temp = new DataPacket();
-                        temp.friendRequestID =group;
-                        temp.type = DataPacket.transportType.RETURN_GROUP_LIST;
-                        sendMsg(temp);
-                    }
+                    DataPacket temp = new DataPacket();
+                    temp.chatRoomList = database.getGroup(dataPacket.id);
+                    temp.type = DataPacket.transportType.RETURN_GROUP_LIST;
+                    sendMsg(temp);
                     break;
-                    //TODO list
-                    //TODO 重写
                 }
                 //返回群聊历史记录
                 case GET_HISTORY_MESSAGE:
                 {
-                    List<DataPacket> temp = database.GetGroupMessage(dataPacket.chatRoomID);
-                    for(DataPacket dataPacket1:temp)
-                    {
-                        dataPacket1.type = DataPacket.transportType.GET_HISTORY_MESSAGE;
-                        sendMsg(dataPacket1);
-                    }
+                    DataPacket temp = new DataPacket();
+                    temp.historyMessageList= database.GetGroupMessage(dataPacket.chatRoomID);
+                    temp.type = DataPacket.transportType.GET_HISTORY_MESSAGE;
+                    sendMsg(temp);
                     break;
-                    //TODO list
-                    //TODO 重写
                 }
                 case FIND_CHATROOM_INFO_THROUGH_ID:
                 {
-                    //TODO type chatroomID
-                    //返回chatroominfo
+                    DataPacket temp = new DataPacket();
+                    temp.chatRoomInfo = database.findChatRoomInfoThroughID(dataPacket.chatRoomID);
+                    temp.type= DataPacket.transportType.FIND_CHATROOM_INFO_THROUGH_ID;
+                    sendMsg(temp);
                 }
                 case FIND_CHATROOM_INFO_THROUGH_USER:
                 {
-                    //TODO id,friendRequestID
-                    //返回chatroominfo
+                    DataPacket temp = new DataPacket();
+                    temp.chatRoomInfo = database.findChatRoomInfoThroughUser(dataPacket.id,dataPacket.friendRequestID);
+                    temp.type= DataPacket.transportType.FIND_CHATROOM_INFO_THROUGH_ID;
+                    sendMsg(temp);
                 }
                 default:
                     break;

@@ -5,6 +5,8 @@ import java.util.*;
 import java.util.Date;
 import java.util.List;
 
+import Chatroom.ChatManager.MessageList;
+import Chatroom.ChatroomManager.ChatroomList;
 import Chatroom.FriendManager.FriendInfo;
 import Chatroom.FriendManager.FriendList;
 import Socket.tools.*;
@@ -270,9 +272,9 @@ public class Connect implements Database {
     }
 
     //TODO
-    //返回传入聊天室的组员
+    //修改返回类型
     @Override
-    public String[] getGroup(String groupId) {
+    public ChatroomList getGroup(String groupId) {
         con = getConnection();
         try {
             Statement st = con.createStatement();
@@ -293,9 +295,9 @@ public class Connect implements Database {
     }
 
     //TODO
-    //返回传入聊天室的历史记录
+    //返回更新
     @Override
-    public List<DataPacket> GetGroupMessage(String groupID) {
+    public MessageList GetGroupMessage(String groupID) {
         con = getConnection();
         try {
             Statement st = con.createStatement();

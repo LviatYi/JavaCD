@@ -4,6 +4,7 @@ import Chatroom.ChatManager.Message;
 import Chatroom.ChatManager.MessageList;
 import Chatroom.ChatroomManager.ChatroomInfo;
 import Chatroom.ChatroomManager.ChatroomList;
+import Chatroom.FriendManager.FriendInfo;
 import Chatroom.FriendManager.FriendList;
 
 import java.util.Date;
@@ -33,7 +34,8 @@ public class DataPacket {
     public int systemTip;
     public ChatroomInfo chatRoomInfo;
     public FriendList friendList;
-    public ChatroomList groupList;
+    public FriendInfo friendInfo;
+    public ChatroomList chatRoomList;
     public MessageList historyMessageList;
 
     public enum transportType{

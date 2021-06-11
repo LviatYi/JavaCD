@@ -65,6 +65,16 @@ public class ChatManager implements ClientManager {
         return instance;
     }
 
+    public void setCurrentChatroomInfo(ChatroomInfo currentChatroomInfo) {
+        this.currentChatroomInfo = currentChatroomInfo;
+    }
+    public Vector<MessageList> getChatroomMessageRepo() {
+        return chatroomMessageRepo;
+    }
+    public ChatroomInfo getCurrentChatroomInfo() {
+        return currentChatroomInfo;
+    }
+
     /**
      * 从服务器拉取聊天记录.
      *
@@ -121,40 +131,112 @@ public class ChatManager implements ClientManager {
     /**
      * 将来自外部的新消息加入到对应本地聊天室的聊天记录中.
      * 若本地聊天室无此已加入的聊天室的聊天记录，则新增至缓存.
+     *
      * @param message Message
      * @return 对应的聊天室 Id.
      */
-    public String  recordNewMessage(Message message) {
+    public String recordNewMessage(Message message) {
         for (int i = 0; i < chatroomList.size(); i++) {
-            if (chatroomList.elementAt(i).equals(message.getChatroomId())){
+            if (chatroomList.elementAt(i).equals(message.getChatroomId())) {
                 chatroomMessageRepo.elementAt(i).addMessage(message);
                 return message.getChatroomId();
             }
         }
-        ChatroomInfo newChatRoom=parent.getChatroomManager().findLocalChatroom(message.getChatroomId());
-        if(newChatRoom!=null){
+        ChatroomInfo newChatRoom = parent.getChatroomManager().findLocalChatroom(message.getChatroomId());
+        if (newChatRoom != null) {
             chatroomList.add(newChatRoom.getChatroomId());
         }
         return null;
     }
 
     /**
-     * 记录新的聊天室历史消息
+     * 将来自外部的多条新消息加入到对应本地聊天室的聊天记录中.
+     * 若本地聊天室无此已加入的聊天室的聊天记录，则新增至缓存.
      *
-     * @param chatroomId  聊天室 Id
-     * @param messageList 返回聊天室历史信息
-     * @return
+     * @param messageList 聊天记录表
      */
-    public Vector<MessageList> recordNewChatroomMessage(String chatroomId, MessageList messageList) {
-        this.chatroomMessageRepo.add(messageList);
-        return chatroomMessageRepo;
+    public void recordNewMessage(MessageList messageList) {
+        for (int i = 0; i < chatroomList.size(); i++) {
+            if (chatroomList.elementAt(i).equals(messageList.getChatroomId())) {
+                chatroomMessageRepo.elementAt(i).addMessage(messageList);
+                return ;
+            }
+        }
+        ChatroomInfo newChatRoom = parent.getChatroomManager().findLocalChatroom(messageList.getChatroomId());
+        if (newChatRoom != null) {
+            chatroomList.add(newChatRoom.getChatroomId());
+        }
+        for (Message message : messageList.getList()) {
+            recordNewMessage(message);
+        }
     }
 
-// 不允许建立空表
-//    public Vector<MessageList> addNewChatroomMessage(String chatroomId){
-//        this.chatroomMessageRepo.add(new MessageList(chatroomId));
-//        return chatroomMessageRepo;
-//    }
+    /**
+     * 将来自外部的多条新消息覆写到对应本地聊天室的聊天记录中.
+     * 若本地聊天室无此已加入的聊天室的聊天记录，则新增至缓存.
+     * @param messageList 聊天记录表
+     */
+    public void refreshMessage(MessageList messageList){
+        for (int i = 0; i < chatroomList.size(); i++) {
+            if (chatroomList.elementAt(i).equals(messageList.getChatroomId())) {
+                chatroomMessageRepo.elementAt(i).clear();
+                chatroomMessageRepo.elementAt(i).addMessage(messageList);
+                return ;
+            }
+        }
+        ChatroomInfo newChatRoom = parent.getChatroomManager().findLocalChatroom(messageList.getChatroomId());
+        if (newChatRoom != null) {
+            chatroomList.add(newChatRoom.getChatroomId());
+        }
+        for (Message message : messageList.getList()) {
+            recordNewMessage(message);
+        }
+    }
+
+    /**
+     * 获取本地聊天记录
+     *
+     * @param chatroomId 聊天室 Id
+     * @return 聊天记录组
+     */
+    public MessageList getChatroomMessageListLocal(String chatroomId) {
+        for (MessageList messageList : chatroomMessageRepo) {
+            if (messageList.getChatroomId().equals(chatroomId)) {
+                return messageList;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 根据 ChatroomId 新增聊天室与其记录至缓存.
+     *
+     * @param chatroomId  聊天室 Info
+     * @param messageList 消息记录
+     * @return 消息记录
+     */
+    public MessageList addNewChatroomRecord(String chatroomId, MessageList messageList) {
+        chatroomList.add(chatroomId);
+        chatroomMessageRepo.add(messageList);
+
+        return messageList;
+    }
+
+    /**
+     * 根据 ChatroomId 从缓存中删除聊天室与其记录.
+     *
+     * @param chatroomId 聊天室 Id
+     * @return 成功删除返回 true . 未找到则返回 false
+     */
+    public boolean delChatroomRecord(String chatroomId) {
+        int index = chatroomList.indexOf(chatroomId);
+        if (index != -1) {
+            chatroomList.remove(index);
+            chatroomMessageRepo.remove(index);
+            return true;
+        }
+        return false;
+    }
 
     @Override
     public boolean receiver(String content, String senderId, String chatroomId, Date date) {
@@ -181,62 +263,6 @@ public class ChatManager implements ClientManager {
     @Override
     @Deprecated
     public boolean receiver(ChatroomInfo chatroomInfo) {
-        return false;
-    }
-
-    public Vector<MessageList> getChatroomMessageRepo() {
-        return chatroomMessageRepo;
-    }
-
-    /**
-     * 获取本地聊天记录
-     *
-     * @param chatroomId 聊天室 Id
-     * @return 聊天记录组
-     */
-    public MessageList getChatroomMessageListLocal(String chatroomId) {
-        for (MessageList messageList : chatroomMessageRepo) {
-            if (messageList.getChatroomId().equals(chatroomId)) {
-                return messageList;
-            }
-        }
-        return null;
-    }
-
-    public void setCurrentChatroomInfo(ChatroomInfo currentChatroomInfo) {
-        this.currentChatroomInfo = currentChatroomInfo;
-    }
-
-    public ChatroomInfo getCurrentChatroomInfo() {
-        return currentChatroomInfo;
-    }
-
-    /**
-     * 根据 ChatroomId 新增聊天室与其记录至缓存.
-     * @param chatroomId 聊天室 Info
-     * @param messageList 消息记录
-     * @return 消息记录
-     */
-    public MessageList addNewChatroomRecord(String chatroomId,MessageList messageList){
-        chatroomList.add(chatroomId);
-        chatroomMessageRepo.add(messageList);
-
-        return messageList;
-    }
-
-    /**
-     * 根据 ChatroomId 从缓存中删除聊天室与其记录.
-     * @param chatroomId 聊天室 Id
-     * @return 成功删除返回 true . 未找到则返回 false
-     */
-    public boolean delChatroomRecord(String  chatroomId){
-        int index=chatroomList.indexOf(chatroomId);
-        if(index!=-1)
-        {
-            chatroomList.remove(index);
-            chatroomMessageRepo.remove(index);
-            return true;
-        }
         return false;
     }
 }

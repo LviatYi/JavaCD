@@ -3,8 +3,9 @@ package Chatroom.FriendManager;
 import java.util.Vector;
 
 /**
+ * @author LviatYi
  * @author May_bebe
- * @version 1.0
+ * @version 1.6 alpha
  * @className FriendList
  * @date 2021/6/8
  */
@@ -28,19 +29,25 @@ public class FriendList {
          * 好友列表中不存在
          */
         LIST_NOT_EXIST,
-
     }
 
-    public FriendList(){
-        list=new Vector<FriendInfo>();
-        list.add(new FriendInfo("123","123"));
-        list.add(new FriendInfo("456","456"));
-        list.add(new FriendInfo("789","789"));
+    /**
+     * 构造函数
+     */
+    public FriendList() {
+        list = new Vector<FriendInfo>();
+        //Exist for DEBUG
+        list.add(new FriendInfo("123", "123"));
+        list.add(new FriendInfo("456", "456"));
+        list.add(new FriendInfo("789", "789"));
+        //End
+
     }
 
     public Vector<FriendInfo> getList() {
         return list;
     }
+
     public void setList(Vector<FriendInfo> list) {
         this.list = list;
     }
@@ -52,9 +59,11 @@ public class FriendList {
      * @return 好友 info,找不到返回空.
      */
     public FriendInfo findList(String friendId) {
-        for (FriendInfo friendInfo : list) {
-            if (friendInfo.getFriendId().equals((friendId))) {
-                return friendInfo;
+        if (friendId != null && !"".equals(friendId)) {
+            for (FriendInfo friendInfo : list) {
+                if (friendInfo.getFriendId().equals((friendId))) {
+                    return friendInfo;
+                }
             }
         }
         return null;
@@ -62,20 +71,28 @@ public class FriendList {
 
     /**
      * 添加一条 FriendInfo 记录.
+     *
      * @param friendInfo FriendInfo 记录.
      * @return
      */
     public String add(FriendInfo friendInfo) {
-        list.add(friendInfo);
-        return friendInfo.getFriendId();
+        if (friendInfo != null && !"".equals(friendInfo.getFriendId())) {
+            list.add(friendInfo);
+            return friendInfo.getFriendId();
+        }
+        return null;
     }
 
     /**
      * 按照 FriendId 删除一条记录.
+     *
      * @param friendId 好友 ID
      */
-    public void del(String friendId) {
-        list.removeIf(friendInfo -> friendInfo.getFriendId().equals(friendId));
+    public boolean del(String friendId) {
+        if (friendId != null && !"".equals(friendId)) {
+            list.removeIf(friendInfo -> friendInfo.getFriendId().equals(friendId));
+            return true;
+        }
+        return false;
     }
-
 }

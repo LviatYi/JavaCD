@@ -6,30 +6,55 @@ import java.util.Vector;
  * 聊天室的聊天记录
  *
  * @author LviatYi
- * @version 1.0
+ * @version 1.6 alpha
  * @className MessageList
  * @date 2021/6/8
  */
 public class MessageList {
+    //field
+
+    /**
+     * 用于记录聊天记录文本数据的 list.
+     */
     private Vector<Message> list;
+    /**
+     * 其下数据所在的聊天室 ID.
+     * 这意味着 MessageList 记录了来自同一聊天室的聊天记录.
+     */
     private String chatroomId;
+
+    //construct
 
     /**
      * 隐藏默认构造函数
      */
     private MessageList() {
-        setList(new Vector<Message>());
+        this.list = new Vector<Message>();
+        chatroomId = "";
     }
 
+    /**
+     * 规定 chatroomId 的初始化构造函数.
+     *
+     * @param chatroomId chatroomId
+     */
     public MessageList(String chatroomId) {
-        setList(new Vector<Message>());
-        this.setChatroomId(chatroomId);
+        list = new Vector<Message>();
+        this.chatroomId = chatroomId;
     }
 
+    /**
+     * 规定 chatroomId 且带有聊天记录的初始化构造函数.
+     *
+     * @param chatroomId ChatroomId
+     * @param list       聊天记录
+     */
     public MessageList(String chatroomId, Vector<Message> list) {
         this.setChatroomId(chatroomId);
         this.setList(list);
     }
+
+    //getter setter
 
     public Vector<Message> getList() {
         return this.list;
@@ -47,6 +72,8 @@ public class MessageList {
         this.chatroomId = chatroomId;
     }
 
+    //function
+
     /**
      * 添加信息到 MessageList 的末尾.
      *
@@ -56,6 +83,7 @@ public class MessageList {
     String addMessage(Message message) {
         return addMessage(message, false);
     }
+
     /**
      * 添加多条信息到 MessageList 的末尾.
      *
@@ -65,6 +93,7 @@ public class MessageList {
     String addMessage(MessageList messageList) {
         return addMessage(messageList, false);
     }
+
     /**
      * 添加信息到 MessageList 的前端或末尾.
      *
@@ -73,40 +102,45 @@ public class MessageList {
      * @return 插入成功的 ChatroomId.
      */
     String addMessage(Message message, boolean isFront) {
-        if (isFront) {
-            if (message.getChatroomId().equals(this.getChatroomId())) {
-                list.add(0, message);
-                return this.getChatroomId();
-            }
-        } else {
-            if (message.getChatroomId().equals(this.getChatroomId())) {
-                list.add(message);
-                return this.getChatroomId();
+        if (message != null) {
+            if (isFront) {
+                if (message.getChatroomId().equals(this.getChatroomId())) {
+                    list.add(0, message);
+                    return this.getChatroomId();
+                }
+            } else {
+                if (message.getChatroomId().equals(this.getChatroomId())) {
+                    list.add(message);
+                    return this.getChatroomId();
+                }
             }
         }
         return null;
     }
+
     /**
      * 添加多条信息到 MessageList 的前端或末尾.
      *
      * @param messageList 待加入的多条信息.
-     * @param isFront 是否插入到前端.
+     * @param isFront     是否插入到前端.
      * @return 插入成功的 ChatroomId.
      */
     String addMessage(MessageList messageList, boolean isFront) {
-        if (isFront) {
-            if (messageList.getChatroomId().equals(this.getChatroomId())) {
-                for (Message message : messageList.getList()) {
-                    list.addAll(0, messageList.getList());
+        if (messageList != null) {
+            if (isFront) {
+                if (messageList.getChatroomId().equals(this.getChatroomId())) {
+                    for (Message message : messageList.getList()) {
+                        list.addAll(0, messageList.getList());
+                    }
+                    return this.getChatroomId();
                 }
-                return this.getChatroomId();
-            }
-        } else {
-            if (messageList.getChatroomId().equals(this.getChatroomId())) {
-                for (Message message : messageList.getList()) {
-                    list.addAll(messageList.getList());
+            } else {
+                if (messageList.getChatroomId().equals(this.getChatroomId())) {
+                    for (Message message : messageList.getList()) {
+                        list.addAll(messageList.getList());
+                    }
+                    return this.getChatroomId();
                 }
-                return this.getChatroomId();
             }
         }
         return null;
@@ -120,15 +154,26 @@ public class MessageList {
      * @return 插入记录后的信息表.
      */
     public MessageList addHistoryMessage(MessageList chatroomMessageList) {
-        if (chatroomMessageList.chatroomId.equals(chatroomId)) {
-            addMessage(chatroomMessageList,true);
+        if (chatroomMessageList != null) {
+            if (chatroomMessageList.chatroomId.equals(chatroomId)) {
+                addMessage(chatroomMessageList, true);
+            }
+            return this;
         }
-        return this;
+        return null;
     }
-    void clearMessage() {
+
+    /**
+     * 清空聊天记录.
+     */
+    void clear() {
         this.getList().clear();
     }
 
+    /**
+     * 检查此表是否为空.
+     * @return 是否存在的状态.
+     */
     boolean isEmpty() {
         return list.isEmpty();
     }

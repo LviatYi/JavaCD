@@ -17,7 +17,7 @@ import java.util.Date;
  * @className AddressManager
  * @date 2021/6/6
  */
-public class AddressManager implements ClientAddressManager, ClientManager {
+public class AddressManager implements  ClientManager {
     ChatroomGui chatroomGui;
     /**
      * 本地通讯录
@@ -54,6 +54,10 @@ public class AddressManager implements ClientAddressManager, ClientManager {
         return instance;
     }
 
+    public FriendList getFriendList() {
+        return friendList;
+    }
+
     /**
      * 添加好友
      *
@@ -68,7 +72,7 @@ public class AddressManager implements ClientAddressManager, ClientManager {
         } else {
             FriendInfo friendInfo = new FriendInfo(friendId, null);
             /*
-             * TODO_LviatYi 请求 FriendInfo
+             * TODO_LviatYi 请求服务器索要 FriendInfo
              *  并修改 friendInfo 的 friendName 字段
              * date 2021/6/9
              */
@@ -115,9 +119,6 @@ public class AddressManager implements ClientAddressManager, ClientManager {
         return friendList.findList(friendId);
     }
 
-    public FriendList getFriendList() {
-        return friendList;
-    }
 
     private FriendList getServerFriendList() {
         /*
@@ -127,14 +128,18 @@ public class AddressManager implements ClientAddressManager, ClientManager {
         return null;
     }
 
-    @Override
-    public boolean addFriend(FriendInfo friendInfo) {
-        this.friendList.add(friendInfo);
-        chatroomGui.updateFriend();
+    /**
+     * 在本地缓存中添加好友.
+     * @param friendInfo 好友 Info
+     * @return 好友添加状态.
+     */
+    public boolean addFriendLocal(FriendInfo friendInfo) {
+        if(this.friendList.add(friendInfo)!=null){
+        return true;
+        }
         return false;
     }
 
-    @Override
     public boolean addFriend(String friendId, String friendName) {
         this.friendList.add(new FriendInfo(friendId, friendName));
         chatroomGui.updateFriend();
@@ -159,10 +164,10 @@ public class AddressManager implements ClientAddressManager, ClientManager {
             FriendInfo localFriend = findLocalFriend(friendInfo.getFriendId());
             if (localFriend != null) {
                 delFriend(localFriend.getFriendId());
-                addFriend(friendInfo);
+                addFriend(friendInfo.getFriendId());
                 return false;
             }
-            addFriend(friendInfo);
+            addFriend(friendInfo.getFriendId());
         }
         return false;
     }

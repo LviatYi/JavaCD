@@ -8,17 +8,19 @@ import java.util.Date;
 import java.util.Vector;
 
 /**
+ * @author LVIAT.cn
  * @author May_bebe
- * @version 1.0
+ * @version 1.6 alpha
  * @className Chatroom
  * @date 2021/6/6
  */
-public class ChatroomInfo  {
+public class ChatroomInfo {
+    //field
+
     private String chatroomId;
     private String chatroomName;
     private ChatroomType chatroomType;
     private Vector<FriendInfo> friendList;
-
 
     public enum ChatroomType {
         /**
@@ -37,30 +39,37 @@ public class ChatroomInfo  {
         }
     }
 
+    //construct
+
     public ChatroomInfo(String chatroomId, String chatroomName, ChatroomType chatroomType, Vector<FriendInfo> friendList) {
         this.chatroomId = chatroomId;
         this.chatroomName = chatroomName;
         this.chatroomType = chatroomType;
-        this.friendList=friendList;
+        this.friendList = friendList;
     }
+
     public ChatroomInfo(String chatroomId, String chatroomName, ChatroomType chatroomType) {
         this.chatroomId = chatroomId;
         this.chatroomName = chatroomName;
         this.chatroomType = chatroomType;
-        this.friendList=new Vector<FriendInfo>();
+        this.friendList = new Vector<FriendInfo>();
     }
+
     public ChatroomInfo(ChatroomInfo chatroomInfo) {
-        this.chatroomName =chatroomInfo.getChatroomName();
-        this.chatroomId =chatroomInfo.getChatroomId();
-        this.chatroomType =chatroomInfo.getChatroomType();
-        this.friendList=new Vector<FriendInfo>();
+        this.chatroomName = chatroomInfo.getChatroomName();
+        this.chatroomId = chatroomInfo.getChatroomId();
+        this.chatroomType = chatroomInfo.getChatroomType();
+        this.friendList = new Vector<FriendInfo>();
     }
+
     public ChatroomInfo() {
-        this.chatroomName ="";
-        this.chatroomId ="";
+        this.chatroomName = "";
+        this.chatroomId = "";
         this.chatroomType = null;
-        this.friendList=new Vector<FriendInfo>();
+        this.friendList = new Vector<FriendInfo>();
     }
+
+    //getter setter
 
     public String getChatroomId() {
         return chatroomId;
@@ -68,29 +77,34 @@ public class ChatroomInfo  {
 
     /**
      * 获得 ChatroomName.
+     *
      * @return ChatroomName.可能为空字符串.
      */
     public String getChatroomName() {
         return chatroomName;
     }
+
     /**
      * 获得 ChatroomName.
      * 若为私聊聊天室则设置为对方 Name.
+     *
      * @return ChatroomName
      */
-    public String getChatroomName(String thisUserId){
+    public String getChatroomName(String thisUserId) {
         if (this.getChatroomType() == ChatroomType.PRIVATE) {
-            for (FriendInfo friendInfo:friendList){
-                if (!friendInfo.getFriendId().equals(thisUserId)){
+            for (FriendInfo friendInfo : friendList) {
+                if (!friendInfo.getFriendId().equals(thisUserId)) {
                     return friendInfo.getFriendName();
                 }
             }
         }
         return chatroomName;
     }
+
     public ChatroomType getChatroomType() {
         return this.chatroomType;
     }
+
     /**
      * 受通信系统所限制，可能未赋值 FriendList
      *
@@ -100,28 +114,35 @@ public class ChatroomInfo  {
     public Vector<FriendInfo> getFriendList() {
         return friendList;
     }
+
     public void setChatroomId(String chatroomId) {
         this.chatroomId = chatroomId;
     }
+
     public void setChatroomName(String chatroomName) {
         this.chatroomName = chatroomName;
     }
+
     public void setChatroomType(ChatroomType chatroomType) {
         this.chatroomType = chatroomType;
     }
+
     public void setFriendList(Vector<FriendInfo> friendList) {
         this.friendList = friendList;
     }
 
     /**
      * 查找是否该聊天室含有对象
+     *
      * @param friendId 对象 Id
      * @return FriendInfo
      */
     public FriendInfo hasMember(String friendId) {
-        for (FriendInfo friendInfo : getFriendList()) {
-            if (friendInfo.getFriendId().equals(friendId)) {
-                return friendInfo;
+        if(friendId!=null){
+            for (FriendInfo friendInfo : getFriendList()) {
+                if (friendInfo.getFriendId().equals(friendId)) {
+                    return friendInfo;
+                }
             }
         }
         return null;

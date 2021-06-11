@@ -12,6 +12,7 @@ import javax.swing.*;
 import javax.swing.text.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -204,6 +205,9 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
             private int messagePanelHeight = 40;
             final private int MAX_MESSAGE_PANEL_WIDTH = 350;
 
+            /**
+             * 用于填装信息文本的面板,自定义样式.
+             */
             private class MessageContentTextPane extends JTextPane {
                 //覆写默认构造函数
                 public MessageContentTextPane() {
@@ -267,18 +271,20 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
         /**
          * 发送者 Pl，包含发送者信息
          */
-        private JPanel senderPl;
+        private JPanel senderInfoPl;
         private JPanel thisMsgPl;
         private JLabel senderLb;
+        private JLabel sendTimeLb;
 
         public MessagePanel(Message message, boolean isSelf) {
             this.message = message;
             this.setLayout(new BorderLayout());
             thisMsgPl = new JPanel();
             thisMsgPl.setLayout(new BoxLayout(thisMsgPl, BoxLayout.Y_AXIS));
-            senderPl = new JPanel();
-            senderPl.setLayout(new BoxLayout(senderPl, BoxLayout.X_AXIS));
+            senderInfoPl = new JPanel();
+            senderInfoPl.setLayout(new BoxLayout(senderInfoPl, BoxLayout.X_AXIS));
             senderLb = new JLabel();
+            sendTimeLb = new JLabel();
             messageContentPl = new MessageContentPanel(this.message.getContent());
             this.setPreferredSize(new Dimension(messageContentPl.getSize().width + 30, messageContentPl.getSize().height + 30));
 
@@ -291,10 +297,15 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
             //End
 
             //布局设置
-            thisMsgPl.add(senderPl);
+            thisMsgPl.add(senderInfoPl);
             thisMsgPl.add(messageContentPl);
-            senderPl.add(senderLb);
+
+
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+
             if (isSelf) {
+                senderInfoPl.add(sendTimeLb);
+                senderInfoPl.add(senderLb);
                 senderLb.setText("<html>\n" +
                         "    <body>\n" +
                         "        <div style=\"font-size: 12px;font-family: 'Trebuchet MS';\">\n" +
@@ -303,9 +314,18 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
                         "    </body>\n" +
                         "</html>\n" +
                         "\n");
+                sendTimeLb.setText("<html>\n" +
+                        "    <body>\n" +
+                        "        <div style=\"font-size: 10px; font-family: 'Trebuchet MS';color: gray;\">\n" +
+                        formatter.format(message.getSendTime()) +
+                        "        </div>\n" +
+                        "    </body>\n" +
+                        "</html>\n");
                 senderLb.setHorizontalAlignment(SwingConstants.RIGHT);
                 this.add(thisMsgPl, BorderLayout.EAST);
             } else {
+                senderInfoPl.add(senderLb);
+                senderInfoPl.add(sendTimeLb);
                 senderLb.setText("<html>\n" +
                         "    <body>\n" +
                         "        <div style=\"font-size: 12px;font-family: 'Trebuchet MS';\">\n" +
@@ -317,6 +337,13 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
                         "    </body>\n" +
                         "</html>\n" +
                         "\n");
+                sendTimeLb.setText("<html>\n" +
+                        "    <body>\n" +
+                        "        <div style=\"font-size: 10px; font-family: 'Trebuchet MS';color: gray;\">\n" +
+                        formatter.format(message.getSendTime()) +
+                        "        </div>\n" +
+                        "    </body>\n" +
+                        "</html>\n");
                 senderLb.setHorizontalAlignment(SwingConstants.LEFT);
                 this.add(thisMsgPl, BorderLayout.WEST);
             }
@@ -578,7 +605,6 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
         this.settingManager.setSelfName(selfName);
 
         prepareGui();
-
     }
 
     /**
@@ -643,6 +669,7 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
 
         /**
          * Document:仅限数字
+         * @className IntegerDocument
          */
         class IntegerDocument extends PlainDocument {
             @Override
@@ -670,6 +697,7 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
         //Exist for DEBUG
         updateChatPl(null);
         //End
+        System.out.println("");
     }
 
     private void prepareLoadingGui() {
@@ -914,17 +942,23 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
 
         //Exist for DEBUG
         msgPl.add(new MessagePanel(new Message("Hello!AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "", "", new Date()), true));
+        msgPl.add(new MessagePanel(new Message("Hello!AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "", "", new Date()), false));
+        msgPl.add(new MessagePanel(new Message("Hello!AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "", "", new Date()), false));
+        msgPl.add(new MessagePanel(new Message("Hello!AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "", "", new Date()), false));
+        msgPl.add(new MessagePanel(new Message("Hello!AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "", "", new Date()), false));
         //End
 
-        if (chatroomInfo == null) {
-            return;
-        }
+        if (chatroomInfo != null) {
+            if (!chatroomInfo.getChatroomId().equals(chatManager.getCurrentChatroomInfo().getChatroomId())) {
+                //允许查询历史信息
+                moreMsgBtn.setVisible(true);
+                updateCurrentChatroom(chatroomInfo.getChatroomId());
+            }
 
-        updateCurrentChatroom(chatroomInfo.getChatroomId());
-        for (Message message : chatManager.getChatroomMessageList(chatroomInfo.getChatroomId()).getList()) {
-            msgPl.add(new MessagePanel(message, message.getSenderId().equals(settingManager.getSelfId())));
+            for (Message message : chatManager.getChatroomMessageListLocal(chatroomInfo.getChatroomId()).getList()) {
+                msgPl.add(new MessagePanel(message, message.getSenderId().equals(settingManager.getSelfId())));
+            }
         }
-
         //Exist for COMPLAIN
         /**
          * 2021.06.07 1:30-2:20
@@ -946,6 +980,7 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
         chatSp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
         scrollToBottom(chatSp);
+        mainPl.updateUI();
     }
 
     /**
@@ -962,15 +997,52 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
         updateChatPl();
     }
 
+
     /**
      * 将 JScrollPane 控件下拉到底部.
-     * 垃圾 swing ,并不能到最底部,比较看脸.
+     * 垃圾 swing .
      *
      * @param jScrollPane
      */
     private void scrollToBottom(JScrollPane jScrollPane) {
-        jScrollPane.revalidate();
-        jScrollPane.getVerticalScrollBar().setValue(Integer.MAX_VALUE);
+        JScrollBar verticalBar = jScrollPane.getVerticalScrollBar();
+        AdjustmentListener downScroller = new AdjustmentListener() {
+            @Override
+            public void adjustmentValueChanged(AdjustmentEvent e) {
+                Adjustable adjustable = e.getAdjustable();
+                adjustable.setValue(adjustable.getMaximum());
+                verticalBar.removeAdjustmentListener(this);
+            }
+        };
+        verticalBar.addAdjustmentListener(downScroller);
+    }
+
+    /**
+     * 更新 当前聊天室信息 面板.
+     * @param chatroomInfo 聊天室 Info.
+     * @return 更改成功返回 true.若未更改则返回 false.
+     */
+    private boolean updateChatroomInfoPl(ChatroomInfo chatroomInfo){
+        if(chatManager.getCurrentChatroomInfo().getChatroomId().equals(chatroomInfo.getChatroomId())){
+            return false;
+        }
+
+        String title = "<html>\n" +
+                "    <body>\n" +
+                "        <div style=\"font-size: 24px;font-family: 'Trebuchet MS';\">\n" +
+                chatroomManager.findLocalChatroom(chatroomInfo.getChatroomId()).getChatroomName() +
+                "        </div>\n" +
+                "        <div style=\"font-size: 24px;font-family: 'Trebuchet MS';\">\n" +
+                "            \" | \"\n" +
+                "        </div>\n" +
+                "        <div style=\"font-size: 12px;font-family: 'Trebuchet MS';\">\n" +
+                chatroomInfo.getChatroomId() +
+                "        </div>\n" +
+                "    </body>\n" +
+                "</html>";
+
+        chatroomTitleLb.setText(title);
+        return true;
     }
 
     /**
@@ -981,22 +1053,8 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
      * @return 若成功则返回 true.若找不到相应聊天室则返回 false.
      */
     private boolean updateCurrentChatroom(ChatroomInfo chatroomInfo) {
-        if (chatroomManager.getChatroomList().findLocal(chatroomInfo.getChatroomId()) != null) {
-            String title = "<html>\n" +
-                    "    <body>\n" +
-                    "        <div style=\"font-size: 24px;font-family: 'Trebuchet MS';\">\n" +
-                    chatroomManager.getChatroomList().findLocal(chatroomInfo.getChatroomId()).getChatroomName() +
-                    "        </div>\n" +
-                    "        <div style=\"font-size: 24px;font-family: 'Trebuchet MS';\">\n" +
-                    "            \" | \"\n" +
-                    "        </div>\n" +
-                    "        <div style=\"font-size: 12px;font-family: 'Trebuchet MS';\">\n" +
-                    chatroomInfo.getChatroomId() +
-                    "        </div>\n" +
-                    "    </body>\n" +
-                    "</html>";
-
-            chatroomTitleLb.setText(title);
+        if (chatroomManager.getChatroomList().find(chatroomInfo.getChatroomId()) != null) {
+            updateChatroomInfoPl(chatroomInfo);
             updateChatPl(chatroomInfo);
             return true;
         } else {
@@ -1090,5 +1148,21 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
             updateChatPl(chatroomInfo);
             return chatroomInfo;
         }
+    }
+
+    public AddressManager getAddressManager() {
+        return addressManager;
+    }
+
+    public ChatManager getChatManager() {
+        return chatManager;
+    }
+
+    public ChatroomManager getChatroomManager() {
+        return chatroomManager;
+    }
+
+    public SettingManager getSettingManager() {
+        return settingManager;
     }
 }

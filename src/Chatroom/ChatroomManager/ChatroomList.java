@@ -57,7 +57,7 @@ public class ChatroomList {
      * @param chatroomId ChatroomID.
      * @return ChatroomID, 找不到则返回空
      */
-    public ChatroomInfo findLocal(String chatroomId) {
+    public ChatroomInfo find(String chatroomId) {
         if(list.isEmpty()){
             return null;
         }
@@ -76,7 +76,7 @@ public class ChatroomList {
      * @param userId2
      * @return ChatroomInfo 若返回 null 则无好友聊天室.
      */
-    public ChatroomInfo findLocal(String userId1, String userId2) {
+    public ChatroomInfo find(String userId1, String userId2) {
         for (ChatroomInfo chatroomInfo : list) {
             if (chatroomInfo.getFriendList() == null) {
                 ChatroomInfo chatroomInfoServer = new ChatroomInfo(null);
@@ -102,7 +102,7 @@ public class ChatroomList {
      * @param chatroomName ChatroomName.
      * @return ChatroomID, 找不到则返回空
      */
-    public ChatroomInfo findLocal(String chatroomName, boolean isName) {
+    public ChatroomInfo find(String chatroomName, boolean isName) {
         if (isName != true) {
             return null;
         }

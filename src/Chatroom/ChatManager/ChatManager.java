@@ -2,6 +2,9 @@ package Chatroom.ChatManager;
 
 import Chatroom.ChatroomGui;
 import Chatroom.ChatroomManager.ChatroomInfo;
+import Chatroom.ClientManager;
+import Chatroom.FriendManager.FriendInfo;
+import com.sun.istack.internal.NotNull;
 
 import java.util.Date;
 import java.util.Vector;
@@ -16,11 +19,18 @@ import java.util.Vector;
  * @className ChatManager
  * @date 2021/6/7
  */
-public class ChatManager implements ClientChatManager {
+public class ChatManager implements ClientManager {
     ChatroomGui chatroomGui;
     ChatroomInfo currentChatroomInfo;
 
+    /**
+     * 聊天记录集合.
+     */
     private Vector<MessageList> chatroomMessageRepo;
+    /**
+     * 在缓存中的聊天记录的所有聊天室 Id.
+     */
+    private Vector<String> chatroomList;
 
     /**
      * 单例指针
@@ -30,14 +40,23 @@ public class ChatManager implements ClientChatManager {
     /**
      * 隐藏默认构造函数
      */
-    private ChatManager(){}
+    private ChatManager(){
+        currentChatroomInfo=new ChatroomInfo(null,null, null,null);
+        chatroomMessageRepo=new Vector<MessageList>();
+        chatroomList=new Vector<String>();
+    }
 
-    private ChatManager(ChatroomGui parent){
+    private ChatManager(@NotNull ChatroomGui parent){
         this.chatroomGui =parent;
         currentChatroomInfo =new ChatroomInfo();
     }
 
-    public static ChatManager getChatManager(ChatroomGui parent){
+    /**
+     * 获取单例.
+     * @param parent 父级 Gui.
+     * @return ChatManager
+     */
+    public static ChatManager getChatManager(@NotNull ChatroomGui parent){
         if(instance==null){
             instance=new ChatManager(parent);
         }
@@ -45,27 +64,30 @@ public class ChatManager implements ClientChatManager {
     }
 
     /**
-     * 从服务器拉取聊天记录
+     * 从服务器拉取聊天记录.
      *
      * @param chatroomId 聊天室 Id
      * @return 聊天记录组
      */
     public MessageList pullChatroomMessageList(String chatroomId) {
-//        MessageList chatroomMessageList=;
+        MessageList chatroomMessageList=null;
         /*
          * TODO_LviatYi 向服务器索要聊天记录
          * date 2021/6/9
          */
-//        return chatroomMessageList;
-        return null;
+        int index=chatroomList.indexOf(chatroomId);
+        if (index!=-1){
+            chatroomMessageRepo.elementAt(index).addHistoryMessage(chatroomMessageList);
+        }
+        return chatroomMessageList;
     }
 
     /**
-     * 从服务器拉取聊天记录（单条发送模式）.
+     * 从服务器拉取聊天记录（异步模式）.
      * 受通讯系统限制.
      * 可能是危险的.
-     * @param chatroomId
-     * @param isSingle
+     * @param chatroomId 聊天室 Id
+     * @param isSingle 是否为异步模式.
      */
     public MessageList pullChatroomMessageList(String chatroomId, boolean isSingle) {
         if (isSingle) {
@@ -79,6 +101,11 @@ public class ChatManager implements ClientChatManager {
         }
     }
 
+    /**
+     * 向服务器发送 Message .
+     * @param message Message
+     * @return 发送状态.仅保证已发送.
+     */
     public boolean send(Message message) {
         /*
          * TODO_LviatYi 向服务器发送聊天记录
@@ -87,7 +114,20 @@ public class ChatManager implements ClientChatManager {
         return true;
     }
 
-    public Vector<MessageList> recordNewMessage(String chatroomId, Message message) {
+    /**
+     * 将来自外部的新消息加入到对应本地聊天室的聊天记录中.
+     * @param message Message
+     * @return 新的聊天室记录.
+     */
+    public Vector<MessageList> recordNewMessage(Message message) {
+        for (MessageList messageList:chatroomMessageRepo){
+            if (!messageList.isEmpty()){
+                if (messageList.getList().elementAt(0).getChatroomId().equals(message.getChatroomId())){
+
+                }
+
+            }
+        }
         return this.getChatroomMessageRepo();
     }
 
@@ -125,6 +165,18 @@ public class ChatManager implements ClientChatManager {
         return false;
     }
 
+    @Override
+    @Deprecated
+    public boolean receiver(FriendInfo friendInfo) {
+        return false;
+    }
+
+    @Override
+    @Deprecated
+    public boolean receiver(ChatroomInfo chatroomInfo) {
+        return false;
+    }
+
     public Vector<MessageList> getChatroomMessageRepo() {
         return chatroomMessageRepo;
     }
@@ -135,7 +187,7 @@ public class ChatManager implements ClientChatManager {
      * @param chatroomId 聊天室 Id
      * @return 聊天记录组
      */
-    public MessageList getChatroomMessageList(String chatroomId) {
+    public MessageList getChatroomMessageListLocal(String chatroomId) {
         for (MessageList messageList : chatroomMessageRepo) {
             if(messageList.getChatroomId().equals(chatroomId)){
                 return messageList;

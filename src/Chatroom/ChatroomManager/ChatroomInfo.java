@@ -12,7 +12,7 @@ import java.util.Vector;
  * @date 2021/6/6
  */
 public class ChatroomInfo {
-    //field
+    // Field
 
     private String chatroomId;
     private String chatroomName;
@@ -36,7 +36,7 @@ public class ChatroomInfo {
         }
     }
 
-    //construct
+    // Construct
 
     public ChatroomInfo(String chatroomId, String chatroomName, ChatroomType chatroomType, Vector<FriendInfo> friendList) {
         this.chatroomId = chatroomId;
@@ -66,7 +66,7 @@ public class ChatroomInfo {
         this.friendList = new Vector<FriendInfo>();
     }
 
-    //getter setter
+    // Getter Setter
 
     public String getChatroomId() {
         return chatroomId;
@@ -128,14 +128,32 @@ public class ChatroomInfo {
         this.friendList = friendList;
     }
 
+    // Function
+
     /**
      * 查找是否该聊天室含有对象
      *
      * @param friendId 对象 Id
      * @return FriendInfo
      */
-    public FriendInfo hasMember(String friendId) {
-        if(friendId!=null){
+    public boolean hasMember(String friendId) {
+        if (friendId != null) {
+            for (FriendInfo friendInfo : getFriendList()) {
+                if (friendInfo.getFriendId().equals(friendId)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 按照 FriendId 获得该聊天室中的 FriendInfo.
+     * @param friendId FriendId
+     * @return FriendInfo.若不存在则返回 null.
+     */
+    public FriendInfo getMember(System friendId){
+        if (friendId != null) {
             for (FriendInfo friendInfo : getFriendList()) {
                 if (friendInfo.getFriendId().equals(friendId)) {
                     return friendInfo;
@@ -143,5 +161,13 @@ public class ChatroomInfo {
             }
         }
         return null;
+    }
+
+    public boolean isPrivate() {
+        if (this.chatroomType == ChatroomType.PRIVATE) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

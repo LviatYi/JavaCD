@@ -12,7 +12,7 @@ import java.util.Date;
  * @date 2021/6/7
  */
 public class Message {
-    //field
+    // Field
 
     /**
      * 主要内容
@@ -31,7 +31,7 @@ public class Message {
      */
     private Date sendTime;
 
-    //construct
+    // Construct
 
     /**
      * 隐藏默认构造函数.
@@ -69,7 +69,7 @@ public class Message {
         this.sendTime = message.getSendTime();
     }
 
-    //getter setter
+    // Getter Setter
 
     public String getChatroomId() {
         return this.chatroomId;
@@ -103,7 +103,7 @@ public class Message {
         this.sendTime = sendTime;
     }
 
-    //function
+    // Function
 
     /**
      * 获取发送时间的时间戳.按毫秒计.

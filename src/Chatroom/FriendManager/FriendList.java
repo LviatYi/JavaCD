@@ -10,7 +10,11 @@ import java.util.Vector;
  * @date 2021/6/8
  */
 public class FriendList {
+    // Field
+
     private Vector<FriendInfo> list;
+
+    // Tool Status
 
     public enum FriendStatus {
         /**
@@ -31,8 +35,10 @@ public class FriendList {
         LIST_NOT_EXIST,
     }
 
+    // Construct
+
     /**
-     * 构造函数
+     * 默认构造函数.
      */
     public FriendList() {
         list = new Vector<FriendInfo>();
@@ -41,8 +47,9 @@ public class FriendList {
         list.add(new FriendInfo("456", "456"));
         list.add(new FriendInfo("789", "789"));
         //End
-
     }
+
+    // Getter Setter
 
     public Vector<FriendInfo> getList() {
         return list;
@@ -52,8 +59,10 @@ public class FriendList {
         this.list = list;
     }
 
+    // Function
+
     /**
-     * 在缓存中按照 FriendID 寻找 FriendInfo.
+     * 在 list 中按照 FriendID 寻找 FriendInfo.
      *
      * @param friendId 好友 id
      * @return 好友 info,找不到返回空.

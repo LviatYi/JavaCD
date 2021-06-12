@@ -11,7 +11,7 @@ import java.util.Vector;
  * @date 2021/6/8
  */
 public class MessageList {
-    //field
+    // Field
 
     /**
      * 用于记录聊天记录文本数据的 list.
@@ -23,7 +23,7 @@ public class MessageList {
      */
     private String chatroomId;
 
-    //construct
+    // Construct
 
     /**
      * 隐藏默认构造函数
@@ -54,7 +54,7 @@ public class MessageList {
         this.setList(list);
     }
 
-    //getter setter
+    // Getter Setter
 
     public Vector<Message> getList() {
         return this.list;
@@ -72,7 +72,7 @@ public class MessageList {
         this.chatroomId = chatroomId;
     }
 
-    //function
+    // Function
 
     /**
      * 添加信息到 MessageList 的末尾.

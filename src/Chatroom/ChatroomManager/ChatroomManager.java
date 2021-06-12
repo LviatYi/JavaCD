@@ -186,6 +186,41 @@ public class ChatroomManager implements ClientManager {
         return this.getChatroomList().getList().isEmpty();
     }
 
+//    /**
+//     * 在服务器中按照 ChatroomID 寻找 Chatroom .
+//     *
+//     * @param chatroomId ChatroomID.
+//     * @return ChatroomID, 找不到则返回空
+//     */
+//    public ChatroomInfo findServer(String chatroomId) {
+//        /*
+//         * TODO_LviatYi 向服务器按照 ChatroomID 查询 Chatroom
+//         * date 2021/6/7
+//         */
+//        return null;
+//    }
+//
+//    /**
+//     * 在服务器中按照 ChatroomName 寻找 Chatroom .
+//     *
+//     * @param chatroomName ChatroomName.
+//     * @return ChatroomID, 找不到则返回空
+//     */
+//    public ChatroomInfo findServer(String chatroomName, boolean isName) {
+//        if (!isName) {
+//            return null;
+//        }
+//        /*
+//         * TODO_LviatYi 向服务器按照 ChatroomName 查询 Chatroom
+//         * date 2021/6/7
+//         */
+//        return null;
+//    }
+//
+//    public ChatroomInfo findServer(String userId1,String userId2){
+//
+//    }
+
     @Override
     @Deprecated
     public boolean receiver(Message message) {

@@ -1,18 +1,19 @@
 package Socket.Client;
 
 import Chatroom.ChatManager.ChatManager;
+import Chatroom.ChatroomGui;
 import Socket.tools.DataPacket;
 import com.alibaba.fastjson.JSON;
 import java.io.*;
 import java.net.Socket;
 
 public class ClientThreadIn extends Thread {
-    private ChatManager parent;
+    private ChatroomGui parent;
     private Socket server;
     public boolean exit = false;
 
-    public ClientThreadIn(ChatManager chatManager) {
-        this.parent = chatManager;
+    public void setParent(ChatroomGui parent) {
+        this.parent = parent;
     }
 
     public void setSocket(Socket socket) {
@@ -30,7 +31,24 @@ public class ClientThreadIn extends Thread {
                 DataInputStream in = new DataInputStream(server.getInputStream());
                 String str = in.readUTF();
                 DataPacket dp = JSON.parseObject(str, DataPacket.class);
-                parent.receiver(dp.msg);
+                switch (dp.type){
+                    case ADD_FRIEND:{
+                        //todo
+
+                    }
+                    case DEL_FRIEND:{
+                        //todo
+                    }
+
+
+
+
+
+
+
+
+                }
+
                 //TODO 拆分服务器发来的消息
             }
         } catch (IOException e) {

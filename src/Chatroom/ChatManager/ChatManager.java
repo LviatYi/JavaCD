@@ -1,7 +1,7 @@
 package Chatroom.ChatManager;
 
-import Chatroom.ChatroomGui;
 import Chatroom.ChatroomManager.ChatroomInfo;
+import Chatroom.ChatroomGui;
 import Chatroom.ClientManager;
 import Chatroom.FriendManager.FriendInfo;
 import com.sun.istack.internal.NotNull;

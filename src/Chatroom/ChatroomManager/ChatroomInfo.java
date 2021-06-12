@@ -1,10 +1,7 @@
 package Chatroom.ChatroomManager;
 
-import Chatroom.ChatManager.Message;
-import Chatroom.ClientManager;
 import Chatroom.FriendManager.FriendInfo;
 
-import java.util.Date;
 import java.util.Vector;
 
 /**

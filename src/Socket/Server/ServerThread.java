@@ -7,7 +7,6 @@ import com.alibaba.fastjson.JSONObject;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.List;
 
 /**
  * 每当有客户机和服务器连接时，都要定义一个接受对象来进行数据的传输
@@ -145,91 +144,96 @@ public class ServerThread extends Thread{
                 }
                 case EXIT_CHATROOM:
                 {
-                    //退群
-                    //TODO 入三个，type ,ID,chatroomID
-                    //0失败，1成功
+                    DataPacket temp = new DataPacket();
+                    temp.systemTip=database.ExitChatRoom(dataPacket.id,dataPacket.chatRoomID);
+                    temp.type= DataPacket.transportType.EXIT_CHATROOM;
+                    sendMsg(temp);
+                    //TODO 线程聊天池中删除此人
                 }
                 case JOIN_CHATROOM:
                 {
-                    database.AddChatRoom(dataPacket.id,dataPacket.chatRoomID);
-                    //TODO 返回01
+                    DataPacket temp = new DataPacket();
+                    temp.systemTip =  database.JoinChatRoom(dataPacket.id,dataPacket.chatRoomID);
+                    temp.type = DataPacket.transportType.JOIN_CHATROOM;
+                    sendMsg(temp);
                     break;
                 }
                 //修改名字
                 case MODIFY_NAME:
                 {
-                    database.ModifyName(dataPacket.id, dataPacket.name);
-                    //TODO return 01
+                    DataPacket temp = new DataPacket();
+                    temp.systemTip= database.ModifyName(dataPacket.id, dataPacket.name);
+                    temp.type = DataPacket.transportType.MODIFY_NAME;
+                    sendMsg(temp);
                     break;
                 }
                 //修改密码
                 case MODIFY_PASSWORD:
                 {
-                    database.ModifyPassword(dataPacket.id, dataPacket.password);
-                    //TODO return 01
+                    DataPacket temp = new DataPacket();
+                    temp.systemTip = database.ModifyPassword(dataPacket.id, dataPacket.password);
+                    temp.type = DataPacket.transportType.MODIFY_PASSWORD;
+                    sendMsg(temp);
                     break;
                 }
                 //增加好友
                 case ADD_FRIEND:
                 {
-                    database.CreateFriend(dataPacket.id, dataPacket.friendRequestID);
+                    DataPacket temp = new DataPacket();
+                    temp.systemTip=database.CreateFriend(dataPacket.id, dataPacket.friendRequestID);
+                    temp.type = DataPacket.transportType.ADD_FRIEND;
+                    sendMsg(temp);
                     break;
-                    //TODO -1已经有好友，0添加失败，1添加成功。
                 }
                 //删除好友
                 case DEL_FRIEND:
                 {
+                    DataPacket temp = new DataPacket();
                     database.DeleteFriend(dataPacket.id,dataPacket.friendRequestID);
+                    temp.type = DataPacket.transportType.DEL_FRIEND;
+                    sendMsg(temp);
                     break;
-                    //TODO 0失败，1成功
                 }
                 //返回好友列表
                 case RETURN_FRIEND_LIST:
                 {
                     DataPacket temp = new DataPacket();
-//                    temp.friendList = database.getUserFriendList(dataPacket.friendInfo);
+                    temp.friendList = database.getUserFriendList(dataPacket.friendInfo);
                     temp.type = DataPacket.transportType.RETURN_FRIEND_LIST;
                     sendMsg(temp);
                     break;
-                    //TODO list<>
                 }
                 //返回ID所在所有群ID
                 case RETURN_GROUP_LIST:
                 {
-                    String[] group1 = database.getGroup(dataPacket.chatRoomID);
-                    for (String group:group1)
-                    {
-                        DataPacket temp = new DataPacket();
-                        temp.friendRequestID =group;
-                        temp.type = DataPacket.transportType.RETURN_GROUP_LIST;
-                        sendMsg(temp);
-                    }
+                    DataPacket temp = new DataPacket();
+                    temp.chatRoomList = database.getGroup(dataPacket.id);
+                    temp.type = DataPacket.transportType.RETURN_GROUP_LIST;
+                    sendMsg(temp);
                     break;
-                    //TODO list
-                    //TODO 重写
                 }
                 //返回群聊历史记录
                 case GET_HISTORY_MESSAGE:
                 {
-                    List<DataPacket> temp = database.GetGroupMessage(dataPacket.chatRoomID);
-                    for(DataPacket dataPacket1:temp)
-                    {
-                        dataPacket1.type = DataPacket.transportType.GET_HISTORY_MESSAGE;
-                        sendMsg(dataPacket1);
-                    }
+                    DataPacket temp = new DataPacket();
+                    temp.historyMessageList= database.GetGroupMessage(dataPacket.chatRoomID);
+                    temp.type = DataPacket.transportType.GET_HISTORY_MESSAGE;
+                    sendMsg(temp);
                     break;
-                    //TODO list
-                    //TODO 重写
                 }
                 case FIND_CHATROOM_INFO_THROUGH_ID:
                 {
-                    //TODO type chatroomID
-                    //返回chatroominfo
+                    DataPacket temp = new DataPacket();
+                    temp.chatRoomInfo = database.findChatRoomInfoThroughID(dataPacket.chatRoomID);
+                    temp.type= DataPacket.transportType.FIND_CHATROOM_INFO_THROUGH_ID;
+                    sendMsg(temp);
                 }
                 case FIND_CHATROOM_INFO_THROUGH_USER:
                 {
-                    //TODO id,friendRequestID
-                    //返回chatroominfo
+                    DataPacket temp = new DataPacket();
+                    temp.chatRoomInfo = database.findChatRoomInfoThroughUser(dataPacket.id,dataPacket.friendRequestID);
+                    temp.type= DataPacket.transportType.FIND_CHATROOM_INFO_THROUGH_ID;
+                    sendMsg(temp);
                 }
                 default:
                     break;

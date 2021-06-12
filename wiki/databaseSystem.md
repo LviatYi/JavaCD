@@ -36,7 +36,7 @@
 * FriendId
   好友 ID （外键）
   数组
-* ChatroomId
+* ChatRoomId
   聊天室 ID （外键）
 
 ### 好友关系
@@ -50,16 +50,16 @@
   记录 ID （主键）
 * SenderId
   发送者 ID （外键）
-* ChatroomId
+* ChatRoomId
   聊天室 ID （外键）
 * Time
   发送时间
 
 ### 聊天室信息
 
-* ChatroomId (Key)
+* ChatRoomId (Key)
   聊天室 ID （主键）
-* ChatroomName
+* ChatRoomName
   聊天室 Name （允许为空）
 
 当聊天室为群聊时，聊天室 Name 为空。  
@@ -83,11 +83,11 @@ entity FriendRelationship{
 entity Message{
     MessageRecordId
     MessageSenderId
-    MessageChatroomId
+    MessageChatRoomId
     MessageTime
 }
 entity Chatroom{
-    ChatroomID
+    ChatRoomID
 }
 
 User }|.. FriendRelationship

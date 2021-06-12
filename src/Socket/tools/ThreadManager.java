@@ -1,8 +1,12 @@
 package Socket.tools;
 
+import Chatroom.ChatroomManager.ChatroomInfo;
+import Chatroom.ChatroomManager.ChatroomList;
 import Socket.Server.ServerThread;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
 
 /**
  * @author topkang
@@ -10,7 +14,6 @@ import java.util.ArrayList;
  * @date 2021/6/7 13:20
  */
 public class ThreadManager {
-    public ArrayList<ServerThread> arrayList;
-    public String GroupID;
-    public String[] MemberID;
+    public ServerThread thread;
+    public ChatroomList chatroomList;
 }

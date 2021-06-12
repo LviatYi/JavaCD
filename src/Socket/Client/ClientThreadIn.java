@@ -39,17 +39,46 @@ public class ClientThreadIn extends Thread {
                     case DEL_FRIEND:{
                         //todo
                     }
+                    case CREATE_CHATROOM:{
 
+                    }
+                    case CREATE_PRIVATE_CHATROOM:{
 
+                    }
+                    case RETURN_FRIEND_LIST:{
 
+                    }
+                    case RETURN_GROUP_LIST:{
 
+                    }
+                    case REGISTER:{
 
+                    }
+                    case LOGIN:{
 
+                    }
+                    case GET_HISTORY_MESSAGE:{
 
+                    }
+                    case EXIT_CHATROOM:{
 
+                    }
+                    case FIND_CHATROOM_INFO_THROUGH_ID:{
+
+                    }
+                    case FIND_CHATROOM_INFO_THROUGH_USER:{
+
+                    }
+                    case MODIFY_NAME:{
+
+                    }
+                    case MODIFY_PASSWORD:{
+
+                    }
+                    case SEND_MESSAGE:{
+
+                    }
                 }
-
-                //TODO 拆分服务器发来的消息
             }
         } catch (IOException e) {
             e.printStackTrace();

@@ -86,15 +86,15 @@ entity Message{
     MessageChatRoomId
     MessageTime
 }
-entity ChatRoom{
+entity Chatroom{
     ChatRoomID
 }
 
 User }|.. FriendRelationship
 FriendRelationship ..o{ User
 User ||..o{ Message : Send
-Message ||..|| ChatRoom : Send to
-ChatRoom }o..|{ User
+Message ||..|| Chatroom : Send to
+Chatroom }o..|{ User
 @endUML
 ```
 

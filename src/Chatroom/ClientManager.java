@@ -57,9 +57,10 @@ public interface ClientManager {
      * 向客户端发送一条来自外部的关于聊天室的更新.
      * 有新成员加入聊天室时更新.
      * @param chatroomInfo 待更新聊天室的 Info.
+     * @param isFocus 如果希望用户聚焦到该聊天室,则为 true
      * @return
      */
-    boolean receiver(ChatroomInfo chatroomInfo);
+    boolean receiver(ChatroomInfo chatroomInfo,boolean isFocus);
 
     /**
      * 向客户端发送来自外部的关于好友的所有更新.

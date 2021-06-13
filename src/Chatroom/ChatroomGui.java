@@ -761,7 +761,7 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
                 if ("".equals(input)) {
                     return;
                 }
-                switch (chatroomManager.delete(input)) {
+                switch (chatroomManager.exit(input)) {
                     case QUALIFIED:
                         updateChatPl();
                         break;
@@ -777,7 +777,7 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
                 switch (addressManager.addFriend(input)) {
                     case QUALIFIED:
                     case ADDED:
-                        updateChatPl(chatroomManager.getPrivateChatroom(settingManager.getSelfId(), input));
+                        updateChatPl(chatroomManager.getChatroomServer(settingManager.getSelfId(), input));
                         break;
                     default:
                         break;
@@ -812,7 +812,7 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
                 if (chatManager.getCurrentChatroomInfo().getChatroomId().equals("")) {
                     break;
                 }
-                chatroomManager.delete(chatManager.getCurrentChatroomInfo().getChatroomId());
+                chatroomManager.exit(chatManager.getCurrentChatroomInfo().getChatroomId());
                 updateChatPl();
                 break;
             case "confirmSet":
@@ -929,13 +929,23 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
     @Override
     public void updateMessage(Message message) {
         if (!message.getChatroomId().equals(chatManager.getCurrentChatroomInfo().getChatroomId())) {
-            updateChatPl(chatroomManager.findLocalChatroom(message.getChatroomId()));
+            updateChatPl(chatroomManager.getChatroom(message.getChatroomId()));
         }
     }
 
     @Override
     public void updateMessage(MessageList messageList, boolean isHistory) {
 
+    }
+
+    @Override
+    public void updateMessage(String chatroomId) {
+        updateCurrentChatroom(chatroomId);
+    }
+
+    @Override
+    public void updateMessage() {
+        updateCurrentChatroom();
     }
 
     /**
@@ -1036,7 +1046,7 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
         String title = "<html>\n" +
                 "    <body>\n" +
                 "        <div style=\"font-size: 24px;font-family: 'Trebuchet MS';\">\n" +
-                chatroomManager.findLocalChatroom(chatroomInfo.getChatroomId()).getChatroomName() +
+                chatroomManager.getChatroom(chatroomInfo.getChatroomId()).getChatroomName() +
                 "        </div>\n" +
                 "        <div style=\"font-size: 24px;font-family: 'Trebuchet MS';\">\n" +
                 "            \" | \"\n" +
@@ -1052,13 +1062,36 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
     }
 
     /**
+     * 清空 当前聊天室信息 面板.
+     * @return 更改成功返回 true.若未更改则返回 false.
+     */
+    private boolean updateChatroomInfoPl(){
+        String title = "<html>\n" +
+                "    <body>\n" +
+                "        <div style=\"font-size: 24px;font-family: 'Trebuchet MS';\">\n" +
+                "" +
+                "        </div>\n" +
+                "        <div style=\"font-size: 24px;font-family: 'Trebuchet MS';\">\n" +
+                "            \" | \"\n" +
+                "        </div>\n" +
+                "        <div style=\"font-size: 12px;font-family: 'Trebuchet MS';\">\n" +
+                "" +
+                "        </div>\n" +
+                "    </body>\n" +
+                "</html>";
+
+        chatroomTitleLb.setText(title);
+        return true;
+    }
+
+    /**
      * 更新当前聊天界面到新的聊天室.
      * 同时会更改 chatPl 标题.
      *
      * @param chatroomInfo 一个本地存在的 chatroom 的 chatroomInfo.
      * @return 若成功则返回 true.若找不到相应聊天室则返回 false.
      */
-    private boolean updateCurrentChatroom(ChatroomInfo chatroomInfo) {
+    public boolean updateCurrentChatroom(ChatroomInfo chatroomInfo) {
         if (chatroomManager.getChatroomList().find(chatroomInfo.getChatroomId()) != null) {
             updateChatroomInfoPl(chatroomInfo);
             updateChatPl(chatroomInfo);
@@ -1077,9 +1110,22 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
      * @param chatroomId 一个本地存在的 chatroom 的 chatroomId.
      * @return 若成功则返回 true.若找不到相应聊天室则返回 false.
      */
-    private boolean updateCurrentChatroom(String chatroomId) {
-        return updateCurrentChatroom(chatroomManager.findLocalChatroom(chatroomId));
+    public boolean updateCurrentChatroom(String chatroomId) {
+        return updateCurrentChatroom(chatroomManager.getChatroom(chatroomId));
     }
+
+    /**
+     * 清空 chatPl .
+     * 同时会更改 chatPl 标题.
+     *
+     * @return 若成功则返回 true.
+     */
+    public boolean updateCurrentChatroom() {
+        updateChatroomInfoPl();
+        updateChatPl();
+        return true;
+    }
+
 
     /**
      * 根据 本地缓存 刷新 聊天室列表 GUI
@@ -1145,10 +1191,7 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
      */
     private ChatroomInfo entryFriendChatroom(String friendId) {
         ChatroomInfo chatroomInfo = chatroomManager.getPrivateChatroom(settingManager.getSelfId(), friendId);
-        if (chatroomInfo == null) {
-            chatroomInfo = chatroomManager.createChatroom(null, null, ChatroomInfo.ChatroomType.PRIVATE);
-        }
-        if (chatroomInfo == null) {
+        if (chatroomInfo ==null){
             return null;
         } else {
             updateChatPl(chatroomInfo);

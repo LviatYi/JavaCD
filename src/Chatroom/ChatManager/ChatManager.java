@@ -107,6 +107,7 @@ public class ChatManager implements ClientManager {
     /**
      * 从服务器拉取聊天记录.
      * 并尝试更新聊天界面.
+     * 希望同步.
      *
      * @param chatroomId 聊天室 Id
      * @return 历史聊天记录组.拉取失败则返回 null.
@@ -181,7 +182,7 @@ public class ChatManager implements ClientManager {
                 return message.getChatroomId();
             }
         }
-        ChatroomInfo newChatRoom = parent.getChatroomManager().findLocalChatroom(message.getChatroomId());
+        ChatroomInfo newChatRoom = parent.getChatroomManager().getChatroom(message.getChatroomId());
         if (newChatRoom != null) {
             chatroomList.add(newChatRoom.getChatroomId());
             chatroomMessageRepo.add(new MessageList(message));
@@ -207,7 +208,7 @@ public class ChatManager implements ClientManager {
                 return messageList.getChatroomId();
             }
         }
-        ChatroomInfo newChatRoom = parent.getChatroomManager().findLocalChatroom(messageList.getChatroomId());
+        ChatroomInfo newChatRoom = parent.getChatroomManager().getChatroom(messageList.getChatroomId());
         if (newChatRoom != null) {
             chatroomList.add(newChatRoom.getChatroomId());
             chatroomMessageRepo.add(messageList);
@@ -231,7 +232,7 @@ public class ChatManager implements ClientManager {
                 return messageList.getChatroomId();
             }
         }
-        ChatroomInfo newChatRoom = parent.getChatroomManager().findLocalChatroom(messageList.getChatroomId());
+        ChatroomInfo newChatRoom = parent.getChatroomManager().getChatroom(messageList.getChatroomId());
         if (newChatRoom != null) {
             chatroomList.add(newChatRoom.getChatroomId());
             chatroomMessageRepo.add(messageList);
@@ -320,7 +321,7 @@ public class ChatManager implements ClientManager {
 
     @Override
     @Deprecated
-    public boolean receiver(ChatroomInfo chatroomInfo) {
+    public boolean receiver(ChatroomInfo chatroomInfo, boolean isFocus) {
         return false;
     }
 

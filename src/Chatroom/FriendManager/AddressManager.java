@@ -1,9 +1,13 @@
 package Chatroom.FriendManager;
 
 import Chatroom.ChatManager.Message;
+import Chatroom.ChatManager.MessageList;
 import Chatroom.ChatroomGui;
 import Chatroom.ChatroomManager.ChatroomInfo;
+import Chatroom.ChatroomManager.ChatroomList;
 import Chatroom.ClientManager;
+import Status.LoginStatus;
+import Status.RegisterStatus;
 
 import java.util.Date;
 
@@ -19,11 +23,15 @@ import java.util.Date;
  * @date 2021/6/6
  */
 public class AddressManager implements  ClientManager {
+    // Field
+
     ChatroomGui chatroomGui;
     /**
      * 本地通讯录
      */
     FriendList friendList;
+
+    // Construct
 
     /**
      * 单例指针
@@ -55,9 +63,13 @@ public class AddressManager implements  ClientManager {
         return instance;
     }
 
+    // Getter Setter
+
     public FriendList getFriendList() {
         return friendList;
     }
+
+    // Function
 
     /**
      * 添加好友
@@ -155,7 +167,25 @@ public class AddressManager implements  ClientManager {
 
     @Override
     @Deprecated
+    public boolean receiver(MessageList messageList, boolean isHistory) {
+        return false;
+    }
+
+    @Override
+    @Deprecated
     public boolean receiver(String content, String senderId, String chatroomId, Date date) {
+        return false;
+    }
+
+    @Override
+    @Deprecated
+    public boolean receiver(ChatroomInfo chatroomInfo, boolean isFocus) {
+        return false;
+    }
+
+    @Override
+    @Deprecated
+    public boolean receiver(ChatroomList chatroomList) {
         return false;
     }
 
@@ -174,8 +204,19 @@ public class AddressManager implements  ClientManager {
     }
 
     @Override
+    public boolean receiver(FriendList friendList) {
+        return false;
+    }
+
+    @Override
     @Deprecated
-    public boolean receiver(ChatroomInfo chatroomInfo) {
+    public boolean receiver(LoginStatus loginStatus) {
+        return false;
+    }
+
+    @Override
+    @Deprecated
+    public boolean receiver(RegisterStatus registerStatus) {
         return false;
     }
 }

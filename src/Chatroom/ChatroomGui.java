@@ -351,10 +351,8 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
                 senderLb.setText("<html>\n" +
                         "    <body>\n" +
                         "        <div style=\"font-size: 12px;font-family: 'Trebuchet MS';\">\n" +
-                        "           From" +/*
-                 * TODO_LviatYi senderId
-                 * date 2021/6/7
-                 */
+                        "           From " +
+                        chatroomManager.getChatroom(message.getChatroomId()).getMember(message.getSenderId()).getFriendName() +
                         "        </div>\n" +
                         "    </body>\n" +
                         "</html>\n" +

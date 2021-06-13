@@ -152,7 +152,7 @@ public class ChatroomInfo {
      * @param friendId FriendId
      * @return FriendInfo.若不存在则返回 null.
      */
-    public FriendInfo getMember(System friendId){
+    public FriendInfo getMember(String friendId){
         if (friendId != null) {
             for (FriendInfo friendInfo : getFriendList()) {
                 if (friendInfo.getFriendId().equals(friendId)) {

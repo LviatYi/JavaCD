@@ -11,7 +11,8 @@ import Chatroom.FriendManager.FriendInfo;
 import Chatroom.FriendManager.FriendList;
 import Socket.tools.*;
 
-public class Connect implements Database {
+public class Connect implements Database
+ {
 
     private Connection con;
     private Statement sta;
@@ -49,9 +50,9 @@ public class Connect implements Database {
      * 加载驱动程序
      */
     public Connection getConnection() {
-        String url = "jdbc:sqlserver://127.0.0.1:1433;DatabaseName=Datebase1";
+        String url = "jdbc:sqlserver://119.3.175.137:1433;DatabaseName=JavaCD";
         try {
-            con = DriverManager.getConnection(url, "sa", "111111");
+            con = DriverManager.getConnection(url, "SA", "JavaCD2021");
             sta = con.createStatement();
             System.out.println("连接成功");
         } catch (SQLException e) {
@@ -60,6 +61,7 @@ public class Connect implements Database {
         }
         return con;
     }
+
 
     int sui() {
         int num = (int) Math.floor(Math.random() * 11);
@@ -74,7 +76,7 @@ public class Connect implements Database {
         con = getConnection();
         try {
             Statement st = con.createStatement();
-            String sql = "select Id from User11 where Id='" + random6 + "'";
+            String sql = "select UserID from UserInfo where UserID='" + random6 + "'";
             ResultSet rs = st.executeQuery(sql);
             if (rs.next()) {
                 sui();
@@ -85,7 +87,6 @@ public class Connect implements Database {
         //System.out.println(a1);
         return random6;
     }
-
     int sui1() {
         int num = (int) Math.floor(Math.random() * 11);
         while (num < 6 || num > 10) {
@@ -98,10 +99,10 @@ public class Connect implements Database {
         con = getConnection();
         try {
             Statement st = con.createStatement();
-            String sql = "select ChatRoomId from ChatRoom where ChatRoomId='" + random6 + "'";
+            String sql = "select ChatRoomID from ChatRoomInfo where ChatRoomID='" + random6 + "'";
             ResultSet rs = st.executeQuery(sql);
             if (rs.next()) {
-                sui();
+                sui1();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -110,13 +111,14 @@ public class Connect implements Database {
         return random6;
     }
 
-    @Override
-    public LoginStatus LogIn(String id, String password)   //登录  查询id和password是否与数据库匹配
+
+
+    public LoginStatus LogIn(String id, String password)
     {
         con = getConnection();
         try {
             Statement st = con.createStatement();
-            String sql = "SELECT Password FROM User11 where Id='" + id + "'";//and password ='" + password + "'"\;
+            String sql = "SELECT Password FROM UserInfo where UserID='" + id + "'";//and password ='" + password + "'"\;
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()) {
                 //System.out.println(rs.getString(2));
@@ -133,12 +135,13 @@ public class Connect implements Database {
         return LoginStatus.ID_NOT_EXIST;
     }
 
-    @Override
-    public int Register(String password, String name)//注册   添加id，密码，账号
+
+
+    public int Register(String password, String name)
     {
         con = getConnection();
         try {
-            String sql = "insert into User11(Id,Name,Password) values(?,?,?)";
+            String sql = "insert into UserInfo(UserID,UserName,Password) values(?,?,?)";
             PreparedStatement st = con.prepareStatement(sql);
             int a = sui();
             // String b = Tool.getTime();
@@ -155,12 +158,12 @@ public class Connect implements Database {
     }
 
 
-    @Override
+
     public int ModifyPassword(String id, String password_now)//修改密码
     {
         con = getConnection();
         try {
-            String sql = "update User11 set Password=? where Id=?";
+            String sql = "update UserInfo set Password=? where UserID=?";
             PreparedStatement st = con.prepareStatement(sql);
             st.setString(1, password_now);
             st.setString(2, id);
@@ -173,12 +176,13 @@ public class Connect implements Database {
         return 0;
     }
 
-    @Override
+
+
     public int ModifyName(String id, String name_now)//修改昵称
     {
         con = getConnection();
         try {
-            String sql = "update User11 set Name=? where Id=?";
+            String sql = "update UserInfo set UserName=? where UserID=?";
             PreparedStatement st = con.prepareStatement(sql);
             st.setString(1, name_now);
             st.setString(2, id);
@@ -192,21 +196,19 @@ public class Connect implements Database {
         return 0;
     }
 
-    //TODO
-    //增加消息至消息表
-    //重新构建消息表，其中属性有(发送者，发送内容，发送聊天室ID，发送时间)
-    @Override
-    public boolean SetMessage(String sender, String message, String groupId, Date datetime) {
+
+
+    public boolean SetMessage(String SenderId, String Content, String ChatRoomId, Date SendTime) {
         con = getConnection();
         try {
-            String sql = "insert into Message(SenderId,ChatRoomId,Message,Time) values(?,?,?,?)";
+            String sql = "insert into Message(SenderId,ChatRoomId,Content,SendTime) values(?,?,?,?)";
             PreparedStatement st = con.prepareStatement(sql);
-            int senderid = Integer.parseInt(sender);
-            int groupid = Integer.parseInt(groupId);
-            st.setInt(1, senderid);
-            st.setInt(2, groupid);
-            st.setString(3, message);
-            st.setDate(4, (java.sql.Date) datetime);
+            int SenderID1 = Integer.parseInt(SenderId);
+            int ChatRoomID1 = Integer.parseInt(ChatRoomId);
+            st.setInt(1, SenderID1);
+            st.setInt(2,ChatRoomID1);
+            st.setString(3, Content);
+            st.setDate(4, (java.sql.Date) SendTime);
             int rs = st.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -215,23 +217,26 @@ public class Connect implements Database {
         return false;
     }
 
-    //TODO
-    //删除好友
-    //在发起人的好友表中删除旧好友并且在旧好友的好友表中删除发起人
-    //好友表为索引
-    @Override
-    public int DeleteFriend(String s, String id)//删除好友
+
+
+    public int DeleteFriend(String id,String id_friend)
+    {con=getConnection();
+        DeleteFriend1(id,id_friend);
+        DeleteFriend1(id_friend,id);
+        return 1;
+    }
+    public int DeleteFriend1(String id,String id_friend)//删除好友
     {
         con = getConnection();
+        String a="Friend";
+        String Friend=a+id;
         try {
-            String sql = "delete from UserRelationship where( Id1=? and Id2=?) or (Id1=? and Id2=?)";
+            String sql = "delete from ? where Id1=?";
             PreparedStatement st = con.prepareStatement(sql);
-            int id1 = Integer.parseInt(s);
-            int id2 = Integer.parseInt(id);
-            st.setInt(1, id1);
-            st.setInt(2, id2);
-            st.setInt(3, id2);
-            st.setInt(4, id1);
+            int idfriend;
+            idfriend=Integer.parseInt(id_friend);
+            st.setString(1, Friend);
+            st.setInt(2, idfriend);
             int rs = st.executeUpdate();
             return 1;
         } catch (SQLException e) {
@@ -240,31 +245,31 @@ public class Connect implements Database {
         return 0;
     }
 
-    //TODO 修改
-    @Override
-    public FriendInfo getFriend(String friendId) {
-//        FriendInfo friendInfo=new FriendInfo("","");
-//
-//        con = getConnection();
-//        try {
-//            Statement st = con.createStatement();
-//            String sql = "select Id2 from UserRelationship where Id1='" + friendId + "'";
-//
-//            ResultSet rs = st.executeQuery(sql);
-//            //int id1=Integer.parseInt(userId);
-//            //st.setInt(1, id1);
-//            int i = 0;
-//            String id_friend[] = new String[20];
-//            while (rs.next()) {
-//                id_friend[i++] = rs.getString(1);
-//            }
-//            friendInfo.setFriendId(id_friend);
-//            return friendInfo;
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-        return null;
+
+
+    public String[] getFriend(String friendId) {
+        con = getConnection();
+        String a="Friend";
+        String ID=a+friendId;
+        String rs1[]=new String[20];
+        try {
+            String sql = "select * from ?";
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setString(1, ID);
+            ResultSet rs = st.executeQuery();
+            int i=0;
+            while(rs.next())
+            {
+                rs1[i]=rs.getString(1);
+                i++;
+            }
+           return rs1;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rs1;
     }
+
 
     @Override
     public FriendList getUserFriendList(FriendInfo userInfo) {
@@ -272,27 +277,31 @@ public class Connect implements Database {
     }
 
     //TODO
-    //修改返回类型
+    //修改返回类型  //先返回String数组ChatRoomID
     @Override
-    public ChatroomList getGroup(String groupId) {
+    public String[] getGroup(String id) {
         con = getConnection();
+        String rs1[]=new String[20];
         try {
-            Statement st = con.createStatement();
-            String sql = "select distinct SenderId from Message where ChatRoomId='" + groupId + "'";
-            ResultSet rs = st.executeQuery(sql);
-            //int id1=Integer.parseInt(id);
-            //st.setInt(1, id1);
-            int i = 0;
-            String id_room[] = new String[20];
-            while (rs.next()) {
-                id_room[i++] = rs.getString(1);
+            String sql = "select ChatRoomID from Message where SenderID=?";
+            PreparedStatement st = con.prepareStatement(sql);
+            int Id=Integer.parseInt(id);
+            st.setInt(1,Id );
+            ResultSet rs = st.executeQuery();
+            int i=0;
+            while(rs.next())
+            {
+                rs1[i]=rs.getString(1);
+                i++;
             }
-            return id_room;
+            return rs1;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return rs1;
     }
+
+
 
     //TODO
     //返回更新
@@ -320,12 +329,12 @@ public class Connect implements Database {
         return null;
     }
 
-    //TODO 增加名字
-    @Override
+
+
     public String CreateChatRoom(boolean isPrivate,String chatRoomName) {
         con = getConnection();
         try {
-            String sql = "insert into ChatRoom(ChatRoomId,Property) values(?,?)";
+            String sql = "insert into ChatRoomInfo(ChatRoomID,ChatRoomName,IsPrivate) values(?,?,?)";
             PreparedStatement st = con.prepareStatement(sql);
             int a = sui1();
             String property;
@@ -335,67 +344,151 @@ public class Connect implements Database {
                 property = "false";
             }
             st.setInt(1, a);
-            st.setString(2, property);
+            st.setString(2,chatRoomName);
+            st.setString(3, property);
             int rs = st.executeUpdate();
+            CreateChatRoom1(a);
             String aa = String.valueOf(a);
             return aa;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return null;
     }
+   void CreateChatRoom1(int ChatRoomID)
+   {String a="ChatRoom";
+   String ID=a+ChatRoomID;
+     con = getConnection();
+        try {
+            String sql = "create table ?(UserID int not null)";
+            PreparedStatement st = con.prepareStatement(sql);
+            int rs = st.executeUpdate();
+        }catch (SQLException e){e.printStackTrace();}
+   }
 
-    //TODO 更改返回   -1已经有好友，0添加失败，1添加成功。
-    @Override
+
+
     public int CreateFriend(String id, String id_friend) {
         con = getConnection();
-        try {
-            int id1 = Integer.parseInt(id);
-            int id2 = Integer.parseInt(id_friend);
-            String sql = "insert into UserRelationship(Id1,Id2)\n" +
-                    "values(?,?),(?,?); ";
+        String a="Friend";
+        String ID=a+id;
+        boolean rs=CreateFriend1(id,id_friend);
+        if(rs==true)
+        {
+            return -1;
+        }
+       else
+        {try {
+            String sql = "insert into ?(FriendId) values(?)";
             PreparedStatement st = con.prepareStatement(sql);
-            st.setInt(1, id1);
-            st.setInt(2, id2);
-            st.setInt(3, id2);
-            st.setInt(4, id1);
+            int idf=Integer.parseInt(id_friend);
+            st.setString(1,ID);
+            st.setInt(2,idf);
+            int rs1 = st.executeUpdate();
+           return 1;
+        }catch (SQLException e) {
+            e.printStackTrace(); }
+        }
+        return 0;
+    }
+     boolean CreateFriend1(String id, String id_friend)//查找有无这个好友
+     {
+         con = getConnection();
+         String a="Friend";
+         String ID=a+id;
+         try {
+         String sql = "select * from ? where FriendId=?";
+         PreparedStatement st = con.prepareStatement(sql);
+         int idf=Integer.parseInt(id_friend);
+         st.setString(1,ID);
+         st.setInt(2,idf);
+         ResultSet rs = st.executeQuery();
+         while(rs.next()){return true;}
+          return false;
+     }catch (SQLException e) {
+     e.printStackTrace();
+ }
+         return false;
+ }
+
+
+
+    public int JoinChatRoom(String id, String chatroomID) {
+        con = getConnection();
+        String a="ChatRoom";
+        String ID=a+chatroomID;
+        try {
+            String sql = "insert into ?(UserID) values(?)";
+            PreparedStatement st = con.prepareStatement(sql);
+            int idf=Integer.parseInt(id);
+            st.setString(1,ID);
+            st.setInt(2,idf);
             int rs = st.executeUpdate();
-
-
-            return 1;
-        } catch (SQLException e) {
+           return  1;
+        }catch (SQLException e) {
             e.printStackTrace();
         }
         return 0;
     }
 
-    //TODO
-    @Override
-    public int JoinChatRoom(String id, String chatroomID) {
-        return false;
-    }
 
-    @Override
-    public int  DelChatRoom(String chatroomID) {
-        return false;
+    public int  DelChatRoom(String chatroomId) {
+        con = getConnection();
+        try {
+            String sql = "delete from ChatRoomInfo where ChatRoomID=?";
+            PreparedStatement st = con.prepareStatement(sql);
+            int id ;id= Integer.parseInt(chatroomId);
+            st.setInt(1,id);
+            int rs = st.executeUpdate();
+            delchatroom(chatroomId);
+            return 1;
+        }catch(SQLException e){e.printStackTrace();}
+        return 0;
     }
+     void delchatroom(String chatroomId)
+     {String a="ChatRoom";
+     String id=a+chatroomId;
+         con = getConnection();
+         try {
+             String sql = "drop table ?";
+             PreparedStatement st = con.prepareStatement(sql);
+             st.setString(1,id);
+             int rs = st.executeUpdate();
+     }catch (SQLException e){e.printStackTrace();}
+     }
+
+
+
+     public int ExitChatRoom(String id,String chatRoomID)
+     {String a="ChatRoom";
+         String Id=a+chatRoomID;
+         con = getConnection();
+         try {
+             String sql = "delete from ? where UserID=?";
+             PreparedStatement st = con.prepareStatement(sql);
+             st.setString(1,Id);
+             st.setString(2,id);
+             int rs = st.executeUpdate();
+             return 1;
+         }catch (SQLException e){e.printStackTrace();}
+         return 0;
+     }
 
 
     // public static void main(String[] args) {
-    // Connect db=new Connect();
-    // System.out.println(db.sui());//输出id
-    //db.Register("nuist","南信大");//注册
-    //db.ModifyPassword("707890", "nuist11");//修改密码
-    //db.ModifyName("707890", "nuist11");//修改Name
-    //db.SetMessage("707890", "你好", "2686631", "2021-1-1");
-    // db.CreateFriend("123", "7859");//加好友
-    //db.DeleteFriend("707890", "123456");//删除好友
-    //String a[]=new String[20]; a=db.getFriend("123");
-    //for(int i=0;i<3;i++) System.out.println(a[i]);
-    //String a=db.AddGroup(false);//存入聊天室id
-    //System.out.println(a);
-
+       //  Connect db=new Connect();
+         // System.out.println(db.sui());//输出id
+         //db.Register("nuist","南信大");//注册
+         //db.ModifyPassword("707890", "nuist11");//修改密码
+         //db.ModifyName("707890", "nuist11");//修改Name
+         //db.SetMessage("707890", "你好", "2686631", "2021-1-1");
+         // db.CreateFriend("123", "7859");//加好友
+         //db.DeleteFriend("707890", "123456");//删除好友
+         //String a[]=new String[20]; a=db.getFriend("123");
+         //for(int i=0;i<3;i++) System.out.println(a[i]);
+         //String a=db.AddGroup(false);//存入聊天室id
+         //System.out.println(a);
+    // }
 }
 
 

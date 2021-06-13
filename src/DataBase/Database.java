@@ -118,7 +118,7 @@ public interface Database {
      * @param id 获取ID账号的好友列表
      * @return String 数组
      */
-     FriendInfo getFriend(String id);
+     String[] getFriend(String id);
 
     /**
      * 获取id所在所有聊天室

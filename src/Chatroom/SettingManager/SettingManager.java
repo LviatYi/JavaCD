@@ -1,7 +1,19 @@
 package Chatroom.SettingManager;
 
+import Chatroom.ChatManager.Message;
+import Chatroom.ChatManager.MessageList;
 import Chatroom.ChatroomGui;
+import Chatroom.ChatroomManager.ChatroomInfo;
+import Chatroom.ChatroomManager.ChatroomList;
+import Chatroom.ClientManager;
+import Chatroom.FriendManager.FriendInfo;
+import Chatroom.FriendManager.FriendList;
+import Status.LoginStatus;
+import Status.RegisterStatus;
 import UserAuthenticate.UserAuthenticationManager;
+
+import java.util.Date;
+import java.util.Objects;
 
 /**
  * @author LviatYi
@@ -10,7 +22,7 @@ import UserAuthenticate.UserAuthenticationManager;
  * @className SettingManager
  * @date 2021/6/8
  */
-public class SettingManager {
+public class SettingManager implements ClientManager {
     // Field
 
     public UserAuthenticationManager userAuthenticationManager;
@@ -32,7 +44,7 @@ public class SettingManager {
         this.parent = parent;
         this.selfId = selfId;
         this.selfName = selfName;
-        userAuthenticationManager = UserAuthenticationManager.getUserAuthenticationManager();
+        userAuthenticationManager = UserAuthenticationManager.getUserAuthenticationManager(null);
     }
 
     /**
@@ -66,4 +78,69 @@ public class SettingManager {
     }
 
     // Function
+
+    // Impl ClientManager
+
+    @Override
+    @Deprecated
+    public boolean receiver(Message message) {
+        return false;
+    }
+
+    @Override
+    @Deprecated
+    public boolean receiver(MessageList messageList, boolean isHistory) {
+        return false;
+    }
+
+    @Override
+    @Deprecated
+    public boolean receiver(String content, String senderId, String chatroomId, Date date) {
+        return false;
+    }
+
+    @Override
+    @Deprecated
+    public boolean receiver(FriendInfo friendInfo) {
+        return false;
+    }
+
+    @Override
+    @Deprecated
+    public boolean receiver(ChatroomInfo chatroomInfo, boolean isFocus) {
+        return false;
+    }
+
+    @Override
+    @Deprecated
+    public boolean receiver(FriendList friendList) {
+        return false;
+    }
+
+    @Override
+    @Deprecated
+    public boolean receiver(ChatroomList chatroomList) {
+        return false;
+    }
+
+    @Override
+    @Deprecated
+    public boolean receiver(LoginStatus loginStatus) {
+        return false;
+    }
+
+    @Override
+    @Deprecated
+    public boolean receiver(RegisterStatus registerStatus) {
+        return false;
+    }
+
+    @Override
+    public boolean receiver(String userName) {
+        if (!"".equals(userName)){
+            this.selfName=userName;
+            parent.updateUserInfo(userName);
+        }
+        return false;
+    }
 }

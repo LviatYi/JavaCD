@@ -15,7 +15,7 @@ import java.util.Date;
  * 向客户端发送消息
  *
  * @author LviatYi
- * @version 1.0
+ * @version 1.6 alpha
  * @interfaceName MessageSend
  * @date 2021/6/7
  */
@@ -31,7 +31,7 @@ public interface ClientManager {
      * 向客户端发送多条 Message.
      * @param messageList 多条消息
      * @param isHistory 是否为历史消息
-     * @return
+     * @return 传输成功时 返回 true
      */
     boolean receiver(MessageList messageList,boolean isHistory);
 
@@ -41,7 +41,7 @@ public interface ClientManager {
      * @param senderId 发送方 Id
      * @param chatroomId 聊天室 Id
      * @param date 日期
-     * @return
+     * @return 传输成功时 返回 true
      */
     boolean receiver(String content, String senderId, String chatroomId, Date date);
 
@@ -49,7 +49,7 @@ public interface ClientManager {
      * 向客户端发送一条来自外部的关于好友的更新.
      * 被添加为好友时更新.
      * @param friendInfo 外部好友的 Info.
-     * @return
+     * @return 传输成功时 返回 true
      */
     boolean receiver(FriendInfo friendInfo);
 
@@ -58,35 +58,42 @@ public interface ClientManager {
      * 有新成员加入聊天室时更新.
      * @param chatroomInfo 待更新聊天室的 Info.
      * @param isFocus 如果希望用户聚焦到该聊天室,则为 true
-     * @return
+     * @return 传输成功时 返回 true
      */
     boolean receiver(ChatroomInfo chatroomInfo,boolean isFocus);
 
     /**
      * 向客户端发送来自外部的关于好友的所有更新.
      * @param friendList 多条好友 Info
-     * @return
+     * @return 传输成功时 返回 true
      */
     boolean receiver(FriendList friendList);
 
     /**
      * 向客户端发送来自外部的关于聊天室的所有更新.
-     * @param chatroomList
-     * @return
+     * @param chatroomList 聊天室 Info 列表
+     * @return 传输成功时 返回 true
      */
     boolean receiver(ChatroomList chatroomList);
 
     /**
      * 向客户端发送登录状态.
      * @param loginStatus 登录状态.
-     * @return
+     * @return 传输成功时 返回 true
      */
     boolean receiver(LoginStatus loginStatus);
 
     /**
      * 向客户端发送注册状态.
      * @param registerStatus 注册状态.
-     * @return
+     * @return 传输成功时 返回 true
      */
     boolean receiver(RegisterStatus registerStatus);
+
+    /**
+     * 向客户端发送 UserName 修改状态
+     * @param userName 修改后的UserName
+     * @return 传输成功时 返回 true
+     */
+    boolean receiver(String userName);
 }

@@ -8,7 +8,7 @@ import Chatroom.ChatroomManager.ChatroomInfo;
  * 为主程序提供用户反馈与消息通知.
  *
  * @author LviatYi
- * @version 1.0
+ * @version 1.6 alpha
  * @interfaceName ChatroomGuiControl
  * @date 2021/6/7
  */
@@ -53,20 +53,28 @@ public interface ChatroomGuiControl {
      * 全部更新.
      * 若为历史消息,将会使画布置顶.
      *
-     * @param messageList 待更新的消息列表.
+     * @param chatroomInfo 需更新的聊天室 Info.
      * @param isHistory   是否为历史消息.
      */
-    void updateMessage(MessageList messageList, boolean isHistory);
+    void updateMessage(ChatroomInfo chatroomInfo, boolean isHistory);
 
     /**
-     * 进入一个新的聊天室时调用.
+     * 更新 ChatPl.
+     * 全部更新.
+     * 若为历史消息,将会使画布置顶.
      *
-     * @param chatroomId
+     * @param chatroomId 需更新的聊天室 ID.
+     * @param isHistory   是否为历史消息.
      */
-    void updateMessage(String chatroomId);
+    void updateMessage(String chatroomId, boolean isHistory);
 
     /**
      * 退出聊天时调用.
      */
     void updateMessage();
+
+    /**
+     * 更新个人 Info.
+     */
+    void updateUserInfo(String userName);
 }

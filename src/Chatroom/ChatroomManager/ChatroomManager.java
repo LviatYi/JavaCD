@@ -118,7 +118,8 @@ public class ChatroomManager implements ClientManager {
     }
 
     /**
-     * 加入聊天室
+     * 加入聊天室.
+     * 希望同步.
      *
      * @param chatroomId 加入聊天室的 ChatroomId
      * @return 加入聊天室状态.
@@ -184,6 +185,7 @@ public class ChatroomManager implements ClientManager {
      * 创建一个聊天室.
      * 首先通知服务器.
      * 随后在本地创建.
+     * 希望同步.
      *
      * @param chatroomId   ChatroomId 当权限为私有时允许为空.
      * @param chatroomName ChatroomName 当权限为私有时允许为空.
@@ -209,6 +211,7 @@ public class ChatroomManager implements ClientManager {
     /**
      * 根据好友关系 从服务器获取聊天室信息.
      * 若无私人聊天室则返回空.
+     * 希望同步.
      *
      * @param userId1 此用户的 Id
      * @param userId2 目标用户的 Id
@@ -297,7 +300,7 @@ public class ChatroomManager implements ClientManager {
             }
             this.chatroomList.add(chatroomInfo);
             if (isFocus){
-                parent.updateMessage(chatroomInfo.getChatroomId());
+                parent.updateCurrentChatroom(chatroomInfo,false);
             }
             return true;
         }
@@ -324,6 +327,12 @@ public class ChatroomManager implements ClientManager {
     @Override
     @Deprecated
     public boolean receiver(RegisterStatus registerStatus) {
+        return false;
+    }
+
+    @Override
+    @Deprecated
+    public boolean receiver(String userName) {
         return false;
     }
 }

@@ -159,10 +159,25 @@ public class AddressManager implements  ClientManager {
      * @param friendId 好友 Id
      * @return 好友 Info.
      */
-    public FriendInfo getFriend(String friendId) {
+    public FriendInfo getFriendLocal(String friendId) {
         return friendList.find(friendId);
     }
 
+    /**
+     * 在本地通讯录中查找好友.
+     *
+     * @param friendId 好友 Id
+     * @return 好友 Info.
+     */
+    public FriendInfo getFriendServer(String friendId) {
+        return friendList.find(friendId);
+    }
+
+    /**
+     * 从服务器获得该用户的好友列表
+     * 希望同步.
+     * @return 好友列表
+     */
     private FriendList getFriendListServer() {
         /*
          * TODO_LviatYi 向服务器请求该用户的好友列表
@@ -206,7 +221,7 @@ public class AddressManager implements  ClientManager {
     @Override
     public boolean receiver(FriendInfo friendInfo) {
         if (friendInfo != null) {
-            FriendInfo localFriend = getFriend(friendInfo.getFriendId());
+            FriendInfo localFriend = getFriendLocal(friendInfo.getFriendId());
             if (localFriend != null) {
                 delFriend(localFriend.getFriendId());
                 addFriend(friendInfo.getFriendId());
@@ -231,6 +246,12 @@ public class AddressManager implements  ClientManager {
     @Override
     @Deprecated
     public boolean receiver(RegisterStatus registerStatus) {
+        return false;
+    }
+
+    @Override
+    @Deprecated
+    public boolean receiver(String userName) {
         return false;
     }
 }

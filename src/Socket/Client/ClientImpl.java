@@ -26,10 +26,10 @@ public class ClientImpl implements Client {
     }
 
     //增加好友
-    public void addFriend(String userID, String receiverID) {
+    public void addFriend(String receiverID) {
         DataPacket mes = new DataPacket();
         mes.type = DataPacket.transportType.ADD_FRIEND;
-        mes.id = userID;
+        mes.id = selfID;
         mes.friendRequestID = receiverID;
         String temp = JSONObject.toJSONString(mes);
         co.setMessage(temp);
@@ -37,10 +37,10 @@ public class ClientImpl implements Client {
     }
 
     //删除好友
-    public void deleteFriend(String userID, String receiverID) {
+    public void deleteFriend(String receiverID) {
         DataPacket mes = new DataPacket();
         mes.type = DataPacket.transportType.DEL_FRIEND;
-        mes.id = userID;
+        mes.id = selfID;
         mes.friendRequestID = receiverID;
         String temp = JSONObject.toJSONString(mes);
         co.setMessage(temp);
@@ -48,16 +48,16 @@ public class ClientImpl implements Client {
     }
 
     //创建聊天室
-    public void addChatRoom(String chatRoomName, ChatroomInfo.ChatroomType chatRoomType){
-        if(chatRoomType== ChatroomInfo.ChatroomType.PUBLIC){
+    public void addChatRoom(ChatroomInfo chatroomInfo){
+        if(chatroomInfo.getChatroomType()== ChatroomInfo.ChatroomType.PUBLIC){
             DataPacket mes = new DataPacket();
             mes.type = DataPacket.transportType.CREATE_CHATROOM;
-            mes.chatRoomName = chatRoomName;
+            mes.chatRoomName = chatroomInfo.getChatroomName();
             String temp = JSONObject.toJSONString(mes);
             co.setMessage(temp);
             //todo 返回chatRoomID 0失败 1成功
         }
-        else if (chatRoomType== ChatroomInfo.ChatroomType.PRIVATE){
+        else if (chatroomInfo.getChatroomType()== ChatroomInfo.ChatroomType.PRIVATE){
             DataPacket mes = new DataPacket();
             mes.type = DataPacket.transportType.CREATE_PRIVATE_CHATROOM;
             String temp = JSONObject.toJSONString(mes);
@@ -67,20 +67,20 @@ public class ClientImpl implements Client {
     }
 
     //返回好友列表
-    public void getFriendList(String userID) {
+    public void getFriendList() {
         DataPacket mes = new DataPacket();
         mes.type = DataPacket.transportType.RETURN_FRIEND_LIST;
-        mes.id = userID;
+        mes.id = selfID;
         String temp = JSONObject.toJSONString(mes);
         co.setMessage(temp);
         //TODO 返回friendInfo List
     }
 
     //返回群聊列表
-    public void getGroupList(String userID) {
+    public void getGroupList() {
         DataPacket mes = new DataPacket();
         mes.type = DataPacket.transportType.RETURN_GROUP_LIST;
-        mes.id = userID;
+        mes.id = selfID;
         String temp = JSONObject.toJSONString(mes);
         co.setMessage(temp);
         //TODO 返回ChatRoomInfo List
@@ -121,10 +121,10 @@ public class ClientImpl implements Client {
     }
 
     //获取特定群的历史记录
-    public void getHistoryMessage(String chatRoomID) {
+    public void getHistoryMessage(ChatroomInfo chatroomInfo) {
         DataPacket mes = new DataPacket();
         mes.type = DataPacket.transportType.GET_HISTORY_MESSAGE;
-        mes.geyHistoryGroupID = chatRoomID;
+        mes.geyHistoryGroupID = chatroomInfo.getChatroomId();
         String temp = JSONObject.toJSONString(mes);
         co.setMessage(temp);
         //todo 返回Message List
@@ -156,26 +156,17 @@ public class ClientImpl implements Client {
     }
 
     //退出聊天室
-    public void exitChatRoom(String userID,String chatRoomID){
+    public void exitChatRoom(ChatroomInfo chatroomInfo){
         DataPacket mes = new DataPacket();
         mes.type= DataPacket.transportType.EXIT_CHATROOM;
-        mes.id=userID;
-        mes.chatRoomID=chatRoomID;
+        mes.id=selfID;
+        mes.chatRoomID=chatroomInfo.getChatroomId();
         String temp = JSONObject.toJSONString(mes);
         co.setMessage(temp);
 
         //todo 0/1
     }
 
-    //todo join chatRoom id chatRoomID type 0/1
-    public void joinChatRoom(String userID, String chatRoomID){
-        DataPacket mes = new DataPacket();
-        mes.type = DataPacket.transportType.JOIN_CHATROOM;
-        mes.id = userID;
-        mes.chatRoomID = chatRoomID;
-        String temp = JSONObject.toJSONString(mes);
-        co.setMessage(temp);
-    }
 
     //通过聊天室ID查找特定聊天室信息
     public void findChatRoomInfo(String chatRoomID){
@@ -199,9 +190,9 @@ public class ClientImpl implements Client {
     }
 
     //    改名
-    public void modifyName(String newName, String UserID) {
+    public void modifyName(String newName) {
         DataPacket mes = new DataPacket();
-        mes.id = UserID;
+        mes.id = selfID;
         mes.type = DataPacket.transportType.MODIFY_NAME;
         mes.name = newName;
         String temp = JSONObject.toJSONString(mes);
@@ -210,9 +201,9 @@ public class ClientImpl implements Client {
     }
 
     //    改密码
-    public void modifyPassword(String newPassword, String UserID) {
+    public void modifyPassword(String newPassword) {
         DataPacket mes = new DataPacket();
-        mes.id = UserID;
+        mes.id = selfID;
         mes.type = DataPacket.transportType.MODIFY_PASSWORD;
         mes.password = newPassword;
         String temp = JSONObject.toJSONString(mes);

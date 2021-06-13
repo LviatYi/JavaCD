@@ -72,8 +72,7 @@ public class ServerThread extends Thread{
                             temp.type = DataPacket.transportType.LOGIN;
                             sendMsg(temp);
                             socketId = dataPacket.id;
-                            //TODO
-                            MultiThread.addClient(this);//认证成功，把这个用户加入服务器队列
+                            MultiThread.addClient(this,database.findChatRoomInfoThroughID(socketId));//认证成功，把这个用户加入服务器队列
                             break;
                         }
                         case ID_NOT_EXIST:
@@ -101,14 +100,14 @@ public class ServerThread extends Thread{
                 case SEND_MESSAGE:
                 {
                     database.SetMessage(dataPacket.senderId,dataPacket.message,dataPacket.chatRoomID, dataPacket.datetime);
-                    MultiThread.castGroupMsg(dataPacket, dataPacket.chatRoomID);//群发给在线用户已经收到的群发消息
+                    MultiThread.castGroupMsg(dataPacket);//群发给在线用户已经收到的群发消息
                     break;
                 }
                 case CREATE_CHATROOM:
                 {
                     String ID;
                     DataPacket temp = new DataPacket();
-                    ID=database.CreateChatRoom(false,temp.chatRoomName);
+                    ID=database.CreateChatRoom(dataPacket.chatRoomInfo.getChatroomType(),dataPacket.chatRoomInfo.getChatroomName());
                     if(ID.equals("-1"))
                     {
                         temp.systemTip =0;
@@ -117,44 +116,34 @@ public class ServerThread extends Thread{
                     {
                         temp.chatRoomID = ID;
                         temp.systemTip = 1;
+                        database.JoinChatRoom(dataPacket.id,ID);
+                        dataPacket.chatRoomInfo.setChatroomId(ID);
+                        MultiThread.addChatRoomInfo(dataPacket.id,dataPacket.chatRoomInfo);
                     }
                     temp.type = DataPacket.transportType.CREATE_CHATROOM;
-                    MultiThread.addChatRoom(dataPacket.id,temp.chatRoomID);//TODO
-                    sendMsg(temp);
-                    break;
-                }
-                case CREATE_PRIVATE_CHATROOM:
-                {
-                    String ID;
-                    DataPacket temp = new DataPacket();
-                    ID=temp.chatRoomID =database.CreateChatRoom(true,"");
-                    if(ID.equals("-1"))
-                    {
-                        temp.systemTip =0;
-                    }
-                    else
-                    {
-                        temp.chatRoomID = ID;
-                        temp.systemTip = 1;
-                    }
-                    temp.type = DataPacket.transportType.CREATE_PRIVATE_CHATROOM;
-                    MultiThread.addChatRoom(dataPacket.id,temp.chatRoomID);//TODO
                     sendMsg(temp);
                     break;
                 }
                 case EXIT_CHATROOM:
                 {
                     DataPacket temp = new DataPacket();
-                    temp.systemTip=database.ExitChatRoom(dataPacket.id,dataPacket.chatRoomID);
+                    temp.systemTip=database.ExitChatRoom(dataPacket.id,dataPacket.chatRoomInfo.getChatroomId());
                     temp.type= DataPacket.transportType.EXIT_CHATROOM;
+                    if(temp.systemTip == 1)
+                    {
+                        MultiThread.delChatRoomInfo(dataPacket.id,dataPacket.chatRoomInfo);
+                    }
                     sendMsg(temp);
-                    //TODO 线程聊天池中删除此人
                 }
                 case JOIN_CHATROOM:
                 {
                     DataPacket temp = new DataPacket();
-                    temp.systemTip =  database.JoinChatRoom(dataPacket.id,dataPacket.chatRoomID);
+                    temp.systemTip =  database.JoinChatRoom(dataPacket.id,dataPacket.chatRoomInfo.getChatroomId());
                     temp.type = DataPacket.transportType.JOIN_CHATROOM;
+                    if(temp.systemTip == 1)
+                    {
+                        MultiThread.addChatRoomInfo(dataPacket.id,dataPacket.chatRoomInfo);
+                    }
                     sendMsg(temp);
                     break;
                 }
@@ -224,7 +213,7 @@ public class ServerThread extends Thread{
                 case FIND_CHATROOM_INFO_THROUGH_ID:
                 {
                     DataPacket temp = new DataPacket();
-                    temp.chatRoomInfo = database.findChatRoomInfoThroughID(dataPacket.chatRoomID);
+                    temp.chatRoomList = database.findChatRoomInfoThroughID(dataPacket.chatRoomID);
                     temp.type= DataPacket.transportType.FIND_CHATROOM_INFO_THROUGH_ID;
                     sendMsg(temp);
                 }
@@ -239,7 +228,8 @@ public class ServerThread extends Thread{
                     break;
             }
         }
-
+        //退出服务器线程池
+        MultiThread.exit(socketId);
         //关闭连接
         this.closeMe();
     }

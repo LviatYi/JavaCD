@@ -135,21 +135,20 @@ public class ChatroomList {
 
     /**
      * 向 list 的首部记录一条新的聊天室信息.
-     * 不会重复添加.
+     * 重复添加以 ChatroomId 为主键的 ChatroomInfo 时,会删除旧的信息.
      *
      * @param chatroomInfo 待记录的聊天室信息.
      * @return chatroomInfo
      */
     public ChatroomInfo add(ChatroomInfo chatroomInfo) {
-        if (chatroomInfo == null) {
-            return null;
-        }
-        if (this.find(chatroomInfo.getChatroomId()) == null) {
+        if (chatroomInfo != null && !"".equals(chatroomInfo.getChatroomId())) {
+            if (this.find(chatroomInfo.getChatroomId()) != null) {
+                del(chatroomInfo.getChatroomId());
+            }
             list.add(0, chatroomInfo);
             return chatroomInfo;
-        }else
-        {
-            return  null;
+        } else {
+            return null;
         }
     }
 

@@ -18,7 +18,7 @@ import java.util.Date;
  *
  * @author LviatYi
  * @author May_bebe
- * @version 1.0
+ * @version 1.6 alpha
  * @className AddressManager
  * @date 2021/6/6
  */
@@ -27,7 +27,7 @@ public class AddressManager implements  ClientManager {
 
     ChatroomGui chatroomGui;
     /**
-     * 本地通讯录
+     * 缓存的本地通讯录
      */
     FriendList friendList;
 
@@ -43,7 +43,7 @@ public class AddressManager implements  ClientManager {
      */
     private AddressManager(ChatroomGui parent) {
         this.chatroomGui = parent;
-        FriendList serverFriendList = getServerFriendList();
+        FriendList serverFriendList = getFriendListServer();
         if (serverFriendList != null) {
             friendList = serverFriendList;
         } else {
@@ -72,7 +72,38 @@ public class AddressManager implements  ClientManager {
     // Function
 
     /**
-     * 添加好友
+     * 在本地缓存中添加好友.
+     * @param friendInfo 好友 Info
+     * @return 好友添加状态.
+     */
+    private boolean add(FriendInfo friendInfo) {
+        if(this.friendList.add(friendInfo)!=null){
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 在本地缓存中添加好友.
+     * @param friendId 待添加的好友 ID
+     * @param friendName 待添加的好友 Name
+     * @return 好友添加状态.
+     */
+    private boolean add(String friendId, String friendName) {
+        if(this.friendList.add(new FriendInfo(friendId, friendName))!=null)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean del(String friendId){
+        return this.friendList.del(friendId);
+    }
+
+    /**
+     * 添加好友.
+     * 希望同步.
      *
      * @param friendId 添加的好友的id
      * @return 添加好友的状态
@@ -110,7 +141,7 @@ public class AddressManager implements  ClientManager {
      */
     public FriendList.FriendStatus delFriend(String friendId) {
         if (friendList.find(friendId) != null) {
-            friendList.del(friendId);
+            del(friendId);
             /*
              * TODO_LviatYi 通知数据库删除好友
              * date 2021/6/8
@@ -128,12 +159,11 @@ public class AddressManager implements  ClientManager {
      * @param friendId 好友 Id
      * @return 好友 Info.
      */
-    public FriendInfo findLocalFriend(String friendId) {
+    public FriendInfo getFriend(String friendId) {
         return friendList.find(friendId);
     }
 
-
-    private FriendList getServerFriendList() {
+    private FriendList getFriendListServer() {
         /*
          * TODO_LviatYi 向服务器请求该用户的好友列表
          * date 2021/6/7
@@ -141,23 +171,7 @@ public class AddressManager implements  ClientManager {
         return null;
     }
 
-    /**
-     * 在本地缓存中添加好友.
-     * @param friendInfo 好友 Info
-     * @return 好友添加状态.
-     */
-    public boolean addFriendLocal(FriendInfo friendInfo) {
-        if(this.friendList.add(friendInfo)!=null){
-        return true;
-        }
-        return false;
-    }
-
-    public boolean addFriend(String friendId, String friendName) {
-        this.friendList.add(new FriendInfo(friendId, friendName));
-        chatroomGui.updateFriend();
-        return false;
-    }
+    // Impl ClientManager
 
     @Override
     @Deprecated
@@ -192,7 +206,7 @@ public class AddressManager implements  ClientManager {
     @Override
     public boolean receiver(FriendInfo friendInfo) {
         if (friendInfo != null) {
-            FriendInfo localFriend = findLocalFriend(friendInfo.getFriendId());
+            FriendInfo localFriend = getFriend(friendInfo.getFriendId());
             if (localFriend != null) {
                 delFriend(localFriend.getFriendId());
                 addFriend(friendInfo.getFriendId());

@@ -24,6 +24,9 @@ public class ChatroomManager implements ClientManager {
     // Field
 
     ChatroomGui parent;
+    /**
+     * 缓存的本地聊天室列表
+     */
     ChatroomList chatroomList;
 
     // Construct
@@ -39,10 +42,6 @@ public class ChatroomManager implements ClientManager {
     private ChatroomManager(ChatroomGui parent) {
         this.parent = parent;
         ChatroomList serverChatroomList = getChatroomListServer();
-        /*
-         * TODO_LviatYi 向服务器索要 ChatroomList
-         * date 2021/6/13
-         */
         if (serverChatroomList != null) {
             chatroomList = serverChatroomList;
         } else {
@@ -244,7 +243,7 @@ public class ChatroomManager implements ClientManager {
 
     /**
      * 从服务器拉取 该用户的 ChatroomList 列表.
-     * @return
+     * @return 该用户的聊天室列表.
      */
     private ChatroomList getChatroomListServer() {
         /*
@@ -262,6 +261,8 @@ public class ChatroomManager implements ClientManager {
     public boolean isEmpty() {
         return this.getChatroomList().getList().isEmpty();
     }
+
+    // Impl ClientManager
 
     @Override
     @Deprecated

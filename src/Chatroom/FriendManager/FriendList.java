@@ -80,20 +80,18 @@ public class FriendList {
 
     /**
      * 添加一条 FriendInfo 记录.
-     * 不会重复添加.
+     * 重复添加以 FriendId 为主键的 FriendInfo 时,会删除旧的信息.
      *
      * @param friendInfo FriendInfo 记录.
-     * @return 返回被正确添加的 FriendInfo 的FriendId .错误则返回 null
+     * @return 返回被正确添加的 FriendInfo 的 FriendId .错误则返回 null
      */
     public String add(FriendInfo friendInfo) {
         if (friendInfo != null && !"".equals(friendInfo.getFriendId())) {
-            if (this.find(friendInfo.getFriendId()) == null) {
-
-                list.add(friendInfo);
-                return friendInfo.getFriendId();
-            } else {
-                return null;
+            if (this.find(friendInfo.getFriendId()) != null) {
+                del(friendInfo.getFriendId());
             }
+            list.add(friendInfo);
+            return friendInfo.getFriendId();
         } else {
             return null;
         }

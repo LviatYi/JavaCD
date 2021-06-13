@@ -272,6 +272,8 @@ public class ChatManager implements ClientManager {
         return false;
     }
 
+    // Impl ClientManager
+
     @Override
     public boolean receiver(String content, String senderId, String chatroomId, Date date) {
         if (content == null) {

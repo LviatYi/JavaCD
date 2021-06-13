@@ -57,12 +57,12 @@ public class ChatroomList {
      * 默认构造函数.
      * list 设置为长度为 0 的空表.
      */
-    public ChatroomList(){
-        this.list=new Vector<ChatroomInfo>();
+    public ChatroomList() {
+        this.list = new Vector<ChatroomInfo>();
     }
 
-    public ChatroomList(Vector<ChatroomInfo> list){
-        this.list=list;
+    public ChatroomList(Vector<ChatroomInfo> list) {
+        this.list = list;
     }
 
     // Getter Setter
@@ -70,6 +70,7 @@ public class ChatroomList {
     public Vector<ChatroomInfo> getList() {
         return this.list;
     }
+
     public void setList(Vector<ChatroomInfo> list) {
         this.list = list;
     }
@@ -83,7 +84,7 @@ public class ChatroomList {
      * @return ChatroomID, 找不到则返回空.
      */
     public ChatroomInfo find(String chatroomId) {
-        if(list.isEmpty()){
+        if (list.isEmpty()) {
             return null;
         }
         for (ChatroomInfo chatroomInfo : list) {
@@ -115,17 +116,18 @@ public class ChatroomList {
     /**
      * 在 list 中按照 ChatroomName 寻找 Chatroom .
      *
-     * @param chatroomName ChatroomName.
+     * @param giveString ChatroomName.
      * @return 符合条件的所有 ChatroomInfo, 找不到则返回长度为 0 的 list .
      */
-    public ChatroomList find(String chatroomName, boolean isName) {
-        ChatroomList chatroomList=new ChatroomList();
+    public ChatroomList find(String giveString, boolean isName) {
+        ChatroomList chatroomList = new ChatroomList();
         if (!isName) {
-            return null;
+            chatroomList.add(this.find(giveString));
+            return chatroomList;
         }
         for (ChatroomInfo chatroomInfo : list) {
-            if (chatroomInfo.getChatroomName().equals(chatroomName)) {
-                chatroomList.add(chatroomInfo) ;
+            if (chatroomInfo.getChatroomName().equals(giveString)) {
+                chatroomList.add(chatroomInfo);
             }
         }
         return chatroomList;
@@ -133,19 +135,27 @@ public class ChatroomList {
 
     /**
      * 向 list 的首部记录一条新的聊天室信息.
+     * 不会重复添加.
+     *
      * @param chatroomInfo 待记录的聊天室信息.
      * @return chatroomInfo
      */
     public ChatroomInfo add(ChatroomInfo chatroomInfo) {
-        if(chatroomInfo ==null){
+        if (chatroomInfo == null) {
             return null;
         }
-        list.add(0, chatroomInfo);
-        return chatroomInfo;
+        if (this.find(chatroomInfo.getChatroomId()) == null) {
+            list.add(0, chatroomInfo);
+            return chatroomInfo;
+        }else
+        {
+            return  null;
+        }
     }
 
     /**
      * 按照 ChatroomId 删除 list 中的一条记录.
+     *
      * @param chatroomId 目标 ChatroomId
      * @return 删除状态.
      */

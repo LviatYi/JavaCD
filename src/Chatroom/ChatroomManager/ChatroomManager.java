@@ -1,9 +1,13 @@
 package Chatroom.ChatroomManager;
 
 import Chatroom.ChatManager.Message;
+import Chatroom.ChatManager.MessageList;
 import Chatroom.ChatroomGui;
 import Chatroom.ClientManager;
 import Chatroom.FriendManager.FriendInfo;
+import Chatroom.FriendManager.FriendList;
+import Status.LoginStatus;
+import Status.RegisterStatus;
 
 import java.util.Date;
 
@@ -17,8 +21,13 @@ import java.util.Date;
  * @date 2021/6/7
  */
 public class ChatroomManager implements ClientManager {
-    ChatroomGui chatroomGui;
+    // Field
+    
+    ChatroomGui parent;
     ChatroomList chatroomList;
+    
+    // Construct
+    
     /**
      * 单例指针
      */
@@ -28,8 +37,12 @@ public class ChatroomManager implements ClientManager {
      * 隐藏默认构造函数
      */
     private ChatroomManager(ChatroomGui parent) {
-        this.chatroomGui = parent;
+        this.parent = parent;
         ChatroomList serverChatroomList = getServerChatroomList();
+        /*
+        * TODO_LviatYi 向服务器索要 ChatroomList
+        * date 2021/6/13
+        */
         if (serverChatroomList != null) {
             chatroomList = serverChatroomList;
         } else {
@@ -48,6 +61,8 @@ public class ChatroomManager implements ClientManager {
         }
         return instance;
     }
+    
+    // Getter Setter
 
     private ChatroomList getServerChatroomList() {
         /*
@@ -56,6 +71,8 @@ public class ChatroomManager implements ClientManager {
          */
         return null;
     }
+
+    // Function
 
     /**
      * 加入聊天室
@@ -80,12 +97,15 @@ public class ChatroomManager implements ClientManager {
              * date 2021/6/7
              */
             if (chatroomInfo.getChatroomId() == null) {
-                if (chatroomGui.confirmNewChatroom()) {
-                    chatroomInfo = createChatroom(chatroomId, chatroomGui.confirmChatroomName(), ChatroomInfo.ChatroomType.PUBLIC);
+                if (parent.confirmNewChatroom()) {
+                    chatroomInfo = createChatroom(chatroomId, parent.confirmChatroomName(), ChatroomInfo.ChatroomType.PUBLIC);
                     if (chatroomInfo == null) {
                         return ChatroomList.ChatroomStatus.ERROR;
+                    }else {
+                        chatroomList.add(chatroomInfo);
+                        parent.updateChatroom();
+                        return ChatroomList.ChatroomStatus.NEW;
                     }
-                    return ChatroomList.ChatroomStatus.NEW;
                 } else {
                     return ChatroomList.ChatroomStatus.CANCEL;
                 }
@@ -93,11 +113,30 @@ public class ChatroomManager implements ClientManager {
                 return ChatroomList.ChatroomStatus.PRIVATE;
             } else {
                 chatroomList.add(new ChatroomInfo(chatroomInfo));
-                chatroomGui.updateChatroom();
+                parent.updateChatroom();
                 //加入成功
                 return ChatroomList.ChatroomStatus.QUALIFIED;
             }
         }
+    }
+
+    /**
+     * 向 ChatroomList 中添加一条 ChatroomInfo
+     *
+     * @param chatroomInfo 待添加的 ChatroomInfo
+     * @return 添加完成的 ChatroomInfo
+     */
+    public ChatroomInfo addChatroom(ChatroomInfo chatroomInfo){
+        return chatroomList.add(chatroomInfo);
+    }
+
+    /**
+     * 从 ChatroomList 中删除一条指定 ID 的 ChatroomInfo
+     * @param chatroomId 待删除的 Chatroom 的 ID
+     * @return 删除状态
+     */
+    public boolean delChatroom(String chatroomId){
+        return chatroomList.del(chatroomId);
     }
 
     /**
@@ -133,7 +172,7 @@ public class ChatroomManager implements ClientManager {
      */
     public ChatroomList.ChatroomStatus delete(String chatroomId) {
         chatroomList.del(chatroomId);
-        chatroomGui.updateChatroom();
+        parent.updateChatroom();
         return ChatroomList.ChatroomStatus.QUALIFIED;
     }
 
@@ -240,6 +279,12 @@ public class ChatroomManager implements ClientManager {
     }
 
     @Override
+    @Deprecated
+    public boolean receiver(FriendList friendList) {
+        return false;
+    }
+
+    @Override
     public boolean receiver(ChatroomInfo chatroomInfo) {
         if (chatroomInfo !=null){
             ChatroomInfo localChatroom = findLocalChatroom(chatroomInfo.getChatroomId());
@@ -250,6 +295,29 @@ public class ChatroomManager implements ClientManager {
             this.chatroomList.add(chatroomInfo);
             return true;
         }
+        return false;
+    }
+
+    @Override
+    public boolean receiver(ChatroomList chatroomList) {
+        return false;
+    }
+    
+    @Override
+    @Deprecated
+    public boolean receiver(MessageList messageList, boolean isHistory) {
+        return false;
+    }
+    
+    @Override
+    @Deprecated
+    public boolean receiver(LoginStatus loginStatus) {
+        return false;
+    }
+
+    @Override
+    @Deprecated
+    public boolean receiver(RegisterStatus registerStatus) {
         return false;
     }
 }

@@ -44,6 +44,17 @@ public class MessageList {
     }
 
     /**
+     * 可直接通过一条 Message 判断信息的初始化构造函数.
+     * 会将 Message 记录为第一条.
+     * @param message 待记录信息.
+     */
+    public MessageList(Message message){
+        list=new Vector<Message>();
+        list.add(message);
+        this.chatroomId=message.getChatroomId();
+    }
+
+    /**
      * 规定 chatroomId 且带有聊天记录的初始化构造函数.
      *
      * @param chatroomId ChatroomId
@@ -177,6 +188,4 @@ public class MessageList {
     boolean isEmpty() {
         return list.isEmpty();
     }
-
-
 }

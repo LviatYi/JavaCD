@@ -2,6 +2,7 @@ package Chatroom;
 
 import Chatroom.ChatManager.ChatManager;
 import Chatroom.ChatManager.Message;
+import Chatroom.ChatManager.MessageList;
 import Chatroom.ChatroomManager.*;
 import Chatroom.FriendManager.AddressManager;
 import Chatroom.FriendManager.FriendInfo;
@@ -930,6 +931,11 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
         if (!message.getChatroomId().equals(chatManager.getCurrentChatroomInfo().getChatroomId())) {
             updateChatPl(chatroomManager.findLocalChatroom(message.getChatroomId()));
         }
+    }
+
+    @Override
+    public void updateMessage(MessageList messageList, boolean isHistory) {
+
     }
 
     /**

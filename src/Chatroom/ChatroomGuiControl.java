@@ -1,6 +1,7 @@
 package Chatroom;
 
 import Chatroom.ChatManager.Message;
+import Chatroom.ChatManager.MessageList;
 
 /**
  * 为主程序提供用户反馈与消息通知.
@@ -36,9 +37,20 @@ public interface ChatroomGuiControl {
 
     /**
      * 更新 ChatPl.
+     * 经过优化,仅在画布中添加一条新的消息.
      * 请在更新单条消息时调用.
      * @param message 消息.
      */
     void updateMessage(Message message);
+
+    /**
+     * 更新 ChatPl.
+     * 全部更新.
+     * 若为历史消息,将会使画布置顶.
+     *
+     * @param messageList 待更新的消息列表.
+     * @param isHistory 是否为历史消息.
+     */
+    void updateMessage(MessageList messageList,boolean isHistory);
 
 }

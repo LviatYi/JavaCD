@@ -5,7 +5,7 @@ import Chatroom.FriendManager.FriendInfo;
 import java.util.Vector;
 
 /**
- * @author LVIAT.cn
+ * @author LvaitYi
  * @author May_bebe
  * @version 1.6 alpha
  * @className Chatroom

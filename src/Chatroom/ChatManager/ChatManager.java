@@ -2,11 +2,13 @@ package Chatroom.ChatManager;
 
 import Chatroom.ChatroomManager.ChatroomInfo;
 import Chatroom.ChatroomGui;
+import Chatroom.ChatroomManager.ChatroomList;
 import Chatroom.ClientManager;
 import Chatroom.FriendManager.FriendInfo;
-import com.sun.istack.internal.NotNull;
+import Chatroom.FriendManager.FriendList;
+import Status.LoginStatus;
+import Status.RegisterStatus;
 
-import javax.print.DocFlavor;
 import java.util.Date;
 import java.util.Vector;
 
@@ -16,22 +18,33 @@ import java.util.Vector;
  * 单例模式.
  *
  * @author LviatYi
- * @version TODO_LviatYi
+ * @version 1.6 alpha
  * @className ChatManager
  * @date 2021/6/7
  */
 public class ChatManager implements ClientManager {
-    ChatroomGui parent;
-    ChatroomInfo currentChatroomInfo;
+    // Field
 
     /**
-     * 聊天记录集合.
+     * 父级元素
+     */
+    private ChatroomGui parent;
+    /**
+     * 当前聊天页面的 ChatroomInfo
+     */
+    private ChatroomInfo currentChatroomInfo;
+    /**
+     * 缓存的聊天记录集合.
+     * 与 chatroomList 长度相同.
      */
     private Vector<MessageList> chatroomMessageRepo;
     /**
      * 在缓存中的聊天记录的所有聊天室 Id.
+     * 与 chatroomMessageRepo 长度相同.
      */
     private Vector<String> chatroomList;
+
+    // Construct
 
     /**
      * 单例指针
@@ -47,7 +60,7 @@ public class ChatManager implements ClientManager {
         chatroomList = new Vector<String>();
     }
 
-    private ChatManager(@NotNull ChatroomGui parent) {
+    private ChatManager(ChatroomGui parent) {
         this.parent = parent;
         currentChatroomInfo = new ChatroomInfo();
     }
@@ -58,28 +71,45 @@ public class ChatManager implements ClientManager {
      * @param parent 父级 Gui.
      * @return ChatManager
      */
-    public static ChatManager getChatManager(@NotNull ChatroomGui parent) {
+    public static ChatManager getChatManager(ChatroomGui parent) {
         if (instance == null) {
             instance = new ChatManager(parent);
         }
         return instance;
     }
 
-    public void setCurrentChatroomInfo(ChatroomInfo currentChatroomInfo) {
-        this.currentChatroomInfo = currentChatroomInfo;
-    }
-    public Vector<MessageList> getChatroomMessageRepo() {
-        return chatroomMessageRepo;
-    }
+    // Getter Setter
+
     public ChatroomInfo getCurrentChatroomInfo() {
         return currentChatroomInfo;
     }
 
+    public Vector<String> getChatroomList() {
+        return chatroomList;
+    }
+
+    public ChatroomGui getParent() {
+        return parent;
+    }
+
+    /**
+     * 设置当前聊天页面的聊天室信息.
+     * 当聊天页面发生聊天室更新时，请调用此函数.
+     *
+     * @param currentChatroomInfo 新的聊天室 Info
+     */
+    public void setCurrentChatroomInfo(ChatroomInfo currentChatroomInfo) {
+        this.currentChatroomInfo = currentChatroomInfo;
+    }
+
+    // Function
+
     /**
      * 从服务器拉取聊天记录.
+     * 并尝试更新聊天界面.
      *
      * @param chatroomId 聊天室 Id
-     * @return 历史聊天记录组
+     * @return 历史聊天记录组.拉取失败则返回 null.
      */
     public MessageList pullChatroomMessageList(String chatroomId) {
         MessageList historyMessageList = null;
@@ -87,9 +117,9 @@ public class ChatManager implements ClientManager {
          * TODO_LviatYi 向服务器索要聊天记录
          * date 2021/6/9
          */
-        int index = chatroomList.indexOf(chatroomId);
-        if (index != -1) {
-            chatroomMessageRepo.elementAt(index).addHistoryMessage(historyMessageList);
+        if (historyMessageList != null) {
+            recordNewMessage(historyMessageList);
+            parent.updateMessage(historyMessageList,true);
         }
         return historyMessageList;
     }
@@ -116,26 +146,35 @@ public class ChatManager implements ClientManager {
 
     /**
      * 向服务器发送 Message .
+     * 并尝试更新聊天界面.
      *
      * @param message Message
      * @return 发送状态.仅保证已发送.
      */
     public boolean send(Message message) {
+        if (message == null) {
+            return false;
+        }
         /*
          * TODO_LviatYi 向服务器发送聊天记录
          * date 2021/6/9
          */
+        recordNewMessage(message);
+        this.parent.updateMessage(message);
         return true;
     }
 
     /**
-     * 将来自外部的新消息加入到对应本地聊天室的聊天记录中.
-     * 若本地聊天室无此已加入的聊天室的聊天记录，则新增至缓存.
+     * 将来自外部的新消息加入到聊天记录库中对应聊天室的记录表中.
+     * Message 所附加的聊天室必须是用户已加入的聊天室.
      *
      * @param message Message
      * @return 对应的聊天室 Id.
      */
     public String recordNewMessage(Message message) {
+        if (message == null) {
+            return null;
+        }
         for (int i = 0; i < chatroomList.size(); i++) {
             if (chatroomList.elementAt(i).equals(message.getChatroomId())) {
                 chatroomMessageRepo.elementAt(i).addMessage(message);
@@ -145,56 +184,64 @@ public class ChatManager implements ClientManager {
         ChatroomInfo newChatRoom = parent.getChatroomManager().findLocalChatroom(message.getChatroomId());
         if (newChatRoom != null) {
             chatroomList.add(newChatRoom.getChatroomId());
+            chatroomMessageRepo.add(new MessageList(message));
+            return newChatRoom.getChatroomId();
         }
         return null;
     }
 
     /**
-     * 将来自外部的多条新消息加入到对应本地聊天室的聊天记录中.
-     * 若本地聊天室无此已加入的聊天室的聊天记录，则新增至缓存.
+     * 将来自外部的新消息加入到聊天记录库中对应聊天室的记录表中.
+     * MessageList 所附加的聊天室必须是用户已加入的聊天室.
      *
      * @param messageList 聊天记录表
+     * @return 对应的聊天室 Id.
      */
-    public void recordNewMessage(MessageList messageList) {
+    public String recordNewMessage(MessageList messageList) {
+        if (messageList == null) {
+            return null;
+        }
         for (int i = 0; i < chatroomList.size(); i++) {
             if (chatroomList.elementAt(i).equals(messageList.getChatroomId())) {
                 chatroomMessageRepo.elementAt(i).addMessage(messageList);
-                return ;
+                return messageList.getChatroomId();
             }
         }
         ChatroomInfo newChatRoom = parent.getChatroomManager().findLocalChatroom(messageList.getChatroomId());
         if (newChatRoom != null) {
             chatroomList.add(newChatRoom.getChatroomId());
+            chatroomMessageRepo.add(messageList);
+            return newChatRoom.getChatroomId();
         }
-        for (Message message : messageList.getList()) {
-            recordNewMessage(message);
-        }
+        return null;
     }
 
     /**
      * 将来自外部的多条新消息覆写到对应本地聊天室的聊天记录中.
      * 若本地聊天室无此已加入的聊天室的聊天记录，则新增至缓存.
+     *
      * @param messageList 聊天记录表
+     * @return 对应的聊天室 Id.
      */
-    public void refreshMessage(MessageList messageList){
+    public String refreshMessage(MessageList messageList) {
         for (int i = 0; i < chatroomList.size(); i++) {
             if (chatroomList.elementAt(i).equals(messageList.getChatroomId())) {
                 chatroomMessageRepo.elementAt(i).clear();
                 chatroomMessageRepo.elementAt(i).addMessage(messageList);
-                return ;
+                return messageList.getChatroomId();
             }
         }
         ChatroomInfo newChatRoom = parent.getChatroomManager().findLocalChatroom(messageList.getChatroomId());
         if (newChatRoom != null) {
             chatroomList.add(newChatRoom.getChatroomId());
+            chatroomMessageRepo.add(messageList);
+            return newChatRoom.getChatroomId();
         }
-        for (Message message : messageList.getList()) {
-            recordNewMessage(message);
-        }
+        return null;
     }
 
     /**
-     * 获取本地聊天记录
+     * 获取指定聊天室的本地聊天记录
      *
      * @param chatroomId 聊天室 Id
      * @return 聊天记录组
@@ -209,26 +256,12 @@ public class ChatManager implements ClientManager {
     }
 
     /**
-     * 根据 ChatroomId 新增聊天室与其记录至缓存.
-     *
-     * @param chatroomId  聊天室 Info
-     * @param messageList 消息记录
-     * @return 消息记录
-     */
-    public MessageList addNewChatroomRecord(String chatroomId, MessageList messageList) {
-        chatroomList.add(chatroomId);
-        chatroomMessageRepo.add(messageList);
-
-        return messageList;
-    }
-
-    /**
      * 根据 ChatroomId 从缓存中删除聊天室与其记录.
      *
      * @param chatroomId 聊天室 Id
      * @return 成功删除返回 true . 未找到则返回 false
      */
-    public boolean delChatroomRecord(String chatroomId) {
+    public boolean delMessageRecord(String chatroomId) {
         int index = chatroomList.indexOf(chatroomId);
         if (index != -1) {
             chatroomList.remove(index);
@@ -240,17 +273,42 @@ public class ChatManager implements ClientManager {
 
     @Override
     public boolean receiver(String content, String senderId, String chatroomId, Date date) {
-        /*
-         * TODO_LviatYi 接受消息操作
-         * date 2021/6/11
-         */
-        parent.updateMessage(new Message(content, senderId, chatroomId, date));
-        return false;
+        if (content == null) {
+            return false;
+        }
+        if (senderId == null) {
+            return false;
+        }
+        if (chatroomId == null) {
+            return false;
+        }
+        if (date == null) {
+            return false;
+        }
+        return receiver(new Message(content, senderId, chatroomId, date));
     }
 
     @Override
     public boolean receiver(Message message) {
+        if (message == null) {
+            return false;
+        }
+        recordNewMessage(message);
         parent.updateMessage(message);
+        return false;
+    }
+
+    @Override
+    public boolean receiver(MessageList messageList, boolean isHistory) {
+        if (messageList == null) {
+            return false;
+        }
+        if (isHistory) {
+            refreshMessage(messageList);
+        } else {
+            recordNewMessage(messageList);
+        }
+        parent.updateMessage(messageList, isHistory);
         return false;
     }
 
@@ -263,6 +321,30 @@ public class ChatManager implements ClientManager {
     @Override
     @Deprecated
     public boolean receiver(ChatroomInfo chatroomInfo) {
+        return false;
+    }
+
+    @Override
+    @Deprecated
+    public boolean receiver(FriendList friendList) {
+        return false;
+    }
+
+    @Override
+    @Deprecated
+    public boolean receiver(ChatroomList chatroomList) {
+        return false;
+    }
+
+    @Override
+    @Deprecated
+    public boolean receiver(LoginStatus loginStatus) {
+        return false;
+    }
+
+    @Override
+    @Deprecated
+    public boolean receiver(RegisterStatus registerStatus) {
         return false;
     }
 }

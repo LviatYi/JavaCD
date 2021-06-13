@@ -67,7 +67,7 @@ public class FriendList {
      * @param friendId 好友 id
      * @return 好友 info,找不到返回空.
      */
-    public FriendInfo findList(String friendId) {
+    public FriendInfo find(String friendId) {
         if (friendId != null && !"".equals(friendId)) {
             for (FriendInfo friendInfo : list) {
                 if (friendInfo.getFriendId().equals((friendId))) {
@@ -80,16 +80,23 @@ public class FriendList {
 
     /**
      * 添加一条 FriendInfo 记录.
+     * 不会重复添加.
      *
      * @param friendInfo FriendInfo 记录.
-     * @return
+     * @return 返回被正确添加的 FriendInfo 的FriendId .错误则返回 null
      */
     public String add(FriendInfo friendInfo) {
         if (friendInfo != null && !"".equals(friendInfo.getFriendId())) {
-            list.add(friendInfo);
-            return friendInfo.getFriendId();
+            if (this.find(friendInfo.getFriendId()) == null) {
+
+                list.add(friendInfo);
+                return friendInfo.getFriendId();
+            } else {
+                return null;
+            }
+        } else {
+            return null;
         }
-        return null;
     }
 
     /**

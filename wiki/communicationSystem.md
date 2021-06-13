@@ -54,8 +54,10 @@
     当聊天室为私聊时需要由数据库补全 ChatroomId 信息。
     其中 ChatroomTpye 为 flag，可扩展为 int 类型。
 
-* **joinChatroom** (ChatroomId)
-   > 所有信息必填
+* **joinChatroom** (ChatroomInfo)
+   > ChatroomId 必填
+   > ChatroomName 为空
+   > ChatroomType 为空
 
    **return** (Boolean)
 

@@ -12,6 +12,7 @@ import java.util.Date;
  * 主管好友系统.
  * 单例模式.
  *
+ * @author LviatYi
  * @author May_bebe
  * @version 1.0
  * @className AddressManager
@@ -67,7 +68,7 @@ public class AddressManager implements  ClientManager {
      * 已存在此好友 ADDED
      */
     public FriendList.FriendStatus addFriend(String friendId) {
-        if (friendList.findList(friendId) != null) {
+        if (friendList.find(friendId) != null) {
             return FriendList.FriendStatus.ADDED;
         } else {
             FriendInfo friendInfo = new FriendInfo(friendId, null);
@@ -96,7 +97,7 @@ public class AddressManager implements  ClientManager {
      * 没有该好友 NOT_EXIST
      */
     public FriendList.FriendStatus delFriend(String friendId) {
-        if (friendList.findList(friendId) != null) {
+        if (friendList.find(friendId) != null) {
             friendList.del(friendId);
             /*
              * TODO_LviatYi 通知数据库删除好友
@@ -116,7 +117,7 @@ public class AddressManager implements  ClientManager {
      * @return 好友 Info.
      */
     public FriendInfo findLocalFriend(String friendId) {
-        return friendList.findList(friendId);
+        return friendList.find(friendId);
     }
 
 

@@ -44,6 +44,16 @@ public class ChatManager implements ClientManager {
      */
     private Vector<String> chatroomList;
 
+    // Display Text
+
+    private String noChatroomSelected = "<html>\n" +
+            "    <body>\n" +
+            "        <div style=\"font-size: 16px;font-family: 'Trebuchet MS';\">\n" +
+            "            No chat room selected\n" +
+            "        </div>\n" +
+            "    </body>\n" +
+            "</html>";
+
     // Construct
 
     /**
@@ -55,7 +65,7 @@ public class ChatManager implements ClientManager {
      * 隐藏默认构造函数
      */
     private ChatManager() {
-        currentChatroomInfo = new ChatroomInfo(null, null, null, null);
+        currentChatroomInfo = new ChatroomInfo("", noChatroomSelected, null, null);
         chatroomMessageRepo = new Vector<MessageList>();
         chatroomList = new Vector<String>();
     }
@@ -94,12 +104,18 @@ public class ChatManager implements ClientManager {
 
     /**
      * 设置当前聊天页面的聊天室信息.
-     * 当聊天页面发生聊天室更新时，请调用此函数.
+     * 当聊天页面发生聊天室更新时,请调用此函数.
+     * 若当前聊天页面为空时,传入 null
      *
      * @param currentChatroomInfo 新的聊天室 Info
      */
     public void setCurrentChatroomInfo(ChatroomInfo currentChatroomInfo) {
-        this.currentChatroomInfo = currentChatroomInfo;
+        if (currentChatroomInfo == null) {
+            this.currentChatroomInfo.setChatroomId("");
+            this.currentChatroomInfo.setChatroomName(noChatroomSelected);
+        } else {
+            this.currentChatroomInfo = currentChatroomInfo;
+        }
     }
 
     // Function
@@ -120,7 +136,7 @@ public class ChatManager implements ClientManager {
          */
         if (historyMessageList != null) {
             recordNewMessage(historyMessageList);
-            parent.updateMessage(historyMessageList,true);
+            parent.updateMessage(parent.getChatroomManager().getChatroom(chatroomId), true);
         }
         return historyMessageList;
     }
@@ -153,7 +169,7 @@ public class ChatManager implements ClientManager {
      * @return 发送状态.仅保证已发送.
      */
     public boolean send(Message message) {
-        if (message == null) {
+        if (message == null|| "".equals(message.getChatroomId())) {
             return false;
         }
         /*
@@ -311,7 +327,7 @@ public class ChatManager implements ClientManager {
         } else {
             recordNewMessage(messageList);
         }
-        parent.updateMessage(messageList, isHistory);
+        parent.updateMessage(parent.getChatroomManager().getChatroom(messageList.getChatroomId()), isHistory);
         return false;
     }
 
@@ -348,6 +364,12 @@ public class ChatManager implements ClientManager {
     @Override
     @Deprecated
     public boolean receiver(RegisterStatus registerStatus) {
+        return false;
+    }
+
+    @Override
+    @Deprecated
+    public boolean receiver(String userName) {
         return false;
     }
 }

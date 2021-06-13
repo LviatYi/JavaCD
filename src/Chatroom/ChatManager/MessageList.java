@@ -71,7 +71,7 @@ public class MessageList {
         return this.list;
     }
 
-    String getChatroomId() {
+    public String getChatroomId() {
         return this.chatroomId;
     }
 

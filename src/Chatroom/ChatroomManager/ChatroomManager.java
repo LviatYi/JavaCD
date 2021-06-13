@@ -297,7 +297,7 @@ public class ChatroomManager implements ClientManager {
             }
             this.chatroomList.add(chatroomInfo);
             if (isFocus){
-                parent.updateMessage(chatroomInfo.getChatroomId());
+                parent.updateCurrentChatroom(chatroomInfo,false);
             }
             return true;
         }
@@ -324,6 +324,12 @@ public class ChatroomManager implements ClientManager {
     @Override
     @Deprecated
     public boolean receiver(RegisterStatus registerStatus) {
+        return false;
+    }
+
+    @Override
+    @Deprecated
+    public boolean receiver(String userName) {
         return false;
     }
 }

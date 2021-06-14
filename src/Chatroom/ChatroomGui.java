@@ -9,6 +9,7 @@ import Chatroom.FriendManager.FriendInfo;
 import Chatroom.FriendManager.FriendList;
 import Chatroom.SettingManager.SettingManager;
 import Encrypt.Encryption;
+import Socket.Client.ClientCommunication;
 import Status.LoginStatus;
 import Status.RegisterStatus;
 
@@ -437,6 +438,10 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
      * 聊天管理类
      */
     private ChatManager chatManager;
+    /**
+     * 通信管理类
+     */
+    private ClientCommunication clientCommunication;
 
     // Getter Setter
 
@@ -456,6 +461,9 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
         return settingManager;
     }
 
+    public ClientCommunication getClientCommunication() {
+        return clientCommunication;
+    }
 
     // Additional Thread
 
@@ -615,6 +623,7 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
         this.addressManager = AddressManager.getAddressManager(this);
         this.settingManager = SettingManager.getSettingManager(this, selfId, selfName);
         this.chatManager = ChatManager.getChatManager(this);
+        this.clientCommunication=ClientCommunication.getClientCommunication();
 
         this.settingManager.setSelfId(selfId);
         this.settingManager.setSelfName(selfName);
@@ -622,7 +631,13 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
         prepareGui();
     }
 
-    // Gui Prepare
+    @Override
+    protected void finalize() throws Throwable {
+        clientCommunication.exit();
+        super.finalize();
+    }
+
+// Gui Prepare
 
     private void prepareGui() {
         //主窗体设置 标题 主布局 关闭事件 不允许控制窗口大小 设置大小 设置居中 设置可见性

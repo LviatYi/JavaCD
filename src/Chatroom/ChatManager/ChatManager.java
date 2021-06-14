@@ -130,10 +130,7 @@ public class ChatManager implements ClientManager {
      */
     public MessageList pullChatroomMessageList(String chatroomId) {
         MessageList historyMessageList = null;
-        /*
-         * TODO_LviatYi 向服务器索要聊天记录
-         * date 2021/6/9
-         */
+        historyMessageList= parent.getClientCommunication().getHistoryMessage(new ChatroomInfo(chatroomId,"",null));
         if (historyMessageList != null) {
             recordNewMessage(historyMessageList);
             parent.updateMessage(parent.getChatroomManager().getChatroom(chatroomId), true);
@@ -151,10 +148,7 @@ public class ChatManager implements ClientManager {
      */
     public MessageList pullChatroomMessageList(String chatroomId, boolean isSingle) {
         if (isSingle) {
-            /*
-             * TODO_LviatYi 向服务器索要聊天记录
-             * date 2021/6/9
-             */
+            parent.getClientCommunication().getHistoryMessage(new ChatroomInfo(chatroomId,"",null));
             return null;
         } else {
             return pullChatroomMessageList(chatroomId);
@@ -172,10 +166,7 @@ public class ChatManager implements ClientManager {
         if (message == null|| "".equals(message.getChatroomId())) {
             return false;
         }
-        /*
-         * TODO_LviatYi 向服务器发送聊天记录
-         * date 2021/6/9
-         */
+        parent.getClientCommunication().send(message);
         recordNewMessage(message);
         this.parent.updateMessage(message);
         return true;

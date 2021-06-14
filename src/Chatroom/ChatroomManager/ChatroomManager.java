@@ -134,12 +134,7 @@ public class ChatroomManager implements ClientManager {
             return ChatroomList.ChatroomStatus.JOINED;
         } else {
             ChatroomInfo chatroomInfo = new ChatroomInfo(null, null, null);
-            /*
-             * TODO_LviatYi 通知服务器查找聊天室.
-             *  提供 ChatroomId.
-             *  返回聊天室信息.
-             * date 2021/6/7
-             */
+            chatroomInfo = parent.getClientCommunication().findChatRoomInfo(chatroomId);
             if (chatroomInfo.getChatroomId() == null) {
                 if (parent.confirmNewChatroom()) {
                     chatroomInfo = create(chatroomId, parent.confirmChatroomName(), ChatroomInfo.ChatroomType.PUBLIC);
@@ -172,10 +167,7 @@ public class ChatroomManager implements ClientManager {
      */
     public ChatroomList.ChatroomStatus exit(String chatroomId) {
         delChatroom(chatroomId);
-        /*
-         * TODO_LviatYi 通知服务器 用户退出聊天室
-         * date 2021/6/13
-         */
+        parent.getClientCommunication().exitChatRoom(chatroomId);
         parent.updateChatroom();
         parent.updateMessage();
         return ChatroomList.ChatroomStatus.QUALIFIED;
@@ -194,13 +186,7 @@ public class ChatroomManager implements ClientManager {
      */
     public ChatroomInfo create(String chatroomId, String chatroomName, ChatroomInfo.ChatroomType chatroomType) {
         ChatroomInfo chatroomInfo = new ChatroomInfo(chatroomId, chatroomName, chatroomType);
-        /*
-         * TODO_LviatYi 通知服务器添加新的聊天室
-         *  一定提供一个指定为私有权限的聊天室.
-         *  若为私有，要求补全 ChatroomId.且 ChatroomName 可无视（允许为空）.
-         *  最后请返回 ChatroomInfo.
-         * date 2021/6/7
-         */
+        parent.getClientCommunication().addChatRoom(chatroomInfo);
         if (chatroomInfo.getChatroomId() != null) {
             chatroomList.add(chatroomInfo);
             parent.updateChatroom();
@@ -220,10 +206,7 @@ public class ChatroomManager implements ClientManager {
      */
     public ChatroomInfo getChatroomServer(String userId1, String userId2) {
         ChatroomInfo chatroomInfo = null;
-        /*
-         * TODO_LviatYi 通知服务器查找私聊聊天室信息
-         * date 2021/6/9
-         */
+        chatroomInfo = parent.getClientCommunication().findChatRoomInfo(userId1, userId2);
         return chatroomInfo;
     }
 
@@ -246,13 +229,11 @@ public class ChatroomManager implements ClientManager {
 
     /**
      * 从服务器拉取 该用户的 ChatroomList 列表.
+     *
      * @return 该用户的聊天室列表.
      */
     private ChatroomList getChatroomListServer() {
-        /*
-         * TODO_LviatYi 向服务器请求该用户的聊天室列表
-         * date 2021/6/7
-         */
+        parent.getClientCommunication().getChatroomList();
         return null;
     }
 
@@ -299,8 +280,8 @@ public class ChatroomManager implements ClientManager {
                 this.chatroomList.del(localChatroom.getChatroomId());
             }
             this.chatroomList.add(chatroomInfo);
-            if (isFocus){
-                parent.updateCurrentChatroom(chatroomInfo,false);
+            if (isFocus) {
+                parent.updateCurrentChatroom(chatroomInfo, false);
             }
             return true;
         }

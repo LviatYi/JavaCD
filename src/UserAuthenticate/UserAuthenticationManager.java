@@ -48,7 +48,7 @@ public class UserAuthenticationManager {
     /**
      * 昵称状态
      */
-    public enum  NameStatus {
+    public enum NameStatus {
         /**
          * 合格
          */
@@ -90,10 +90,12 @@ public class UserAuthenticationManager {
      * 昵称
      */
     private String name;
+    private boolean nameIsChanged;
     /**
      * 密码
      */
     private String password;
+    private boolean passwordIsChanged;
 
     // Constant
 
@@ -133,7 +135,7 @@ public class UserAuthenticationManager {
      * 隐藏默认构造函数
      */
     private UserAuthenticationManager(ChatroomGui parent) {
-        this.parent=parent;
+        this.parent = parent;
     }
 
     /**
@@ -147,6 +149,8 @@ public class UserAuthenticationManager {
         }
         return instance;
     }
+
+    // Getter Setter
 
     /**
      * 检测账号合法性并尝试设置账号
@@ -176,6 +180,7 @@ public class UserAuthenticationManager {
             return NameStatus.TOO_LONG;
         }
         this.name = name;
+        this.nameIsChanged = true;
         return NameStatus.QUALIFIED;
     }
 
@@ -199,6 +204,7 @@ public class UserAuthenticationManager {
             return PasswordStatus.EASY;
         }
         this.password = password;
+        this.passwordIsChanged = true;
         return PasswordStatus.QUALIFIED;
     }
 
@@ -212,6 +218,8 @@ public class UserAuthenticationManager {
          * TODO_LviatYi 登录
          * date 2021/6/4
          */
+        this.passwordIsChanged = false;
+        this.nameIsChanged = false;
         return LoginStatus.CONNECTION_FAILED;
     }
 
@@ -225,14 +233,20 @@ public class UserAuthenticationManager {
          * TODO_LviatYi 尝试注册
          * date 2021/6/4
          */
+        this.passwordIsChanged = false;
+        this.nameIsChanged = false;
         return RegisterStatus.CONNECTION_FAILED;
     }
 
     public boolean setNew() {
-        /*
-         * TODO_LviatYi 修改用户名、密码
-         * date 2021/6/9
-         */
+        if (this.nameIsChanged) {
+            parent.getClientCommunication().modifyName(name);
+        }
+        if (this.passwordIsChanged) {
+            parent.getClientCommunication().modifyPassword(Encryption.encryptPassword(password));
+        }
+        this.passwordIsChanged = false;
+        this.nameIsChanged = false;
         return false;
     }
 }

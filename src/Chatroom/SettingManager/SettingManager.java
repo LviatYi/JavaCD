@@ -22,7 +22,7 @@ import java.util.Objects;
  * @className SettingManager
  * @date 2021/6/8
  */
-public class SettingManager implements ClientManager {
+public class  SettingManager implements ClientManager {
     // Field
 
     public UserAuthenticationManager userAuthenticationManager;

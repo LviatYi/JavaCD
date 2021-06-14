@@ -25,7 +25,7 @@ import java.util.Date;
 public class AddressManager implements  ClientManager {
     // Field
 
-    ChatroomGui chatroomGui;
+    ChatroomGui parent;
     /**
      * 缓存的本地通讯录
      */
@@ -42,7 +42,7 @@ public class AddressManager implements  ClientManager {
      * 隐藏默认构造函数
      */
     private AddressManager(ChatroomGui parent) {
-        this.chatroomGui = parent;
+        this.parent = parent;
         FriendList serverFriendList = getFriendListServer();
         if (serverFriendList != null) {
             friendList = serverFriendList;
@@ -115,17 +115,9 @@ public class AddressManager implements  ClientManager {
             return FriendList.FriendStatus.ADDED;
         } else {
             FriendInfo friendInfo = new FriendInfo(friendId, null);
-            /*
-             * TODO_LviatYi 请求服务器索要 FriendInfo
-             *  并修改 friendInfo 的 friendName 字段
-             * date 2021/6/9
-             */
-            /*
-             * TODO_LviatYi 通知服务器添加好友
-             * date 2021/6/9
-             */
+            parent.getClientCommunication().addFriend(friendId);
             friendList.add(friendInfo);
-            chatroomGui.updateFriend();
+            parent.updateFriend();
             //添加成功
             return FriendList.FriendStatus.QUALIFIED;
         }
@@ -142,11 +134,8 @@ public class AddressManager implements  ClientManager {
     public FriendList.FriendStatus delFriend(String friendId) {
         if (friendList.find(friendId) != null) {
             del(friendId);
-            /*
-             * TODO_LviatYi 通知数据库删除好友
-             * date 2021/6/8
-             */
-            chatroomGui.updateFriend();
+            parent.getClientCommunication().deleteFriend(friendId);
+            parent.updateFriend();
             return FriendList.FriendStatus.QUALIFIED;
         } else {
             return FriendList.FriendStatus.NOT_EXIST;
@@ -179,10 +168,7 @@ public class AddressManager implements  ClientManager {
      * @return 好友列表
      */
     private FriendList getFriendListServer() {
-        /*
-         * TODO_LviatYi 向服务器请求该用户的好友列表
-         * date 2021/6/7
-         */
+        parent.getClientCommunication().getFriendList();
         return null;
     }
 

@@ -39,7 +39,7 @@ public interface Database {
      * @param password_now 修改后的密码
     * @return  true/false
      */
-     int ModifyPassword(String id,String password_now);
+   int ModifyPassword(String id,String password_now);
 
     /**
      * 修改昵称

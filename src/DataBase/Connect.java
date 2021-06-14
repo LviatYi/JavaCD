@@ -270,16 +270,43 @@ public class Connect implements Database
         return rs1;
     }
 
-
+//TODO
     @Override
-    public FriendList getUserFriendList(FriendInfo userInfo) {
+    public FriendInfo getUserFriendList(FriendInfo userInfo) {
+        con = getConnection();
+        String a="Friend";
+        String b= userInfo.getFriendId();
+        String ID=a+b;
+        String rs1[]=new String[20];
+        try {
+            String sql = "select UserInfo.UserName,?.FriendID from UserInfo,?\n" +
+                    "where UserInfo.UserID=?.FriendID";
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setString(1, ID);
+            st.setString(2,ID);
+            st.setString(3,ID);
+            ResultSet rs = st.executeQuery();
+            int i=0;
+            List list=new ArrayList();
+            while(rs.next())
+            {
+               // rs1[i]=rs.getString(1);
+                String Name=rs.getString(1);
+                String Id=rs.getString(2);
+                //返回
+
+            }
+            return ;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
     //TODO
-    //修改返回类型  //先返回String数组ChatRoomID
+    //修改返回类型
     @Override
-    public String[] getGroup(String id) {
+    public ChatroomList getGroup(String id) {
         con = getConnection();
         String rs1[]=new String[20];
         try {
@@ -289,16 +316,18 @@ public class Connect implements Database
             st.setInt(1,Id );
             ResultSet rs = st.executeQuery();
             int i=0;
+            List list=new ArrayList();
             while(rs.next())
             {
-                rs1[i]=rs.getString(1);
-                i++;
+                String ChatRoomID=rs.getString(1);
+
+                //返回
             }
-            return rs1;
+            return ;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return rs1;
+        return null;
     }
 
 
@@ -313,25 +342,87 @@ public class Connect implements Database
             String sql = "select * from Message where ChatRoomId='" + groupID + "'";
             ResultSet rs = st.executeQuery(sql);
             List<DataPacket> message_get = new ArrayList<DataPacket>();
+            int i=0;
             while (rs.next()) {
                 String senderId = rs.getString(1);
                 String groupId = rs.getString(2);
                 String message = rs.getString(3);
                 Date datetime = rs.getDate(4);
-                //message_get.add();
 
+                //返回
 
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return null;
     }
 
 
+     public ChatroomInfo findChatRoomInfoThroughID(String chatroomID)
+     {
+         con = getConnection();
+         String a="ChatRoom";
+         String ID=a+chatroomID;
+         String rs1[]=new String[20];
+         try {
+             String sql = "select * from ?";
+             PreparedStatement st = con.prepareStatement(sql);
+             st.setString(1,ID);
+             ResultSet rs = st.executeQuery();
+             int i=0;
+             List list=new ArrayList();
+             while(rs.next())
+             {
+                 list.add(i,rs.getString(1));
+                 i++;
+             }
+             String RS[]=new String[3];
+                     RS=findChatRoomInfoThroughID1(chatroomID);
+             String ChatRoomId=RS[0];
+             String ChatRoomName=RS[1];
+             String ChatRoomType=RS[2];
+             //返回
 
-    public String CreateChatRoom(boolean isPrivate,String chatRoomName) {
+             return ;
+         } catch (SQLException e) {
+             e.printStackTrace();
+         }
+         return null;
+     }
+     public String[] findChatRoomInfoThroughID1(String chatroomID)
+     {
+         con = getConnection();
+         String a="Friend";
+         String ID=a+chatroomID;
+         String rs1[]=new String[20];
+         try {
+             String sql = "select * from ChatRoomInfo where ChatRoomID=?";
+             PreparedStatement st = con.prepareStatement(sql);
+             st.setString(1, chatroomID);
+             ResultSet rs = st.executeQuery();
+             int i=0;
+             while(rs.next())
+             {
+                 // rs1[i]=rs.getString(1);
+                 rs1[1]=rs.getString(1);
+                 rs1[2]=rs.getString(2);
+                 rs1[3]=rs.getString(3);
+             }
+             return rs1;
+         } catch (SQLException e) {
+             e.printStackTrace();
+         }
+         return null;
+     }
+
+
+     ChatroomInfo findChatRoomInfoThroughUser(String id,String friendID)
+     {
+
+     }
+
+     public String CreateChatRoom(boolean isPrivate,String chatRoomName) {
         con = getConnection();
         try {
             String sql = "insert into ChatRoomInfo(ChatRoomID,ChatRoomName,IsPrivate) values(?,?,?)";
@@ -473,6 +564,7 @@ public class Connect implements Database
          }catch (SQLException e){e.printStackTrace();}
          return 0;
      }
+
 
 
     // public static void main(String[] args) {

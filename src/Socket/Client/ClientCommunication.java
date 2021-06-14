@@ -5,10 +5,8 @@ import Chatroom.ChatManager.MessageList;
 import Chatroom.ChatroomManager.ChatroomInfo;
 import Socket.tools.DataPacket;
 import com.alibaba.fastjson.*;
-
 import java.io.*;
 import java.net.Socket;
-
 import Chatroom.*;
 
 /**
@@ -45,9 +43,12 @@ public class ClientCommunication implements Client {
      *
      * @return 单例
      */
-    public static ClientCommunication getClientCommunication() {
+    public static ClientCommunication getClientCommunication(ChatroomGui parent) {
         if (instance == null) {
-            instance = new ClientCommunication();
+            try {
+
+                instance = new ClientCommunication(parent);
+            }catch (IOException ignored){}
         }
         return instance;
     }
@@ -265,6 +266,8 @@ public class ClientCommunication implements Client {
 
     private boolean client() throws IOException {
         Socket socket = new Socket("127.0.0.1", 9000);
+        co=new ClientThreadOut();
+        ci=new ClientThreadIn();
         co.setSocket(socket);
         ci.setSocket(socket);
         ci.setParent(parent);

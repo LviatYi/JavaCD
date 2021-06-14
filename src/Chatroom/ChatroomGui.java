@@ -445,6 +445,10 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
 
     // Getter Setter
 
+    public ClientCommunication getClientCommunication() {
+        return clientCommunication;
+    }
+
     public AddressManager getAddressManager() {
         return addressManager;
     }
@@ -461,9 +465,6 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
         return settingManager;
     }
 
-    public ClientCommunication getClientCommunication() {
-        return clientCommunication;
-    }
 
     // Additional Thread
 
@@ -619,11 +620,11 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
     // Construct
 
     public ChatroomGui(String selfId, String selfName) {
+        this.settingManager = SettingManager.getSettingManager(this, selfId, selfName);
+        this.clientCommunication=ClientCommunication.getClientCommunication(this);
         this.chatroomManager = ChatroomManager.getChatroomManager(this);
         this.addressManager = AddressManager.getAddressManager(this);
-        this.settingManager = SettingManager.getSettingManager(this, selfId, selfName);
         this.chatManager = ChatManager.getChatManager(this);
-        this.clientCommunication=ClientCommunication.getClientCommunication();
 
         this.settingManager.setSelfId(selfId);
         this.settingManager.setSelfName(selfName);

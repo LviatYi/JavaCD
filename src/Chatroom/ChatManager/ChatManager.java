@@ -130,7 +130,7 @@ public class ChatManager implements ClientManager {
      */
     public MessageList pullChatroomMessageList(String chatroomId) {
         MessageList historyMessageList = null;
-        historyMessageList= parent.getClientCommunication().getHistoryMessage(new ChatroomInfo(chatroomId,"",null));
+        historyMessageList= parent.getClientCommunication().getHistoryMessage(chatroomId);
         if (historyMessageList != null) {
             recordNewMessage(historyMessageList);
             parent.updateMessage(parent.getChatroomManager().getChatroom(chatroomId), true);
@@ -148,7 +148,7 @@ public class ChatManager implements ClientManager {
      */
     public MessageList pullChatroomMessageList(String chatroomId, boolean isSingle) {
         if (isSingle) {
-            parent.getClientCommunication().getHistoryMessage(new ChatroomInfo(chatroomId,"",null));
+            parent.getClientCommunication().getHistoryMessage(chatroomId);
             return null;
         } else {
             return pullChatroomMessageList(chatroomId);

@@ -9,7 +9,7 @@ import java.net.Socket;
 import Chatroom.*;
 
 
-public class ClientImpl implements Client {
+public class ClientCommunication implements Client {
     private ChatroomGui parent;
     String selfID;
     private ClientThreadOut co = null;
@@ -18,7 +18,7 @@ public class ClientImpl implements Client {
         client();
     }
 
-    public ClientImpl(ChatroomGui parent) throws IOException{
+    public ClientCommunication(ChatroomGui parent) throws IOException{
         this.parent = parent;
         selfID = parent.getSettingManager().getSelfId();
         this.run();

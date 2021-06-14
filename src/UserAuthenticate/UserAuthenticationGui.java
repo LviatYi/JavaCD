@@ -1,5 +1,7 @@
 package UserAuthenticate;
 
+import Chatroom.ChatroomGui;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -21,7 +23,8 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
     /**
      * 认证管理类
      */
-    private UserAuthenticationManager userAuthenticationManager = UserAuthenticationManager.getUserAuthenticationManager();
+    private UserAuthenticationManager userAuthenticationManager = UserAuthenticationManager.getUserAuthenticationManager(null);
+    private ChatroomGui parent;
 
     /**
      * GUI 元素
@@ -566,7 +569,7 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
         {
             //关闭提示文本
             idPl.setBorder(BorderFactory.createCompoundBorder());
-            switch (UserAuthenticationManager.getUserAuthenticationManager().setId(idTf.getText()))
+            switch (UserAuthenticationManager.getUserAuthenticationManager(null).setId(idTf.getText()))
             {
                 //id 输入正确
                 case QUALIFIED:
@@ -583,7 +586,7 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
         } else if (event.getSource() == nameTf)
         {
             namePl.setBorder(BorderFactory.createCompoundBorder());
-            switch (UserAuthenticationManager.getUserAuthenticationManager().setName(nameTf.getText()))
+            switch (UserAuthenticationManager.getUserAuthenticationManager(null).setName(nameTf.getText()))
             {
 
                 //name 输入正确
@@ -605,7 +608,7 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
         } else if (event.getSource() == passwordTf)
         {
             passwordPl.setBorder(BorderFactory.createCompoundBorder());
-            switch (UserAuthenticationManager.getUserAuthenticationManager().setPassword(new String(passwordTf.getPassword())))
+            switch (UserAuthenticationManager.getUserAuthenticationManager(null).setPassword(new String(passwordTf.getPassword())))
             {
                 //password 输入正确
                 case QUALIFIED:

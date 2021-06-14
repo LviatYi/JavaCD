@@ -1,17 +1,19 @@
 package Chatroom.ChatManager;
 
-
 import java.util.Date;
 
 /**
- * 聊天记录类
+ * 聊天记录类.
+ * 由本地决定用于记录聊天记录相关信息的类.
  *
  * @author LviatYi
- * @version 1.0
+ * @version 1.6 alpha
  * @className Message
  * @date 2021/6/7
  */
 public class Message {
+    // Field
+
     /**
      * 主要内容
      */
@@ -29,71 +31,86 @@ public class Message {
      */
     private Date sendTime;
 
+    // Construct
+
     /**
      * 隐藏默认构造函数.
      * 不允许不完整的信息.
      */
-    private Message(){};
+    private Message() {
+    }
 
     /**
      * 默认构造函数.
      * 将 sendTime 设置为系统当前时间.
-     * @param content 聊天内容
-     * @param senderId 发送者 Id
-     * @param chatroomId 聊天室 Id
+     *
+     * @param content    聊天内容
+     * @param senderId   发送者 Id
+     * @param chatroomId 聊天室 Id.指明了发送的目标.
      */
-    public Message(String content,String senderId,String chatroomId){
-        this.content=content;
-        this.senderId=senderId;
+    public Message(String content, String senderId, String chatroomId) {
+        this.content = content;
+        this.senderId = senderId;
         this.chatroomId = chatroomId;
-        this.sendTime=new Date();
-    }
-    public Message(String content, String senderId, String chatroomId, Date date){
-        this.content=content;
-        this.senderId=senderId;
-        this.chatroomId = chatroomId;
-        this.sendTime=date;
-    }
-    public Message(Message message){
-        this.content=message.getContent();
-        this.senderId=message.getSenderId();
-        this.chatroomId =message.getChatroomId();
-        this.sendTime=message.getSendTime();
+        this.sendTime = new Date();
     }
 
+    public Message(String content, String senderId, String chatroomId, Date date) {
+        this.content = content;
+        this.senderId = senderId;
+        this.chatroomId = chatroomId;
+        this.sendTime = date;
+    }
 
-    public String getChatroomId(){
+    public Message(Message message) {
+        this.content = message.getContent();
+        this.senderId = message.getSenderId();
+        this.chatroomId = message.getChatroomId();
+        this.sendTime = message.getSendTime();
+    }
+
+    // Getter Setter
+
+    public String getChatroomId() {
         return this.chatroomId;
     }
-    public String getContent(){
+
+    public String getContent() {
         return this.content;
     }
-    public String getSenderId(){
+
+    public String getSenderId() {
         return this.senderId;
     }
-    public Date getSendTime(){
+
+    public Date getSendTime() {
         return this.sendTime;
     }
+
     public void setContent(String content) {
         this.content = content;
     }
+
     public void setChatroomId(String chatroomId) {
         this.chatroomId = chatroomId;
     }
+
     public void setSenderId(String senderId) {
         this.senderId = senderId;
     }
+
     public void setSendTime(Date sendTime) {
         this.sendTime = sendTime;
     }
 
+    // Function
+
     /**
-     * 获取发送时间的时间戳
+     * 获取发送时间的时间戳.按毫秒计.
+     *
      * @return 发送时间的时间戳
      */
-    public long getSendTimeLong(){
+    public long getSendTimeLong() {
         return this.sendTime.getTime();
     }
-
-
 }

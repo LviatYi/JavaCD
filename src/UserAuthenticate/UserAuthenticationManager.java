@@ -1,7 +1,10 @@
 package UserAuthenticate;
 
+import Chatroom.ChatroomGui;
 import Encrypt.*;
 import Status.*;
+
+import java.lang.reflect.Field;
 
 /**
  * Manager of User Authentication.
@@ -14,6 +17,8 @@ import Status.*;
  * @date 2021/6/2
  */
 public class UserAuthenticationManager {
+    //Tool Status
+
     /**
      * 密码状态
      */
@@ -72,6 +77,26 @@ public class UserAuthenticationManager {
         EMPTY
     }
 
+    // Field
+    /**
+     * 父级元素
+     */
+    ChatroomGui parent;
+    /**
+     * 账号
+     */
+    private String id;
+    /**
+     * 昵称
+     */
+    private String name;
+    /**
+     * 密码
+     */
+    private String password;
+
+    // Constant
+
     /**
      * 最短 ID
      */
@@ -97,18 +122,7 @@ public class UserAuthenticationManager {
      */
     final String PASSWORD_PATTERN = "^(?![A-Za-z]+$)(?![0-9]+$)(?![\\W]+$)[A-Za-z0-9\\W].*$";
 
-    /**
-     * 账号
-     */
-    private String id;
-    /**
-     * 昵称
-     */
-    private String name;
-    /**
-     * 密码
-     */
-    private String password;
+    // Construct
 
     /**
      * 单例指针
@@ -116,18 +130,10 @@ public class UserAuthenticationManager {
     private static UserAuthenticationManager instance = null;
 
     /**
-     * 通信接口
-     */
-    /**
-     * TODO_LviatYi 通信接口
-     * date 2021/6/4
-     */
-
-
-    /**
      * 隐藏默认构造函数
      */
-    private UserAuthenticationManager() {
+    private UserAuthenticationManager(ChatroomGui parent) {
+        this.parent=parent;
     }
 
     /**
@@ -135,11 +141,10 @@ public class UserAuthenticationManager {
      *
      * @return 用户权限管理器
      */
-    public static UserAuthenticationManager getUserAuthenticationManager() {
+    public static UserAuthenticationManager getUserAuthenticationManager(ChatroomGui parent) {
         if (instance == null) {
-            instance = new UserAuthenticationManager();
+            instance = new UserAuthenticationManager(parent);
         }
-
         return instance;
     }
 
@@ -204,7 +209,7 @@ public class UserAuthenticationManager {
      */
     public LoginStatus login() {
         /**
-         * TODO_LviatYi 登录函数
+         * TODO_LviatYi 登录
          * date 2021/6/4
          */
         return LoginStatus.CONNECTION_FAILED;

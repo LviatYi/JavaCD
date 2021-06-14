@@ -13,107 +13,100 @@ import java.io.IOException;
 public interface Client {
 
     /**
-     * 启动客户端线程组
-     * @throws IOException 对哩
-     */
-    public void run() throws IOException;
-
-    /**
-     *
+     * 发送消息给聊天室
      * @param msg 传输的消息对象
      */
     public void sendGroup(Message msg);
 
 
     /**
-     *
+     * 注册
      * @param name 昵称
      * @param password 登录密码
      */
     public void register(String name,String password);
 
     /**
-     *
+     * 登录
      * @param id 用户名ID
      * @param password 登录密码
      */
     public void login(String id,String password);
 
     /**
-     *
+     * 改名
      * @param newName 新名字
-     * @param UserID 用户ID
      */
-    public void modifyName(String newName,String UserID);
+    public void modifyName(String newName);
 
     /**
-     *
+     * 改密码
      * @param newPassword 新密码
-     * @param UserID 用户ID
      */
-    public void modifyPassword(String newPassword,String UserID);
+    public void modifyPassword(String newPassword);
+
     /**
      * 断开连接
      */
     public void exit();
 
     /**
-     *
-     * @param chatRoomName 聊天室名
-     * @param chatRoomType 聊天室类型
+     * 创建一个新的聊天室
+     * @param chatroomInfo 聊天室
      */
-    public void addChatRoom(String chatRoomName, ChatroomInfo.ChatroomType chatRoomType);
+    public void addChatRoom(ChatroomInfo chatroomInfo);
 
     /**
-     *
-     * @param userID 自己的ID
+     * 添加好友
      * @param receiverID 被添加者的ID
      */
-    public void addFriend(String userID, String receiverID);
+    public void addFriend(String receiverID);
 
     /**
-     *
-     * @param userID 自己的ID
+     * 删除好友
      * @param receiverID 被删除者的ID
      */
-    public void deleteFriend(String userID, String receiverID);
+    public void deleteFriend(String receiverID);
 
     /**
-     *
-     * @param userID 自己的ID
+     * 获取好友列表
      */
-    public void getFriendList(String userID);
+    public void getFriendList();
 
     /**
-     *
-     * @param userID 自己的ID
+     * 获取群聊列表
      */
-    public void getGroupList(String userID);
+    public void getGroupList();
 
     /**
-     *
-     * @param chatRoomID 群聊的ID
+     * 获取指定群的历史记录
+     * @param chatroomInfo 群聊
      */
-    public void getHistoryMessage(String chatRoomID);
+    public void getHistoryMessage(ChatroomInfo chatroomInfo);
 
     /**
-     *
-     * @param userID 自己的ID
-     * @param chatRoomID 群聊的ID
+     * 退出聊天室
+     * @param chatroomInfo 聊天室
      */
-    public void exitChatRoom(String userID,String chatRoomID);
+    public void exitChatRoom(ChatroomInfo chatroomInfo);
 
     /**
-     *
+     * 通过群号查找聊天室信息
      * @param chatRoomID 查询的聊天室ID
      */
     public void findChatRoomInfo(String chatRoomID);
 
     /**
-     *
+     * 通过两个人的ID查找私有聊天室的信息
      * @param userID1 成员ID1
      * @param userID2 成员ID2
      */
     public void findChatRoomInfo(String userID1,String userID2);
+
+    /**
+     * 加入指定的聊天室
+     * @param chatRoom 聊天室
+     */
+    public boolean joinChatRoom(ChatroomInfo chatRoom);
 
 }

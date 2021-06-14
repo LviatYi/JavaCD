@@ -1,29 +1,50 @@
 package Chatroom.SettingManager;
 
+import Chatroom.ChatManager.Message;
+import Chatroom.ChatManager.MessageList;
 import Chatroom.ChatroomGui;
+import Chatroom.ChatroomManager.ChatroomInfo;
+import Chatroom.ChatroomManager.ChatroomList;
+import Chatroom.ClientManager;
+import Chatroom.FriendManager.FriendInfo;
+import Chatroom.FriendManager.FriendList;
+import Status.LoginStatus;
+import Status.RegisterStatus;
 import UserAuthenticate.UserAuthenticationManager;
 
+import java.util.Date;
+import java.util.Objects;
+
 /**
+ * @author LviatYi
  * @author May_bebe
- * @version 1.0
+ * @version 1.6 alpha
  * @className SettingManager
  * @date 2021/6/8
  */
-public class SettingManager {
-    private ChatroomGui chatroomGui;
+public class SettingManager implements ClientManager {
+    // Field
+
+    public UserAuthenticationManager userAuthenticationManager;
+    private ChatroomGui parent;
     private String selfId;
     private String selfName;
-    public UserAuthenticationManager userAuthenticationManager;
 
+    // Construct
+
+    /**
+     * 单例指针
+     */
+    private static SettingManager instance = null;
 
     /**
      * 隐藏默认构造函数
      */
     private SettingManager(ChatroomGui parent, String selfId, String selfName) {
-        this.chatroomGui=parent;
-        this.selfId=selfId;
-        this.selfName=selfName;
-        userAuthenticationManager=UserAuthenticationManager.getUserAuthenticationManager();
+        this.parent = parent;
+        this.selfId = selfId;
+        this.selfName = selfName;
+        userAuthenticationManager = UserAuthenticationManager.getUserAuthenticationManager(null);
     }
 
     /**
@@ -33,122 +54,93 @@ public class SettingManager {
      */
     public static SettingManager getSettingManager(ChatroomGui parent, String selfId, String selfName) {
         if (instance == null) {
-            instance = new SettingManager(parent,selfId,selfName);
+            instance = new SettingManager(parent, selfId, selfName);
         }
         return instance;
     }
-    /**
-     * 修改密码状态
-     */
-    enum ModifyPasswordStatus {
-        /**
-         * 合格
-         */
-        QUALIFIED,
-        /**
-         * 空
-         */
-        EMPTY,
-        /**
-         * 过短
-         */
-        TOO_SHORT,
-        /**
-         * 过长
-         */
-        TOO_LONG,
-        /**
-         * 过简
-         */
-        EASY,
-        /**
-         * 不同
-         */
-        DIFFERENT
-    }
 
-    /**
-     * 昵称状态
-     */
-    enum ModifyNameStatus {
-        /**
-         * 合格
-         */
-        QUALIFIED,
-        /**
-         * 空
-         */
-        EMPTY,
-        /**
-         * 过长
-         */
-        TOO_LONG
-    }
+    // Getter Setter
 
-    /**
-     * 最短 password
-     */
-    final int PASSWORD_MIN = 8;
-    /**
-     * 最长 password
-     */
-    final int PASSWORD_MAX = 20;
-    /**
-     * 最长 name
-     */
-    final int NAME_MAX = 16;
-    /**
-     * 合法正则表达式
-     */
-    final String PASSWORD_PATTERN = "^(?![A-Za-z]+$)(?![0-9]+$)(?![\\W]+$)[A-Za-z0-9\\W].*$";
-    /**
-     * 单例指针
-     */
-    private static SettingManager instance = null;
-
-
-    /**
-     * 修改昵称
-     *
-     * @param name 昵称
-     * @return 修改昵称结果
-     * 空昵称 EMPTY
-     * 过长昵称 TOO_LONG
-     * 成功修改昵称 QUALIFIED
-     */
-    public ModifyNameStatus modifyName(String name) {
-
-        return ModifyNameStatus.QUALIFIED;
-    }
-
-    /**
-     * 修改密码
-     *
-     * @param password 密码
-     * @return 修改密码结果
-     * 空密码 EMPTY
-     * 密码过短 TOO_SHORT
-     * 密码过长 TOO_LONG
-     * 密码过简 EASY
-     * 密码和确认密码不相同 DIFFERENT
-     * 成功修改密码 QUALIFIED
-     */
-    public ModifyPasswordStatus setModifyPassword(String password) {
-
-        return ModifyPasswordStatus.QUALIFIED;
-    }
-
-    public String getSelfId() {
-        return selfId;
-    }
-    public String getSelfName(){
-        return selfName;
-    }
     public void setSelfId(String selfId) {
         this.selfId = selfId;
     }
 
     public void setSelfName(String selfName) {
         this.selfName = selfName;
+    }
+
+    public String getSelfId() {
+        return selfId;
+    }
+
+    public String getSelfName() {
+        return selfName;
+    }
+
+    // Function
+
+    // Impl ClientManager
+
+    @Override
+    @Deprecated
+    public boolean receiver(Message message) {
+        return false;
+    }
+
+    @Override
+    @Deprecated
+    public boolean receiver(MessageList messageList, boolean isHistory) {
+        return false;
+    }
+
+    @Override
+    @Deprecated
+    public boolean receiver(String content, String senderId, String chatroomId, Date date) {
+        return false;
+    }
+
+    @Override
+    @Deprecated
+    public boolean receiver(FriendInfo friendInfo) {
+        return false;
+    }
+
+    @Override
+    @Deprecated
+    public boolean receiver(ChatroomInfo chatroomInfo, boolean isFocus) {
+        return false;
+    }
+
+    @Override
+    @Deprecated
+    public boolean receiver(FriendList friendList) {
+        return false;
+    }
+
+    @Override
+    @Deprecated
+    public boolean receiver(ChatroomList chatroomList) {
+        return false;
+    }
+
+    @Override
+    @Deprecated
+    public boolean receiver(LoginStatus loginStatus) {
+        return false;
+    }
+
+    @Override
+    @Deprecated
+    public boolean receiver(RegisterStatus registerStatus) {
+        return false;
+    }
+
+    @Override
+    public boolean receiver(String userName) {
+        if (!"".equals(userName)){
+            this.selfName=userName;
+            parent.updateUserInfo(userName);
+        }
+        return false;
     }
 }

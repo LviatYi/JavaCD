@@ -1,84 +1,70 @@
 package Socket.Server;
 
+import Chatroom.ChatroomManager.ChatroomInfo;
+import Chatroom.ChatroomManager.ChatroomList;
 import Socket.tools.DataPacket;
 import Socket.tools.ThreadManager;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
-/*
+import java.util.Vector;
+
+/**
  * 定义一个管理类，相当于一个中介，处理线程，转发消息
  * 这个只提供方法调用，不需要实例化对象，因此都是静态方法
  */
 
 public class MultiThread {
     //保存线程处理的对象
-    private static ArrayList<ServerThread> stList=new ArrayList<>();
-    private static ArrayList<ThreadManager> groupList = new ArrayList<>();
+    private static final Vector<ThreadManager> threadList =new Vector<>();
     //不需要实例化类，因此构造器为私有
     private MultiThread() {}
     //将这个线程处理对象加入到队列中
-
-    public static void addClient(ServerThread st) throws IOException {
-        stList.add(st);
+    public static void addClient(ServerThread st, ChatroomList chatroomList){
+        ThreadManager temp = new ThreadManager();
+        temp.thread =  st;
+        temp.chatroomList = chatroomList;
+        threadList.add(temp);
     }
 
-    /**
-     * 添加群聊
-     * @param id 拉进群聊的人账号id
-     * @param groupID 群聊id（服务器生成）
-     */
-    public static void addChatRoom(String id, String groupID)
-    {
-
-        for (int i = 0; i < stList.size(); i++)
-        {
-            ServerThread st = stList.get(i);
-            if(id.equals(st.socketId))
+    public static void castGroupMsg(DataPacket dataPacket) throws IOException {
+        for (ThreadManager temp: threadList) {
+            for (ChatroomInfo roomTemp:temp.chatroomList.getList())
             {
-//                temp.arrayList.add(st);
+                if(roomTemp.getChatroomId().equals(dataPacket.chatRoomID))
+                {
+                    temp.thread.sendMsg(dataPacket);
+                }
             }
         }
-//        grouplist.add(temp);
     }
 
-    /**
-     * 获取群聊在线人数
-     * @param groupID 群聊ID
-     * @return 返回人数
-     * [警告]可能出现问题
-     */
-    public static int getOnlineNumber(String groupID)
+    public static void addChatRoomInfo(String id,ChatroomInfo chatroomInfo)
     {
-        ThreadManager threadManager =new ThreadManager();
-        for (int i = 0; i < groupList.size(); i++) {
-            threadManager = groupList.get(i);
-            if(groupID.equals(threadManager.GroupID))
+        for (ThreadManager temp: threadList) {
+            if(temp.thread.socketId.equals(id))
             {
+                temp.chatroomList.add(chatroomInfo);
                 break;
             }
         }
-        return threadManager.MemberID.length;
     }
 
-    /**
-     * 聊天室在线转发
-     * @param dataPacket 消息包
-     * @param groupID 聊天群号
-     * @throws IOException 发送io
-     */
-    public static void castGroupMsg(DataPacket dataPacket, String groupID) throws IOException {
-        ThreadManager threadManager = new ThreadManager();
-        for (int i = 0; i < groupList.size(); i++) {
-            threadManager = groupList.get(i);
-            if(groupID.equals(threadManager.GroupID))
+    public static void delChatRoomInfo(String id,ChatroomInfo chatroomInfo)
+    {
+        for (ThreadManager temp: threadList) {
+            if(temp.thread.socketId.equals(id))
             {
+                temp.chatroomList.del(chatroomInfo.getChatroomId());
                 break;
             }
         }
-        for (int i = 0; i < threadManager.arrayList.size(); i++) {
-            ServerThread st =threadManager.arrayList.get(i);
-            st.sendMsg(dataPacket);//发消息给每一个客户机
-        }
     }
+
+    public static void exit(String threadID)
+    {
+        threadList.removeIf(threadManager -> threadManager.thread.socketId.equals(threadID));
+    }
+
+        
 }

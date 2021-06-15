@@ -39,9 +39,13 @@ public class ClientCommunication implements Client {
 
     }
 
-    public ClientCommunication(UserAuthenticationGui parent2) throws IOException{
+    public ClientCommunication(UserAuthenticationGui parent2) {
         this.parent2 = parent2;
-        this.client();
+        try {
+            this.client();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

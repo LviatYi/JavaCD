@@ -111,6 +111,7 @@ public class ServerThread extends Thread{
                     temp.chatRoomInfo=chatroomInfoTemp;
                     MultiThread.addChatRoomInfo(socketId,dataPacket.chatRoomInfo);
                     temp.type = DataPacket.transportType.CREATE_CHATROOM;
+                    temp.chatRoomID = databaseManager.returnChatRoomId();
                     sendMsg(temp);
                     break;
                 }

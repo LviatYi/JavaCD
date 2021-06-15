@@ -33,9 +33,9 @@ public class ClientThreadIn extends Thread {
                 DataPacket dp = JSON.parseObject(str, DataPacket.class);
                 switch (dp.type){
                     case FIND_CHATROOM_INFO_THROUGH_USER:
-                    case CREATE_CHATROOM:
-                    case CREATE_PRIVATE_CHATROOM: {
+                    case CREATE_CHATROOM: {
                         parent.receiver(dp.chatRoomInfo,false);
+                        parent.receiver(dp.chatRoomID);
                         break;
                     }
                     case RETURN_FRIEND_LIST:{

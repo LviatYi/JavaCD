@@ -37,7 +37,7 @@ public class ServerThread extends Thread{
         }
     }
 
-    private void processSocket() throws IOException {
+    private void processSocket() throws IOException,EOFException{
         DataInputStream ins = new DataInputStream(client.getInputStream());
         ous = new DataOutputStream(client.getOutputStream());
 

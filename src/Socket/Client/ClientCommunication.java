@@ -84,7 +84,7 @@ public class ClientCommunication implements Client {
         if (chatroomInfo.getChatroomType() == ChatroomInfo.ChatroomType.PUBLIC) {
             DataPacket mes = new DataPacket();
             mes.type = DataPacket.transportType.CREATE_CHATROOM;
-            mes.chatRoomName = chatroomInfo.getChatroomName();
+            mes.chatRoomInfo = chatroomInfo;
             String temp = JSONObject.toJSONString(mes);
             co.setMessage(temp);
         } else if (chatroomInfo.getChatroomType() == ChatroomInfo.ChatroomType.PRIVATE) {
@@ -187,7 +187,7 @@ public class ClientCommunication implements Client {
             dos.flush();
             while (true) {
                 DataPacket dp = JSON.parseObject(dis.readUTF(), DataPacket.class);
-                if (dp.type == DataPacket.transportType.FIND_FRIEND_INFO && dp.systemTip == 1) {
+                if (dp.type == DataPacket.transportType.FIND_FRIEND_INFO && dp.systemTip == true) {
                     return dp.friendInfo;
                 }
             }
@@ -223,7 +223,7 @@ public class ClientCommunication implements Client {
             dos.flush();
             while (true) {
                 DataPacket dp = JSON.parseObject(dis.readUTF(), DataPacket.class);
-                if (dp.type == DataPacket.transportType.FIND_CHATROOM_INFO_THROUGH_ID&& dp.systemTip == 1) {
+                if (dp.type == DataPacket.transportType.FIND_CHATROOM_INFO_THROUGH_ID&& dp.systemTip == true) {
                     return dp.chatRoomInfo;
                 }
             }

@@ -47,11 +47,12 @@ public class ClientThreadIn extends Thread {
                         break;
                     }
                     case REGISTER:{
-                        parent.receiver(dp.registerStatus);
+                        parent.receiver(dp.registerStatus,dp.id);
                         break;
                     }
                     case LOGIN:{
                         parent.receiver(dp.loginStatus);
+                        parent.receiver(dp.id,true);
                         break;
                     }
                     case GET_HISTORY_MESSAGE:{

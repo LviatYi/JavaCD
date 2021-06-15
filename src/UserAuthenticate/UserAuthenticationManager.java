@@ -207,7 +207,7 @@ public class UserAuthenticationManager {
         if (!password.matches(PASSWORD_PATTERN)) {
             return PasswordStatus.EASY;
         }
-        this.password = password;
+        this.password =Encryption.encryptPassword(password);
         this.passwordIsChanged = true;
         return PasswordStatus.QUALIFIED;
     }
@@ -228,10 +228,7 @@ public class UserAuthenticationManager {
      * @return 登录状态
      */
     public LoginStatus login() {
-        /**
-         * TODO_LviatYi 登录
-         * date 2021/6/4
-         */
+        parent.getClientCommunication().login(this.id,this.password);
         this.passwordIsChanged = false;
         this.nameIsChanged = false;
         return LoginStatus.CONNECTION_FAILED;
@@ -243,10 +240,7 @@ public class UserAuthenticationManager {
      * @return 注册状态
      */
     public RegisterStatus register() {
-        /**
-         * TODO_LviatYi 尝试注册
-         * date 2021/6/4
-         */
+        parent.getClientCommunication().register(this.name,this.password);
         this.passwordIsChanged = false;
         this.nameIsChanged = false;
         return RegisterStatus.CONNECTION_FAILED;

@@ -33,9 +33,10 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
     // Manager
 
     private UserAuthenticationManager userAuthenticationManager = UserAuthenticationManager.getUserAuthenticationManager(null);
+    private ClientCommunication clientCommunication;
     private ChatroomGui parent;
 
-    private String userNameTmp="";
+    private String userNameTmp = "";
 
     // Gui Elements
 
@@ -291,7 +292,7 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
      * 进入主界面
      */
     private void entryMainWindow() {
-        ChatroomGui chatroomGui = new ChatroomGui(this.getUserId(), "".equals(userNameTmp)? this.getUserName():userNameTmp);
+        ChatroomGui chatroomGui = new ChatroomGui(this.getUserId(), "".equals(userNameTmp) ? this.getUserName() : userNameTmp);
         this.dispose();
     }
 
@@ -301,7 +302,7 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
      * 覆写默认构造函数。
      */
     public UserAuthenticationGui() {
-        ClientCommunication clientCommunication=new ClientCommunication(this);
+        this.clientCommunication = new ClientCommunication(this);
         prepareGui();
     }
 
@@ -449,12 +450,14 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
                 loginBtn.setEnabled(false);
                 toRegisterBtn.setEnabled(false);
                 loginBtn.setText(pleaseWaitStr);
+                userAuthenticationManager.login();
                 break;
             //注册按钮
             case "register":
                 registerBtn.setEnabled(false);
                 toLoginBtn.setEnabled(false);
                 registerBtn.setText(pleaseWaitStr);
+                userAuthenticationManager.register();
                 break;
             //转到登录按钮
             case "toLogin":

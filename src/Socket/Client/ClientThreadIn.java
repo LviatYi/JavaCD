@@ -68,11 +68,11 @@ public class ClientThreadIn extends Thread {
                         break;
                     }
                     case GET_HISTORY_MESSAGE:{
-                        parent1.receiver(dp.historyMessageList,true);
+                        parent1.getChatManager().receiver(dp.historyMessageList,true);
                         break;
                     }
                     case SEND_MESSAGE:{
-                        parent1.receiver(dp.message,dp.senderId,dp.chatRoomID,dp.datetime);
+                        parent1.getChatManager().receiver(dp.message,dp.senderId,dp.chatRoomID,dp.datetime);
                         break;
                     }
                 }

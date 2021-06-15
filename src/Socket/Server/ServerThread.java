@@ -69,6 +69,7 @@ public class ServerThread extends Thread{
                             temp.loginStatus = LoginStatus.SUCCESS;
                             temp.type = DataPacket.transportType.LOGIN;
                             sendMsg(temp);
+                            temp.id = databaseManager.returnChatRoomId();
                             socketId = dataPacket.id;
                             MultiThread.addClient(this,databaseManager.getUserChatroomList(socketId));//认证成功，把这个用户加入服务器队列
                             break;
@@ -110,21 +111,23 @@ public class ServerThread extends Thread{
                     temp.chatRoomInfo=chatroomInfoTemp;
                     MultiThread.addChatRoomInfo(socketId,dataPacket.chatRoomInfo);
                     temp.type = DataPacket.transportType.CREATE_CHATROOM;
+                    temp.chatRoomID = databaseManager.returnChatRoomId();
                     sendMsg(temp);
                     break;
                 }
                 case EXIT_CHATROOM:
                 {
                     DataPacket temp = new DataPacket();
-                    temp.systemTip=databaseManager.exitChatroom(dataPacket.id,dataPacket.chatRoomInfo.getChatroomId());
+                    temp.systemTip=databaseManager.exitChatroom(dataPacket.id,dataPacket.chatRoomID);
                     temp.type= DataPacket.transportType.EXIT_CHATROOM;
                     MultiThread.delChatRoomInfo(dataPacket.id,dataPacket.chatRoomInfo);
                     sendMsg(temp);
+                    break;
                 }
                 case JOIN_CHATROOM:
                 {
                     DataPacket temp = new DataPacket();
-                    temp.chatroomStatus=databaseManager.joinChatroom(dataPacket.id,dataPacket.chatRoomInfo.getChatroomId());
+                    temp.chatroomStatus=databaseManager.joinChatroom(dataPacket.id,dataPacket.chatRoomID);
                     temp.type = DataPacket.transportType.JOIN_CHATROOM;
                     MultiThread.addChatRoomInfo(dataPacket.id,dataPacket.chatRoomInfo);
                     sendMsg(temp);
@@ -170,7 +173,7 @@ public class ServerThread extends Thread{
                 case RETURN_FRIEND_LIST:
                 {
                     DataPacket temp = new DataPacket();
-                    temp.friendList = databaseManager.getUserFriendList(dataPacket.friendInfo.getFriendId());
+                    temp.friendList = databaseManager.getUserFriendList(dataPacket.id);
                     temp.type = DataPacket.transportType.RETURN_FRIEND_LIST;
                     sendMsg(temp);
                     break;
@@ -188,8 +191,16 @@ public class ServerThread extends Thread{
                 case GET_HISTORY_MESSAGE:
                 {
                     DataPacket temp = new DataPacket();
-                    temp.historyMessageList= databaseManager.getHistoryMessage(dataPacket.chatRoomID);
+                    temp.historyMessageList= databaseManager.getHistoryMessage(dataPacket.geyHistoryGroupID);
                     temp.type = DataPacket.transportType.GET_HISTORY_MESSAGE;
+                    sendMsg(temp);
+                    break;
+                }
+                case FIND_FRIEND_INFO:
+                {
+                    DataPacket temp = new DataPacket();
+                    temp.friendInfo = databaseManager.returnUser(dataPacket.id);
+                    temp.type= DataPacket.transportType.FIND_FRIEND_INFO;
                     sendMsg(temp);
                     break;
                 }
@@ -199,6 +210,7 @@ public class ServerThread extends Thread{
                     temp.chatRoomInfo = databaseManager.getChatroomInfo(dataPacket.chatRoomID);
                     temp.type= DataPacket.transportType.FIND_CHATROOM_INFO_THROUGH_ID;
                     sendMsg(temp);
+                    break;
                 }
                 case FIND_CHATROOM_INFO_THROUGH_USER:
                 {
@@ -206,6 +218,7 @@ public class ServerThread extends Thread{
                     temp.chatRoomInfo = databaseManager.getPrivateChatroomInfo(dataPacket.id,dataPacket.friendRequestID);
                     temp.type= DataPacket.transportType.FIND_CHATROOM_INFO_THROUGH_ID;
                     sendMsg(temp);
+                    break;
                 }
                 default:
                     break;

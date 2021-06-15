@@ -129,7 +129,7 @@ public class ServerThread extends Thread{
                     DataPacket temp = new DataPacket();
                     temp.chatroomStatus=databaseManager.joinChatroom(dataPacket.id,dataPacket.chatRoomID);
                     temp.type = DataPacket.transportType.JOIN_CHATROOM;
-                    MultiThread.addChatRoomInfo(dataPacket.id,dataPacket.chatRoomInfo);
+                    MultiThread.addChatRoomInfo(dataPacket.id, databaseManager.getChatroomInfo(dataPacket.chatRoomID));
                     sendMsg(temp);
                     break;
                 }

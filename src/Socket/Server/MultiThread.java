@@ -9,6 +9,8 @@ import java.io.IOException;
 
 import java.util.Vector;
 
+import static Socket.tools.DataPacket.transportType.CHATROOM_NEW_MEMBER;
+
 /**
  * 定义一个管理类，相当于一个中介，处理线程，转发消息
  * 这个只提供方法调用，不需要实例化对象，因此都是静态方法
@@ -39,13 +41,24 @@ public class MultiThread {
         }
     }
 
-    public static void addChatRoomInfo(String id,ChatroomInfo chatroomInfo)
-    {
+    public static void addChatRoomInfo(String id,ChatroomInfo chatroomInfo) throws IOException {
         for (ThreadManager temp: threadList) {
             if(temp.thread.socketId.equals(id))
             {
                 temp.chatroomList.add(chatroomInfo);
                 break;
+            }
+        }
+        DataPacket dataPacket = new DataPacket();
+        dataPacket.chatRoomInfo = chatroomInfo;
+        dataPacket.type = CHATROOM_NEW_MEMBER;
+        for(ThreadManager temp:threadList){
+            for (ChatroomInfo roomTemp:temp.chatroomList.getList())
+            {
+                if(roomTemp.getChatroomId().equals(chatroomInfo.getChatroomId()))
+                {
+                    temp.thread.sendMsg(dataPacket);
+                }
             }
         }
     }

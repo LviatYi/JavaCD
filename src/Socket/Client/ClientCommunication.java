@@ -56,7 +56,6 @@ public class ClientCommunication implements Client {
     public static ClientCommunication getClientCommunication(ChatroomGui parent) {
         if (instance == null) {
             try {
-
                 instance = new ClientCommunication(parent);
             } catch (IOException ignored) {
             }

@@ -90,16 +90,16 @@ public class UserAuthenticationManager {
     /**
      * 账号
      */
-    private String id;
+    private String id="";
     /**
      * 昵称
      */
-    private String name;
+    private String name="";
     private boolean nameIsChanged;
     /**
      * 密码
      */
-    private String password;
+    private String password="";
     private boolean passwordIsChanged;
 
     // Constant
@@ -139,7 +139,7 @@ public class UserAuthenticationManager {
     /**
      * 隐藏默认构造函数
      */
-    public UserAuthenticationManager(UserAuthenticationGui parent) {
+    private UserAuthenticationManager(UserAuthenticationGui parent) {
         this.parent1 = parent;
     }
     private UserAuthenticationManager(ChatroomGui parent) {
@@ -152,6 +152,12 @@ public class UserAuthenticationManager {
      * @return 用户权限管理器
      */
     public static UserAuthenticationManager getUserAuthenticationManager(ChatroomGui parent) {
+        if (instance == null) {
+            instance = new UserAuthenticationManager(parent);
+        }
+        return instance;
+    }
+    public static UserAuthenticationManager getUserAuthenticationManager(UserAuthenticationGui parent) {
         if (instance == null) {
             instance = new UserAuthenticationManager(parent);
         }

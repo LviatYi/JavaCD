@@ -44,7 +44,7 @@ public class  SettingManager implements ClientManager {
         this.parent = parent;
         this.selfId = selfId;
         this.selfName = selfName;
-        userAuthenticationManager = UserAuthenticationManager.getUserAuthenticationManager(null);
+        userAuthenticationManager = UserAuthenticationManager.getUserAuthenticationManager(parent);
     }
 
     /**

@@ -23,9 +23,10 @@ public class ServerThread extends Thread{
 
     private DataOutputStream ous ;
     public ServerThread(Socket client) {
+        this.databaseManager=new DatabaseManager();
         this.client=client;
     }
-    public DatabaseManager databaseManager =new DatabaseManager();
+    public DatabaseManager databaseManager;
     public String socketId;
 
     @Override

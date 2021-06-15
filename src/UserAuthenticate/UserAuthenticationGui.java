@@ -34,6 +34,8 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
     private UserAuthenticationManager userAuthenticationManager = UserAuthenticationManager.getUserAuthenticationManager(null);
     private ChatroomGui parent;
 
+    private String userNameTmp="";
+
     // Gui Elements
 
     private JPanel mainPl;
@@ -288,7 +290,7 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
      * 进入主界面
      */
     private void entryMainWindow() {
-        ChatroomGui chatroomGui = new ChatroomGui(this.getUserId(), this.getUserName());
+        ChatroomGui chatroomGui = new ChatroomGui(this.getUserId(), "".equals(userNameTmp)? this.getUserName():userNameTmp);
         this.dispose();
     }
 
@@ -680,8 +682,8 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
     }
 
     @Override
-    @Deprecated
     public boolean receiver(String userName) {
+        this.userNameTmp = userName;
         return false;
     }
 

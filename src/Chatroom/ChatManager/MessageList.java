@@ -91,7 +91,7 @@ public class MessageList {
      * @param message 待加入的信息.
      * @return 插入成功的 ChatroomId.
      */
-    String addMessage(Message message) {
+    public String addMessage(Message message) {
         return addMessage(message, false);
     }
 
@@ -101,7 +101,7 @@ public class MessageList {
      * @param messageList 待加入的多条信息.
      * @return 插入成功的 ChatroomId.
      */
-    String addMessage(MessageList messageList) {
+    public String addMessage(MessageList messageList) {
         return addMessage(messageList, false);
     }
 
@@ -112,7 +112,7 @@ public class MessageList {
      * @param isFront 是否插入到前端.
      * @return 插入成功的 ChatroomId.
      */
-    String addMessage(Message message, boolean isFront) {
+    public String addMessage(Message message, boolean isFront) {
         if (message != null) {
             if (isFront) {
                 if (message.getChatroomId().equals(this.getChatroomId())) {
@@ -136,7 +136,7 @@ public class MessageList {
      * @param isFront     是否插入到前端.
      * @return 插入成功的 ChatroomId.
      */
-    String addMessage(MessageList messageList, boolean isFront) {
+    public String addMessage(MessageList messageList, boolean isFront) {
         if (messageList != null) {
             if (isFront) {
                 if (messageList.getChatroomId().equals(this.getChatroomId())) {

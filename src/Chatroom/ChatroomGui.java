@@ -375,6 +375,7 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
     // Field
 
     private UserAuthenticationGui userAuthenticationGui;
+    private String newChatroomIdTmp;
 
     // Gui Elements
 
@@ -677,6 +678,7 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
         sendMsgBtn.setText(sendMsgBtnStr);
         exitBtn.setText(exitBtnStr);
 
+
         // 添加侦听器
         addChatroomBtn.addActionListener(this);
         delChatroomBtn.addActionListener(this);
@@ -753,12 +755,6 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
             updateFriendPl();
         }
     }
-
-    //Exist for DEBUG
-    public static void main(String[] args) {
-        UserAuthenticationGui userAuthenticationGui = new UserAuthenticationGui();
-    }
-    //End
 
     // Interaction
 
@@ -1324,8 +1320,11 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
     }
 
     @Override
-    @Deprecated
     public boolean receiver(String chatroomId, boolean isNewChatroomId) {
+        if (isNewChatroomId) {
+            this.newChatroomIdTmp = chatroomId;
+            chatroomIdTf.setText(newChatroomIdTmp);
+        }
         return false;
     }
 }

@@ -163,11 +163,25 @@ public class ChatroomInfo {
         return null;
     }
 
+    /**
+     * 聊天室是否为私有的
+     * @return 聊天室是否为私有的
+     */
     public boolean isPrivate() {
         if (this.chatroomType == ChatroomType.PRIVATE) {
             return true;
         } else {
             return false;
         }
+    }
+
+    /**
+     * 聊天室新增成员
+     * @param friendInfo 新增成员 Info
+     * @return 新增状态
+     */
+    public boolean addMember(FriendInfo friendInfo){
+        this.friendList.add(friendInfo);
+        return true;
     }
 }

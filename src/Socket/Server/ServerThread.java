@@ -2,6 +2,7 @@ package Socket.Server;
 
 import DataBase.Connect;
 import Socket.tools.DataPacket;
+import Status.*;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
@@ -50,10 +51,10 @@ public class ServerThread extends Thread{
                     int id = database.Register(dataPacket.name, dataPacket.password);
                     DataPacket temp = new DataPacket();
                     if (id == 0) {
-                        temp.registerStatus = DataPacket.MSGRegisterStatus.CONNECTION_FAILED;
+                        temp.registerStatus = RegisterStatus.CONNECTION_FAILED;
                         temp.type = DataPacket.transportType.REGISTER;
                     } else {
-                        temp.registerStatus = DataPacket.MSGRegisterStatus.SUCCESS;
+                        temp.registerStatus = RegisterStatus.SUCCESS;
                         temp.type = DataPacket.transportType.REGISTER;
                         temp.id = String.valueOf(id);
                     }
@@ -68,7 +69,7 @@ public class ServerThread extends Thread{
                     {
                         case SUCCESS: {
                             DataPacket temp= new DataPacket();
-                            temp.loginStatus = DataPacket.MSGLoginStatus.SUCCESS;
+                            temp.loginStatus = LoginStatus.SUCCESS;
                             temp.type = DataPacket.transportType.LOGIN;
                             sendMsg(temp);
                             socketId = dataPacket.id;
@@ -78,7 +79,7 @@ public class ServerThread extends Thread{
                         case ID_NOT_EXIST:
                         {
                             DataPacket temp= new DataPacket();
-                            temp.loginStatus = DataPacket.MSGLoginStatus.ID_NOT_EXIST;
+                            temp.loginStatus = LoginStatus.ID_NOT_EXIST;
                             temp.type = DataPacket.transportType.LOGIN;
                             sendMsg(temp);
                             break;
@@ -86,7 +87,7 @@ public class ServerThread extends Thread{
                         case PASSWORD_ERROR:
                         {
                             DataPacket temp= new DataPacket();
-                            temp.loginStatus = DataPacket.MSGLoginStatus.PASSWORD_ERROR;
+                            temp.loginStatus = LoginStatus.PASSWORD_ERROR;
                             temp.type = DataPacket.transportType.LOGIN;
                             sendMsg(temp);
                             break;

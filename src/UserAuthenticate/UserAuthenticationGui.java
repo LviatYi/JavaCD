@@ -32,7 +32,7 @@ import java.util.Date;
 public class UserAuthenticationGui extends JFrame implements ActionListener, FocusListener, ClientManager {
     // Manager
 
-    private UserAuthenticationManager userAuthenticationManager = UserAuthenticationManager.getUserAuthenticationManager(null);
+    private UserAuthenticationManager userAuthenticationManager = new UserAuthenticationManager(this);
     private ClientCommunication clientCommunication;
     private ChatroomGui parent;
 
@@ -62,6 +62,13 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
     private JButton registerBtn;
     private JButton toRegisterBtn;
     private JButton toLoginBtn;
+
+    // Getter Setter
+
+    public ClientCommunication getClientCommunication() {
+        return this.clientCommunication;
+    }
+
 
     // Display Text
 

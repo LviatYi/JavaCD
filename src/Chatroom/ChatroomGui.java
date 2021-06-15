@@ -630,7 +630,7 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
         this.chatroomManager = ChatroomManager.getChatroomManager(this);
         this.addressManager = AddressManager.getAddressManager(this);
         this.chatManager = ChatManager.getChatManager(this);
-
+        this.clientCommunication = getClientCommunication();
         this.settingManager.setSelfId(selfId);
         this.settingManager.setSelfName(selfName);
 
@@ -1309,7 +1309,7 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
 
     @Override
     @Deprecated
-    public boolean receiver(RegisterStatus registerStatus,String userId) {
+    public boolean receiver(RegisterStatus registerStatus, String userId) {
         return false;
     }
 

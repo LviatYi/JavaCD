@@ -85,7 +85,8 @@ public class UserAuthenticationManager {
     /**
      * 父级元素
      */
-    ChatroomGui parent;
+    UserAuthenticationGui parent1;
+    ChatroomGui parent2;
     /**
      * 账号
      */
@@ -138,8 +139,11 @@ public class UserAuthenticationManager {
     /**
      * 隐藏默认构造函数
      */
+    public UserAuthenticationManager(UserAuthenticationGui parent) {
+        this.parent1 = parent;
+    }
     private UserAuthenticationManager(ChatroomGui parent) {
-        this.parent = parent;
+        this.parent2 = parent;
     }
 
     /**
@@ -220,6 +224,8 @@ public class UserAuthenticationManager {
         return name;
     }
 
+
+
     // Function
 
     /**
@@ -228,10 +234,10 @@ public class UserAuthenticationManager {
      * @return 登录状态
      */
     public LoginStatus login() {
-        parent.getClientCommunication().login(this.id,this.password);
+        parent1.getClientCommunication().login(this.id,this.password);
         this.passwordIsChanged = false;
         this.nameIsChanged = false;
-        return LoginStatus.CONNECTION_FAILED;
+        return LoginStatus.SUCCESS;
     }
 
     /**
@@ -240,10 +246,10 @@ public class UserAuthenticationManager {
      * @return 注册状态
      */
     public RegisterStatus register() {
-        parent.getClientCommunication().register(this.name,this.password);
+        parent1.getClientCommunication().register(this.name,this.password);
         this.passwordIsChanged = false;
         this.nameIsChanged = false;
-        return RegisterStatus.CONNECTION_FAILED;
+        return RegisterStatus.SUCCESS;
     }
 
     /**
@@ -252,10 +258,10 @@ public class UserAuthenticationManager {
      */
     public boolean setNew() {
         if (this.nameIsChanged) {
-            parent.getClientCommunication().modifyName(name);
+            parent1.getClientCommunication().modifyName(name);
         }
         if (this.passwordIsChanged) {
-            parent.getClientCommunication().modifyPassword(Encryption.encryptPassword(password));
+            parent1.getClientCommunication().modifyPassword(Encryption.encryptPassword(password));
         }
         this.passwordIsChanged = false;
         this.nameIsChanged = false;

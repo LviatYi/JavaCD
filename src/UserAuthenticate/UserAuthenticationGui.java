@@ -263,11 +263,7 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
      */
     private void updateRegisterBtn() {
         if (registerBtn.isVisible()) {
-            if (nameStatusLb.getText().equals(qualifiedStatusStr) && passwordStatusLb.getText().equals(qualifiedStatusStr) && password2StatusLb.getText().equals(qualifiedStatusStr)) {
-                registerBtn.setEnabled(true);
-            } else {
-                registerBtn.setEnabled(false);
-            }
+            registerBtn.setEnabled(nameStatusLb.getText().equals(qualifiedStatusStr) && passwordStatusLb.getText().equals(qualifiedStatusStr) && password2StatusLb.getText().equals(qualifiedStatusStr));
         }
     }
 
@@ -276,11 +272,7 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
      */
     private void updateLoginBtn() {
         if (loginBtn.isVisible()) {
-            if (idStatusLb.getText().equals(qualifiedStatusStr) && passwordStatusLb.getText().equals(qualifiedStatusStr)) {
-                loginBtn.setEnabled(true);
-            } else {
-                loginBtn.setEnabled(false);
-            }
+            loginBtn.setEnabled(idStatusLb.getText().equals(qualifiedStatusStr) && passwordStatusLb.getText().equals(qualifiedStatusStr));
         }
     }
 

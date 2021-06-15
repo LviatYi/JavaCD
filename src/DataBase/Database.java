@@ -13,59 +13,55 @@ import java.util.List;
 public interface Database {
 
 
-    /**
-     * 登录  查询name和password是否与数据库匹配
-     * @param id       用户账号
-     * @param password 用户密码
-     * @return
-     * SUCCESS  账号存在&密码正确
-     * PASSWORD_ERROR  账号存在&密码错误
-     * ID_NOT_EXIST   账号不存在
-     */
-    Connect.LoginStatus LogIn(String id, String password);
+     /**
+      * 登录  查询name和password是否与数据库匹配
+      * @param id 用户账号
+      * @param password 用户密码
+      * @return SUCCESS  账号存在&密码正确
+      *         PASSWORD_ERROR  账号存在&密码错误
+      *         ID_NOT_EXIST   账号不存在
+      */
+     Connect.LoginStatus LogIn(String id, String password);
+
 
     /**
      * 注册  添加数据至数据库
-     * +
      *
      * @param password 用户密码
-     * @param name     用户昵称
-     * @return 录入信息并返回一个6-10的随机数字id（不重复）
+     * @param name 用户昵称
+     * @return  录入信息并返回一个6-10的随机数字id（不重复）
      */
-    int Register(String password, String name);
+    int Register( String password, String name);
 
-    /**
-     * //* 修改数据库中的密码
-     *
-     * @param id           用户id
+   /**
+     //* 修改数据库中的密码
+     * @param id 用户id
      * @param password_now 修改后的密码
-     * @return true/false
+    * @return  true/false
      */
-    int ModifyPassword(String id, String password_now);
+   int ModifyPassword(String id,String password_now);
 
     /**
      * 修改昵称
-     *
-     * @param id       用户id
+     * @param id 用户id
      * @param name_now 修改后的昵称
-     * @return 0/1
+     * @return  0/1
      */
-    int ModifyName(String id, String name_now);
+     int ModifyName(String id,String name_now);
 
     /**
      * 添加消息至数据库
-     *
-     * @param groupId  账号
-     * @param sender   发送者
-     * @param message  内容
+     * @param groupId 账号
+     * @param sender 发送者
+     * @param message 内容
      * @param datetime 客户端发送时间
-     * @return true/false
+     *
+     *@return  true/false
      */
     boolean SetMessage(String sender, String message, String groupId, Date datetime);
 
     /**
      * 返回聊天室历史消息
-     *
      * @param groupID 聊天室ID
      * @return DataPacket list
      */
@@ -73,15 +69,13 @@ public interface Database {
 
     /**
      * 添加聊天室进聊天室表（）
-     *
-     * @param chatroomType 聊天室类型
+     * @param isPrivate 是否是私有，在数据库聊天室属性添加私有为true
      * @return 返回随机群号（不重复）
      */
-    String CreateChatRoom(ChatroomInfo.ChatroomType chatroomType, String chatroomName);
+     String CreateChatRoom(boolean isPrivate,String chatroomName);
 
     /**
      * 删除指定聊天室
-     *
      * @param chatRoomId 聊天室
      * @return 成功
      */
@@ -89,71 +83,60 @@ public interface Database {
 
     /**
      * 退群
-     *
-     * @param id         退群人ID
+     * @param id 退群人ID
      * @param chatRoomID 退出聊天室ID
      * @return 成功1 不成功0
      */
-    int ExitChatRoom(String id, String chatRoomID);
+    int ExitChatRoom(String id,String chatRoomID);
 
     /**
      * 添加好友信息至好友表（friend）
-     *
-     * @param id        自己账号
+     * @param id 自己账号
      * @param id_friend 好友账号
-     * @return true/false
+     *@return  true/false
      */
-    int CreateFriend(String id, String id_friend);
+     int CreateFriend(String id,String id_friend);
 
     /**
      * 添加ID所有者到指定聊天室
-     *
-     * @param id         添加进聊天室的人
+     * @param id 添加进聊天室的人
      * @param chatRoomId 添加进的聊天室
      * @return 成功
      */
-    int JoinChatRoom(String id, String chatRoomId);
+     int JoinChatRoom(String id, String chatRoomId);
 
     /**
      * 输入好友账号将信息从数据库中删除
-     *
-     * @param id        自己ID
+     * @param id 自己ID
      * @param id_friend 好友ID
-     * @return true/false
+     *           @return  true/false
      */
-    int DeleteFriend(String id, String id_friend);
+     int DeleteFriend(String id,String id_friend);
+
+    /**
+     * 返回Friend 数组
+     * @param id 获取ID账号的好友列表
+     * @return String 数组
+     */
+     String[] getFriend(String id);
 
     /**
      * 获取id所在所有聊天室
-     *
-     * @param id id人所在所有聊天室
+     * @param id  id人所在所有聊天室
      * @return chatRoomList对象
      */
-    ChatroomList getGroup(String id);
+     ChatroomList getGroup(String id);
+
 
     /**
      * 获得用户的好友列表.
-     *
      * @param userInfo 用户 Info
      * @return 目标好友的好友列表.
      */
-    FriendList getUserFriendList(FriendInfo userInfo);
+    FriendInfo getUserFriendList(FriendInfo userInfo);
 
-    /**
-     * 通过聊天室ID寻找聊天室信息
-     *
-     * @param chatroomID 聊天室ID
-     * @return 返回聊天室信息
-     */
-    ChatroomList findChatRoomInfoThroughID(String chatroomID);
+    ChatroomInfo findChatRoomInfoThroughID(String chatroomID);
 
-    /**
-     * 通过两个人ID找到两个人私聊聊天室
-     *
-     * @param id       自己ID
-     * @param friendID 好友ID
-     * @return 返回私聊聊天室信息
-     */
-    ChatroomInfo findChatRoomInfoThroughUser(String id, String friendID);
+    ChatroomInfo findChatRoomInfoThroughUser(String id,String friendID);
 
 }

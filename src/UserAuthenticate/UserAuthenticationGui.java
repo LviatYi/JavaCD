@@ -734,7 +734,7 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
     }
 
     @Override
-    public boolean receiver(RegisterStatus registerStatus) {
+    public boolean receiver(RegisterStatus registerStatus,String userId) {
         switch (registerStatus){
             case SUCCESS:
                 entryMainWindow();
@@ -746,6 +746,12 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
     @Override
     @Deprecated
     public boolean receiver(String userName) {
+        return false;
+    }
+
+    @Override
+    @Deprecated
+    public boolean receiver(String chatroomId, boolean isNewChatroomId) {
         return false;
     }
 }

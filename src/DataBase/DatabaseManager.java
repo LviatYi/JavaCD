@@ -78,7 +78,7 @@ public class DatabaseManager implements DatabaseControl {
             ResultSet rs = st.executeQuery(sql);
             if (rs.next()) {
                 DatabaseManager DB = new DatabaseManager();
-                DB.random1();
+                random=DB.random1();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -104,13 +104,19 @@ public class DatabaseManager implements DatabaseControl {
             ResultSet rs = st.executeQuery(sql);
             if (rs.next()) {
                 DatabaseManager DB = new DatabaseManager();
-                DB.random2();
+                random=DB.random2();
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         //System.out.println(a1);
         return random;
+    }
+    public String returnChatRoomId()
+    {
+         DatabaseManager DB=new DatabaseManager();
+         String Id=DB.random2();
+         return Id;
     }
 
 

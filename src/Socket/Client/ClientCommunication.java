@@ -87,13 +87,11 @@ public class ClientCommunication implements Client {
             mes.chatRoomName = chatroomInfo.getChatroomName();
             String temp = JSONObject.toJSONString(mes);
             co.setMessage(temp);
-            //todo 返回chatRoomID 0失败 1成功 异步返回info
         } else if (chatroomInfo.getChatroomType() == ChatroomInfo.ChatroomType.PRIVATE) {
             DataPacket mes = new DataPacket();
             mes.type = DataPacket.transportType.CREATE_PRIVATE_CHATROOM;
             String temp = JSONObject.toJSONString(mes);
             co.setMessage(temp);
-            //todo 返回chatRoomID 0失败 1成功
         }
         return chatroomInfo;
     }
@@ -105,7 +103,6 @@ public class ClientCommunication implements Client {
         mes.id = selfID;
         String temp = JSONObject.toJSONString(mes);
         co.setMessage(temp);
-        //TODO 返回friendInfo List
         return true;
     }
 
@@ -116,7 +113,6 @@ public class ClientCommunication implements Client {
         mes.id = selfID;
         String temp = JSONObject.toJSONString(mes);
         co.setMessage(temp);
-        //TODO 返回ChatRoomInfo List
         return true;
     }
 
@@ -142,7 +138,6 @@ public class ClientCommunication implements Client {
         mes.type = DataPacket.transportType.REGISTER;
         String temp = JSONObject.toJSONString(mes);
         co.setMessage(temp);
-        //todo 返回枚举类 和 id
         return true;
     }
 
@@ -154,7 +149,6 @@ public class ClientCommunication implements Client {
         mes.type = DataPacket.transportType.LOGIN;
         String temp = JSONObject.toJSONString(mes);
         co.setMessage(temp);
-        //todo 返回枚举类
         return true;
     }
 
@@ -166,8 +160,6 @@ public class ClientCommunication implements Client {
         mes.geyHistoryGroupID = chatroomInfo.getChatroomId();
         String temp = JSONObject.toJSONString(mes);
         co.setMessage(temp);
-        //todo 返回Message List 改传输参数
-
         return null;
     }
 
@@ -249,7 +241,6 @@ public class ClientCommunication implements Client {
         mes.friendRequestID = userID2;
         String temp = JSONObject.toJSONString(mes);
         co.setMessage(temp);
-        //todo 返回ChatRoomInfo
         return null;
     }
 

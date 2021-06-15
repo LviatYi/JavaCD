@@ -14,6 +14,9 @@ import Status.LoginStatus;
 import java.util.Date;
 import java.util.List;
 
+
+
+
 /**
  * 向 Socket_Server 提供数据库控制函数
  * @author topkang
@@ -22,6 +25,12 @@ import java.util.List;
  * @date 2021/6/15
  */
 public interface DatabaseControl {
+    /**
+     *@return 返回聊天室Id
+     */
+    public String returnChatRoomId();
+
+
     /**
      *
      * @param id 用户 ID

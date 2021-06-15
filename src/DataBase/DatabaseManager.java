@@ -4,7 +4,6 @@ import Chatroom.ChatManager.Message;
 import Chatroom.ChatManager.MessageList;
 import Chatroom.ChatroomManager.ChatroomInfo;
 import Chatroom.ChatroomManager.ChatroomList;
-import Chatroom.ChatroomManager.ChatroomManager;
 import Chatroom.FriendManager.FriendInfo;
 import Chatroom.FriendManager.FriendList;
 import Status.ChatroomStatus;
@@ -15,14 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.sql.*;
 import java.util.*;
-import java.util.Date;
-import java.util.List;
 
-import Chatroom.ChatManager.Message;
-import Chatroom.ChatManager.MessageList;
-import Chatroom.ChatroomManager.ChatroomInfo;
-import Chatroom.ChatroomManager.ChatroomList;
-import Chatroom.FriendManager.FriendInfo;
 
 /**
  * 数据库管理程序
@@ -53,9 +45,9 @@ public class DatabaseManager implements DatabaseControl {
         try {
             con = DriverManager.getConnection(url, "SA", "JavaCD2021");
             sta = con.createStatement();
-            System.out.println("连接成功");
+            //System.out.println("连接成功");
         } catch (SQLException e) {
-            System.out.println("连接失败");
+            //System.out.println("连接失败");
             e.printStackTrace();
         }
         return con;
@@ -78,7 +70,7 @@ public class DatabaseManager implements DatabaseControl {
             ResultSet rs = st.executeQuery(sql);
             if (rs.next()) {
                 DatabaseManager DB = new DatabaseManager();
-                DB.random1();
+                random=DB.random1();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -95,7 +87,7 @@ public class DatabaseManager implements DatabaseControl {
         //System.out.println(num);
         int a = (int) Math.pow(10, (num - 1));
         int random6 = (int) ((Math.random() * 9 + 1) * a);
-        String random = new String();
+        String random = Integer.toString(random6);
         // String a1 = String.valueOf(random6);
         con = getConnection();
         try {
@@ -104,13 +96,19 @@ public class DatabaseManager implements DatabaseControl {
             ResultSet rs = st.executeQuery(sql);
             if (rs.next()) {
                 DatabaseManager DB = new DatabaseManager();
-                DB.random2();
+                random=DB.random2();
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         //System.out.println(a1);
         return random;
+    }
+    public String returnChatRoomId()
+    {
+         DatabaseManager DB=new DatabaseManager();
+         String Id=DB.random2();
+         return Id;
     }
 
 
@@ -122,8 +120,6 @@ public class DatabaseManager implements DatabaseControl {
             String sql = "SELECT Password FROM UserInfo where ID='" + id + "'";//and password ='" + password + "'"\;
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()) {
-                //System.out.println(rs.getString(2));
-                //System.out.println(password);
                 String m1 = rs.getString(1);
                 if (password.equals(m1)) return LoginStatus.SUCCESS;
                 else {
@@ -235,14 +231,13 @@ public class DatabaseManager implements DatabaseControl {
             Statement st = con.createStatement();
             String sql = "select * from Message where ChatRoomId='" + chatroomId + "'";
             ResultSet rs = st.executeQuery(sql);
-            int i = 0;
             while (rs.next()) {
                 String senderId = rs.getString(1);
                 String chatRoomId = rs.getString(2);
                 String content = rs.getString(3);
                 Date sendTime = rs.getDate(4);
 
-                messageList.addMessage(new Message(content, senderId, chatroomId, sendTime));
+                messageList.addMessage(new Message(content, senderId, chatRoomId, sendTime));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -255,7 +250,7 @@ public class DatabaseManager implements DatabaseControl {
     public ChatroomInfo createChatroom(ChatroomInfo chatroomInfo, FriendInfo creatorInfo) {
         con = getConnection();
         DatabaseManager DB = new DatabaseManager();
-        String chatRoomId = DB.random1();
+        String chatRoomId = DB.random2();
         String chatroomName = chatroomInfo.getChatroomName();
         ChatroomInfo.ChatroomType chatroomType = chatroomInfo.getChatroomType();
         String userId = creatorInfo.getFriendId();
@@ -283,12 +278,10 @@ public class DatabaseManager implements DatabaseControl {
         }
         return null;
     }
-
     void insertChatroom(String id, String chatroomID)//将id和chatroom插入到聊天室成员表
     {
         con = getConnection();
         try {
-            int idf = Integer.parseInt(id);
             String sql = "insert into Chatroom(ChatroomID,UserID) values(?,?)";
             PreparedStatement st = con.prepareStatement(sql);
             st.setString(1, chatroomID);
@@ -352,7 +345,7 @@ public class DatabaseManager implements DatabaseControl {
     public boolean addFriend(String id, String id_friend) {
         con = getConnection();
         try {
-            String sql = "insert into FriendRelationship(ID1,Id2) values(?,?),(?,?)";
+            String sql = "insert into FriendRelationship(ID1,ID2) values(?,?),(?,?)";
             PreparedStatement st = con.prepareStatement(sql);
             st.setString(1, id);
             st.setString(2, id_friend);
@@ -420,8 +413,9 @@ public class DatabaseManager implements DatabaseControl {
         con = getConnection();
 
         try {
-            String sql = "select * from ChatroomInfo where Authentic=1";
+            String sql = "select * from ChatroomInfo where ID=? and Authentic=1";
             PreparedStatement st = con.prepareStatement(sql);
+            st.setString(1,chatroomId);
             ResultSet rs1 = st.executeQuery();
             while (rs.next()) {
                 return true;
@@ -481,7 +475,7 @@ public class DatabaseManager implements DatabaseControl {
         String friendID = new String();
         FriendList friendList = new FriendList();
         try {
-            String sql = "select UserInfo.Name,FriendRelationship.ID2 from UserInfo,FriendRelationship where FriendRelationship.ID1='?' and UserInfo.ID=FriendRelationship.ID2";
+            String sql = "select DISTINCT UserInfo.Name,FriendRelationship.ID2 from UserInfo,FriendRelationship where FriendRelationship.ID1='?' and UserInfo.ID=FriendRelationship.ID2";
             PreparedStatement st = con.prepareStatement(sql);
             st.setString(1, userId);
             ResultSet rs = st.executeQuery();
@@ -506,9 +500,8 @@ public class DatabaseManager implements DatabaseControl {
         int Authentic1;
         ChatroomList chatroomList = new ChatroomList();
         ChatroomInfo.ChatroomType Authentic;
-
         try {
-            String sql = "select ChatroomInfo.ID,ChatroomInfo.Name,ChatroomInfo.Authentic from ChatroomInfo,Chatroom where Chatroom.UserID='?' and Chatroom.ChatroomID=ChatroomInfo.ID";
+            String sql = "select DISTINCT ChatroomInfo.ID,ChatroomInfo.Name,ChatroomInfo.Authentic from ChatroomInfo,Chatroom where Chatroom.UserID='?' and Chatroom.ChatroomID=ChatroomInfo.ID";
             PreparedStatement st = con.prepareStatement(sql);
             st.setString(1, userId);
             ResultSet rs = st.executeQuery();
@@ -571,7 +564,7 @@ public class DatabaseManager implements DatabaseControl {
         ChatroomList chatroomList = new ChatroomList();
         ChatroomInfo.ChatroomType Authentic;
         DatabaseManager DB = new DatabaseManager();
-        String[] chatroomID = new String[10];
+        String[] chatroomID = new String[20];
         chatroomID = DB.getSameChatroom(userId1, userId2);
         int i = 0;
         while (chatroomID[i] != null) {
@@ -598,7 +591,6 @@ public class DatabaseManager implements DatabaseControl {
         }
         return chatroomList;
     }
-
     public String[] getSameChatroom(String userId1, String userId2) {//选择两个人都在的群ID
         con = getConnection();
         String ID = new String();
@@ -608,7 +600,7 @@ public class DatabaseManager implements DatabaseControl {
         ChatroomInfo.ChatroomType Authentic;
         String[] same = new String[10];
         try {
-            String sql = "select DISTINCT a.ChatroomID from Chatroom a,Chatroom b where a.userID=? and b.UserID=?";
+            String sql = "select DISTINCT a.ChatroomID from Chatroom a,Chatroom b where a.UserID=? and b.UserID=?";
             PreparedStatement st = con.prepareStatement(sql);
             st.setString(1, userId1);
             st.setString(2, userId2);
@@ -662,7 +654,6 @@ public class DatabaseManager implements DatabaseControl {
             }
             i++;
         }
-
         return null;
     }
 }

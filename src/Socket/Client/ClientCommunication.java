@@ -81,18 +81,11 @@ public class ClientCommunication implements Client {
 
     @Override
     public ChatroomInfo addChatRoom(ChatroomInfo chatroomInfo) {
-        if (chatroomInfo.getChatroomType() == ChatroomInfo.ChatroomType.PUBLIC) {
-            DataPacket mes = new DataPacket();
-            mes.type = DataPacket.transportType.CREATE_CHATROOM;
-            mes.chatRoomInfo = chatroomInfo;
-            String temp = JSONObject.toJSONString(mes);
-            co.setMessage(temp);
-        } else if (chatroomInfo.getChatroomType() == ChatroomInfo.ChatroomType.PRIVATE) {
-            DataPacket mes = new DataPacket();
-            mes.type = DataPacket.transportType.CREATE_PRIVATE_CHATROOM;
-            String temp = JSONObject.toJSONString(mes);
-            co.setMessage(temp);
-        }
+        DataPacket mes = new DataPacket();
+        mes.type = DataPacket.transportType.CREATE_CHATROOM;
+        mes.chatRoomInfo = chatroomInfo;
+        String temp = JSONObject.toJSONString(mes);
+        co.setMessage(temp);
         return chatroomInfo;
     }
 
@@ -223,7 +216,7 @@ public class ClientCommunication implements Client {
             dos.flush();
             while (true) {
                 DataPacket dp = JSON.parseObject(dis.readUTF(), DataPacket.class);
-                if (dp.type == DataPacket.transportType.FIND_CHATROOM_INFO_THROUGH_ID&& dp.systemTip == true) {
+                if (dp.type == DataPacket.transportType.FIND_CHATROOM_INFO_THROUGH_ID) {
                     return dp.chatRoomInfo;
                 }
             }

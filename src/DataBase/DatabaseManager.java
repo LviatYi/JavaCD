@@ -4,7 +4,6 @@ import Chatroom.ChatManager.Message;
 import Chatroom.ChatManager.MessageList;
 import Chatroom.ChatroomManager.ChatroomInfo;
 import Chatroom.ChatroomManager.ChatroomList;
-import Chatroom.ChatroomManager.ChatroomManager;
 import Chatroom.FriendManager.FriendInfo;
 import Chatroom.FriendManager.FriendList;
 import Status.ChatroomStatus;
@@ -15,14 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.sql.*;
 import java.util.*;
-import java.util.Date;
-import java.util.List;
 
-import Chatroom.ChatManager.Message;
-import Chatroom.ChatManager.MessageList;
-import Chatroom.ChatroomManager.ChatroomInfo;
-import Chatroom.ChatroomManager.ChatroomList;
-import Chatroom.FriendManager.FriendInfo;
 
 /**
  * 数据库管理程序
@@ -290,7 +282,6 @@ public class DatabaseManager implements DatabaseControl {
     {
         con = getConnection();
         try {
-            int idf = Integer.parseInt(id);
             String sql = "insert into Chatroom(ChatroomID,UserID) values(?,?)";
             PreparedStatement st = con.prepareStatement(sql);
             st.setString(1, chatroomID);
@@ -573,7 +564,7 @@ public class DatabaseManager implements DatabaseControl {
         ChatroomList chatroomList = new ChatroomList();
         ChatroomInfo.ChatroomType Authentic;
         DatabaseManager DB = new DatabaseManager();
-        String[] chatroomID = new String[10];
+        String[] chatroomID = new String[20];
         chatroomID = DB.getSameChatroom(userId1, userId2);
         int i = 0;
         while (chatroomID[i] != null) {

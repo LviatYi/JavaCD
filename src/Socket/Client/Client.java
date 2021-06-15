@@ -3,11 +3,12 @@ package Socket.Client;
 import Chatroom.ChatManager.Message;
 import Chatroom.ChatManager.MessageList;
 import Chatroom.ChatroomManager.ChatroomInfo;
+import Chatroom.FriendManager.FriendInfo;
 
 import java.io.IOException;
 
 /**
- * @author topkang
+ * @author IMposter
  * @date 2021/6/3 23:18
  * @version 1.0
  */
@@ -122,5 +123,12 @@ public interface Client {
      * @return 命令发送状态
      */
     public boolean joinChatRoom(ChatroomInfo chatRoom);
+
+    /**
+     * 通过ID找到一个人的信息
+     * @param userID
+     * @return 人的信息
+     */
+    public FriendInfo findFriend(String userID);
 
 }

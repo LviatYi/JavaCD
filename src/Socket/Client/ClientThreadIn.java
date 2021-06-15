@@ -32,51 +32,35 @@ public class ClientThreadIn extends Thread {
                 String str = in.readUTF();
                 DataPacket dp = JSON.parseObject(str, DataPacket.class);
                 switch (dp.type){
-                    case ADD_FRIEND:{
-                        //todo
-
-                    }
-                    case DEL_FRIEND:{
-                        //todo
-                    }
-                    case CREATE_CHATROOM:{
-
-                    }
-                    case CREATE_PRIVATE_CHATROOM:{
-
+                    case FIND_CHATROOM_INFO_THROUGH_USER:
+                    case CREATE_CHATROOM:
+                    case CREATE_PRIVATE_CHATROOM: {
+                        parent.receiver(dp.chatRoomInfo,false);
+                        break;
                     }
                     case RETURN_FRIEND_LIST:{
-
+                        parent.receiver(dp.friendList);
+                        break;
                     }
                     case RETURN_GROUP_LIST:{
-
+                        parent.receiver(dp.chatRoomList);
+                        break;
                     }
                     case REGISTER:{
-
+                        parent.receiver(dp.registerStatus);
+                        break;
                     }
                     case LOGIN:{
-
+                        parent.receiver(dp.loginStatus);
+                        break;
                     }
                     case GET_HISTORY_MESSAGE:{
-
-                    }
-                    case EXIT_CHATROOM:{
-
-                    }
-                    case FIND_CHATROOM_INFO_THROUGH_ID:{
-
-                    }
-                    case FIND_CHATROOM_INFO_THROUGH_USER:{
-
-                    }
-                    case MODIFY_NAME:{
-
-                    }
-                    case MODIFY_PASSWORD:{
-
+                        parent.receiver(dp.historyMessageList,true);
+                        break;
                     }
                     case SEND_MESSAGE:{
-
+                        parent.receiver(dp.message,dp.senderId,dp.chatRoomID,dp.datetime);
+                        break;
                     }
                 }
             }

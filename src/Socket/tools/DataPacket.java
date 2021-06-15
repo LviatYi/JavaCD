@@ -6,13 +6,13 @@ import Chatroom.ChatroomManager.ChatroomInfo;
 import Chatroom.ChatroomManager.ChatroomList;
 import Chatroom.FriendManager.FriendInfo;
 import Chatroom.FriendManager.FriendList;
-
+import Status.*;
 import java.util.Date;
 
 /**
  * Created with IntelliJ IDEA.
  *
- * @Author: topkang
+ * @Author: topkang,IMposter
  * @Date: 2021/06/05/11:24
  * @Description: Message class for json
  */
@@ -26,9 +26,9 @@ public class DataPacket {
     public String chatRoomID;
     public String chatRoomName;
     public transportType type;
-    public MSGLoginStatus loginStatus;
+    public LoginStatus loginStatus;
     public String geyHistoryGroupID;
-    public MSGRegisterStatus registerStatus;
+    public RegisterStatus registerStatus;
     public Message msg;
     public Date datetime;
     public int systemTip;
@@ -52,38 +52,11 @@ public class DataPacket {
         EXIT_CHATROOM,
         FIND_CHATROOM_INFO_THROUGH_ID,
         FIND_CHATROOM_INFO_THROUGH_USER,
+        FIND_FRIEND_INFO,
         ADD_FRIEND,
         DEL_FRIEND,
         RETURN_FRIEND_LIST,
         RETURN_GROUP_LIST
     }
-    public enum MSGLoginStatus{
-        /**
-         * 登录成功
-         */
-        SUCCESS,
-        /**
-         * 网络未连接
-         */
-        CONNECTION_FAILED,
-        /**
-         * 账号不存在
-         */
-        ID_NOT_EXIST,
-        /**
-         * 密码错误
-         */
-        PASSWORD_ERROR
-    }
-    public enum MSGRegisterStatus
-    {
-        /**
-         * 注册成功
-         */
-        SUCCESS,
-        /**
-         * 网络未连接
-         */
-        CONNECTION_FAILED
-    }
+
 }

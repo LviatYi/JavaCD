@@ -4,7 +4,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-
+/**
+ * @author IMposter
+ * @date 2021/6/3 23:18
+ * @version 1.0
+ */
 //获取当前时间
 public class Tool {
     public static String getTime() {

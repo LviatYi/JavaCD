@@ -7,6 +7,7 @@ import Chatroom.ChatroomManager.ChatroomList;
 import Chatroom.ChatroomManager.ChatroomManager;
 import Chatroom.FriendManager.FriendInfo;
 import Chatroom.FriendManager.FriendList;
+import Status.ChatroomStatus;
 import Status.LoginStatus;
 
 import java.sql.Connection;
@@ -367,17 +368,17 @@ public class DatabaseManager implements DatabaseControl {
 
 
     @Override
-    public ChatroomManager.ChatroomStatus joinChatroom(String id, String chatroomId) {
+    public ChatroomStatus joinChatroom(String id, String chatroomId) {
         DatabaseManager DB = new DatabaseManager();
         boolean result1 = DB.exist_chatroom(chatroomId);
         boolean result2 = DB.isPrivate(chatroomId);
         boolean result3 = DB.exist_user(id, chatroomId);
         if (result1 == false) {
-            return ChatroomManager.ChatroomStatus.NOT_EXIST;
+            return ChatroomStatus.NOT_EXIST;
         } else if (result3 == true) {
-            return ChatroomManager.ChatroomStatus.JOINED;
+            return ChatroomStatus.JOINED;
         } else if (result2 == true) {
-            return ChatroomManager.ChatroomStatus.PRIVATE;
+            return ChatroomStatus.PRIVATE;
         } else {
             con = getConnection();
             try {
@@ -386,7 +387,7 @@ public class DatabaseManager implements DatabaseControl {
                 st.setString(1, chatroomId);
                 st.setString(2, id);
                 int rs1 = st.executeUpdate();
-                return ChatroomManager.ChatroomStatus.QUALIFIED;
+                return ChatroomStatus.QUALIFIED;
             } catch (SQLException e) {
                 e.printStackTrace();
             }

@@ -8,6 +8,7 @@ import Chatroom.ChatroomManager.ChatroomManager;
 import Chatroom.FriendManager.FriendInfo;
 import Chatroom.FriendManager.FriendList;
 import Socket.tools.DataPacket;
+import Status.ChatroomStatus;
 import Status.LoginStatus;
 
 import java.util.Date;
@@ -125,7 +126,7 @@ public interface DatabaseControl {
      * @return 加入状态.
      *   若加入聊天室为 私人聊天室 则返回 false。
      */
-    ChatroomManager.ChatroomStatus joinChatroom(String id, String chatroomId);
+    ChatroomStatus joinChatroom(String id, String chatroomId);
 
     /**
      * 删除好友关系

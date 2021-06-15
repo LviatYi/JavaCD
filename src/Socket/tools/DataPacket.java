@@ -4,6 +4,7 @@ import Chatroom.ChatManager.Message;
 import Chatroom.ChatManager.MessageList;
 import Chatroom.ChatroomManager.ChatroomInfo;
 import Chatroom.ChatroomManager.ChatroomList;
+import Chatroom.ChatroomManager.ChatroomManager;
 import Chatroom.FriendManager.FriendInfo;
 import Chatroom.FriendManager.FriendList;
 import Status.*;
@@ -31,12 +32,13 @@ public class DataPacket {
     public RegisterStatus registerStatus;
     public Message msg;
     public Date datetime;
-    public int systemTip;
+    public boolean systemTip;
     public ChatroomInfo chatRoomInfo;
     public FriendList friendList;
     public FriendInfo friendInfo;
     public ChatroomList chatRoomList;
     public MessageList historyMessageList;
+    public ChatroomStatus chatroomStatus;
 
     public enum transportType{
         EXIT,

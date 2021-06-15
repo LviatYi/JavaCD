@@ -1,6 +1,8 @@
 package Socket.Server;
 
-import DataBase.Connect;
+import Chatroom.ChatroomManager.ChatroomInfo;
+import Chatroom.FriendManager.FriendInfo;
+import DataBase.DatabaseManager;
 import Socket.tools.DataPacket;
 import Status.*;
 import com.alibaba.fastjson.JSON;
@@ -23,7 +25,7 @@ public class ServerThread extends Thread{
     public ServerThread(Socket client) {
         this.client=client;
     }
-    public Connect database = new Connect();
+    public DatabaseManager databaseManager =new DatabaseManager();
     public String socketId;
 
     @Override
@@ -48,23 +50,18 @@ public class ServerThread extends Thread{
                 //注册
                 case REGISTER:
                 {
-                    int id = database.Register(dataPacket.name, dataPacket.password);
+                    String id = databaseManager.register(dataPacket.password,dataPacket.name);
                     DataPacket temp = new DataPacket();
-                    if (id == 0) {
-                        temp.registerStatus = RegisterStatus.CONNECTION_FAILED;
-                        temp.type = DataPacket.transportType.REGISTER;
-                    } else {
-                        temp.registerStatus = RegisterStatus.SUCCESS;
-                        temp.type = DataPacket.transportType.REGISTER;
-                        temp.id = String.valueOf(id);
-                    }
+                    temp.registerStatus = RegisterStatus.SUCCESS;
+                    temp.type = DataPacket.transportType.REGISTER;
+                    temp.id = id;
                     sendMsg(temp);
                     break;
                 }
                 //登录
                 case LOGIN:
                 {
-                    Connect.LoginStatus loginStatus = database.LogIn(dataPacket.id, dataPacket.password);
+                    LoginStatus loginStatus = databaseManager.login(dataPacket.id, dataPacket.password);
                     switch (loginStatus)
                     {
                         case SUCCESS: {
@@ -73,7 +70,7 @@ public class ServerThread extends Thread{
                             temp.type = DataPacket.transportType.LOGIN;
                             sendMsg(temp);
                             socketId = dataPacket.id;
-                            MultiThread.addClient(this,database.findChatRoomInfoThroughID(socketId));//认证成功，把这个用户加入服务器队列
+                            MultiThread.addClient(this,databaseManager.getUserChatroomList(socketId));//认证成功，把这个用户加入服务器队列
                             break;
                         }
                         case ID_NOT_EXIST:
@@ -100,27 +97,18 @@ public class ServerThread extends Thread{
                 //保存数据并向聊天室转发
                 case SEND_MESSAGE:
                 {
-                    database.SetMessage(dataPacket.senderId,dataPacket.message,dataPacket.chatRoomID, dataPacket.datetime);
+                    databaseManager.recordMessage(dataPacket.senderId,dataPacket.message,dataPacket.chatRoomID, dataPacket.datetime);
                     MultiThread.castGroupMsg(dataPacket);//群发给在线用户已经收到的群发消息
                     break;
                 }
                 case CREATE_CHATROOM:
                 {
-                    String ID;
+                    ChatroomInfo chatroomInfoTemp;
                     DataPacket temp = new DataPacket();
-                    ID=database.CreateChatRoom(dataPacket.chatRoomInfo.getChatroomType(),dataPacket.chatRoomInfo.getChatroomName());
-                    if(ID.equals("-1"))
-                    {
-                        temp.systemTip =0;
-                    }
-                    else
-                    {
-                        temp.chatRoomID = ID;
-                        temp.systemTip = 1;
-                        database.JoinChatRoom(dataPacket.id,ID);
-                        dataPacket.chatRoomInfo.setChatroomId(ID);
-                        MultiThread.addChatRoomInfo(dataPacket.id,dataPacket.chatRoomInfo);
-                    }
+                    FriendInfo friendInfo = new FriendInfo(socketId," ");
+                    chatroomInfoTemp=databaseManager.createChatroom(dataPacket.chatRoomInfo,friendInfo);
+                    temp.chatRoomInfo=chatroomInfoTemp;
+                    MultiThread.addChatRoomInfo(socketId,dataPacket.chatRoomInfo);
                     temp.type = DataPacket.transportType.CREATE_CHATROOM;
                     sendMsg(temp);
                     break;
@@ -128,23 +116,17 @@ public class ServerThread extends Thread{
                 case EXIT_CHATROOM:
                 {
                     DataPacket temp = new DataPacket();
-                    temp.systemTip=database.ExitChatRoom(dataPacket.id,dataPacket.chatRoomInfo.getChatroomId());
+                    temp.systemTip=databaseManager.exitChatroom(dataPacket.id,dataPacket.chatRoomInfo.getChatroomId());
                     temp.type= DataPacket.transportType.EXIT_CHATROOM;
-                    if(temp.systemTip == 1)
-                    {
-                        MultiThread.delChatRoomInfo(dataPacket.id,dataPacket.chatRoomInfo);
-                    }
+                    MultiThread.delChatRoomInfo(dataPacket.id,dataPacket.chatRoomInfo);
                     sendMsg(temp);
                 }
                 case JOIN_CHATROOM:
                 {
                     DataPacket temp = new DataPacket();
-                    temp.systemTip =  database.JoinChatRoom(dataPacket.id,dataPacket.chatRoomInfo.getChatroomId());
+                    temp.chatroomStatus=databaseManager.joinChatroom(dataPacket.id,dataPacket.chatRoomInfo.getChatroomId());
                     temp.type = DataPacket.transportType.JOIN_CHATROOM;
-                    if(temp.systemTip == 1)
-                    {
-                        MultiThread.addChatRoomInfo(dataPacket.id,dataPacket.chatRoomInfo);
-                    }
+                    MultiThread.addChatRoomInfo(dataPacket.id,dataPacket.chatRoomInfo);
                     sendMsg(temp);
                     break;
                 }
@@ -152,7 +134,7 @@ public class ServerThread extends Thread{
                 case MODIFY_NAME:
                 {
                     DataPacket temp = new DataPacket();
-                    temp.systemTip= database.ModifyName(dataPacket.id, dataPacket.name);
+                    temp.systemTip= databaseManager.modifyName(dataPacket.id, dataPacket.name);
                     temp.type = DataPacket.transportType.MODIFY_NAME;
                     sendMsg(temp);
                     break;
@@ -161,7 +143,7 @@ public class ServerThread extends Thread{
                 case MODIFY_PASSWORD:
                 {
                     DataPacket temp = new DataPacket();
-                    temp.systemTip = database.ModifyPassword(dataPacket.id, dataPacket.password);
+                    temp.systemTip = databaseManager.modifyPassword(dataPacket.id, dataPacket.password);
                     temp.type = DataPacket.transportType.MODIFY_PASSWORD;
                     sendMsg(temp);
                     break;
@@ -170,7 +152,7 @@ public class ServerThread extends Thread{
                 case ADD_FRIEND:
                 {
                     DataPacket temp = new DataPacket();
-                    temp.systemTip=database.CreateFriend(dataPacket.id, dataPacket.friendRequestID);
+                    temp.systemTip=databaseManager.addFriend(dataPacket.id, dataPacket.friendRequestID);
                     temp.type = DataPacket.transportType.ADD_FRIEND;
                     sendMsg(temp);
                     break;
@@ -179,7 +161,7 @@ public class ServerThread extends Thread{
                 case DEL_FRIEND:
                 {
                     DataPacket temp = new DataPacket();
-                    database.DeleteFriend(dataPacket.id,dataPacket.friendRequestID);
+                    databaseManager.deleteFriend(dataPacket.id,dataPacket.friendRequestID);
                     temp.type = DataPacket.transportType.DEL_FRIEND;
                     sendMsg(temp);
                     break;
@@ -188,7 +170,7 @@ public class ServerThread extends Thread{
                 case RETURN_FRIEND_LIST:
                 {
                     DataPacket temp = new DataPacket();
-                    temp.friendList = database.getUserFriendList(dataPacket.friendInfo);
+                    temp.friendList = databaseManager.getUserFriendList(dataPacket.friendInfo.getFriendId());
                     temp.type = DataPacket.transportType.RETURN_FRIEND_LIST;
                     sendMsg(temp);
                     break;
@@ -197,7 +179,7 @@ public class ServerThread extends Thread{
                 case RETURN_GROUP_LIST:
                 {
                     DataPacket temp = new DataPacket();
-                    temp.chatRoomList = database.getGroup(dataPacket.id);
+                    temp.chatRoomList = databaseManager.getUserChatroomList(dataPacket.id);
                     temp.type = DataPacket.transportType.RETURN_GROUP_LIST;
                     sendMsg(temp);
                     break;
@@ -206,7 +188,7 @@ public class ServerThread extends Thread{
                 case GET_HISTORY_MESSAGE:
                 {
                     DataPacket temp = new DataPacket();
-                    temp.historyMessageList= database.GetGroupMessage(dataPacket.chatRoomID);
+                    temp.historyMessageList= databaseManager.getHistoryMessage(dataPacket.chatRoomID);
                     temp.type = DataPacket.transportType.GET_HISTORY_MESSAGE;
                     sendMsg(temp);
                     break;
@@ -214,14 +196,14 @@ public class ServerThread extends Thread{
                 case FIND_CHATROOM_INFO_THROUGH_ID:
                 {
                     DataPacket temp = new DataPacket();
-                    temp.chatRoomList = database.findChatRoomInfoThroughID(dataPacket.chatRoomID);
+                    temp.chatRoomInfo = databaseManager.getChatroomInfo(dataPacket.chatRoomID);
                     temp.type= DataPacket.transportType.FIND_CHATROOM_INFO_THROUGH_ID;
                     sendMsg(temp);
                 }
                 case FIND_CHATROOM_INFO_THROUGH_USER:
                 {
                     DataPacket temp = new DataPacket();
-                    temp.chatRoomInfo = database.findChatRoomInfoThroughUser(dataPacket.id,dataPacket.friendRequestID);
+                    temp.chatRoomInfo = databaseManager.getPrivateChatroomInfo(dataPacket.id,dataPacket.friendRequestID);
                     temp.type= DataPacket.transportType.FIND_CHATROOM_INFO_THROUGH_ID;
                     sendMsg(temp);
                 }

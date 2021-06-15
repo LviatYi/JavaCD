@@ -38,7 +38,7 @@ public class DataPacket {
     public FriendInfo friendInfo;
     public ChatroomList chatRoomList;
     public MessageList historyMessageList;
-    public ChatroomManager.ChatroomStatus chatroomStatus;
+    public ChatroomStatus chatroomStatus;
 
     public enum transportType{
         EXIT,

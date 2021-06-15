@@ -209,6 +209,16 @@ public class UserAuthenticationManager {
         return PasswordStatus.QUALIFIED;
     }
 
+    public String getUserId() {
+        return id;
+    }
+
+    public String getUserName() {
+        return name;
+    }
+
+    // Function
+
     /**
      * 尝试登录
      *

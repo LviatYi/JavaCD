@@ -28,8 +28,7 @@ import java.util.Date;
  * @className UserAuthenticationGUI
  * @date 2021/6/2
  */
-public class UserAuthenticationGui extends JFrame implements ActionListener, FocusListener, ClientManager
-{
+public class UserAuthenticationGui extends JFrame implements ActionListener, FocusListener, ClientManager {
     // Manager
 
     private UserAuthenticationManager userAuthenticationManager = UserAuthenticationManager.getUserAuthenticationManager(null);
@@ -244,14 +243,17 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
      * 密码错误建议文本
      */
     private String passwordWrongAdviceStr = "Please check the password you entered.";
+    /**
+     * 等待文本
+     */
+    private String pleaseWaitStr = "Please wait...";
 
     // Function
 
     /**
      * 更新 认证 按钮可用状态
      */
-    private void updateAuthenticationBtn()
-    {
+    private void updateAuthenticationBtn() {
         updateRegisterBtn();
         updateLoginBtn();
     }
@@ -259,15 +261,11 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
     /**
      * 更新 注册 按钮可用状态
      */
-    private void updateRegisterBtn()
-    {
-        if (registerBtn.isVisible())
-        {
-            if (nameStatusLb.getText().equals(qualifiedStatusStr) && passwordStatusLb.getText().equals(qualifiedStatusStr) && password2StatusLb.getText().equals(qualifiedStatusStr))
-            {
+    private void updateRegisterBtn() {
+        if (registerBtn.isVisible()) {
+            if (nameStatusLb.getText().equals(qualifiedStatusStr) && passwordStatusLb.getText().equals(qualifiedStatusStr) && password2StatusLb.getText().equals(qualifiedStatusStr)) {
                 registerBtn.setEnabled(true);
-            } else
-            {
+            } else {
                 registerBtn.setEnabled(false);
             }
         }
@@ -276,22 +274,30 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
     /**
      * 更新 登录 按钮可用状态
      */
-    private void updateLoginBtn()
-    {
-        if (loginBtn.isVisible())
-        {
-            if (idStatusLb.getText().equals(qualifiedStatusStr) && passwordStatusLb.getText().equals(qualifiedStatusStr))
-            {
+    private void updateLoginBtn() {
+        if (loginBtn.isVisible()) {
+            if (idStatusLb.getText().equals(qualifiedStatusStr) && passwordStatusLb.getText().equals(qualifiedStatusStr)) {
                 loginBtn.setEnabled(true);
-            } else
-            {
+            } else {
                 loginBtn.setEnabled(false);
             }
         }
     }
 
-    private void entryMainWindow(){
-//        ChatroomGui chatroomGui = new ChatroomGui(, "Abc");
+    public String getUserId() {
+        return userAuthenticationManager.getUserId();
+    }
+
+    public String getUserName() {
+        return userAuthenticationManager.getUserName();
+    }
+
+    /**
+     * 进入主界面
+     */
+    private void entryMainWindow() {
+        ChatroomGui chatroomGui = new ChatroomGui(this.getUserId(), this.getUserName());
+        this.dispose();
     }
 
     // Construction
@@ -299,8 +305,7 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
     /**
      * 覆写默认构造函数。
      */
-    public UserAuthenticationGui()
-    {
+    public UserAuthenticationGui() {
         prepareGui();
     }
 
@@ -309,8 +314,7 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
     /**
      * 准备此次 Gui
      */
-    private void prepareGui()
-    {
+    private void prepareGui() {
         //主窗体设置 标题 主布局 关闭事件 不允许控制窗口大小 设置大小 设置居中 设置可见性
         this.setTitle(titleFrame);
         this.setContentPane(mainPl);
@@ -366,8 +370,7 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
     /**
      * 准备第一幕
      */
-    private void prepareFirstGui()
-    {
+    private void prepareFirstGui() {
         idTf.selectAll();
         loginBtn.setEnabled(false);
         registerBtn.setEnabled(false);
@@ -380,131 +383,82 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
     }
 
     // Exist for DEBUG
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         UserAuthenticationGui uam = new UserAuthenticationGui();
     }
     // End
 
     // Interaction
 
-    private Action setId = new AbstractAction()
-    {
+    private Action setId = new AbstractAction() {
         @Override
-        public void actionPerformed(ActionEvent e)
-        {
+        public void actionPerformed(ActionEvent e) {
             passwordTf.requestFocus();
             passwordTf.selectAll();
         }
     };
-    private Action setName = new AbstractAction()
-    {
+    private Action setName = new AbstractAction() {
         @Override
-        public void actionPerformed(ActionEvent e)
-        {
+        public void actionPerformed(ActionEvent e) {
             passwordTf.requestFocus();
             passwordTf.selectAll();
         }
     };
-    private Action setPassword = new AbstractAction()
-    {
+    private Action setPassword = new AbstractAction() {
         @Override
-        public void actionPerformed(ActionEvent e)
-        {
+        public void actionPerformed(ActionEvent e) {
             if (loginBtn.isVisible()) {
                 mainPl.requestFocus();
-            } else
-            {
+            } else {
                 password2Tf.requestFocus();
                 password2Tf.selectAll();
             }
         }
     };
-    private Action setPassword2 = new AbstractAction()
-    {
+    private Action setPassword2 = new AbstractAction() {
         @Override
-        public void actionPerformed(ActionEvent e)
-        {
+        public void actionPerformed(ActionEvent e) {
             mainPl.requestFocus();
         }
     };
 
-    private Action toControlBtn = new AbstractAction()
-    {
+    private Action toControlBtn = new AbstractAction() {
         @Override
-        public void actionPerformed(ActionEvent e)
-        {
-            if (loginBtn.isVisible())
-            {
+        public void actionPerformed(ActionEvent e) {
+            if (loginBtn.isVisible()) {
                 loginBtn.requestFocus();
-            } else if (registerBtn.isVisible())
-            {
+            } else if (registerBtn.isVisible()) {
                 registerBtn.requestFocus();
             }
         }
     };
-    private Action login = new AbstractAction()
-    {
+    private Action login = new AbstractAction() {
         @Override
-        public void actionPerformed(ActionEvent e)
-        {
+        public void actionPerformed(ActionEvent e) {
             loginBtn.doClick();
         }
     };
-    private Action register = new AbstractAction()
-    {
+    private Action register = new AbstractAction() {
         @Override
-        public void actionPerformed(ActionEvent e)
-        {
+        public void actionPerformed(ActionEvent e) {
             registerBtn.doClick();
         }
     };
 
     @Override
-    public void actionPerformed(ActionEvent event)
-    {
-        switch (event.getActionCommand())
-        {
+    public void actionPerformed(ActionEvent event) {
+        switch (event.getActionCommand()) {
             //登录按钮
             case "login":
                 loginBtn.setEnabled(false);
-                switch (userAuthenticationManager.login())
-                {
-                    case SUCCESS:
-                        /**
-                         * TODO_LviatYi 切换到新的界面
-                         * date 2021/6/4
-                         */
-                        break;
-                    case ID_NOT_EXIST:
-                        JOptionPane.showMessageDialog(null, idNotExistAdviceStr, idNotExistStr, JOptionPane.ERROR_MESSAGE);
-                        break;
-                    case PASSWORD_ERROR:
-                        JOptionPane.showMessageDialog(null, passwordWrongAdviceStr, passwordWrongStr, JOptionPane.ERROR_MESSAGE);
-                        break;
-                    case CONNECTION_FAILED:
-                        JOptionPane.showMessageDialog(null, connectionErrorAdviceStr, connectionErrorStr, JOptionPane.ERROR_MESSAGE);
-                        break;
-                    default:
-                        break;
-                }
-                loginBtn.setEnabled(true);
+                toRegisterBtn.setEnabled(false);
+                loginBtn.setText(pleaseWaitStr);
                 break;
             //注册按钮
             case "register":
-                switch (userAuthenticationManager.register())
-                {
-                    case SUCCESS:
-                        /**
-                         * TODO_LviatYi 切换到新的界面
-                         * date 2021/6/4
-                         */
-                    case CONNECTION_FAILED:
-                        JOptionPane.showMessageDialog(null, connectionErrorAdviceStr, connectionErrorStr, JOptionPane.ERROR_MESSAGE);
-                        break;
-                    default:
-                        break;
-                }
+                registerBtn.setEnabled(false);
+                toLoginBtn.setEnabled(false);
+                registerBtn.setText(pleaseWaitStr);
                 break;
             //转到登录按钮
             case "toLogin":
@@ -557,22 +511,17 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
     //点击全选
 
     @Override
-    public void focusGained(FocusEvent event)
-    {
-        if (event.getSource() == idTf)
-        {
+    public void focusGained(FocusEvent event) {
+        if (event.getSource() == idTf) {
             idPl.setBorder(BorderFactory.createTitledBorder(idInputStr));
             idTf.selectAll();
-        } else if (event.getSource() == nameTf)
-        {
+        } else if (event.getSource() == nameTf) {
             namePl.setBorder(BorderFactory.createTitledBorder(nameInputStr));
             nameTf.selectAll();
-        } else if (event.getSource() == passwordTf)
-        {
+        } else if (event.getSource() == passwordTf) {
             passwordPl.setBorder(BorderFactory.createTitledBorder(passwordInputStr));
             passwordTf.selectAll();
-        } else if (event.getSource() == password2Tf)
-        {
+        } else if (event.getSource() == password2Tf) {
             password2Pl.setBorder(BorderFactory.createTitledBorder(password2InputStr));
             password2Tf.selectAll();
         }
@@ -580,14 +529,11 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
     }
 
     @Override
-    public void focusLost(FocusEvent event)
-    {
-        if (event.getSource() == idTf)
-        {
+    public void focusLost(FocusEvent event) {
+        if (event.getSource() == idTf) {
             //关闭提示文本
             idPl.setBorder(BorderFactory.createCompoundBorder());
-            switch (UserAuthenticationManager.getUserAuthenticationManager(null).setId(idTf.getText()))
-            {
+            switch (UserAuthenticationManager.getUserAuthenticationManager(null).setId(idTf.getText())) {
                 //id 输入正确
                 case QUALIFIED:
                     idStatusLb.setText(qualifiedStatusStr);
@@ -600,11 +546,9 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
                 default:
                     break;
             }
-        } else if (event.getSource() == nameTf)
-        {
+        } else if (event.getSource() == nameTf) {
             namePl.setBorder(BorderFactory.createCompoundBorder());
-            switch (UserAuthenticationManager.getUserAuthenticationManager(null).setName(nameTf.getText()))
-            {
+            switch (UserAuthenticationManager.getUserAuthenticationManager(null).setName(nameTf.getText())) {
 
                 //name 输入正确
                 case QUALIFIED:
@@ -622,11 +566,9 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
                 default:
                     break;
             }
-        } else if (event.getSource() == passwordTf)
-        {
+        } else if (event.getSource() == passwordTf) {
             passwordPl.setBorder(BorderFactory.createCompoundBorder());
-            switch (UserAuthenticationManager.getUserAuthenticationManager(null).setPassword(new String(passwordTf.getPassword())))
-            {
+            switch (UserAuthenticationManager.getUserAuthenticationManager(null).setPassword(new String(passwordTf.getPassword()))) {
                 //password 输入正确
                 case QUALIFIED:
                     passwordStatusLb.setText(qualifiedStatusStr);
@@ -651,22 +593,18 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
                 default:
                     break;
             }
-        } else if (event.getSource() == password2Tf)
-        {
+        } else if (event.getSource() == password2Tf) {
             password2Pl.setBorder(BorderFactory.createCompoundBorder());
             checkTwicePasswordInput();
         }
     }
 
-    private void checkTwicePasswordInput()
-    {
-        if ((new String(password2Tf.getPassword())).equals(new String(passwordTf.getPassword())))
-        {
+    private void checkTwicePasswordInput() {
+        if ((new String(password2Tf.getPassword())).equals(new String(passwordTf.getPassword()))) {
             //password2 输入一致
             password2StatusLb.setText(qualifiedStatusStr);
             updateAuthenticationBtn();
-        } else
-        {
+        } else {
             //password2 输入不一致
             password2StatusLb.setText(differentStatusStr);
         }
@@ -718,34 +656,46 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
 
     @Override
     public boolean receiver(LoginStatus loginStatus) {
-        switch (loginStatus){
+        switch (loginStatus) {
             case SUCCESS:
                 entryMainWindow();
-                break;
+                return true;
             case PASSWORD_ERROR:
-                JOptionPane.showMessageDialog(this,"Password Error.");
-                break;
+                JOptionPane.showMessageDialog(null, passwordWrongAdviceStr, passwordWrongStr, JOptionPane.ERROR_MESSAGE);
             case ID_NOT_EXIST:
-                JOptionPane.showMessageDialog(this,"ID not Exist.");
-                break;
+                JOptionPane.showMessageDialog(null, idNotExistAdviceStr, idNotExistStr, JOptionPane.ERROR_MESSAGE);
             default:
+                loginBtn.setEnabled(true);
+                loginBtn.setText(loginBtnStr);
+                toRegisterBtn.setEnabled(true);
+                return false;
         }
-        return false;
     }
 
     @Override
-    public boolean receiver(RegisterStatus registerStatus) {
-        switch (registerStatus){
+    public boolean receiver(RegisterStatus registerStatus, String userId) {
+        switch (registerStatus) {
             case SUCCESS:
                 entryMainWindow();
-                break;
+                return true;
+            default:
+                registerBtn.setEnabled(true);
+                registerBtn.setText(registerBtnStr);
+                toLoginBtn.setEnabled(true);
+                return false;
         }
-        return false;
+
     }
 
     @Override
     @Deprecated
     public boolean receiver(String userName) {
+        return false;
+    }
+
+    @Override
+    @Deprecated
+    public boolean receiver(String chatroomId, boolean isNewChatroomId) {
         return false;
     }
 }

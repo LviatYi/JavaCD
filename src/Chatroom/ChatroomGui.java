@@ -372,6 +372,10 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
         }
     }
 
+    // Field
+
+    private UserAuthenticationGui userAuthenticationGui;
+
     // Gui Elements
 
     private JPanel mainPl;
@@ -465,7 +469,6 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
     public SettingManager getSettingManager() {
         return settingManager;
     }
-
 
     // Additional Thread
 
@@ -1305,7 +1308,6 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
     @Override
     @Deprecated
     public boolean receiver(LoginStatus loginStatus) {
-
         return false;
     }
 

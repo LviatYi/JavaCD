@@ -34,7 +34,7 @@ public class ClientThreadIn extends Thread {
                 switch (dp.type){
                     case FIND_CHATROOM_INFO_THROUGH_USER:
                     case CREATE_CHATROOM: {
-                        parent.receiver(dp.chatRoomInfo,false);
+                        parent.receiver(dp.chatRoomInfo,true);
                         parent.receiver(dp.chatRoomID);
                         break;
                     }

@@ -177,7 +177,7 @@ public class MessageList {
     /**
      * 清空聊天记录.
      */
-    void clear() {
+    public void clear() {
         this.getList().clear();
     }
 
@@ -185,7 +185,7 @@ public class MessageList {
      * 检查此表是否为空.
      * @return 是否存在的状态.
      */
-    boolean isEmpty() {
+    public boolean isEmpty() {
         return list.isEmpty();
     }
 }

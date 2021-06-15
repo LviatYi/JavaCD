@@ -104,12 +104,40 @@ public class DatabaseManager implements DatabaseControl {
         //System.out.println(a1);
         return random;
     }
+
+
+@Override
     public String returnChatRoomId()
     {
          DatabaseManager DB=new DatabaseManager();
          String Id=DB.random2();
          return Id;
     }
+
+@Override
+    public FriendInfo returnUser(String Id)
+    {
+        con = getConnection();
+        String ID = new String();
+        String Name = new String();
+        FriendInfo friendInfo = null;
+        try {
+            String sql = "select * from UserInfo where ID=? ";
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setString(1,Id);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                ID = rs.getString(1);
+                Name = rs.getString(3);
+                friendInfo = new FriendInfo(ID, Name);
+            return friendInfo;
+        }} catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
 
 
     @Override

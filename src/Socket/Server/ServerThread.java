@@ -38,13 +38,12 @@ public class ServerThread extends Thread{
     }
 
     private void processSocket() throws IOException {
-        InputStream ins = client.getInputStream();
+        DataInputStream ins = new DataInputStream(client.getInputStream());
         ous = new DataOutputStream(client.getOutputStream());
-        BufferedReader brd=new BufferedReader(new InputStreamReader(ins));
 
         while(true)
         {
-            DataPacket dataPacket = JSON.parseObject(brd.readLine(), DataPacket.class);
+            DataPacket dataPacket = JSON.parseObject(ins.readUTF(), DataPacket.class);
             switch (dataPacket.type)
             {
                 //注册

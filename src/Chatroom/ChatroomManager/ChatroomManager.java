@@ -29,6 +29,39 @@ public class ChatroomManager implements ClientManager {
      */
     ChatroomList chatroomList;
 
+    // Tool Status
+
+    public enum ChatroomStatus {
+        /**
+         * 合格
+         */
+        QUALIFIED,
+        /**
+         * 未知错误
+         */
+        ERROR,
+        /**
+         * 已加入
+         */
+        JOINED,
+        /**
+         * 待新建
+         */
+        NEW,
+        /**
+         * 不存在
+         */
+        NOT_EXIST,
+        /**
+         * 取消操作
+         */
+        CANCEL,
+        /**
+         * 私有聊天室
+         */
+        PRIVATE,
+    }
+
     // Construct
 
     /**
@@ -128,10 +161,10 @@ public class ChatroomManager implements ClientManager {
      * 如果已经加入则返回 JOINED
      * 如果取消新建则返回 CANCEL.
      */
-    public ChatroomList.ChatroomStatus join(String chatroomId) {
+    public ChatroomStatus join(String chatroomId) {
         if (chatroomList.find(chatroomId) != null) {
             //已加入
-            return ChatroomList.ChatroomStatus.JOINED;
+            return ChatroomStatus.JOINED;
         } else {
             ChatroomInfo chatroomInfo = new ChatroomInfo(null, null, null);
             chatroomInfo = parent.getClientCommunication().findChatRoomInfo(chatroomId);
@@ -139,22 +172,22 @@ public class ChatroomManager implements ClientManager {
                 if (parent.confirmNewChatroom()) {
                     chatroomInfo = create(chatroomId, parent.confirmChatroomName(), ChatroomInfo.ChatroomType.PUBLIC);
                     if (chatroomInfo == null) {
-                        return ChatroomList.ChatroomStatus.ERROR;
+                        return ChatroomStatus.ERROR;
                     } else {
                         chatroomList.add(chatroomInfo);
                         parent.updateChatroom();
-                        return ChatroomList.ChatroomStatus.NEW;
+                        return ChatroomStatus.NEW;
                     }
                 } else {
-                    return ChatroomList.ChatroomStatus.CANCEL;
+                    return ChatroomStatus.CANCEL;
                 }
             } else if (chatroomInfo.getChatroomType() == ChatroomInfo.ChatroomType.PRIVATE) {
-                return ChatroomList.ChatroomStatus.PRIVATE;
+                return ChatroomStatus.PRIVATE;
             } else {
                 chatroomList.add(new ChatroomInfo(chatroomInfo));
                 parent.updateChatroom();
                 //加入成功
-                return ChatroomList.ChatroomStatus.QUALIFIED;
+                return ChatroomStatus.QUALIFIED;
             }
         }
     }
@@ -165,12 +198,12 @@ public class ChatroomManager implements ClientManager {
      * @param chatroomId 退出聊天室的 ChatroomId
      * @return 保证完全删除
      */
-    public ChatroomList.ChatroomStatus exit(String chatroomId) {
+    public ChatroomStatus exit(String chatroomId) {
         delChatroom(chatroomId);
         parent.getClientCommunication().exitChatRoom(chatroomId);
         parent.updateChatroom();
         parent.updateMessage();
-        return ChatroomList.ChatroomStatus.QUALIFIED;
+        return ChatroomStatus.QUALIFIED;
     }
 
     /**

@@ -26,9 +26,19 @@ import java.util.List;
  */
 public interface DatabaseControl {
     /**
+     *
      *@return 返回聊天室Id
      */
-    public String returnChatRoomId();
+     String returnChatRoomId();
+
+
+/**
+ *
+ * 通过一个人的ID查找所有信息
+ * @Param Id 用户 Id
+ * @return 好友信息
+ */
+   FriendInfo returnUser(String Id);
 
 
     /**

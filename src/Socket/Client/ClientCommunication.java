@@ -7,10 +7,8 @@ import Chatroom.FriendManager.FriendInfo;
 import Socket.tools.DataPacket;
 import UserAuthenticate.UserAuthenticationGui;
 import com.alibaba.fastjson.*;
-
 import java.io.*;
 import java.net.Socket;
-
 import Chatroom.*;
 
 /**

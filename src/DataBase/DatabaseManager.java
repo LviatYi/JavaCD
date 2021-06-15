@@ -139,7 +139,6 @@ public class DatabaseManager implements DatabaseControl {
 
 
 
-
     @Override
     public LoginStatus login(String id, String password) {
         con = getConnection();

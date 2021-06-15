@@ -5,6 +5,7 @@ import Chatroom.ChatManager.MessageList;
 import Chatroom.ChatroomManager.ChatroomInfo;
 import Chatroom.FriendManager.FriendInfo;
 import Socket.tools.DataPacket;
+import UserAuthenticate.UserAuthenticationGui;
 import com.alibaba.fastjson.*;
 
 import java.io.*;
@@ -21,7 +22,8 @@ import Chatroom.*;
  * @className ClientCommunication
  */
 public class ClientCommunication implements Client {
-    private ChatroomGui parent;
+    private ChatroomGui parent1;
+    private UserAuthenticationGui parent2;
     String selfID;
     private ClientThreadOut co = null;
     private ClientThreadIn ci = null;
@@ -35,10 +37,14 @@ public class ClientCommunication implements Client {
      */
     private static ClientCommunication instance;
 
-    private ClientCommunication(ChatroomGui parent) throws IOException {
-        this.parent = parent;
-        selfID = parent.getSettingManager().getSelfId();
+    private ClientCommunication(ChatroomGui parent1) throws IOException {
+        this.parent1 = parent1;
+        selfID = parent1.getSettingManager().getSelfId();
         this.run();
+    }
+
+    public ClientCommunication(UserAuthenticationGui parent2){
+        this.parent2 = parent2;
     }
 
     /**
@@ -265,7 +271,8 @@ public class ClientCommunication implements Client {
         ci = new ClientThreadIn();
         co.setSocket(socket);
         ci.setSocket(socket);
-        ci.setParent(parent);
+        ci.setParent1(parent1);
+        ci.setParent2(parent2);
         co.start();
         ci.start();
         return true;

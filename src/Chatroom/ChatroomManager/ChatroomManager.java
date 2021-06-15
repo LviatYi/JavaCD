@@ -6,6 +6,7 @@ import Chatroom.ChatroomGui;
 import Chatroom.ClientManager;
 import Chatroom.FriendManager.FriendInfo;
 import Chatroom.FriendManager.FriendList;
+import Status.ChatroomStatus;
 import Status.LoginStatus;
 import Status.RegisterStatus;
 
@@ -314,6 +315,12 @@ public class ChatroomManager implements ClientManager {
     @Override
     @Deprecated
     public boolean receiver(String userName) {
+        return false;
+    }
+
+    @Override
+    @Deprecated
+    public boolean receiver(String chatroomId, boolean isNewChatroomId) {
         return false;
     }
 }

@@ -143,4 +143,10 @@ public class  SettingManager implements ClientManager {
         }
         return false;
     }
+
+    @Override
+    @Deprecated
+    public boolean receiver(String chatroomId, boolean isNewChatroomId) {
+        return false;
+    }
 }

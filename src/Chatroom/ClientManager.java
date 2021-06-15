@@ -97,4 +97,11 @@ public interface ClientManager {
      * @return 传输成功时 返回 true
      */
     boolean receiver(String userName);
+
+    /**
+     * 向客户端发送一条 空的 ChatroomId
+     * @param chatroomId 空的 ChatroomId
+     * @return 传输成功时 返回 true
+     */
+    boolean receiver(String chatroomId,boolean isNewChatroomId);
 }

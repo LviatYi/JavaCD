@@ -1320,4 +1320,10 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
     public boolean receiver(String userName) {
         return false;
     }
+
+    @Override
+    @Deprecated
+    public boolean receiver(String chatroomId, boolean isNewChatroomId) {
+        return false;
+    }
 }

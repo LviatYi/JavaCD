@@ -24,7 +24,7 @@ import Chatroom.*;
 public class ClientCommunication implements Client {
     private ChatroomGui parent1;
     private UserAuthenticationGui parent2;
-    String selfID;
+    private String selfID;
     private ClientThreadOut co = null;
     private ClientThreadIn ci = null;
 

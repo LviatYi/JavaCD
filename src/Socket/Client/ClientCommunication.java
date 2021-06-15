@@ -28,9 +28,7 @@ public class ClientCommunication implements Client {
     private ClientThreadOut co = null;
     private ClientThreadIn ci = null;
 
-    public void run() throws IOException {
-        client();
-    }
+
 
     /**
      * 单例指针
@@ -40,11 +38,12 @@ public class ClientCommunication implements Client {
     private ClientCommunication(ChatroomGui parent1) throws IOException {
         this.parent1 = parent1;
         selfID = parent1.getSettingManager().getSelfId();
-        this.run();
+
     }
 
-    public ClientCommunication(UserAuthenticationGui parent2){
+    public ClientCommunication(UserAuthenticationGui parent2) throws IOException{
         this.parent2 = parent2;
+        this.client();
     }
 
     /**
@@ -131,6 +130,7 @@ public class ClientCommunication implements Client {
 
     @Override
     public boolean register(String name, String password) {
+        System.out.println("发送注册");
         DataPacket mes = new DataPacket();
         mes.name = name;
         mes.password = password;

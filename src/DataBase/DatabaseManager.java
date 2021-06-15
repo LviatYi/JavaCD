@@ -557,7 +557,7 @@ public class DatabaseManager implements DatabaseControl {
         String Name = new String();
         int Authentic1;
         ChatroomInfo chatroomInfo = null;
-        ChatroomInfo.ChatroomType Authentic;
+        ChatroomInfo.ChatroomType Authentic = null;
         try {
             String sql = "select * from ChatroomInfo where ID=? ";
             PreparedStatement st = con.prepareStatement(sql);
@@ -572,14 +572,41 @@ public class DatabaseManager implements DatabaseControl {
                 } else {
                     Authentic = ChatroomInfo.ChatroomType.PUBLIC;
                 }
-                chatroomInfo = new ChatroomInfo(ID, Name, Authentic);
             }
+            DatabaseManager DB=new DatabaseManager();
+            Vector<FriendInfo> User = new Vector<FriendInfo>();
+            User=DB.getChatRoomUser(chatroomID);
+            chatroomInfo = new ChatroomInfo(ID, Name, Authentic,User);
             return chatroomInfo;
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
     }
+    //Vector<FriendInfo> friend = new Vector<FriendInfo>();
+      //      friend.add(creatorInfo);
+    //ChatroomInfo chatroomInfo1 = new ChatroomInfo(chatRoomId, chatroomName, chatroomType, friend);
+    Vector<FriendInfo> getChatRoomUser(String chatroomId)
+    {    Vector<FriendInfo> User = new Vector<FriendInfo>();
+        con=getConnection();
+        try{
+            String sql = "select Chatroom.UserID,ChatroomInfo.Name from Chatroom,ChatroomInfo where Chatroom.ChatroomID=? and Chatroom.UserID=ChatroomInfo.ID ";
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setString(1, chatroomId);
+            ResultSet rs = st.executeQuery();
+            while(rs.next())
+            {
+             String userId=rs.getString(1);
+             String userName=rs.getString(2);
+             User.add(new FriendInfo(userId,userName));
+            }
+        }catch (SQLException e){e.printStackTrace();}
+        return User;
+    }
+
+
+
+
 
 
     @Override

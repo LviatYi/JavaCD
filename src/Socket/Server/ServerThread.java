@@ -156,6 +156,7 @@ public class ServerThread extends Thread{
                 {
                     DataPacket temp = new DataPacket();
                     temp.systemTip=databaseManager.addFriend(dataPacket.id, dataPacket.friendRequestID);
+                    MultiThread.callAddedFriend(dataPacket.friendRequestID,databaseManager.getUserFriendList(dataPacket.friendRequestID));
                     temp.type = DataPacket.transportType.ADD_FRIEND;
                     sendMsg(temp);
                     break;

@@ -58,7 +58,8 @@ public class DataPacket {
         ADD_FRIEND,
         DEL_FRIEND,
         RETURN_FRIEND_LIST,
-        RETURN_GROUP_LIST
+        RETURN_GROUP_LIST,
+        CALL_ADDED_FRIEND
     }
 
 }

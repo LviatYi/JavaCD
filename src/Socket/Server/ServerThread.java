@@ -42,7 +42,7 @@ public class ServerThread extends Thread{
         ous = new DataOutputStream(client.getOutputStream());
         BufferedReader brd=new BufferedReader(new InputStreamReader(ins));
 
-        while(JSON.parseObject(brd.readLine(), DataPacket.class).type!= DataPacket.transportType.EXIT)
+        while(true)
         {
             DataPacket dataPacket = JSON.parseObject(brd.readLine(), DataPacket.class);
             switch (dataPacket.type)
@@ -223,6 +223,10 @@ public class ServerThread extends Thread{
                 }
                 default:
                     break;
+            }
+            if(dataPacket.type == DataPacket.transportType.EXIT)
+            {
+                break;
             }
         }
         //退出服务器线程池

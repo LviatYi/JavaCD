@@ -1,6 +1,15 @@
 package UserAuthenticate;
 
+import Chatroom.ChatManager.Message;
+import Chatroom.ChatManager.MessageList;
 import Chatroom.ChatroomGui;
+import Chatroom.ChatroomManager.ChatroomInfo;
+import Chatroom.ChatroomManager.ChatroomList;
+import Chatroom.ClientManager;
+import Chatroom.FriendManager.FriendInfo;
+import Chatroom.FriendManager.FriendList;
+import Status.LoginStatus;
+import Status.RegisterStatus;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,27 +17,26 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.util.Date;
 
 /**
  * 用户认证系统 GUI.
  * 管理用户的注册与登录.
  *
  * @author LVIAT.cn
- * @version 1.0
+ * @version 1.6 alpha
  * @className UserAuthenticationGUI
  * @date 2021/6/2
  */
-public class UserAuthenticationGui extends JFrame implements ActionListener, FocusListener
+public class UserAuthenticationGui extends JFrame implements ActionListener, FocusListener, ClientManager
 {
-    /**
-     * 认证管理类
-     */
+    // Manager
+
     private UserAuthenticationManager userAuthenticationManager = UserAuthenticationManager.getUserAuthenticationManager(null);
     private ChatroomGui parent;
 
-    /**
-     * GUI 元素
-     */
+    // Gui Elements
+
     private JPanel mainPl;
     private JPanel titlePl;
     private JPanel bottomPl;
@@ -52,10 +60,12 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
     private JButton toRegisterBtn;
     private JButton toLoginBtn;
 
+    // Display Text
+
     /**
      * 版本号
      */
-    private String version = "1.00";
+    private String version = "1.60 alpha";
     /**
      * 窗口标题文本
      */
@@ -235,79 +245,7 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
      */
     private String passwordWrongAdviceStr = "Please check the password you entered.";
 
-    //键绑定事件
-    private Action setId = new AbstractAction()
-    {
-        @Override
-        public void actionPerformed(ActionEvent e)
-        {
-            passwordTf.requestFocus();
-            passwordTf.selectAll();
-        }
-    };
-    private Action setName = new AbstractAction()
-    {
-        @Override
-        public void actionPerformed(ActionEvent e)
-        {
-            passwordTf.requestFocus();
-            passwordTf.selectAll();
-        }
-    };
-    private Action setPassword = new AbstractAction()
-    {
-        @Override
-        public void actionPerformed(ActionEvent e)
-        {
-            if (loginBtn.isVisible())
-            {
-                mainPl.requestFocus();
-            } else
-            {
-                password2Tf.requestFocus();
-                password2Tf.selectAll();
-            }
-        }
-    };
-    private Action setPassword2 = new AbstractAction()
-    {
-        @Override
-        public void actionPerformed(ActionEvent e)
-        {
-            mainPl.requestFocus();
-        }
-    };
-
-    private Action toControlBtn = new AbstractAction()
-    {
-        @Override
-        public void actionPerformed(ActionEvent e)
-        {
-            if (loginBtn.isVisible())
-            {
-                loginBtn.requestFocus();
-            } else if (registerBtn.isVisible())
-            {
-                registerBtn.requestFocus();
-            }
-        }
-    };
-    private Action login = new AbstractAction()
-    {
-        @Override
-        public void actionPerformed(ActionEvent e)
-        {
-            loginBtn.doClick();
-        }
-    };
-    private Action register = new AbstractAction()
-    {
-        @Override
-        public void actionPerformed(ActionEvent e)
-        {
-            registerBtn.doClick();
-        }
-    };
+    // Function
 
     /**
      * 更新 认证 按钮可用状态
@@ -352,6 +290,12 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
         }
     }
 
+    private void entryMainWindow(){
+//        ChatroomGui chatroomGui = new ChatroomGui(, "Abc");
+    }
+
+    // Construction
+
     /**
      * 覆写默认构造函数。
      */
@@ -359,6 +303,8 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
     {
         prepareGui();
     }
+
+    // Gui Prepare
 
     /**
      * 准备此次 Gui
@@ -433,15 +379,86 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
         toLoginBtn.setVisible(false);
     }
 
-    /**
-     * Exist for debug
-     *
-     * @param args main 传入形参
-     */
+    // Exist for DEBUG
     public static void main(String[] args)
     {
         UserAuthenticationGui uam = new UserAuthenticationGui();
     }
+    // End
+
+    // Interaction
+
+    private Action setId = new AbstractAction()
+    {
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+            passwordTf.requestFocus();
+            passwordTf.selectAll();
+        }
+    };
+    private Action setName = new AbstractAction()
+    {
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+            passwordTf.requestFocus();
+            passwordTf.selectAll();
+        }
+    };
+    private Action setPassword = new AbstractAction()
+    {
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+            if (loginBtn.isVisible()) {
+                mainPl.requestFocus();
+            } else
+            {
+                password2Tf.requestFocus();
+                password2Tf.selectAll();
+            }
+        }
+    };
+    private Action setPassword2 = new AbstractAction()
+    {
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+            mainPl.requestFocus();
+        }
+    };
+
+    private Action toControlBtn = new AbstractAction()
+    {
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+            if (loginBtn.isVisible())
+            {
+                loginBtn.requestFocus();
+            } else if (registerBtn.isVisible())
+            {
+                registerBtn.requestFocus();
+            }
+        }
+    };
+    private Action login = new AbstractAction()
+    {
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+            loginBtn.doClick();
+        }
+    };
+    private Action register = new AbstractAction()
+    {
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+            registerBtn.doClick();
+        }
+    };
 
     @Override
     public void actionPerformed(ActionEvent event)
@@ -653,6 +670,83 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
             //password2 输入不一致
             password2StatusLb.setText(differentStatusStr);
         }
+    }
+
+    // Impl ClientManager
+
+    @Override
+    @Deprecated
+    public boolean receiver(Message message) {
+        return false;
+    }
+
+    @Override
+    @Deprecated
+    public boolean receiver(MessageList messageList, boolean isHistory) {
+        return false;
+    }
+
+    @Override
+    @Deprecated
+    public boolean receiver(String content, String senderId, String chatroomId, Date date) {
+        return false;
+    }
+
+    @Override
+    @Deprecated
+    public boolean receiver(FriendInfo friendInfo) {
+        return false;
+    }
+
+    @Override
+    @Deprecated
+    public boolean receiver(ChatroomInfo chatroomInfo, boolean isFocus) {
+        return false;
+    }
+
+    @Override
+    @Deprecated
+    public boolean receiver(FriendList friendList) {
+        return false;
+    }
+
+    @Override
+    @Deprecated
+    public boolean receiver(ChatroomList chatroomList) {
+        return false;
+    }
+
+    @Override
+    public boolean receiver(LoginStatus loginStatus) {
+        switch (loginStatus){
+            case SUCCESS:
+                entryMainWindow();
+                break;
+            case PASSWORD_ERROR:
+                JOptionPane.showMessageDialog(this,"Password Error.");
+                break;
+            case ID_NOT_EXIST:
+                JOptionPane.showMessageDialog(this,"ID not Exist.");
+                break;
+            default:
+        }
+        return false;
+    }
+
+    @Override
+    public boolean receiver(RegisterStatus registerStatus) {
+        switch (registerStatus){
+            case SUCCESS:
+                entryMainWindow();
+                break;
+        }
+        return false;
+    }
+
+    @Override
+    @Deprecated
+    public boolean receiver(String userName) {
+        return false;
     }
 }
 

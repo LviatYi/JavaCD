@@ -231,7 +231,7 @@ public class AddressManager implements  ClientManager {
 
     @Override
     @Deprecated
-    public boolean receiver(RegisterStatus registerStatus) {
+    public boolean receiver(RegisterStatus registerStatus,String userId) {
         return false;
     }
 

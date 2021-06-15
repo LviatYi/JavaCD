@@ -78,6 +78,7 @@ public class UserAuthenticationManager {
     }
 
     // Field
+
     /**
      * 父级元素
      */
@@ -238,6 +239,10 @@ public class UserAuthenticationManager {
         return RegisterStatus.CONNECTION_FAILED;
     }
 
+    /**
+     * 设置新的 UserName 或 Password
+     * @return
+     */
     public boolean setNew() {
         if (this.nameIsChanged) {
             parent.getClientCommunication().modifyName(name);

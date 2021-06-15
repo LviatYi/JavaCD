@@ -12,6 +12,7 @@ import Encrypt.Encryption;
 import Socket.Client.ClientCommunication;
 import Status.LoginStatus;
 import Status.RegisterStatus;
+import UserAuthenticate.UserAuthenticationGui;
 
 import javax.swing.*;
 import javax.swing.text.*;
@@ -621,7 +622,7 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
 
     public ChatroomGui(String selfId, String selfName) {
         this.settingManager = SettingManager.getSettingManager(this, selfId, selfName);
-        this.clientCommunication=ClientCommunication.getClientCommunication(this);
+        this.clientCommunication = ClientCommunication.getClientCommunication(this);
         this.chatroomManager = ChatroomManager.getChatroomManager(this);
         this.addressManager = AddressManager.getAddressManager(this);
         this.chatManager = ChatManager.getChatManager(this);
@@ -638,7 +639,7 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
         super.finalize();
     }
 
-// Gui Prepare
+    // Gui Prepare
 
     private void prepareGui() {
         //主窗体设置 标题 主布局 关闭事件 不允许控制窗口大小 设置大小 设置居中 设置可见性
@@ -752,7 +753,7 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
 
     //Exist for DEBUG
     public static void main(String[] args) {
-        ChatroomGui chatroomGui = new ChatroomGui("123456", "Abc");
+        UserAuthenticationGui userAuthenticationGui = new UserAuthenticationGui();
     }
     //End
 
@@ -1304,12 +1305,13 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
     @Override
     @Deprecated
     public boolean receiver(LoginStatus loginStatus) {
+
         return false;
     }
 
     @Override
     @Deprecated
-    public boolean receiver(RegisterStatus registerStatus) {
+    public boolean receiver(RegisterStatus registerStatus,String userId) {
         return false;
     }
 

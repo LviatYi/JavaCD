@@ -75,6 +75,7 @@ public interface ChatroomGuiControl {
 
     /**
      * 更新个人 Info.
+     * @param userName 更新用户 Name
      */
     void updateUserInfo(String userName);
 }

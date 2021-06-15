@@ -86,9 +86,10 @@ public interface ClientManager {
     /**
      * 向客户端发送注册状态.
      * @param registerStatus 注册状态.
+     * @param userId 新注册用户的 ID.
      * @return 传输成功时 返回 true
      */
-    boolean receiver(RegisterStatus registerStatus);
+    boolean receiver(RegisterStatus registerStatus,String userId);
 
     /**
      * 向客户端发送 UserName 修改状态

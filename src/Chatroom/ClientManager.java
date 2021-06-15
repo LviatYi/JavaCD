@@ -101,6 +101,7 @@ public interface ClientManager {
     /**
      * 向客户端发送一条 空的 ChatroomId
      * @param chatroomId 空的 ChatroomId
+     * @param isNewChatroomId 若需要正常使用,则为 True
      * @return 传输成功时 返回 true
      */
     boolean receiver(String chatroomId,boolean isNewChatroomId);

@@ -1,7 +1,10 @@
 package UserAuthenticate;
 
 import Chatroom.ChatroomGui;
+import Chatroom.ClientManager;
 import Encrypt.*;
+import Socket.Client.Client;
+import Socket.Client.ClientCommunication;
 import Status.*;
 
 import java.lang.reflect.Field;

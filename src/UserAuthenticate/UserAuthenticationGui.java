@@ -8,6 +8,7 @@ import Chatroom.ChatroomManager.ChatroomList;
 import Chatroom.ClientManager;
 import Chatroom.FriendManager.FriendInfo;
 import Chatroom.FriendManager.FriendList;
+import Socket.Client.ClientCommunication;
 import Status.LoginStatus;
 import Status.RegisterStatus;
 
@@ -300,6 +301,7 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
      * 覆写默认构造函数。
      */
     public UserAuthenticationGui() {
+        ClientCommunication clientCommunication=new ClientCommunication(this);
         prepareGui();
     }
 

@@ -78,6 +78,9 @@ public class ClientThreadIn extends Thread {
                                 parent2.receiver(dp.loginStatus);
                                 break;
                             }
+                            default:{
+                                break;
+                            }
                         }
                         break;
                     }
@@ -87,6 +90,9 @@ public class ClientThreadIn extends Thread {
                     }
                     case SEND_MESSAGE: {
                         parent1.getChatManager().receiver(dp.message, dp.senderId, dp.chatRoomID, dp.datetime);
+                        break;
+                    }
+                    default:{
                         break;
                     }
                 }

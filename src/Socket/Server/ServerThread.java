@@ -39,11 +39,12 @@ public class ServerThread extends Thread{
     }
 
     private void processSocket() throws IOException,EOFException{
-        DataInputStream ins = new DataInputStream(client.getInputStream());
+
         ous = new DataOutputStream(client.getOutputStream());
 
         while(true)
         {
+            DataInputStream ins = new DataInputStream(client.getInputStream());
             DataPacket dataPacket = JSON.parseObject(ins.readUTF(), DataPacket.class);
             switch (dataPacket.type)
             {
@@ -61,6 +62,7 @@ public class ServerThread extends Thread{
                 //登录
                 case LOGIN:
                 {
+                    System.out.println("收到登录");
                     LoginStatus loginStatus = databaseManager.login(dataPacket.id, dataPacket.password);
                     switch (loginStatus)
                     {
@@ -228,6 +230,7 @@ public class ServerThread extends Thread{
             {
                 break;
             }
+            ins.close();
         }
         //退出服务器线程池
         MultiThread.exit(socketId);

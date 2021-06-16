@@ -5,6 +5,7 @@ import Chatroom.ChatroomGui;
 import Socket.tools.DataPacket;
 import UserAuthenticate.UserAuthenticationGui;
 import com.alibaba.fastjson.JSON;
+
 import java.io.*;
 import java.net.Socket;
 
@@ -17,7 +18,8 @@ public class ClientThreadIn extends Thread {
     public void setParent1(ChatroomGui parent) {
         this.parent1 = parent;
     }
-    public void setParent2(UserAuthenticationGui parent2){
+
+    public void setParent2(UserAuthenticationGui parent2) {
         this.parent2 = parent2;
     }
 
@@ -33,49 +35,51 @@ public class ClientThreadIn extends Thread {
     private void In() {
         try {
             while (!exit) {
-                DataInputStream in = new DataInputStream(server.getInputStream());
-                String str = in.readUTF();
+                InputStream in = new DataInputStream(server.getInputStream());
+                BufferedReader bf = new BufferedReader(new InputStreamReader(in));
+                String str = bf.readLine();
                 DataPacket dp = JSON.parseObject(str, DataPacket.class);
-                switch (dp.type){
-                    case FIND_CHATROOM_INFO_THROUGH_USER:{
-                        parent1.getChatroomManager().receiver(dp.chatRoomInfo,true);
+                switch (dp.type) {
+                    case FIND_CHATROOM_INFO_THROUGH_USER: {
+                        parent1.getChatroomManager().receiver(dp.chatRoomInfo, true);
                         break;
                     }
                     case CREATE_CHATROOM: {
-                        parent1.getChatroomManager().receiver(dp.chatRoomInfo,true);
-                        parent1.receiver(dp.chatRoomID,true);
+                        parent1.getChatroomManager().receiver(dp.chatRoomInfo, true);
+                        parent1.receiver(dp.chatRoomID, true);
                         break;
                     }
-                    case RETURN_FRIEND_LIST:{
+                    case RETURN_FRIEND_LIST: {
                         parent1.getAddressManager().receiver(dp.friendList);
                         break;
                     }
-                    case CHATROOM_NEW_MEMBER:{
-                        parent1.getChatroomManager().receiver(dp.chatRoomInfo,false);
+                    case CHATROOM_NEW_MEMBER: {
+                        parent1.getChatroomManager().receiver(dp.chatRoomInfo, false);
                         break;
                     }
-                    case RETURN_GROUP_LIST:{
+                    case RETURN_GROUP_LIST: {
                         parent1.getChatroomManager().receiver(dp.chatRoomList);
                         break;
                     }
-                    case REGISTER:{
-                        parent2.receiver(dp.registerStatus,dp.id);
+                    case REGISTER: {
+                        parent2.receiver(dp.registerStatus, dp.id);
                         break;
                     }
-                    case LOGIN:{
+                    case LOGIN: {
                         parent2.receiver(dp.loginStatus);
-                        parent1.receiver(dp.id,true);
+                        parent1.receiver(dp.id, true);
                         break;
                     }
-                    case GET_HISTORY_MESSAGE:{
-                        parent1.getChatManager().receiver(dp.historyMessageList,true);
+                    case GET_HISTORY_MESSAGE: {
+                        parent1.getChatManager().receiver(dp.historyMessageList, true);
                         break;
                     }
-                    case SEND_MESSAGE:{
-                        parent1.getChatManager().receiver(dp.message,dp.senderId,dp.chatRoomID,dp.datetime);
+                    case SEND_MESSAGE: {
+                        parent1.getChatManager().receiver(dp.message, dp.senderId, dp.chatRoomID, dp.datetime);
                         break;
                     }
                 }
+                in.close();
             }
         } catch (IOException e) {
             e.printStackTrace();

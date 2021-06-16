@@ -1,15 +1,13 @@
 package Socket.Client;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.Socket;
 
 public class ClientThreadOut extends Thread {
     private String message = null;
     private Socket server;
 
-    private DataOutputStream out = null;
+    private OutputStream out;
 
     public ClientThreadOut() {
     }
@@ -24,10 +22,7 @@ public class ClientThreadOut extends Thread {
     }
 
 
-    public void sendToServer(String msg) throws IOException {
-        out.writeUTF(msg);
-        out.flush();
-    }
+
 
     public void setMessage(String s) {
         this.message = s;
@@ -35,11 +30,12 @@ public class ClientThreadOut extends Thread {
 
     private void Out() {
         try {
+            out = new DataOutputStream(server.getOutputStream());
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(out));
             while (true) {
-                out = new DataOutputStream(server.getOutputStream());
-                //输入文字，希望从控制台输入的
                 if (message != null) {
-                    sendToServer(message);
+                    bw.write(message+"\n");
+                    bw.flush();
                     message = null;
                 }
             }

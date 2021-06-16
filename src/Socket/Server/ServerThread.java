@@ -21,7 +21,7 @@ public class ServerThread extends Thread{
      */
     private final Socket client;
 
-    private DataOutputStream ous ;
+    private OutputStream ous ;
     public ServerThread(Socket client) {
         this.databaseManager=new DatabaseManager();
         this.client=client;
@@ -39,12 +39,12 @@ public class ServerThread extends Thread{
     }
 
     private void processSocket() throws IOException,EOFException{
-        DataInputStream ins = new DataInputStream(client.getInputStream());
+        InputStream ins =new DataInputStream(client.getInputStream());
         ous = new DataOutputStream(client.getOutputStream());
-
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(ins));
         while(true)
         {
-            DataPacket dataPacket = JSON.parseObject(ins.readUTF(), DataPacket.class);
+            DataPacket dataPacket = JSON.parseObject(bufferedReader.readLine(), DataPacket.class);
             switch (dataPacket.type)
             {
                 //注册
@@ -238,8 +238,9 @@ public class ServerThread extends Thread{
     //输出消息类
     public void sendMsg(DataPacket msg) throws IOException {
         String temp = JSONObject.toJSONString(msg);
-        ous.writeUTF(temp);
-        ous.flush();
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(ous));
+        bw.write(temp+"\n");
+        bw.flush();
     }
 
     //关闭当前客户机与服务器的连接。

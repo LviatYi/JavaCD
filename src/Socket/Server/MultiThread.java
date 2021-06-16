@@ -35,9 +35,9 @@ public class MultiThread {
         for (ThreadManager temp: threadList) {
             for (ChatroomInfo roomTemp:temp.chatroomList.getList())
             {
-                if(roomTemp.getChatroomId().equals(dataPacket.chatRoomID))
+                if(roomTemp.getChatroomId().equals(dataPacket.chatRoomID)&&!roomTemp.getChatroomId().equals(dataPacket.id))
                 {
-                    temp.thread.sendMsg(dataPacket);
+                        temp.thread.sendMsg(dataPacket);
                 }
             }
         }

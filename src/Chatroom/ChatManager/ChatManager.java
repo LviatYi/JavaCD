@@ -305,9 +305,12 @@ public class ChatManager implements ClientManager {
         if (message == null) {
             return false;
         }
+        if (message.getSenderId().equals(parent.getSettingManager().getSelfId())){
+            return true;
+        }
         recordNewMessage(message);
         parent.updateMessage(message);
-        return false;
+        return true;
     }
 
     @Override
@@ -318,7 +321,12 @@ public class ChatManager implements ClientManager {
         if (isHistory) {
             refreshMessage(messageList);
         } else {
-            recordNewMessage(messageList);
+           for(Message message:messageList.getList()){
+               if (message.getSenderId().equals(parent.getSettingManager().getSelfId())){
+                   return true;
+               }
+               recordNewMessage(message);
+           }
         }
         parent.updateMessage(parent.getChatroomManager().getChatroom(messageList.getChatroomId()), isHistory);
         return false;

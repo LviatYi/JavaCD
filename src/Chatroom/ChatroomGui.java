@@ -356,6 +356,10 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
                         "        <div style=\"font-size: 12px;font-family: 'Trebuchet MS';\">\n" +
                         "           From " +
                         chatroomManager.getChatroom(message.getChatroomId()).getMember(message.getSenderId()).getFriendName() +
+                        /*
+                        * TODO_LviatYi Maybe here is a wrong 聊天室的用户信息可能未传入
+                        * date 2021/6/17
+                        */
                         "        </div>\n" +
                         "    </body>\n" +
                         "</html>\n" +

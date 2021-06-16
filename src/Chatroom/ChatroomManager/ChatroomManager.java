@@ -245,6 +245,12 @@ public class ChatroomManager implements ClientManager {
         ChatroomInfo chatroomInfo = getChatroom(userId1, userId2);
         if (chatroomInfo == null) {
             chatroomInfo = getChatroomServer(userId1, userId2);
+            if (chatroomInfo==null||"".equals(chatroomInfo.getChatroomId())){
+                chatroomInfo=new ChatroomInfo(parent.getNewChatroomIdTmp(),"", ChatroomInfo.ChatroomType.PRIVATE);
+                parent.getClientCommunication().addChatRoom(chatroomInfo);
+                chatroomInfo=getChatroomServer(userId1,userId2);
+                addChatroom(chatroomInfo);
+            }
         }
         return chatroomInfo;
     }

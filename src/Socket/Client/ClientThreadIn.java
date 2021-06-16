@@ -34,9 +34,9 @@ public class ClientThreadIn extends Thread {
 
     private void In() {
         try {
+            InputStream in = new DataInputStream(server.getInputStream());
+            BufferedReader bf = new BufferedReader(new InputStreamReader(in));
             while (!exit) {
-                InputStream in = new DataInputStream(server.getInputStream());
-                BufferedReader bf = new BufferedReader(new InputStreamReader(in));
                 String str = bf.readLine();
                 System.out.println(str);
                 DataPacket dp = JSON.parseObject(str, DataPacket.class);

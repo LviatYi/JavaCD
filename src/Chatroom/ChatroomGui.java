@@ -1101,6 +1101,7 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
      */
     private void updateChatroomPl() {
         chatroomListPl.removeAll();
+        chatroomListPl.updateUI();
         try {
             ChatroomList chatroomList = chatroomManager.getChatroomList();
             for (ChatroomInfo chatroomInfo : chatroomList.getList()) {
@@ -1109,7 +1110,6 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
         } catch (NullPointerException exception) {
             JOptionPane.showMessageDialog(null, "You don't have any friends,loser.");
         }
-
         chatroomPl.updateUI();
     }
 

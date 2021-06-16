@@ -1192,7 +1192,7 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
 
     @Override
     public void updateMessage(Message message) {
-        if (!message.getChatroomId().equals(chatManager.getCurrentChatroomInfo().getChatroomId())) {
+        if (message.getChatroomId().equals(chatManager.getCurrentChatroomInfo().getChatroomId())) {
             updateChatPl(message);
         }
     }

@@ -35,7 +35,7 @@ public interface DatabaseControl {
 /**
  *
  * 通过一个人的ID查找所有信息
- * @Param Id 用户 Id
+ * @param Id 用户 Id
  * @return 好友信息
  */
    FriendInfo returnUser(String Id);

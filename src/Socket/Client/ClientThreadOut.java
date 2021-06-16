@@ -30,12 +30,12 @@ public class ClientThreadOut extends Thread {
 
     private void Out() {
         try {
-            out = new DataOutputStream(server.getOutputStream());
-            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(out));
+            out = server.getOutputStream();
+            PrintStream ps = new PrintStream(out);
             while (true) {
                 if (message != null) {
-                    bw.write(message+"\n");
-                    bw.flush();
+                    ps.println(message);
+                    ps.flush();
                     message = null;
                 }
             }

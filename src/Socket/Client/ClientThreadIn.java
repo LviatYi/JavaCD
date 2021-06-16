@@ -67,9 +67,18 @@ public class ClientThreadIn extends Thread {
                         break;
                     }
                     case LOGIN: {
-                        parent2.receiver(dp.loginStatus);
-
-                        parent1.receiver(dp.id, true);
+                        switch (dp.loginStatus){
+                            case SUCCESS:{
+                                parent2.receiver(dp.loginStatus);
+                                parent1.receiver(dp.id, true);
+                                break;
+                            }
+                            case ID_NOT_EXIST:
+                            case PASSWORD_ERROR: {
+                                parent2.receiver(dp.loginStatus);
+                                break;
+                            }
+                        }
                         break;
                     }
                     case GET_HISTORY_MESSAGE: {

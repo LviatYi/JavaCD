@@ -25,6 +25,13 @@ import java.util.List;
  * @date 2021/6/15
  */
 public interface DatabaseControl {
+
+ /**
+  * 通过ID找姓名
+  * @param ID 人ID
+  * @return 返回姓名
+  */
+    String findNameThroughID(String ID);
     /**
      *
      *@return 返回聊天室Id

@@ -273,6 +273,22 @@ public class DatabaseManager implements DatabaseControl {
         return messageList;
     }
 
+    @Override
+    public String findNameThroughID(String ID)
+    {
+        con = getConnection();
+        try {
+            Statement st = con.createStatement();
+            String sql = "select * from UserInfo where ID='"+ID+"'";
+            ResultSet rs =st.executeQuery(sql);
+            rs.next();
+            String name = rs.getString(1);
+            return name;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "没找到这个人呢？";
+    }
 
     @Override
     public ChatroomInfo createChatroom(ChatroomInfo chatroomInfo, FriendInfo creatorInfo) {
@@ -289,7 +305,6 @@ public class DatabaseManager implements DatabaseControl {
         try {
             String sql = "insert into ChatroomInfo(ID,Name,Authentic) values(?,?,?)";
             PreparedStatement st = con.prepareStatement(sql);
-
             int authentic;
             if (chatroomType == ChatroomInfo.ChatroomType.PUBLIC) {
                 authentic = 0;
@@ -299,10 +314,24 @@ public class DatabaseManager implements DatabaseControl {
             st.setString(1, chatRoomId);
             st.setString(2, chatroomName);
             st.setInt(3, authentic);
-            int rs = st.executeUpdate();
-            DB.insertChatroom(userId, chatRoomId);
+            st.executeUpdate();
             Vector<FriendInfo> friend = new Vector<FriendInfo>();
-            friend.add(creatorInfo);
+            if(authentic == 1)
+            {
+                String num1 = chatroomInfo.getFriendList().elementAt(0).getFriendId();
+                String num2 = chatroomInfo.getFriendList().elementAt(1).getFriendId();
+                DB.insertChatroom(num1,chatRoomId);
+                DB.insertChatroom(num2,chatRoomId);
+                DB.findNameThroughID(num2);
+                FriendInfo friendInfoTemp1 = new FriendInfo(num1,DB.findNameThroughID(num1));
+                FriendInfo friendInfoTemp2 = new FriendInfo(num2,DB.findNameThroughID(num2));
+                friend.add(friendInfoTemp1);
+                friend.add(friendInfoTemp2);
+            }
+            else{
+                DB.insertChatroom(userId, chatRoomId);
+                friend.add(creatorInfo);
+            }
             ChatroomInfo chatroomInfo1 = new ChatroomInfo(chatRoomId, chatroomName, chatroomType, friend);
             return chatroomInfo1;
         } catch (SQLException e) {

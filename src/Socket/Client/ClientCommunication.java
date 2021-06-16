@@ -36,7 +36,6 @@ public class ClientCommunication implements Client {
 
     private ClientCommunication(ChatroomGui parent1) throws IOException {
         this.parent1 = parent1;
-        selfID = parent1.getSettingManager().getSelfId();
     }
 
     private ClientCommunication(UserAuthenticationGui parent2) {
@@ -72,6 +71,10 @@ public class ClientCommunication implements Client {
 
     public void setParent1(ChatroomGui parent1) {
         this.parent1 = parent1;
+    }
+
+    public void setSelfID(String selfID) {
+        this.selfID = selfID;
     }
 
     @Override

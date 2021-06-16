@@ -148,8 +148,9 @@ public class DatabaseManager implements DatabaseControl {
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()) {
                 String m1 = rs.getString(1);
-                if (password.equals(m1)) return LoginStatus.SUCCESS;
-                else {
+                if (password.equals(m1)) {
+                    return LoginStatus.SUCCESS;
+                } else {
                     return LoginStatus.PASSWORD_ERROR;
                 }
             }

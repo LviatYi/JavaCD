@@ -691,7 +691,6 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
                 toLoginBtn.setEnabled(true);
                 return false;
         }
-
     }
 
     @Override

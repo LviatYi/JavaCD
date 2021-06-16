@@ -625,15 +625,13 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
     // Construct
 
     public ChatroomGui(String selfId, String selfName) {
-        this.clientCommunication = ClientCommunication.getClientCommunicationInstance(this);
-        this.clientCommunication.setParent1(this);
         this.settingManager = SettingManager.getSettingManager(this, selfId, selfName);
         this.clientCommunication = ClientCommunication.getClientCommunicationInstance(this);
+        this.clientCommunication.setParent1(this);
+        this.clientCommunication.setSelfID(settingManager.getSelfId());
         this.chatroomManager = ChatroomManager.getChatroomManager(this);
         this.addressManager = AddressManager.getAddressManager(this);
         this.chatManager = ChatManager.getChatManager(this);
-        this.settingManager.setSelfId(selfId);
-        this.settingManager.setSelfName(selfName);
 
         prepareGui();
     }

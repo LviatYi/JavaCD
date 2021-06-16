@@ -942,7 +942,11 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
         msgPl.removeAll();
 
         if (chatroomId != null) {
-            for (Message message : chatManager.getChatroomMessageListLocal(chatroomId).getList()) {
+            MessageList messageList= chatManager.getChatroomMessageListLocal(chatroomId);
+            if (messageList==null){
+                return;
+            }
+            for (Message message :messageList.getList()) {
                 msgPl.add(new MessagePanel(message, message.getSenderId().equals(settingManager.getSelfId())));
             }
 

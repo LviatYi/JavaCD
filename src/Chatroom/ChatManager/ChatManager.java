@@ -251,10 +251,10 @@ public class ChatManager implements ClientManager {
     }
 
     /**
-     * 获取指定聊天室的本地聊天记录
+     * 获取指定聊天室的本地聊天记录.
      *
      * @param chatroomId 聊天室 Id
-     * @return 聊天记录组
+     * @return 聊天记录组.若无聊天记录则返回 null.
      */
     public MessageList getChatroomMessageListLocal(String chatroomId) {
         for (MessageList messageList : chatroomMessageRepo) {

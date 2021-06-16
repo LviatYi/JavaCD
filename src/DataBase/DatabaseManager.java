@@ -376,7 +376,9 @@ public class DatabaseManager implements DatabaseControl {
     @Override
     public boolean addFriend(String id, String id_friend) {
         con = getConnection();
+        if(id_friend!=null){
         try {
+
             String sql = "insert into FriendRelationship(ID1,ID2) values(?,?),(?,?)";
             PreparedStatement st = con.prepareStatement(sql);
             st.setString(1, id);
@@ -387,6 +389,7 @@ public class DatabaseManager implements DatabaseControl {
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
+        }
         }
         return false;
     }

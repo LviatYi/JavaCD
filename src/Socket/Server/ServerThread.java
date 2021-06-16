@@ -44,7 +44,9 @@ public class ServerThread extends Thread{
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(ins));
         while(true)
         {
-            DataPacket dataPacket = JSON.parseObject(bufferedReader.readLine(), DataPacket.class);
+            String strTemp =bufferedReader.readLine();
+            System.out.println(strTemp);
+            DataPacket dataPacket = JSON.parseObject(strTemp, DataPacket.class);
             switch (dataPacket.type)
             {
                 //注册

@@ -1131,6 +1131,9 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
     private ChatroomInfo entryFriendChatroom(String friendId) {
         ChatroomInfo chatroomInfo = chatroomManager.getPrivateChatroom(settingManager.getSelfId(), friendId);
         if (chatroomInfo != null) {
+            ChatroomInfo newPrivateChatroom=new ChatroomInfo("","", ChatroomInfo.ChatroomType.PRIVATE);
+            clientCommunication.addChatRoom(newPrivateChatroom);
+            chatroomManager.addChatroom(newPrivateChatroom);
             updateCurrentChatroom(chatroomInfo.getChatroomId(), false);
             return chatroomInfo;
         } else {

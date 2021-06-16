@@ -81,7 +81,6 @@ public class ClientThreadIn extends Thread {
                         break;
                     }
                 }
-                in.close();
             }
         } catch (IOException e) {
             e.printStackTrace();

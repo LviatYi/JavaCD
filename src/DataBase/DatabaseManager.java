@@ -70,7 +70,7 @@ public class DatabaseManager implements DatabaseControl {
             ResultSet rs = st.executeQuery(sql);
             if (rs.next()) {
                 DatabaseManager DB = new DatabaseManager();
-                random=DB.random1();
+                random = DB.random1();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -96,7 +96,7 @@ public class DatabaseManager implements DatabaseControl {
             ResultSet rs = st.executeQuery(sql);
             if (rs.next()) {
                 DatabaseManager DB = new DatabaseManager();
-                random=DB.random2();
+                random = DB.random2();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -106,17 +106,15 @@ public class DatabaseManager implements DatabaseControl {
     }
 
 
-@Override
-    public String returnChatRoomId()
-    {
-         DatabaseManager DB=new DatabaseManager();
-         String Id=DB.random2();
-         return Id;
+    @Override
+    public String returnChatRoomId() {
+        DatabaseManager DB = new DatabaseManager();
+        String Id = DB.random2();
+        return Id;
     }
 
-@Override
-    public FriendInfo returnUser(String Id)
-    {
+    @Override
+    public FriendInfo returnUser(String Id) {
         con = getConnection();
         String ID = new String();
         String Name = new String();
@@ -124,19 +122,19 @@ public class DatabaseManager implements DatabaseControl {
         try {
             String sql = "select * from UserInfo where ID=? ";
             PreparedStatement st = con.prepareStatement(sql);
-            st.setString(1,Id);
+            st.setString(1, Id);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 ID = rs.getString(1);
                 Name = rs.getString(3);
                 friendInfo = new FriendInfo(ID, Name);
-            return friendInfo;
-        }} catch (SQLException e) {
+                return friendInfo;
+            }
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
     }
-
 
 
     @Override
@@ -274,13 +272,12 @@ public class DatabaseManager implements DatabaseControl {
     }
 
     @Override
-    public String findNameThroughID(String ID)
-    {
+    public String findNameThroughID(String ID) {
         con = getConnection();
         try {
             Statement st = con.createStatement();
-            String sql = "select * from UserInfo where ID='"+ID+"'";
-            ResultSet rs =st.executeQuery(sql);
+            String sql = "select * from UserInfo where ID='" + ID + "'";
+            ResultSet rs = st.executeQuery(sql);
             rs.next();
             String name = rs.getString(1);
             return name;
@@ -294,10 +291,9 @@ public class DatabaseManager implements DatabaseControl {
     public ChatroomInfo createChatroom(ChatroomInfo chatroomInfo, FriendInfo creatorInfo) {
         con = getConnection();
         DatabaseManager DB = new DatabaseManager();
-        String chatRoomId=chatroomInfo.getChatroomId();//参数传的ID
-        if(chatRoomId ==null)
-        {
-             chatRoomId = DB.random2();//随机获得的ID
+        String chatRoomId = chatroomInfo.getChatroomId();//参数传的ID
+        if (chatRoomId == null) {
+            chatRoomId = DB.random2();//随机获得的ID
         }
         String chatroomName = chatroomInfo.getChatroomName();
         ChatroomInfo.ChatroomType chatroomType = chatroomInfo.getChatroomType();
@@ -316,19 +312,17 @@ public class DatabaseManager implements DatabaseControl {
             st.setInt(3, authentic);
             st.executeUpdate();
             Vector<FriendInfo> friend = new Vector<FriendInfo>();
-            if(authentic == 1)
-            {
+            if (authentic == 1) {
                 String num1 = chatroomInfo.getFriendList().elementAt(0).getFriendId();
                 String num2 = chatroomInfo.getFriendList().elementAt(1).getFriendId();
-                DB.insertChatroom(num1,chatRoomId);
-                DB.insertChatroom(num2,chatRoomId);
+                DB.insertChatroom(num1, chatRoomId);
+                DB.insertChatroom(num2, chatRoomId);
                 DB.findNameThroughID(num2);
-                FriendInfo friendInfoTemp1 = new FriendInfo(num1,DB.findNameThroughID(num1));
-                FriendInfo friendInfoTemp2 = new FriendInfo(num2,DB.findNameThroughID(num2));
+                FriendInfo friendInfoTemp1 = new FriendInfo(num1, DB.findNameThroughID(num1));
+                FriendInfo friendInfoTemp2 = new FriendInfo(num2, DB.findNameThroughID(num2));
                 friend.add(friendInfoTemp1);
                 friend.add(friendInfoTemp2);
-            }
-            else{
+            } else {
                 DB.insertChatroom(userId, chatRoomId);
                 friend.add(creatorInfo);
             }
@@ -339,6 +333,7 @@ public class DatabaseManager implements DatabaseControl {
         }
         return null;
     }
+
     void insertChatroom(String id, String chatroomID)//将id和chatroom插入到聊天室成员表
     {
         con = getConnection();
@@ -405,20 +400,20 @@ public class DatabaseManager implements DatabaseControl {
     @Override
     public boolean addFriend(String id, String id_friend) {
         con = getConnection();
-        if(id_friend!=null){
-        try {
+        if (id_friend != null) {
+            try {
 
-            String sql = "insert into FriendRelationship(ID1,ID2) values(?,?),(?,?)";
-            PreparedStatement st = con.prepareStatement(sql);
-            st.setString(1, id);
-            st.setString(2, id_friend);
-            st.setString(3, id_friend);
-            st.setString(4, id);
-            int rs1 = st.executeUpdate();
-            return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+                String sql = "insert into FriendRelationship(ID1,ID2) values(?,?),(?,?)";
+                PreparedStatement st = con.prepareStatement(sql);
+                st.setString(1, id);
+                st.setString(2, id_friend);
+                st.setString(3, id_friend);
+                st.setString(4, id);
+                int rs1 = st.executeUpdate();
+                return true;
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return false;
     }
@@ -479,7 +474,7 @@ public class DatabaseManager implements DatabaseControl {
         try {
             String sql = "select * from ChatroomInfo where ID=? and Authentic=1";
             PreparedStatement st = con.prepareStatement(sql);
-            st.setString(1,chatroomId);
+            st.setString(1, chatroomId);
             ResultSet rs1 = st.executeQuery();
             while (rs1.next()) {
                 return true;
@@ -564,7 +559,7 @@ public class DatabaseManager implements DatabaseControl {
         int Authentic1;
         ChatroomList chatroomList = new ChatroomList();
         ChatroomInfo.ChatroomType Authentic;
-        DatabaseManager DB=new DatabaseManager();
+        DatabaseManager DB = new DatabaseManager();
         try {
             String sql = "select DISTINCT ChatroomInfo.ID,ChatroomInfo.Name,ChatroomInfo.Authentic from ChatroomInfo,Chatroom where Chatroom.UserID=? and Chatroom.ChatroomID=ChatroomInfo.ID";
             PreparedStatement st = con.prepareStatement(sql);
@@ -575,12 +570,12 @@ public class DatabaseManager implements DatabaseControl {
                 Name = rs.getString(2);
                 Authentic1 = rs.getInt(3);
                 if (Authentic1 == 1) Authentic = ChatroomInfo.ChatroomType.PUBLIC;
-                 else {
+                else {
                     Authentic = ChatroomInfo.ChatroomType.PUBLIC;
                 }
                 Vector<FriendInfo> User = new Vector<FriendInfo>();
-                User=DB.getChatRoomUser(ID);
-                chatroomList.add(new ChatroomInfo(ID, Name, Authentic,User));
+                User = DB.getChatRoomUser(ID);
+                chatroomList.add(new ChatroomInfo(ID, Name, Authentic, User));
             }
             return chatroomList;
         } catch (SQLException e) {
@@ -612,39 +607,38 @@ public class DatabaseManager implements DatabaseControl {
                     Authentic = ChatroomInfo.ChatroomType.PUBLIC;
                 }
             }
-            DatabaseManager DB=new DatabaseManager();
+            DatabaseManager DB = new DatabaseManager();
             Vector<FriendInfo> User = new Vector<FriendInfo>();
-            User=DB.getChatRoomUser(chatroomID);
-            chatroomInfo = new ChatroomInfo(ID, Name, Authentic,User);
+            User = DB.getChatRoomUser(chatroomID);
+            chatroomInfo = new ChatroomInfo(ID, Name, Authentic, User);
             return chatroomInfo;
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
     }
+
     //Vector<FriendInfo> friend = new Vector<FriendInfo>();
-      //      friend.add(creatorInfo);
+    //      friend.add(creatorInfo);
     //ChatroomInfo chatroomInfo1 = new ChatroomInfo(chatRoomId, chatroomName, chatroomType, friend);
-    Vector<FriendInfo> getChatRoomUser(String chatroomId)
-    {    Vector<FriendInfo> User = new Vector<FriendInfo>();
-        con=getConnection();
-        try{
+    Vector<FriendInfo> getChatRoomUser(String chatroomId) {
+        Vector<FriendInfo> User = new Vector<FriendInfo>();
+        con = getConnection();
+        try {
             String sql = "select Chatroom.UserID,ChatroomInfo.Name from Chatroom,ChatroomInfo where Chatroom.ChatroomID=? and Chatroom.UserID=ChatroomInfo.ID ";
             PreparedStatement st = con.prepareStatement(sql);
             st.setString(1, chatroomId);
             ResultSet rs = st.executeQuery();
-            while(rs.next())
-            {
-             String userId=rs.getString(1);
-             String userName=rs.getString(2);
-             User.add(new FriendInfo(userId,userName));
+            while (rs.next()) {
+                String userId = rs.getString(1);
+                String userName = rs.getString(2);
+                User.add(new FriendInfo(userId, userName));
             }
-        }catch (SQLException e){e.printStackTrace();}
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return User;
     }
-
-
-
 
 
     @Override
@@ -675,8 +669,8 @@ public class DatabaseManager implements DatabaseControl {
                         Authentic = ChatroomInfo.ChatroomType.PUBLIC;
                     }
                     Vector<FriendInfo> User = new Vector<FriendInfo>();
-                    User=DB.getChatRoomUser(ID);
-                    chatroomList.add(new ChatroomInfo(ID, Name, Authentic,User));
+                    User = DB.getChatRoomUser(ID);
+                    chatroomList.add(new ChatroomInfo(ID, Name, Authentic, User));
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -685,6 +679,7 @@ public class DatabaseManager implements DatabaseControl {
         }
         return chatroomList;
     }
+
     public String[] getSameChatroom(String userId1, String userId2) {//选择两个人都在的群ID
         con = getConnection();
         String ID = new String();
@@ -715,35 +710,12 @@ public class DatabaseManager implements DatabaseControl {
 
     @Override
     public ChatroomInfo getPrivateChatroomInfo(String userId1, String userId2) {
-        con = getConnection();
-        String ID = new String();
-        String Name = new String();
-        ChatroomInfo chatroomInfo = null;
-        ChatroomInfo.ChatroomType Authentic;
-        DatabaseManager DB = new DatabaseManager();
-        String[] chatroomID = new String[10];
-        chatroomID = DB.getSameChatroom(userId1, userId2);
-        int i = 0;
-        while (chatroomID[i] != null) {
-            try {
-                String sql = "select * from ChatroomInfo where ID=? and Authentic=1";
-                PreparedStatement st = con.prepareStatement(sql);
-                st.setString(1, chatroomID[i]);
-                ResultSet rs = st.executeQuery();
-                while (rs.next())
-                {
-                    ID = rs.getString(1);
-                    Name = rs.getString(2);
-                    Authentic = ChatroomInfo.ChatroomType.PRIVATE;
-                    Vector<FriendInfo> User = new Vector<FriendInfo>();
-                    User=DB.getChatRoomUser(ID);
-                    chatroomInfo = new ChatroomInfo(ID, Name, Authentic,User);
-                }
-                return chatroomInfo;
-            } catch (SQLException e) {
-                e.printStackTrace();
+        ChatroomList chatroomList = getChatroomInfo(userId1, userId2);
+        for (ChatroomInfo chatroomInfo : chatroomList.getList()
+        ) {
+            if (chatroomInfo.getChatroomType().equals(ChatroomInfo.ChatroomType.PRIVATE)) {
+                 return chatroomInfo;
             }
-            i++;
         }
         return null;
     }

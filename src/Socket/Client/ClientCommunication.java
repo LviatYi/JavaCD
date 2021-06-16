@@ -70,6 +70,7 @@ public class ClientCommunication implements Client {
     }
 
     public void setParent1(ChatroomGui parent1) {
+        this.ci.setParent1(parent1);
         this.parent1 = parent1;
     }
 

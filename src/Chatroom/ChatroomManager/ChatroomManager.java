@@ -11,6 +11,7 @@ import Status.LoginStatus;
 import Status.RegisterStatus;
 
 import java.util.Date;
+import java.util.Vector;
 
 /**
  * 聊天室管理类
@@ -246,7 +247,10 @@ public class ChatroomManager implements ClientManager {
         if (chatroomInfo == null) {
             chatroomInfo = getChatroomServer(userId1, userId2);
             if (chatroomInfo==null||"".equals(chatroomInfo.getChatroomId())){
-                chatroomInfo=new ChatroomInfo(parent.getNewChatroomIdTmp(),"", ChatroomInfo.ChatroomType.PRIVATE);
+                Vector<FriendInfo> friendInfos=new Vector<FriendInfo>();
+                friendInfos.add(new FriendInfo(userId1,""));
+                friendInfos.add(new FriendInfo(userId2,""));
+                chatroomInfo=new ChatroomInfo(parent.getNewChatroomIdTmp(),"", ChatroomInfo.ChatroomType.PRIVATE,friendInfos);
                 parent.getClientCommunication().addChatRoom(chatroomInfo);
                 chatroomInfo=getChatroomServer(userId1,userId2);
                 addChatroom(chatroomInfo);

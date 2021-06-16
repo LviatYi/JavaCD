@@ -399,6 +399,7 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
         public void actionPerformed(ActionEvent e) {
             passwordTf.requestFocus();
             passwordTf.selectAll();
+            updateAuthenticationBtn();
         }
     };
     private Action setName = new AbstractAction() {
@@ -406,6 +407,7 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
         public void actionPerformed(ActionEvent e) {
             passwordTf.requestFocus();
             passwordTf.selectAll();
+            updateAuthenticationBtn();
         }
     };
     private Action setPassword = new AbstractAction() {
@@ -413,9 +415,11 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
         public void actionPerformed(ActionEvent e) {
             if (loginBtn.isVisible()) {
                 mainPl.requestFocus();
+                updateAuthenticationBtn();
             } else {
                 password2Tf.requestFocus();
                 password2Tf.selectAll();
+                updateAuthenticationBtn();
             }
         }
     };
@@ -423,6 +427,7 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
         @Override
         public void actionPerformed(ActionEvent e) {
             mainPl.requestFocus();
+            updateAuthenticationBtn();
         }
     };
 
@@ -543,7 +548,6 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
                 //id 输入正确
                 case QUALIFIED:
                     idStatusLb.setText(qualifiedStatusStr);
-                    updateAuthenticationBtn();
                     break;
                 //输入为空
                 case EMPTY:
@@ -559,7 +563,6 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
                 //name 输入正确
                 case QUALIFIED:
                     nameStatusLb.setText(qualifiedStatusStr);
-                    updateAuthenticationBtn();
                     break;
                 //输入过长
                 case TOO_LONG:
@@ -603,6 +606,8 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
             password2Pl.setBorder(BorderFactory.createCompoundBorder());
             checkTwicePasswordInput();
         }
+
+        updateAuthenticationBtn();
     }
 
     private void checkTwicePasswordInput() {

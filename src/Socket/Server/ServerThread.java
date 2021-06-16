@@ -238,9 +238,9 @@ public class ServerThread extends Thread{
     //输出消息类
     public void sendMsg(DataPacket msg) throws IOException {
         String temp = JSONObject.toJSONString(msg);
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(ous));
-        bw.write(temp+"\n");
-        bw.flush();
+        PrintStream printStream = new PrintStream(ous);
+        printStream.println(temp);
+        printStream.flush();
     }
 
     //关闭当前客户机与服务器的连接。

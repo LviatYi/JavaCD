@@ -768,6 +768,8 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
                 }
                 switch (chatroomManager.join(input)) {
                     case QUALIFIED:
+                        updateChatroom();
+                        break;
                     case NEW:
                         updateChatroom();
                     case JOINED:
@@ -1020,7 +1022,7 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
         Message message = new Message(Encryption.encryptContent(this.inputTf.getText()), settingManager.getSelfId(), chatManager.getCurrentChatroomInfo().getChatroomId());
         chatManager.send(message);
         this.inputTf.setText("");
-        updateChatPl();
+        updateChatPl(message);
     }
 
     /**

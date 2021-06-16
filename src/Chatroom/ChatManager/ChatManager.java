@@ -73,6 +73,8 @@ public class ChatManager implements ClientManager {
     private ChatManager(ChatroomGui parent) {
         this.parent = parent;
         currentChatroomInfo = new ChatroomInfo();
+        chatroomMessageRepo = new Vector<MessageList>();
+        chatroomList = new Vector<String>();
     }
 
     /**

@@ -69,7 +69,6 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
         return this.clientCommunication;
     }
 
-
     // Display Text
 
     /**

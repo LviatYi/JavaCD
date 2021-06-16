@@ -153,6 +153,7 @@ public class ChatroomManager implements ClientManager {
                 return ChatroomStatus.PRIVATE;
             } else {
                 chatroomList.add(new ChatroomInfo(chatroomInfo));
+                parent.getClientCommunication().joinChatRoom(chatroomInfo);
                 parent.updateChatroom();
                 //加入成功
                 return ChatroomStatus.QUALIFIED;

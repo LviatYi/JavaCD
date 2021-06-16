@@ -306,7 +306,7 @@ public class ClientCommunication implements Client {
             e.printStackTrace();
         }
         PrintStream ps = new PrintStream(out);
-        if (str!=null&&str!=""){
+        if (str!=null&&str!=""&&str!="null"){
             ps.println(str);
             ps.flush();
         }

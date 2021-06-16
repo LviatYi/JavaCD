@@ -194,7 +194,7 @@ public class ClientCommunication implements Client {
     @Override
     public FriendInfo findFriend(String userID) {
         try {
-            Socket socket = new Socket("IP", 9000);
+            Socket socket = new Socket(IP, 9000);
             InputStream dis = new DataInputStream(socket.getInputStream());
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(dis));
             DataPacket mes = new DataPacket();
@@ -229,7 +229,7 @@ public class ClientCommunication implements Client {
     @Override
     public ChatroomInfo findChatRoomInfo(String chatRoomID) {
         try {
-            Socket socket = new Socket("IP", 9000);
+            Socket socket = new Socket(IP, 9000);
             InputStream dis = new DataInputStream(socket.getInputStream());
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(dis));
             DataPacket mes = new DataPacket();
@@ -282,7 +282,7 @@ public class ClientCommunication implements Client {
     }
 
     private boolean client() throws IOException {
-        socket = new Socket("IP", 9000);
+        socket = new Socket(IP, 9000);
         ci = new ClientThreadIn();
         ci.setSocket(socket);
         ci.setParent2(parent2);

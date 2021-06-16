@@ -55,11 +55,14 @@ public class MultiThread {
         dataPacket.chatRoomInfo = chatroomInfo;
         dataPacket.type = CHATROOM_NEW_MEMBER;
         for(ThreadManager temp:threadList){
-            for (ChatroomInfo roomTemp:temp.chatroomList.getList())
+            if(!temp.thread.socketId.equals(id))
             {
-                if(roomTemp.getChatroomId().equals(chatroomInfo.getChatroomId()))
+                for (ChatroomInfo roomTemp:temp.chatroomList.getList())
                 {
-                    temp.thread.sendMsg(dataPacket);
+                    if(roomTemp.getChatroomId().equals(chatroomInfo.getChatroomId()))
+                    {
+                        temp.thread.sendMsg(dataPacket);
+                    }
                 }
             }
         }

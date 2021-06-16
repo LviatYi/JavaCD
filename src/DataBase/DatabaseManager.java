@@ -735,7 +735,9 @@ public class DatabaseManager implements DatabaseControl {
                     ID = rs.getString(1);
                     Name = rs.getString(2);
                     Authentic = ChatroomInfo.ChatroomType.PRIVATE;
-                    chatroomInfo = new ChatroomInfo(ID, Name, Authentic);
+                    Vector<FriendInfo> User = new Vector<FriendInfo>();
+                    User=DB.getChatRoomUser(ID);
+                    chatroomInfo = new ChatroomInfo(ID, Name, Authentic,User);
                 }
                 return chatroomInfo;
             } catch (SQLException e) {

@@ -135,16 +135,21 @@ public class ChatroomManager implements ClientManager {
             return ChatroomStatus.JOINED;
         } else {
             ChatroomInfo chatroomInfo = new ChatroomInfo(null, null, null);
-            chatroomInfo = parent.getClientCommunication().findChatRoomInfo(chatroomId);
+            chatroomInfo = getChatroomServer(chatroomId);
             if (chatroomInfo.getChatroomId() == null|| "".equals(chatroomInfo.getChatroomId())) {
+                // 此 Chatroom 不存在
                 if (parent.confirmNewChatroom()) {
-                    chatroomInfo = create(chatroomId, parent.confirmChatroomName(), ChatroomInfo.ChatroomType.PUBLIC);
-                    if (chatroomInfo == null) {
-                        return ChatroomStatus.ERROR;
-                    } else {
-                        chatroomList.add(chatroomInfo);
-                        parent.updateChatroom();
-                        return ChatroomStatus.NEW;
+                    String newChatroomName= parent.confirmChatroomName();
+                    if (!"".equals(newChatroomName)){
+                        //用户确认新建并命名
+                        chatroomInfo = create(chatroomId,newChatroomName, ChatroomInfo.ChatroomType.PUBLIC);
+                        if (chatroomInfo == null) {
+                            return ChatroomStatus.ERROR;
+                        } else {
+                            return ChatroomStatus.NEW;
+                        }
+                    }else {
+                        return ChatroomStatus.CANCEL;
                     }
                 } else {
                     return ChatroomStatus.CANCEL;
@@ -190,6 +195,7 @@ public class ChatroomManager implements ClientManager {
         ChatroomInfo chatroomInfo = new ChatroomInfo(chatroomId, chatroomName, chatroomType);
         parent.getClientCommunication().addChatRoom(chatroomInfo);
         if (chatroomInfo.getChatroomId() != null) {
+            chatroomInfo=getChatroomServer(chatroomId);
             chatroomList.add(chatroomInfo);
             parent.updateChatroom();
         }
@@ -209,6 +215,20 @@ public class ChatroomManager implements ClientManager {
     public ChatroomInfo getChatroomServer(String userId1, String userId2) {
         ChatroomInfo chatroomInfo = null;
         chatroomInfo = parent.getClientCommunication().findChatRoomInfo(userId1, userId2);
+        return chatroomInfo;
+    }
+
+    /**
+     * 根据 ChatroomID 从服务器获取聊天室信息.
+     * 希望同步.
+     *
+     * @param chatroomId 此用户的 Id
+     * @return 聊天室信息.
+     * 若无则返回 null.
+     */
+    public ChatroomInfo getChatroomServer(String chatroomId) {
+        ChatroomInfo chatroomInfo = null;
+        chatroomInfo = parent.getClientCommunication().findChatRoomInfo(chatroomId);
         return chatroomInfo;
     }
 

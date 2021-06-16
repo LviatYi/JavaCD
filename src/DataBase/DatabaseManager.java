@@ -433,7 +433,7 @@ public class DatabaseManager implements DatabaseControl {
             PreparedStatement st = con.prepareStatement(sql);
             st.setString(1, chatroomId);
             ResultSet rs1 = st.executeQuery();
-            while (rs.next()) {
+            while (rs1.next()) {
                 return true;
             }
             return false;
@@ -452,7 +452,7 @@ public class DatabaseManager implements DatabaseControl {
             PreparedStatement st = con.prepareStatement(sql);
             st.setString(1,chatroomId);
             ResultSet rs1 = st.executeQuery();
-            while (rs.next()) {
+            while (rs1.next()) {
                 return true;
             }
             return false;
@@ -472,7 +472,7 @@ public class DatabaseManager implements DatabaseControl {
             st.setString(1, chatroomId);
             st.setString(2, usrId);
             ResultSet rs1 = st.executeQuery();
-            while (rs.next()) {
+            while (rs1.next()) {
                 return true;
             }
             return false;
@@ -719,6 +719,7 @@ public class DatabaseManager implements DatabaseControl {
 
 //  public static void main(String[] args) {
 //        DatabaseManager db=new DatabaseManager();
+//      System.out.println(db.exist_chatroom("1231"));
 //      //System.out.println(db.returnChatRoomId());
 //        //db.getUserChatroomList("1");
 //        //System.out.println(db.random2());

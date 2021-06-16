@@ -529,7 +529,7 @@ public class DatabaseManager implements DatabaseControl {
         ChatroomList chatroomList = new ChatroomList();
         ChatroomInfo.ChatroomType Authentic;
         try {
-            String sql = "select DISTINCT ChatroomInfo.ID,ChatroomInfo.Name,ChatroomInfo.Authentic from ChatroomInfo,Chatroom where Chatroom.UserID='?' and Chatroom.ChatroomID=ChatroomInfo.ID";
+            String sql = "select DISTINCT ChatroomInfo.ID,ChatroomInfo.Name,ChatroomInfo.Authentic from ChatroomInfo,Chatroom where Chatroom.UserID=? and Chatroom.ChatroomID=ChatroomInfo.ID";
             PreparedStatement st = con.prepareStatement(sql);
             st.setString(1, userId);
             ResultSet rs = st.executeQuery();
@@ -537,9 +537,8 @@ public class DatabaseManager implements DatabaseControl {
                 ID = rs.getString(1);
                 Name = rs.getString(2);
                 Authentic1 = rs.getInt(3);
-                if (Authentic1 == 1) {
-                    Authentic = ChatroomInfo.ChatroomType.PUBLIC;
-                } else {
+                if (Authentic1 == 1) Authentic = ChatroomInfo.ChatroomType.PUBLIC;
+                 else {
                     Authentic = ChatroomInfo.ChatroomType.PUBLIC;
                 }
                 chatroomList.add(new ChatroomInfo(ID, Name, Authentic));

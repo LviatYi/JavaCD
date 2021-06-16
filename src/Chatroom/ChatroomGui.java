@@ -695,7 +695,6 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
         inputTf.getInputMap().put(KeyStroke.getKeyStroke('\n', InputEvent.CTRL_MASK), "sendMsg");
         inputTf.getActionMap().put("sendMsg", sendMsg);
 
-
         noMoreMsgLb.setVisible(false);
         moreMsgBtn.setVisible(false);
 
@@ -941,13 +940,6 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
      */
     private void updateChatPl(String chatroomId, boolean isHistory) {
         msgPl.removeAll();
-        //Exist for DEBUG
-        msgPl.add(new MessagePanel(new Message("Hello!AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "", "", new Date()), true));
-        msgPl.add(new MessagePanel(new Message("Hello!AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "", "", new Date()), false));
-        msgPl.add(new MessagePanel(new Message("Hello!AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "", "", new Date()), false));
-        msgPl.add(new MessagePanel(new Message("Hello!AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "", "", new Date()), false));
-        msgPl.add(new MessagePanel(new Message("Hello!AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "", "", new Date()), false));
-        //End
 
         if (chatroomId != null) {
             for (Message message : chatManager.getChatroomMessageListLocal(chatroomId).getList()) {
@@ -1033,15 +1025,15 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
     private boolean updateChatroomInfoPl() {
         String title = "<html>\n" +
                 "    <body>\n" +
-                "        <div style=\"font-size: 24px;font-family: 'Trebuchet MS';\">\n" +
+                "        <span style=\"font-size: 24px;font-family: 'Trebuchet MS';\">\n" +
                 chatManager.getCurrentChatroomInfo().getChatroomName() +
-                "        </div>\n" +
-                "        <div style=\"font-size: 24px;font-family: 'Trebuchet MS';\">\n" +
-                "            \" | \"\n" +
-                "        </div>\n" +
-                "        <div style=\"font-size: 12px;font-family: 'Trebuchet MS';\">\n" +
+                "        </span>\n" +
+                "        <span style=\"font-size: 24px;font-family: 'Trebuchet MS';\">\n" +
+                "|" +
+                "        </span>\n" +
+                "        <span style=\"font-size: 12px;font-family: 'Trebuchet MS';\">\n" +
                 chatManager.getCurrentChatroomInfo().getChatroomId() +
-                "        </div>\n" +
+                "        </span>\n" +
                 "    </body>\n" +
                 "</html>";
 

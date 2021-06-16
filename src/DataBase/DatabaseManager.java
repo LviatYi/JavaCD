@@ -684,7 +684,6 @@ public class DatabaseManager implements DatabaseControl {
         con = getConnection();
         String ID = new String();
         String Name = new String();
-        int Authentic1;
         ChatroomInfo chatroomInfo = null;
         ChatroomInfo.ChatroomType Authentic;
         DatabaseManager DB = new DatabaseManager();
@@ -700,12 +699,7 @@ public class DatabaseManager implements DatabaseControl {
                 while (rs.next()) {
                     ID = rs.getString(1);
                     Name = rs.getString(2);
-                    Authentic1 = rs.getInt(3);
-                    if (Authentic1 == 1) {
-                        Authentic = ChatroomInfo.ChatroomType.PUBLIC;
-                    } else {
-                        Authentic = ChatroomInfo.ChatroomType.PUBLIC;
-                    }
+                    Authentic = ChatroomInfo.ChatroomType.PRIVATE;
                     chatroomInfo = new ChatroomInfo(ID, Name, Authentic);
                 }
                 return chatroomInfo;
@@ -716,6 +710,7 @@ public class DatabaseManager implements DatabaseControl {
         }
         return null;
     }
+
 
 //  public static void main(String[] args) {
 //        DatabaseManager db=new DatabaseManager();

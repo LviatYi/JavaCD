@@ -1110,7 +1110,7 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
         } catch (NullPointerException exception) {
             JOptionPane.showMessageDialog(null, "You don't have any friends,loser.");
         }
-        chatroomPl.updateUI();
+        chatroomListPl.updateUI();
     }
 
     /**

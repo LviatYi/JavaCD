@@ -136,7 +136,7 @@ public class ChatroomManager implements ClientManager {
         } else {
             ChatroomInfo chatroomInfo = new ChatroomInfo(null, null, null);
             chatroomInfo = parent.getClientCommunication().findChatRoomInfo(chatroomId);
-            if (chatroomInfo.getChatroomId() == null) {
+            if (chatroomInfo.getChatroomId() == null||chatroomInfo.getChatroomId() == "") {
                 if (parent.confirmNewChatroom()) {
                     chatroomInfo = create(chatroomId, parent.confirmChatroomName(), ChatroomInfo.ChatroomType.PUBLIC);
                     if (chatroomInfo == null) {

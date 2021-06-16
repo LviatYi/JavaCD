@@ -254,13 +254,13 @@ public class ClientCommunication implements Client {
             InputStream dis = new DataInputStream(socket.getInputStream());
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(dis));
             DataPacket mes = new DataPacket();
-            mes.type = DataPacket.transportType.FIND_CHATROOM_INFO_THROUGH_USER;
+            mes.type = DataPacket.transportType.FIND_PRIVATE_CHATROOM_INFO_THROUGH_USER;
             mes.id = userID1;
             mes.friendRequestID = userID2;
             sendToServer(JSONObject.toJSONString(mes),socket);
             while (true) {
                 DataPacket dp = JSON.parseObject(bufferedReader.readLine(), DataPacket.class);
-                if (dp.type == DataPacket.transportType.FIND_CHATROOM_INFO_THROUGH_USER) {
+                if (dp.type == DataPacket.transportType.FIND_PRIVATE_CHATROOM_INFO_THROUGH_USER) {
                     return dp.chatRoomInfo;
                 }
             }

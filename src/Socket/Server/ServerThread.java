@@ -1,7 +1,6 @@
 package Socket.Server;
 
 import Chatroom.ChatroomManager.ChatroomInfo;
-import Chatroom.ChatroomManager.ChatroomList;
 import Chatroom.FriendManager.FriendInfo;
 import DataBase.DatabaseManager;
 import Socket.tools.DataPacket;
@@ -216,11 +215,11 @@ public class ServerThread extends Thread{
                     sendMsg(temp);
                     break;
                 }
-                case FIND_CHATROOM_INFO_THROUGH_USER:
+                case FIND_PRIVATE_CHATROOM_INFO_THROUGH_USER:
                 {
                     DataPacket temp = new DataPacket();
                     temp.chatRoomInfo = databaseManager.getPrivateChatroomInfo(dataPacket.id,dataPacket.friendRequestID);
-                    temp.type= DataPacket.transportType.FIND_CHATROOM_INFO_THROUGH_USER;
+                    temp.type= DataPacket.transportType.FIND_PRIVATE_CHATROOM_INFO_THROUGH_USER;
                     sendMsg(temp);
                     break;
                 }

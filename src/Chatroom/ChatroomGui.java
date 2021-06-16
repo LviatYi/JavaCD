@@ -357,9 +357,9 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
                         "           From " +
                         chatroomManager.getChatroom(message.getChatroomId()).getMember(message.getSenderId()).getFriendName() +
                         /*
-                        * TODO_LviatYi Maybe here is a wrong 聊天室的用户信息可能未传入
-                        * date 2021/6/17
-                        */
+                         * TODO_LviatYi Maybe here is a wrong 聊天室的用户信息可能未传入
+                         * date 2021/6/17
+                         */
                         "        </div>\n" +
                         "    </body>\n" +
                         "</html>\n" +
@@ -637,6 +637,18 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
         this.addressManager = AddressManager.getAddressManager(this);
         this.chatManager = ChatManager.getChatManager(this);
 
+        //主窗体设置 标题 主布局 关闭事件 不允许控制窗口大小 设置大小 设置居中 设置可见性
+        this.setTitle(titleFrame);
+        this.setContentPane(mainPl);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setResizable(true);
+        this.setMinimumSize(new Dimension(1200, 800));
+        this.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width - this.getWidth()) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - this.getHeight()) / 2);
+
+        chatroomListPl.setLayout(new BoxLayout(chatroomListPl, BoxLayout.Y_AXIS));
+        friendListPl.setLayout(new BoxLayout(friendListPl, BoxLayout.Y_AXIS));
+        msgPl.setLayout(new BoxLayout(msgPl, BoxLayout.Y_AXIS));
+
         prepareGui();
     }
 
@@ -649,17 +661,6 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
     // Gui Prepare
 
     private void prepareGui() {
-        //主窗体设置 标题 主布局 关闭事件 不允许控制窗口大小 设置大小 设置居中 设置可见性
-        this.setTitle(titleFrame);
-        this.setContentPane(mainPl);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setResizable(true);
-        this.setMinimumSize(new Dimension(1200, 800));
-        this.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width - this.getWidth()) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - this.getHeight()) / 2);
-
-        chatroomListPl.setLayout(new BoxLayout(chatroomListPl, BoxLayout.Y_AXIS));
-        friendListPl.setLayout(new BoxLayout(friendListPl, BoxLayout.Y_AXIS));
-        msgPl.setLayout(new BoxLayout(msgPl, BoxLayout.Y_AXIS));
 
         /**
          * 加载提示文字
@@ -722,12 +723,10 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
         chatroomIdTf.setDocument(new IntegerDocument());
         friendIdTf.setDocument(new IntegerDocument());
 
-        prepareLoadingGui();
 
         this.setVisible(true);
 
-        updateChatroomPl();
-        updateFriendPl();
+        prepareLoadingGui();
 
         //Exist for DEBUG
         updateChatPl(null);
@@ -928,11 +927,11 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
         msgPl.removeAll();
 
         if (chatroomId != null) {
-            MessageList messageList= chatManager.getChatroomMessageListLocal(chatroomId);
-            if (messageList==null){
+            MessageList messageList = chatManager.getChatroomMessageListLocal(chatroomId);
+            if (messageList == null) {
                 return;
             }
-            for (Message message :messageList.getList()) {
+            for (Message message : messageList.getList()) {
                 msgPl.add(new MessagePanel(message, message.getSenderId().equals(settingManager.getSelfId())));
             }
 
@@ -1004,7 +1003,6 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
         Message message = new Message(Encryption.encryptContent(this.inputTf.getText()), settingManager.getSelfId(), chatManager.getCurrentChatroomInfo().getChatroomId());
         chatManager.send(message);
         this.inputTf.setText("");
-        updateChatPl(message);
     }
 
     /**

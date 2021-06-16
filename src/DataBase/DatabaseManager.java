@@ -546,6 +546,7 @@ public class DatabaseManager implements DatabaseControl {
             while (rs.next()) {
                 friendName = rs.getString(1);
                 friendID = rs.getString(2);
+
                 friendList.add(new FriendInfo(friendID, friendName));
             }
             return friendList;
@@ -563,6 +564,7 @@ public class DatabaseManager implements DatabaseControl {
         int Authentic1;
         ChatroomList chatroomList = new ChatroomList();
         ChatroomInfo.ChatroomType Authentic;
+        DatabaseManager DB=new DatabaseManager();
         try {
             String sql = "select DISTINCT ChatroomInfo.ID,ChatroomInfo.Name,ChatroomInfo.Authentic from ChatroomInfo,Chatroom where Chatroom.UserID=? and Chatroom.ChatroomID=ChatroomInfo.ID";
             PreparedStatement st = con.prepareStatement(sql);
@@ -576,7 +578,9 @@ public class DatabaseManager implements DatabaseControl {
                  else {
                     Authentic = ChatroomInfo.ChatroomType.PUBLIC;
                 }
-                chatroomList.add(new ChatroomInfo(ID, Name, Authentic));
+                Vector<FriendInfo> User = new Vector<FriendInfo>();
+                User=DB.getChatRoomUser(ID);
+                chatroomList.add(new ChatroomInfo(ID, Name, Authentic,User));
             }
             return chatroomList;
         } catch (SQLException e) {
@@ -643,7 +647,6 @@ public class DatabaseManager implements DatabaseControl {
 
 
 
-
     @Override
     public ChatroomList getChatroomInfo(String userId1, String userId2) {
         con = getConnection();
@@ -671,7 +674,9 @@ public class DatabaseManager implements DatabaseControl {
                     } else {
                         Authentic = ChatroomInfo.ChatroomType.PUBLIC;
                     }
-                    chatroomList.add(new ChatroomInfo(ID, Name, Authentic));
+                    Vector<FriendInfo> User = new Vector<FriendInfo>();
+                    User=DB.getChatRoomUser(ID);
+                    chatroomList.add(new ChatroomInfo(ID, Name, Authentic,User));
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -725,7 +730,8 @@ public class DatabaseManager implements DatabaseControl {
                 PreparedStatement st = con.prepareStatement(sql);
                 st.setString(1, chatroomID[i]);
                 ResultSet rs = st.executeQuery();
-                while (rs.next()) {
+                while (rs.next())
+                {
                     ID = rs.getString(1);
                     Name = rs.getString(2);
                     Authentic = ChatroomInfo.ChatroomType.PRIVATE;

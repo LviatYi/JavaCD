@@ -503,7 +503,7 @@ public class DatabaseManager implements DatabaseControl {
         String friendID = new String();
         FriendList friendList = new FriendList();
         try {
-            String sql = "select DISTINCT UserInfo.Name,FriendRelationship.ID2 from UserInfo,FriendRelationship where FriendRelationship.ID1='?' and UserInfo.ID=FriendRelationship.ID2";
+            String sql = "select DISTINCT UserInfo.Name,FriendRelationship.ID2 from UserInfo,FriendRelationship where FriendRelationship.ID1=? and UserInfo.ID=FriendRelationship.ID2";
             PreparedStatement st = con.prepareStatement(sql);
             st.setString(1, userId);
             ResultSet rs = st.executeQuery();
@@ -710,4 +710,12 @@ public class DatabaseManager implements DatabaseControl {
         }
         return null;
     }
+
+//  public static void main(String[] args) {
+//        DatabaseManager db=new DatabaseManager();
+//      //System.out.println(db.returnChatRoomId());
+//        //db.getUserChatroomList("1");
+//        //System.out.println(db.random2());
+//    }
 }
+

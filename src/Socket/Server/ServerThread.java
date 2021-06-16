@@ -219,7 +219,7 @@ public class ServerThread extends Thread{
                 {
                     DataPacket temp = new DataPacket();
                     temp.chatRoomInfo = databaseManager.getPrivateChatroomInfo(dataPacket.id,dataPacket.friendRequestID);
-                    temp.type= DataPacket.transportType.FIND_CHATROOM_INFO_THROUGH_ID;
+                    temp.type= DataPacket.transportType.FIND_CHATROOM_INFO_THROUGH_USER;
                     sendMsg(temp);
                     break;
                 }

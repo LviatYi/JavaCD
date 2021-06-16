@@ -27,7 +27,7 @@ public class ClientCommunication implements Client {
     private String selfID;
     private ClientThreadIn ci = null;
     private Socket socket = null;
-    private final String IP = "127.0.0.1";
+    private final String IP = "10.2.61.10";
 
 
     /**

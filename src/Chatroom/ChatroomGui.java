@@ -471,11 +471,6 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
         return settingManager;
     }
 
-    // Additional Thread
-
-    private LoadChatroomThread loadChatroomThread = new LoadChatroomThread();
-    private LoadFriendThread loadFriendThread = new LoadFriendThread();
-
     // Display Text
 
     private String titleFrame = "Jchat" + " " + "Chatroom";
@@ -722,8 +717,8 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
 
         this.setVisible(true);
 
-        loadChatroomThread.start();
-        loadFriendThread.start();
+        updateChatroomPl();
+        updateFriendPl();
 
         //Exist for DEBUG
         updateChatPl(null);
@@ -734,24 +729,6 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
     private void prepareLoadingGui() {
         chatroomListLoadingStatusLb.setText(loading);
         addressListLoadingStatusLb.setText(loading);
-    }
-
-    // Thread
-
-    private class LoadChatroomThread extends Thread {
-        @Override
-        public void run() {
-            super.run();
-            updateChatroomPl();
-        }
-    }
-
-    private class LoadFriendThread extends Thread {
-        @Override
-        public void run() {
-            super.run();
-            updateFriendPl();
-        }
     }
 
     // Interaction
@@ -767,10 +744,10 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
                 }
                 switch (chatroomManager.join(input)) {
                     case QUALIFIED:
-                        updateChatroom();
+                        updateChatroomPl();
                         break;
                     case NEW:
-                        updateChatroom();
+                        updateChatroomPl();
                     case JOINED:
                         updateCurrentChatroom(input, false);
                         break;
@@ -1097,41 +1074,6 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
     }
 
     /**
-     * 根据 本地缓存 刷新 聊天室列表 GUI
-     */
-    private void updateChatroomPl() {
-        chatroomListPl.removeAll();
-        chatroomListPl.updateUI();
-        try {
-            ChatroomList chatroomList = chatroomManager.getChatroomList();
-            for (ChatroomInfo chatroomInfo : chatroomList.getList()) {
-                chatroomListPl.add(new ChatroomPanel(chatroomInfo));
-            }
-        } catch (NullPointerException exception) {
-            JOptionPane.showMessageDialog(null, "You don't have any friends,loser.");
-        }
-        chatroomListPl.updateUI();
-    }
-
-    /**
-     * 根据 本地缓存 刷新 好友列表 GUI
-     */
-    private void updateFriendPl() {
-        friendListPl.removeAll();
-        try {
-            FriendList friendList = addressManager.getFriendList();
-            for (FriendInfo friendInfo : friendList.getList()) {
-                FriendPanel friendPanel = new FriendPanel(friendInfo);
-                friendListPl.add(friendPanel);
-            }
-        } catch (NullPointerException exception) {
-            JOptionPane.showMessageDialog(null, "You don't have any friends,loser.");
-        }
-
-        friendPl.updateUI();
-    }
-
-    /**
      * 更新用户信息
      */
     private void updateMyInfoPl() {
@@ -1212,15 +1154,34 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
     }
 
     @Override
-    public void updateChatroom() {
-        LoadChatroomThread loadChatroomThread = new LoadChatroomThread();
-        loadChatroomThread.start();
+    public void updateChatroomPl() {
+        chatroomListPl.removeAll();
+        chatroomListPl.updateUI();
+        try {
+            ChatroomList chatroomList = chatroomManager.getChatroomList();
+            for (ChatroomInfo chatroomInfo : chatroomList.getList()) {
+                chatroomListPl.add(new ChatroomPanel(chatroomInfo));
+            }
+        } catch (NullPointerException exception) {
+            JOptionPane.showMessageDialog(null, "You don't have any friends,loser.");
+        }
+        chatroomListPl.updateUI();
     }
 
     @Override
-    public void updateFriend() {
-        LoadFriendThread loadFriendThread = new LoadFriendThread();
-        loadFriendThread.start();
+    public void updateFriendPl() {
+        friendListPl.removeAll();
+        try {
+            FriendList friendList = addressManager.getFriendList();
+            for (FriendInfo friendInfo : friendList.getList()) {
+                FriendPanel friendPanel = new FriendPanel(friendInfo);
+                friendListPl.add(friendPanel);
+            }
+        } catch (NullPointerException exception) {
+            JOptionPane.showMessageDialog(null, "You don't have any friends,loser.");
+        }
+
+        friendPl.updateUI();
     }
 
     @Override

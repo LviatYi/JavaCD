@@ -7,7 +7,6 @@ import Chatroom.FriendManager.FriendInfo;
 import Socket.tools.DataPacket;
 import UserAuthenticate.UserAuthenticationGui;
 import com.alibaba.fastjson.*;
-
 import java.io.*;
 import java.net.Socket;
 
@@ -27,7 +26,7 @@ public class ClientCommunication implements Client {
     private String selfID;
     private ClientThreadIn ci = null;
     private Socket socket = null;
-    private final String IP = "10.2.61.10";
+    private final String IP = "127.0.0.1";
 
 
     /**

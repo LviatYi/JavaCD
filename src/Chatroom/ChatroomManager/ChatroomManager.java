@@ -159,7 +159,7 @@ public class ChatroomManager implements ClientManager {
             } else {
                 chatroomList.add(new ChatroomInfo(chatroomInfo));
                 parent.getClientCommunication().joinChatRoom(chatroomInfo);
-                parent.updateChatroom();
+                parent.updateChatroomPl();
                 //加入成功
                 return ChatroomStatus.QUALIFIED;
             }
@@ -175,7 +175,7 @@ public class ChatroomManager implements ClientManager {
     public ChatroomStatus exit(String chatroomId) {
         delChatroom(chatroomId);
         parent.getClientCommunication().exitChatRoom(chatroomId);
-        parent.updateChatroom();
+        parent.updateChatroomPl();
         parent.updateMessage();
         return ChatroomStatus.QUALIFIED;
     }
@@ -197,7 +197,7 @@ public class ChatroomManager implements ClientManager {
         if (chatroomInfo.getChatroomId() != null) {
             chatroomInfo=getChatroomServer(chatroomId);
             chatroomList.add(chatroomInfo);
-            parent.updateChatroom();
+            parent.updateChatroomPl();
         }
         return chatroomInfo;
     }
@@ -315,7 +315,7 @@ public class ChatroomManager implements ClientManager {
         if(chatroomList!=null){
             this.chatroomList=chatroomList;
         }
-        parent.updateChatroom();
+        parent.updateChatroomPl();
         return false;
     }
 

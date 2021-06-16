@@ -28,16 +28,16 @@ public interface ChatroomGuiControl {
     String confirmChatroomName();
 
     /**
-     * 更新 ChatroomListPl.
+     * 按照缓存更新 ChatroomListPl.
      * 请在用户的聊天室列表信息发生更新时调用.
      */
-    void updateChatroom();
+    void updateChatroomPl();
 
     /**
-     * 更新 FriendListPl.
+     * 按照缓存更新 FriendListPl.
      * 请在用户的好友列表信息发生更新时调用.
      */
-    void updateFriend();
+    void updateFriendPl();
 
     /**
      * 更新 ChatPl.

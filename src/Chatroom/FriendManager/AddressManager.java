@@ -8,7 +8,6 @@ import Chatroom.ChatroomManager.ChatroomList;
 import Chatroom.ClientManager;
 import Status.LoginStatus;
 import Status.RegisterStatus;
-import org.omg.CORBA.FREE_MEM;
 
 import java.util.Date;
 
@@ -118,7 +117,7 @@ public class AddressManager implements  ClientManager {
             FriendInfo friendInfo = new FriendInfo(friendId, null);
             parent.getClientCommunication().addFriend(friendId);
             friendList.add(friendInfo);
-            parent.updateFriend();
+            parent.updateFriendPl();
             //添加成功
             return FriendList.FriendStatus.QUALIFIED;
         }
@@ -136,7 +135,7 @@ public class AddressManager implements  ClientManager {
         if (friendList.find(friendId) != null) {
             del(friendId);
             parent.getClientCommunication().deleteFriend(friendId);
-            parent.updateFriend();
+            parent.updateFriendPl();
             return FriendList.FriendStatus.QUALIFIED;
         } else {
             return FriendList.FriendStatus.NOT_EXIST;
@@ -224,7 +223,7 @@ public class AddressManager implements  ClientManager {
         if (friendList!=null){
             this.friendList=friendList;
         }
-        parent.updateFriend();
+        parent.updateFriendPl();
         return false;
     }
 

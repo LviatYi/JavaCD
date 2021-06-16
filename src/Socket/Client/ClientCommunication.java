@@ -249,12 +249,24 @@ public class ClientCommunication implements Client {
 
     @Override
     public ChatroomInfo findChatRoomInfo(String userID1, String userID2) {
-        DataPacket mes = new DataPacket();
-        mes.type = DataPacket.transportType.FIND_CHATROOM_INFO_THROUGH_USER;
-        mes.id = userID1;
-        mes.friendRequestID = userID2;
-        String temp = JSONObject.toJSONString(mes);
-        sendToServer(temp,socket);
+        try {
+            Socket socket = new Socket(IP, 9000);
+            InputStream dis = new DataInputStream(socket.getInputStream());
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(dis));
+            DataPacket mes = new DataPacket();
+            mes.type = DataPacket.transportType.FIND_CHATROOM_INFO_THROUGH_USER;
+            mes.id = userID1;
+            mes.friendRequestID = userID2;
+            sendToServer(JSONObject.toJSONString(mes),socket);
+            while (true) {
+                DataPacket dp = JSON.parseObject(bufferedReader.readLine(), DataPacket.class);
+                if (dp.type == DataPacket.transportType.FIND_CHATROOM_INFO_THROUGH_USER) {
+                    return dp.chatRoomInfo;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 

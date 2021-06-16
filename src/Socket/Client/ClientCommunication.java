@@ -25,8 +25,8 @@ public class ClientCommunication implements Client {
     private ChatroomGui parent1;
     private UserAuthenticationGui parent2;
     private String selfID;
-    private ClientThreadOut co = null;
     private ClientThreadIn ci = null;
+    private Socket socket = null;
 
 
     /**
@@ -86,7 +86,7 @@ public class ClientCommunication implements Client {
         mes.id = selfID;
         mes.friendRequestID = receiverID;
         String temp = JSONObject.toJSONString(mes);
-        co.setMessage(temp);
+        sendToServer(temp,socket);
         return true;
     }
 
@@ -97,7 +97,7 @@ public class ClientCommunication implements Client {
         mes.id = selfID;
         mes.friendRequestID = receiverID;
         String temp = JSONObject.toJSONString(mes);
-        co.setMessage(temp);
+        sendToServer(temp,socket);
         return true;
     }
 
@@ -107,7 +107,7 @@ public class ClientCommunication implements Client {
         mes.type = DataPacket.transportType.CREATE_CHATROOM;
         mes.chatRoomInfo = chatroomInfo;
         String temp = JSONObject.toJSONString(mes);
-        co.setMessage(temp);
+        sendToServer(temp,socket);
         return chatroomInfo;
     }
 
@@ -117,7 +117,7 @@ public class ClientCommunication implements Client {
         mes.type = DataPacket.transportType.RETURN_FRIEND_LIST;
         mes.id = selfID;
         String temp = JSONObject.toJSONString(mes);
-        co.setMessage(temp);
+        sendToServer(temp,socket);
         return true;
     }
 
@@ -127,7 +127,7 @@ public class ClientCommunication implements Client {
         mes.type = DataPacket.transportType.RETURN_GROUP_LIST;
         mes.id = selfID;
         String temp = JSONObject.toJSONString(mes);
-        co.setMessage(temp);
+        sendToServer(temp,socket);
         return true;
     }
 
@@ -140,7 +140,7 @@ public class ClientCommunication implements Client {
         mes.datetime = msg.getSendTime();
         mes.type = DataPacket.transportType.SEND_MESSAGE;
         String temp = JSONObject.toJSONString(mes);
-        co.setMessage(temp);
+        sendToServer(temp,socket);
         return true;
     }
 
@@ -153,7 +153,7 @@ public class ClientCommunication implements Client {
         mes.password = password;
         mes.type = DataPacket.transportType.REGISTER;
         String temp = JSONObject.toJSONString(mes);
-        co.setMessage(temp);
+        sendToServer(temp,socket);
         return true;
     }
 
@@ -164,7 +164,7 @@ public class ClientCommunication implements Client {
         mes.password = password;
         mes.type = DataPacket.transportType.LOGIN;
         String temp = JSONObject.toJSONString(mes);
-        co.setMessage(temp);
+        sendToServer(temp,socket);
         return true;
     }
 
@@ -175,7 +175,7 @@ public class ClientCommunication implements Client {
         mes.type = DataPacket.transportType.GET_HISTORY_MESSAGE;
         mes.geyHistoryGroupID = chatroomInfo.getChatroomId();
         String temp = JSONObject.toJSONString(mes);
-        co.setMessage(temp);
+        sendToServer(temp,socket);
         return null;
     }
 
@@ -186,7 +186,7 @@ public class ClientCommunication implements Client {
         mes.id = selfID;
         mes.chatRoomID = chatRoom.getChatroomId();
         String temp = JSONObject.toJSONString(mes);
-        co.setMessage(temp);
+        sendToServer(temp,socket);
         return true;
     }
 
@@ -221,7 +221,7 @@ public class ClientCommunication implements Client {
         mes.id = selfID;
         mes.chatRoomID = chatroomInfo.getChatroomId();
         String temp = JSONObject.toJSONString(mes);
-        co.setMessage(temp);
+        sendToServer(temp,socket);
         return true;
     }
 
@@ -256,7 +256,7 @@ public class ClientCommunication implements Client {
         mes.id = userID1;
         mes.friendRequestID = userID2;
         String temp = JSONObject.toJSONString(mes);
-        co.setMessage(temp);
+        sendToServer(temp,socket);
         return null;
     }
 
@@ -267,7 +267,7 @@ public class ClientCommunication implements Client {
         mes.type = DataPacket.transportType.MODIFY_NAME;
         mes.name = newName;
         String temp = JSONObject.toJSONString(mes);
-        co.setMessage(temp);
+        sendToServer(temp,socket);
         return true;
     }
 
@@ -278,17 +278,14 @@ public class ClientCommunication implements Client {
         mes.type = DataPacket.transportType.MODIFY_PASSWORD;
         mes.password = newPassword;
         String temp = JSONObject.toJSONString(mes);
-        co.setMessage(temp);
+        sendToServer(temp,socket);
         return true;
     }
 
     private boolean client() throws IOException {
-        Socket socket = new Socket("127.0.0.1", 9000);
-        co = new ClientThreadOut();
+        socket = new Socket("127.0.0.1", 9000);
         ci = new ClientThreadIn();
-        co.setSocket(socket);
         ci.setSocket(socket);
-        co.start();
         ci.start();
         return true;
     }
@@ -298,8 +295,21 @@ public class ClientCommunication implements Client {
         DataPacket mes = new DataPacket();
         mes.type = DataPacket.transportType.EXIT;
         String temp = JSONObject.toJSONString(mes);
-        co.setMessage(temp);
+        sendToServer(temp,socket);
     }
+
+    public void sendToServer(String str,Socket server){
+        OutputStream out = null;
+        try {
+            out = server.getOutputStream();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        PrintStream ps = new PrintStream(out);
+        ps.println(str);
+        ps.flush();
+    }
+
 
     public ClientCommunication() {
         super();

@@ -291,6 +291,10 @@ public class ChatroomManager implements ClientManager {
 
     @Override
     public boolean receiver(ChatroomList chatroomList) {
+        if(chatroomList!=null){
+            this.chatroomList=chatroomList;
+        }
+        parent.updateChatroom();
         return false;
     }
 

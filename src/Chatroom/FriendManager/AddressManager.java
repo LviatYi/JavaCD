@@ -8,6 +8,7 @@ import Chatroom.ChatroomManager.ChatroomList;
 import Chatroom.ClientManager;
 import Status.LoginStatus;
 import Status.RegisterStatus;
+import org.omg.CORBA.FREE_MEM;
 
 import java.util.Date;
 
@@ -220,6 +221,10 @@ public class AddressManager implements  ClientManager {
 
     @Override
     public boolean receiver(FriendList friendList) {
+        if (friendList!=null){
+            this.friendList=friendList;
+        }
+        parent.updateFriend();
         return false;
     }
 

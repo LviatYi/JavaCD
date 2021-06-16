@@ -673,14 +673,17 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
                 return true;
             case PASSWORD_ERROR:
                 JOptionPane.showMessageDialog(null, passwordWrongAdviceStr, passwordWrongStr, JOptionPane.ERROR_MESSAGE);
+                break;
             case ID_NOT_EXIST:
                 JOptionPane.showMessageDialog(null, idNotExistAdviceStr, idNotExistStr, JOptionPane.ERROR_MESSAGE);
+                break;
             default:
-                loginBtn.setEnabled(true);
-                loginBtn.setText(loginBtnStr);
-                toRegisterBtn.setEnabled(true);
-                return false;
+                break;
         }
+        loginBtn.setEnabled(true);
+        loginBtn.setText(loginBtnStr);
+        toRegisterBtn.setEnabled(true);
+        return false;
     }
 
     @Override

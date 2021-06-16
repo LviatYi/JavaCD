@@ -309,7 +309,7 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
      * 覆写默认构造函数。
      */
     public UserAuthenticationGui() {
-        this.clientCommunication = new ClientCommunication(this);
+        this.clientCommunication = ClientCommunication.getClientCommunicationInstance(this);
         prepareGui();
     }
 
@@ -682,6 +682,7 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
     public boolean receiver(RegisterStatus registerStatus, String userId) {
         switch (registerStatus) {
             case SUCCESS:
+                this.userAuthenticationManager.setId(userId);
                 entryMainWindow();
                 return true;
             default:

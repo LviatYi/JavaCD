@@ -7,8 +7,10 @@ import Chatroom.FriendManager.FriendInfo;
 import Socket.tools.DataPacket;
 import UserAuthenticate.UserAuthenticationGui;
 import com.alibaba.fastjson.*;
+
 import java.io.*;
 import java.net.Socket;
+
 import Chatroom.*;
 
 /**
@@ -27,7 +29,6 @@ public class ClientCommunication implements Client {
     private ClientThreadIn ci = null;
 
 
-
     /**
      * 单例指针
      */
@@ -36,10 +37,9 @@ public class ClientCommunication implements Client {
     private ClientCommunication(ChatroomGui parent1) throws IOException {
         this.parent1 = parent1;
         selfID = parent1.getSettingManager().getSelfId();
-
     }
 
-    public ClientCommunication(UserAuthenticationGui parent2) {
+    private ClientCommunication(UserAuthenticationGui parent2) {
         this.parent2 = parent2;
         try {
             this.client();
@@ -53,7 +53,7 @@ public class ClientCommunication implements Client {
      *
      * @return 单例
      */
-    public static ClientCommunication getClientCommunication(ChatroomGui parent) {
+    public static ClientCommunication getClientCommunicationInstance(ChatroomGui parent) {
         if (instance == null) {
             try {
                 instance = new ClientCommunication(parent);
@@ -61,6 +61,17 @@ public class ClientCommunication implements Client {
             }
         }
         return instance;
+    }
+
+    public static ClientCommunication getClientCommunicationInstance(UserAuthenticationGui parent) {
+        if (instance == null) {
+            instance = new ClientCommunication(parent);
+        }
+        return instance;
+    }
+
+    public void setParent1(ChatroomGui parent1) {
+        this.parent1 = parent1;
     }
 
     @Override

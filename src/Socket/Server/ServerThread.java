@@ -1,6 +1,7 @@
 package Socket.Server;
 
 import Chatroom.ChatroomManager.ChatroomInfo;
+import Chatroom.ChatroomManager.ChatroomList;
 import Chatroom.FriendManager.FriendInfo;
 import DataBase.DatabaseManager;
 import Socket.tools.DataPacket;
@@ -243,6 +244,13 @@ public class ServerThread extends Thread{
         PrintStream printStream = new PrintStream(ous);
         printStream.println(temp);
         printStream.flush();
+    }
+
+    public void sendAddChatroomInfo(String ID) throws IOException {
+        DataPacket temp = new DataPacket();
+        temp.type = DataPacket.transportType.RETURN_GROUP_LIST;
+        temp.chatRoomList=databaseManager.getUserChatroomList(ID);
+        sendMsg(temp);
     }
 
     //关闭当前客户机与服务器的连接。

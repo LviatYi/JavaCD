@@ -49,7 +49,6 @@ public class DataPacket {
         MODIFY_PASSWORD,
         GET_HISTORY_MESSAGE,
         CREATE_CHATROOM,
-        CHATROOM_NEW_MEMBER,
         JOIN_CHATROOM,
         EXIT_CHATROOM,
         FIND_CHATROOM_INFO_THROUGH_ID,

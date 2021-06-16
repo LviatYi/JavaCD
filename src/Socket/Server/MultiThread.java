@@ -3,6 +3,7 @@ package Socket.Server;
 import Chatroom.ChatroomManager.ChatroomInfo;
 import Chatroom.ChatroomManager.ChatroomList;
 import Chatroom.FriendManager.FriendList;
+import DataBase.DatabaseManager;
 import Socket.tools.DataPacket;
 import Socket.tools.ThreadManager;
 
@@ -23,6 +24,7 @@ public class MultiThread {
     private static final Vector<ThreadManager> threadList =new Vector<>();
     //不需要实例化类，因此构造器为私有
     private MultiThread() {}
+    public DatabaseManager databaseManager;
     //将这个线程处理对象加入到队列中
     public static void addClient(ServerThread st, ChatroomList chatroomList){
         ThreadManager temp = new ThreadManager();
@@ -51,9 +53,6 @@ public class MultiThread {
                 break;
             }
         }
-        DataPacket dataPacket = new DataPacket();
-        dataPacket.chatRoomInfo = chatroomInfo;
-        dataPacket.type = CHATROOM_NEW_MEMBER;
         for(ThreadManager temp:threadList){
             if(!temp.thread.socketId.equals(id))
             {
@@ -61,7 +60,7 @@ public class MultiThread {
                 {
                     if(roomTemp.getChatroomId().equals(chatroomInfo.getChatroomId()))
                     {
-                        temp.thread.sendMsg(dataPacket);
+                        temp.thread.sendAddChatroomInfo(temp.thread.socketId);
                     }
                 }
             }

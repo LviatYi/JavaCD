@@ -281,7 +281,7 @@ public class ClientCommunication implements Client {
     }
 
     private boolean client() throws IOException {
-        socket = new Socket("127.0.0.1", 9000);
+        socket = new Socket("10.2.61.10", 9000);
         ci = new ClientThreadIn();
         ci.setSocket(socket);
         ci.setParent2(parent2);

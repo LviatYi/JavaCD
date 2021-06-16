@@ -38,6 +38,7 @@ public class ClientThreadIn extends Thread {
                 InputStream in = new DataInputStream(server.getInputStream());
                 BufferedReader bf = new BufferedReader(new InputStreamReader(in));
                 String str = bf.readLine();
+                System.out.println(str);
                 DataPacket dp = JSON.parseObject(str, DataPacket.class);
                 switch (dp.type) {
                     case FIND_CHATROOM_INFO_THROUGH_USER: {
@@ -67,6 +68,7 @@ public class ClientThreadIn extends Thread {
                     }
                     case LOGIN: {
                         parent2.receiver(dp.loginStatus);
+
                         parent1.receiver(dp.id, true);
                         break;
                     }

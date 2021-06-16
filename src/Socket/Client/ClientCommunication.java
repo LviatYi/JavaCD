@@ -286,6 +286,7 @@ public class ClientCommunication implements Client {
         socket = new Socket("127.0.0.1", 9000);
         ci = new ClientThreadIn();
         ci.setSocket(socket);
+        ci.setParent2(parent2);
         ci.start();
         return true;
     }

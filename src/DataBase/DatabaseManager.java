@@ -510,7 +510,7 @@ public class DatabaseManager implements DatabaseControl {
             while (rs.next()) {
                 friendName = rs.getString(1);
                 friendID = rs.getString(2);
-                friendList.add(new FriendInfo(friendName, friendID));
+                friendList.add(new FriendInfo(friendID, friendName));
             }
             return friendList;
         } catch (SQLException e) {

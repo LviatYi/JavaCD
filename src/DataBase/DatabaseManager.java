@@ -519,7 +519,6 @@ public class DatabaseManager implements DatabaseControl {
         return null;
     }
 
-
     @Override
     public ChatroomList getUserChatroomList(String userId) {
         con = getConnection();

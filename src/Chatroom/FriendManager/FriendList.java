@@ -42,11 +42,6 @@ public class FriendList {
      */
     public FriendList() {
         list = new Vector<FriendInfo>();
-        //Exist for DEBUG
-        list.add(new FriendInfo("123", "123"));
-        list.add(new FriendInfo("456", "456"));
-        list.add(new FriendInfo("789", "789"));
-        //End
     }
 
     // Getter Setter

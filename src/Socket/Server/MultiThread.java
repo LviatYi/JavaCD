@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.Vector;
 
 import static Socket.tools.DataPacket.transportType.CALL_ADDED_FRIEND;
-import static Socket.tools.DataPacket.transportType.CHATROOM_NEW_MEMBER;
+
 
 /**
  * 定义一个管理类，相当于一个中介，处理线程，转发消息

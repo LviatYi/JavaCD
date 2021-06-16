@@ -278,7 +278,11 @@ public class DatabaseManager implements DatabaseControl {
     public ChatroomInfo createChatroom(ChatroomInfo chatroomInfo, FriendInfo creatorInfo) {
         con = getConnection();
         DatabaseManager DB = new DatabaseManager();
-        String chatRoomId = DB.random2();
+        String chatRoomId=chatroomInfo.getChatroomId();//参数传的ID
+        if(chatRoomId ==null)
+        {
+             chatRoomId = DB.random2();//随机获得的ID
+        }
         String chatroomName = chatroomInfo.getChatroomName();
         ChatroomInfo.ChatroomType chatroomType = chatroomInfo.getChatroomType();
         String userId = creatorInfo.getFriendId();

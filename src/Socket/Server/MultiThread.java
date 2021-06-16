@@ -3,6 +3,7 @@ package Socket.Server;
 import Chatroom.ChatroomManager.ChatroomInfo;
 import Chatroom.ChatroomManager.ChatroomList;
 import Chatroom.FriendManager.FriendList;
+import DataBase.DatabaseManager;
 import Socket.tools.DataPacket;
 import Socket.tools.ThreadManager;
 
@@ -11,7 +12,7 @@ import java.io.IOException;
 import java.util.Vector;
 
 import static Socket.tools.DataPacket.transportType.CALL_ADDED_FRIEND;
-import static Socket.tools.DataPacket.transportType.CHATROOM_NEW_MEMBER;
+
 
 /**
  * 定义一个管理类，相当于一个中介，处理线程，转发消息
@@ -23,6 +24,7 @@ public class MultiThread {
     private static final Vector<ThreadManager> threadList =new Vector<>();
     //不需要实例化类，因此构造器为私有
     private MultiThread() {}
+    public DatabaseManager databaseManager;
     //将这个线程处理对象加入到队列中
     public static void addClient(ServerThread st, ChatroomList chatroomList){
         ThreadManager temp = new ThreadManager();
@@ -51,15 +53,15 @@ public class MultiThread {
                 break;
             }
         }
-        DataPacket dataPacket = new DataPacket();
-        dataPacket.chatRoomInfo = chatroomInfo;
-        dataPacket.type = CHATROOM_NEW_MEMBER;
         for(ThreadManager temp:threadList){
-            for (ChatroomInfo roomTemp:temp.chatroomList.getList())
+            if(!temp.thread.socketId.equals(id))
             {
-                if(roomTemp.getChatroomId().equals(chatroomInfo.getChatroomId()))
+                for (ChatroomInfo roomTemp:temp.chatroomList.getList())
                 {
-                    temp.thread.sendMsg(dataPacket);
+                    if(roomTemp.getChatroomId().equals(chatroomInfo.getChatroomId()))
+                    {
+                        temp.thread.sendAddChatroomInfo(temp.thread.socketId);
+                    }
                 }
             }
         }

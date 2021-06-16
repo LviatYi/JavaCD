@@ -54,10 +54,6 @@ public class ClientThreadIn extends Thread {
                         parent1.getAddressManager().receiver(dp.friendList);
                         break;
                     }
-                    case CHATROOM_NEW_MEMBER: {
-                        parent1.getChatroomManager().receiver(dp.chatRoomInfo, false);
-                        break;
-                    }
                     case RETURN_GROUP_LIST: {
                         parent1.getChatroomManager().receiver(dp.chatRoomList);
                         break;

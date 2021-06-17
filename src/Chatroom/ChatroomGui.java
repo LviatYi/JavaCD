@@ -363,7 +363,7 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
                         "    <body>\n" +
                         "        <div style=\"font-size: 12px;font-family: 'Trebuchet MS';\">\n" +
                         "           From " +
-                        sendUserInfo+
+                        sendUserInfo +
                         "        </div>\n" +
                         "    </body>\n" +
                         "</html>\n" +
@@ -1173,7 +1173,9 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
         try {
             ChatroomList chatroomList = chatroomManager.getChatroomList();
             for (ChatroomInfo chatroomInfo : chatroomList.getList()) {
-                chatroomListPl.add(new ChatroomPanel(chatroomInfo));
+                if (chatroomInfo.getChatroomType() != ChatroomInfo.ChatroomType.PRIVATE) {
+                    chatroomListPl.add(new ChatroomPanel(chatroomInfo));
+                }
             }
         } catch (NullPointerException exception) {
             JOptionPane.showMessageDialog(null, "You don't have any friends,loser.");

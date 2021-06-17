@@ -625,7 +625,7 @@ public class DatabaseManager implements DatabaseControl {
         Vector<FriendInfo> User = new Vector<FriendInfo>();
         con = getConnection();
         try {
-            String sql = "select Chatroom.UserID,ChatroomInfo.Name from Chatroom,ChatroomInfo where Chatroom.ChatroomID=? and Chatroom.UserID=ChatroomInfo.ID ";
+            String sql = "select Chatroom.UserID,UserInfo.Name from Chatroom,UserInfo where Chatroom.ChatroomID=? and Chatroom.UserID=UserInfo.ID ";
             PreparedStatement st = con.prepareStatement(sql);
             st.setString(1, chatroomId);
             ResultSet rs = st.executeQuery();

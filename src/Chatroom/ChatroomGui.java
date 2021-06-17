@@ -312,6 +312,7 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
             senderLb = new JLabel();
             sendTimeLb = new JLabel();
             messageContentPl = new MessageContentPanel(Encryption.decryptContent(this.message.getContent()));
+//            messageContentPl = new MessageContentPanel(this.message.getContent());
             this.setPreferredSize(new Dimension(messageContentPl.getSize().width + 30, messageContentPl.getSize().height + 30));
 
             //Exist for DEBUG
@@ -1004,6 +1005,7 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
      */
     private void sendMessage() {
         Message message = new Message(Encryption.encryptContent(this.inputTf.getText()), settingManager.getSelfId(), chatManager.getCurrentChatroomInfo().getChatroomId());
+//        Message message = new Message(this.inputTf.getText(), settingManager.getSelfId(), chatManager.getCurrentChatroomInfo().getChatroomId());
         chatManager.send(message);
         this.inputTf.setText("");
     }

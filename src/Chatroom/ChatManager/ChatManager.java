@@ -245,7 +245,7 @@ public class ChatManager implements ClientManager {
     public String refreshMessage(MessageList messageList) {
         for (int i = 0; i < chatroomList.size(); i++) {
             if (chatroomList.elementAt(i).equals(messageList.getChatroomId())) {
-                chatroomMessageRepo.elementAt(i).clear();
+                chatroomMessageRepo.elementAt(i).setList(new Vector<Message>());
                 chatroomMessageRepo.elementAt(i).addMessage(messageList);
                 return messageList.getChatroomId();
             }

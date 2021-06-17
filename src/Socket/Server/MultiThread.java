@@ -90,6 +90,19 @@ public class MultiThread {
             }
         }
     }
+    //通知被删好友
+    public static void callDelFriend(String friendID,FriendList friendList) throws IOException {
+        DataPacket dataPacket = new DataPacket();
+        for(ThreadManager temp:threadList)
+        {
+            if(temp.thread.socketId.equals(friendID))
+            {
+                dataPacket.friendList = friendList;
+                dataPacket.type =CALL_ADDED_FRIEND;
+                temp.thread.sendMsg(dataPacket);
+            }
+        }
+    }
 
     public static void exit(String threadID)
     {

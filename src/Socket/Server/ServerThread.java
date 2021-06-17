@@ -162,6 +162,7 @@ public class ServerThread extends Thread{
                     DataPacket temp = new DataPacket();
                     temp.systemTip=databaseManager.addFriend(dataPacket.id, dataPacket.friendRequestID);
                     MultiThread.callAddedFriend(dataPacket.friendRequestID,databaseManager.getUserFriendList(dataPacket.friendRequestID));
+                    temp.friendList = databaseManager.getUserFriendList(dataPacket.id);
                     temp.type = DataPacket.transportType.ADD_FRIEND;
                     sendMsg(temp);
                     break;
@@ -173,6 +174,7 @@ public class ServerThread extends Thread{
                     databaseManager.deleteFriend(dataPacket.id,dataPacket.friendRequestID);
                     temp.type = DataPacket.transportType.DEL_FRIEND;
                     sendMsg(temp);
+                    MultiThread.callDelFriend(dataPacket.friendRequestID,databaseManager.getUserFriendList(dataPacket.friendRequestID));
                     break;
                 }
                 //返回好友列表

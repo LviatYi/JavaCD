@@ -667,7 +667,7 @@ public class DatabaseManager implements DatabaseControl {
                     if (Authentic1 == 1) {
                         Authentic = ChatroomInfo.ChatroomType.PUBLIC;
                     } else {
-                        Authentic = ChatroomInfo.ChatroomType.PUBLIC;
+                        Authentic = ChatroomInfo.ChatroomType.PRIVATE;
                     }
                     Vector<FriendInfo> User = new Vector<FriendInfo>();
                     User = DB.getChatRoomUser(ID);

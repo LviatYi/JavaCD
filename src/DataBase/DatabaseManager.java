@@ -279,7 +279,7 @@ public class DatabaseManager implements DatabaseControl {
             String sql = "select * from UserInfo where ID='" + ID + "'";
             ResultSet rs = st.executeQuery(sql);
             rs.next();
-            String name = rs.getString(1);
+            String name = rs.getString(2);
             return name;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -718,7 +718,6 @@ public class DatabaseManager implements DatabaseControl {
                  return chatroomInfo;
             }
         }
-
         return null;
     }
 

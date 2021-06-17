@@ -148,7 +148,7 @@ public class MessageList {
             } else {
                 if (messageList.getChatroomId().equals(this.getChatroomId())) {
                     for (Message message : messageList.getList()) {
-                        list.addAll(messageList.getList());
+                        list.add(message);
                     }
                     return this.getChatroomId();
                 }

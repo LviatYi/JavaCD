@@ -269,9 +269,10 @@ public class UserAuthenticationManager {
             this.nameIsChanged = false;
         }
         if (this.passwordIsChanged) {
-            parent1.getClientCommunication().modifyPassword(Encryption.encryptPassword(password));
+            parent2.getClientCommunication().modifyPassword(Encryption.encryptPassword(password));
             this.passwordIsChanged = false;
         }
+        parent2.updateMyInfoPl();
         return true;
     }
 }

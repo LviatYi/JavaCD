@@ -1088,7 +1088,7 @@ public class ChatroomGui extends JFrame implements ActionListener, FocusListener
     /**
      * 更新用户信息
      */
-    private void updateMyInfoPl() {
+    public void updateMyInfoPl() {
         userIdLb.setText("<html>\n" +
                 "    <body>\n" +
                 "        <div style=\"font-size: 32px; font-family: 'Trebuchet MS'\">\n" +

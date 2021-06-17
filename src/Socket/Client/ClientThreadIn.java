@@ -63,6 +63,7 @@ public class ClientThreadIn extends Thread {
                             case SUCCESS:{
                                 parent2.receiver(dp.loginStatus);
                                 parent1.receiver(dp.id, true);
+                                parent2.receiver(dp.name);
                                 break;
                             }
                             case ID_NOT_EXIST:

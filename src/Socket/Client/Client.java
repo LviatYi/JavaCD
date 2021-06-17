@@ -126,7 +126,7 @@ public interface Client {
 
     /**
      * 通过ID找到一个人的信息
-     * @param userID
+     * @param userID 目标 User 的 ID
      * @return 人的信息
      */
     public FriendInfo findFriend(String userID);

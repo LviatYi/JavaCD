@@ -1,13 +1,8 @@
 package UserAuthenticate;
 
 import Chatroom.ChatroomGui;
-import Chatroom.ClientManager;
 import Encrypt.*;
-import Socket.Client.Client;
-import Socket.Client.ClientCommunication;
 import Status.*;
-
-import java.lang.reflect.Field;
 
 /**
  * Manager of User Authentication.
@@ -20,6 +15,7 @@ import java.lang.reflect.Field;
  * @date 2021/6/2
  */
 public class UserAuthenticationManager {
+
     //Tool Status
 
     /**
@@ -82,11 +78,8 @@ public class UserAuthenticationManager {
 
     // Field
 
-    /**
-     * 父级元素
-     */
-    UserAuthenticationGui parent1;
-    ChatroomGui parent2;
+    private UserAuthenticationGui parent1;
+    private ChatroomGui parent2;
     /**
      * 账号
      */
@@ -140,10 +133,10 @@ public class UserAuthenticationManager {
      * 隐藏默认构造函数
      */
     private UserAuthenticationManager(UserAuthenticationGui parent) {
-        this.parent1 = parent;
+        this.setParent1(parent);
     }
     private UserAuthenticationManager(ChatroomGui parent) {
-        this.parent2 = parent;
+        this.setParent2(parent);
     }
 
     /**
@@ -155,11 +148,17 @@ public class UserAuthenticationManager {
         if (instance == null) {
             instance = new UserAuthenticationManager(parent);
         }
+        if (instance.getParent2() ==null){
+            instance.setParent2(parent);
+        }
         return instance;
     }
     public static UserAuthenticationManager getUserAuthenticationManager(UserAuthenticationGui parent) {
         if (instance == null) {
             instance = new UserAuthenticationManager(parent);
+        }
+        if(instance.getParent1()==null){
+            instance.setParent1(parent);
         }
         return instance;
     }
@@ -230,9 +229,23 @@ public class UserAuthenticationManager {
         return name;
     }
 
+    public UserAuthenticationGui getParent1() {
+        return parent1;
+    }
 
+    public ChatroomGui getParent2() {
+        return parent2;
+    }
 
-    // Function
+    public void setParent1(UserAuthenticationGui parent1) {
+        this.parent1 = parent1;
+    }
+
+    public void setParent2(ChatroomGui parent2) {
+        this.parent2 = parent2;
+    }
+
+// Function
 
     /**
      * 尝试登录
@@ -240,7 +253,7 @@ public class UserAuthenticationManager {
      * @return 登录状态
      */
     public LoginStatus login() {
-        parent1.getClientCommunication().login(this.id,this.password);
+        getParent1().getClientCommunication().login(this.id,this.password);
         this.passwordIsChanged = false;
         this.nameIsChanged = false;
         return LoginStatus.SUCCESS;
@@ -252,7 +265,7 @@ public class UserAuthenticationManager {
      * @return 注册状态
      */
     public RegisterStatus register() {
-        parent1.getClientCommunication().register(this.name,this.password);
+        getParent1().getClientCommunication().register(this.name,this.password);
         this.passwordIsChanged = false;
         this.nameIsChanged = false;
         return RegisterStatus.SUCCESS;
@@ -264,15 +277,15 @@ public class UserAuthenticationManager {
      */
     public boolean setNew() {
         if (this.nameIsChanged) {
-            parent2.getClientCommunication().modifyName(name);
-            parent2.getSettingManager().setSelfName(name);
+            getParent2().getClientCommunication().modifyName(name);
+            getParent2().getSettingManager().setSelfName(name);
             this.nameIsChanged = false;
         }
         if (this.passwordIsChanged) {
-            parent2.getClientCommunication().modifyPassword(Encryption.encryptPassword(password));
+            getParent2().getClientCommunication().modifyPassword(Encryption.encryptPassword(password));
             this.passwordIsChanged = false;
         }
-        parent2.updateMyInfoPl();
+        getParent2().updateMyInfoPl();
         return true;
     }
 }

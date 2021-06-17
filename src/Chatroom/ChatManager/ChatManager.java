@@ -116,7 +116,16 @@ public class ChatManager implements ClientManager {
             this.currentChatroomInfo.setChatroomId("");
             this.currentChatroomInfo.setChatroomName(noChatroomSelected);
         } else {
-            this.currentChatroomInfo = currentChatroomInfo;
+            if (currentChatroomInfo.isPrivate()){
+                for (FriendInfo friendInfo:currentChatroomInfo.getFriendList()){
+                    if (friendInfo.getFriendId().equals(parent.getSettingManager().getSelfId())){
+                        continue;
+                    }
+                this.currentChatroomInfo.setChatroomName(friendInfo.getFriendName());
+                }
+                this.currentChatroomInfo.setChatroomName("");
+            }
+            this.currentChatroomInfo.setChatroomId(currentChatroomInfo.getChatroomId());
         }
     }
 

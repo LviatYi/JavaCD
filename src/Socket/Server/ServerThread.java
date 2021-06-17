@@ -70,8 +70,8 @@ public class ServerThread extends Thread{
                             DataPacket temp= new DataPacket();
                             temp.loginStatus = LoginStatus.SUCCESS;
                             temp.type = DataPacket.transportType.LOGIN;
-                            sendMsg(temp);
                             temp.id = databaseManager.returnChatRoomId();
+                            sendMsg(temp);
                             socketId = dataPacket.id;
                             MultiThread.addClient(this,databaseManager.getUserChatroomList(socketId));//认证成功，把这个用户加入服务器队列
                             break;

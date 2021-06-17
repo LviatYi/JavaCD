@@ -116,14 +116,16 @@ public class ChatManager implements ClientManager {
             this.currentChatroomInfo.setChatroomId("");
             this.currentChatroomInfo.setChatroomName(noChatroomSelected);
         } else {
-            if (currentChatroomInfo.isPrivate()){
-                for (FriendInfo friendInfo:currentChatroomInfo.getFriendList()){
-                    if (friendInfo.getFriendId().equals(parent.getSettingManager().getSelfId())){
+            if (currentChatroomInfo.isPrivate()) {
+                for (FriendInfo friendInfo : currentChatroomInfo.getFriendList()) {
+                    if (friendInfo.getFriendId().equals(parent.getSettingManager().getSelfId())) {
                         continue;
                     }
-                this.currentChatroomInfo.setChatroomName(friendInfo.getFriendName());
+                    this.currentChatroomInfo.setChatroomName(friendInfo.getFriendName());
+                    break;
                 }
                 this.currentChatroomInfo.setChatroomName("");
+
             }
             this.currentChatroomInfo.setChatroomId(currentChatroomInfo.getChatroomId());
         }
@@ -141,7 +143,7 @@ public class ChatManager implements ClientManager {
      */
     public MessageList pullChatroomMessageList(String chatroomId) {
         MessageList historyMessageList = null;
-        historyMessageList= parent.getClientCommunication().getHistoryMessage(chatroomId);
+        historyMessageList = parent.getClientCommunication().getHistoryMessage(chatroomId);
         if (historyMessageList != null) {
             recordNewMessage(historyMessageList);
             parent.updateMessage(parent.getChatroomManager().getChatroom(chatroomId), true);
@@ -174,7 +176,7 @@ public class ChatManager implements ClientManager {
      * @return 发送状态.仅保证已发送.
      */
     public boolean send(Message message) {
-        if (message == null|| "".equals(message.getChatroomId())) {
+        if (message == null || "".equals(message.getChatroomId())) {
             return false;
         }
         parent.getClientCommunication().send(message);
@@ -314,7 +316,7 @@ public class ChatManager implements ClientManager {
         if (message == null) {
             return false;
         }
-        if (message.getSenderId().equals(parent.getSettingManager().getSelfId())){
+        if (message.getSenderId().equals(parent.getSettingManager().getSelfId())) {
             return true;
         }
         recordNewMessage(message);
@@ -330,12 +332,12 @@ public class ChatManager implements ClientManager {
         if (isHistory) {
             refreshMessage(messageList);
         } else {
-           for(Message message:messageList.getList()){
-               if (message.getSenderId().equals(parent.getSettingManager().getSelfId())){
-                   return true;
-               }
-               recordNewMessage(message);
-           }
+            for (Message message : messageList.getList()) {
+                if (message.getSenderId().equals(parent.getSettingManager().getSelfId())) {
+                    return true;
+                }
+                recordNewMessage(message);
+            }
         }
         parent.updateMessage(parent.getChatroomManager().getChatroom(messageList.getChatroomId()), isHistory);
         return false;
@@ -373,7 +375,7 @@ public class ChatManager implements ClientManager {
 
     @Override
     @Deprecated
-    public boolean receiver(RegisterStatus registerStatus,String userId) {
+    public boolean receiver(RegisterStatus registerStatus, String userId) {
         return false;
     }
 

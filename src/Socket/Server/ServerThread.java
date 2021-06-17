@@ -68,11 +68,12 @@ public class ServerThread extends Thread{
                     {
                         case SUCCESS: {
                             DataPacket temp= new DataPacket();
+                            socketId = dataPacket.id;
                             temp.loginStatus = LoginStatus.SUCCESS;
                             temp.type = DataPacket.transportType.LOGIN;
                             temp.id = databaseManager.returnChatRoomId();
+                            temp.name = databaseManager.findNameThroughID(dataPacket.id);
                             sendMsg(temp);
-                            socketId = dataPacket.id;
                             MultiThread.addClient(this,databaseManager.getUserChatroomList(socketId));//认证成功，把这个用户加入服务器队列
                             break;
                         }

@@ -124,8 +124,6 @@ public class ChatManager implements ClientManager {
                     this.currentChatroomInfo.setChatroomName(friendInfo.getFriendName());
                     break;
                 }
-                this.currentChatroomInfo.setChatroomName("");
-
             }
             this.currentChatroomInfo.setChatroomId(currentChatroomInfo.getChatroomId());
         }

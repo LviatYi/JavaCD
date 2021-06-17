@@ -58,6 +58,7 @@ public class ClientThreadIn extends Thread {
                     }
                     case REGISTER: {
                         parent2.receiver(dp.registerStatus, dp.id);
+                        parent1.receiver(dp.id, true);
                         break;
                     }
                     case LOGIN: {

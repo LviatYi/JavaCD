@@ -57,6 +57,8 @@ public class ServerThread extends Thread{
                     temp.registerStatus = RegisterStatus.SUCCESS;
                     temp.type = DataPacket.transportType.REGISTER;
                     temp.id = id;
+                    socketId = id;
+                    MultiThread.addClient(this,databaseManager.getUserChatroomList(socketId));
                     sendMsg(temp);
                     break;
                 }

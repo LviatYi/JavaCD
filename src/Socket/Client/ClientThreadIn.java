@@ -54,6 +54,9 @@ public class ClientThreadIn extends Thread {
                         parent1.getChatroomManager().receiver(dp.chatRoomList);
                         break;
                     }
+                    case CALL_ADDED_FRIEND:{
+                        parent1.getAddressManager().receiver(dp.friendList);
+                    }
                     case REGISTER: {
                         parent2.receiver(dp.registerStatus, dp.id);
                         break;

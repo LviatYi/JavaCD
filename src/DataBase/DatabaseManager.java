@@ -56,14 +56,14 @@ public class DatabaseManager implements DatabaseControl {
     }
 
     String random1() {    //返回随机数，UserID
-        int num = (int) Math.floor(Math.random() * 11);
+        long num = (long) Math.floor(Math.random() * 11);
         while (num < 6 || num > 10) {
-            num = (int) Math.floor(Math.random() * 11);
+            num = (long) Math.floor(Math.random() * 11);
         }
         //System.out.println(num);
-        int a = (int) Math.pow(10, (num - 1));
-        int random6 = (int) ((Math.random() * 9 + 1) * a);
-        String random = Integer.toString(random6);
+        long a = (long) Math.pow(10, (num - 1));
+        long random6 = (long) ((Math.random() * 9 + 1) * a);
+        String random = Long.toString(random6);
         // String a1 = String.valueOf(random6);
         con = getConnection();
         try {
@@ -77,20 +77,18 @@ public class DatabaseManager implements DatabaseControl {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        //System.out.println(a1);
         return random;
     }
 
     String random2() {    //返回随机数，ChatroomID
-        int num = (int) Math.floor(Math.random() * 11);
+        long num = (long) Math.floor(Math.random() * 11);
         while (num < 6 || num > 10) {
-            num = (int) Math.floor(Math.random() * 11);
+            num = (long) Math.floor(Math.random() * 11);
         }
         //System.out.println(num);
-        int a = (int) Math.pow(10, (num - 1));
-        int random6 = (int) ((Math.random() * 9 + 1) * a);
-        String random = Integer.toString(random6);
-        // String a1 = String.valueOf(random6);
+        long a = (long) Math.pow(10, (num - 1));
+        long random6 = (long) ((Math.random() * 9 + 1) * a);
+        String random = Long.toString(random6);
         con = getConnection();
         try {
             Statement st = con.createStatement();
@@ -103,7 +101,6 @@ public class DatabaseManager implements DatabaseControl {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        //System.out.println(a1);
         return random;
     }
 
@@ -265,7 +262,7 @@ public class DatabaseManager implements DatabaseControl {
                 String content = rs.getString(3);
                 String sendTime = rs.getString(4);
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                Date sendTimeDate=new Date();
+                Date sendTimeDate = new Date();
                 try {
                     sendTimeDate = formatter.parse(sendTime);
                 } catch (ParseException e) {

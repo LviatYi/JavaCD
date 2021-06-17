@@ -282,7 +282,7 @@ public class UserAuthenticationManager {
             this.nameIsChanged = false;
         }
         if (this.passwordIsChanged) {
-            getParent2().getClientCommunication().modifyPassword(Encryption.encryptPassword(password));
+            getParent2().getClientCommunication().modifyPassword(password);
             this.passwordIsChanged = false;
         }
         getParent2().updateMyInfoPl();

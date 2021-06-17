@@ -292,7 +292,7 @@ public class DatabaseManager implements DatabaseControl {
         con = getConnection();
         DatabaseManager DB = new DatabaseManager();
         String chatRoomId = chatroomInfo.getChatroomId();//参数传的ID
-        if (chatRoomId == null) {
+        if (chatRoomId == null||chatRoomId.equals("")) {
             chatRoomId = DB.random2();//随机获得的ID
         }
         String chatroomName = chatroomInfo.getChatroomName();
@@ -603,7 +603,7 @@ public class DatabaseManager implements DatabaseControl {
                 Name = rs.getString(2);
                 Authentic1 = rs.getInt(3);
                 if (Authentic1 == 1) {
-                    Authentic = ChatroomInfo.ChatroomType.PUBLIC;
+                    Authentic = ChatroomInfo.ChatroomType.PRIVATE;
                 } else {
                     Authentic = ChatroomInfo.ChatroomType.PUBLIC;
                 }
@@ -665,9 +665,9 @@ public class DatabaseManager implements DatabaseControl {
                     Name = rs.getString(2);
                     Authentic1 = rs.getInt(3);
                     if (Authentic1 == 1) {
-                        Authentic = ChatroomInfo.ChatroomType.PUBLIC;
-                    } else {
                         Authentic = ChatroomInfo.ChatroomType.PRIVATE;
+                    } else {
+                        Authentic = ChatroomInfo.ChatroomType.PUBLIC;
                     }
                     Vector<FriendInfo> User = new Vector<FriendInfo>();
                     User = DB.getChatRoomUser(ID);
@@ -718,6 +718,7 @@ public class DatabaseManager implements DatabaseControl {
                  return chatroomInfo;
             }
         }
+
         return null;
     }
 

@@ -10,6 +10,8 @@ import Status.ChatroomStatus;
 import Status.LoginStatus;
 
 import java.sql.Connection;
+import java.text.Format;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.sql.*;
@@ -261,9 +263,15 @@ public class DatabaseManager implements DatabaseControl {
                 String senderId = rs.getString(1);
                 String chatRoomId = rs.getString(2);
                 String content = rs.getString(3);
-                Date sendTime = rs.getDate(4);
-
-                messageList.addMessage(new Message(content, senderId, chatRoomId, sendTime));
+                String sendTime = rs.getString(4);
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date sendTimeDate=new Date();
+                try {
+                    sendTimeDate = formatter.parse(sendTime);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                messageList.addMessage(new Message(content, senderId, chatRoomId, sendTimeDate));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -292,7 +300,7 @@ public class DatabaseManager implements DatabaseControl {
         con = getConnection();
         DatabaseManager DB = new DatabaseManager();
         String chatRoomId = chatroomInfo.getChatroomId();//参数传的ID
-        if (chatRoomId == null|| "".equals(chatRoomId)) {
+        if (chatRoomId == null || "".equals(chatRoomId)) {
             chatRoomId = DB.random2();//随机获得的ID
         }
         String chatroomName = chatroomInfo.getChatroomName();
@@ -715,7 +723,7 @@ public class DatabaseManager implements DatabaseControl {
         for (ChatroomInfo chatroomInfo : chatroomList.getList()
         ) {
             if (chatroomInfo.getChatroomType().equals(ChatroomInfo.ChatroomType.PRIVATE)) {
-                 return chatroomInfo;
+                return chatroomInfo;
             }
         }
         return null;

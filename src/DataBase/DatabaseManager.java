@@ -279,7 +279,7 @@ public class DatabaseManager implements DatabaseControl {
             String sql = "select * from UserInfo where ID='" + ID + "'";
             ResultSet rs = st.executeQuery(sql);
             rs.next();
-            String name = rs.getString(2);
+            String name = rs.getString(3);
             return name;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -292,7 +292,7 @@ public class DatabaseManager implements DatabaseControl {
         con = getConnection();
         DatabaseManager DB = new DatabaseManager();
         String chatRoomId = chatroomInfo.getChatroomId();//参数传的ID
-        if (chatRoomId == null||chatRoomId.equals("")) {
+        if (chatRoomId == null|| "".equals(chatRoomId)) {
             chatRoomId = DB.random2();//随机获得的ID
         }
         String chatroomName = chatroomInfo.getChatroomName();

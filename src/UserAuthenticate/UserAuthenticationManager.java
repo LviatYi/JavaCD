@@ -271,6 +271,6 @@ public class UserAuthenticationManager {
         }
         this.passwordIsChanged = false;
         this.nameIsChanged = false;
-        return false;
+        return true;
     }
 }

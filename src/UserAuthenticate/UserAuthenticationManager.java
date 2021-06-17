@@ -264,13 +264,14 @@ public class UserAuthenticationManager {
      */
     public boolean setNew() {
         if (this.nameIsChanged) {
-            parent1.getClientCommunication().modifyName(name);
+            parent2.getClientCommunication().modifyName(name);
+            parent2.getSettingManager().setSelfName(name);
+            this.nameIsChanged = false;
         }
         if (this.passwordIsChanged) {
             parent1.getClientCommunication().modifyPassword(Encryption.encryptPassword(password));
+            this.passwordIsChanged = false;
         }
-        this.passwordIsChanged = false;
-        this.nameIsChanged = false;
         return true;
     }
 }

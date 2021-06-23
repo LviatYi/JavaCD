@@ -64,7 +64,7 @@ LviatYi
 * 数据通信
 * 网络日志
 
-TopKang / IMposter  [^RUNOOB]
+TopKang / IMposter  [^RUNOOB]。
 [^RUNOOB]:krl牛逼
 
 ### Back-end engineer 后端工程师

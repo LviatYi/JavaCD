@@ -1,0 +1,740 @@
+@startuml
+
+/' diagram meta data start
+config=StructureConfiguration;
+{
+  "projectClassification": {
+    "searchMode": "OpenProject", // OpenProject, AllProjects
+    "includedProjects": "",
+    "pathEndKeywords": "*.impl",
+    "isClientPath": "",
+    "isClientName": "",
+    "isTestPath": "",
+    "isTestName": "",
+    "isMappingPath": "",
+    "isMappingName": "",
+    "isDataAccessPath": "",
+    "isDataAccessName": "",
+    "isDataStructurePath": "",
+    "isDataStructureName": "",
+    "isInterfaceStructuresPath": "",
+    "isInterfaceStructuresName": "",
+    "isEntryPointPath": "",
+    "isEntryPointName": ""
+  },
+  "graphRestriction": {
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "removeByInheritance": "", // inheritance/annotation based filtering is done in a second step
+    "removeByAnnotation": "",
+    "removeByClassPackage": "", // cleanup the graph after inheritance/annotation based filtering is done
+    "removeByClassName": "",
+    "cutMappings": false,
+    "cutEnum": true,
+    "cutTests": true,
+    "cutClient": true,
+    "cutDataAccess": false,
+    "cutInterfaceStructures": false,
+    "cutDataStructures": false,
+    "cutGetterAndSetter": true,
+    "cutConstructors": true
+  },
+  "graphTraversal": {
+    "forwardDepth": 6,
+    "backwardDepth": 6,
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "hideMappings": false,
+    "hideDataStructures": false,
+    "hidePrivateMethods": true,
+    "hideInterfaceCalls": true, // indirection: implementation -> interface (is hidden) -> implementation
+    "onlyShowApplicationEntryPoints": false // root node is included
+  },
+  "details": {
+    "aggregation": "GroupByClass", // ByClass, GroupByClass, None
+    "showClassGenericTypes": true,
+    "showMethods": true,
+    "showMethodParameterNames": true,
+    "showMethodParameterTypes": true,
+    "showMethodReturnType": true,
+    "showPackageLevels": 2,
+    "showDetailedClassStructure": true
+  },
+  "rootClass": "Chatroom.ChatroomGui"
+}
+diagram meta data end '/
+
+
+
+digraph g {
+    rankdir="TB"
+    splines=polyline
+    
+
+'nodes 
+subgraph cluster_104485472 { 
+   	label=UserAuthenticate
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   UserAuthenticationGui104485472[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)UserAuthenticationGui</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   bottomPl: JPanel [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   changeToLoginBtnStr: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   changeToRegisterBtnStr: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   clientCommunication: ClientCommunication [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   connectionErrorAdviceStr: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   connectionErrorStr: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   controlPl: JPanel [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   differentStatusStr: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   easyStatusStr: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   emptyStatusStr: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   idInputStr: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   idNotExistAdviceStr: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   idNotExistStr: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   idPl: JPanel [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   idStatusLb: JLabel [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   idTf: JTextField [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   inputPl: JPanel [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   login: Action [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   loginBtn: JButton [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   loginBtnStr: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   mainPl: JPanel [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   nameInputStr: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   namePl: JPanel [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   nameStatusLb: JLabel [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   nameTf: JTextField [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   parent: ChatroomGui [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   password2InputStr: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   password2Pl: JPanel [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   password2StatusLb: JLabel [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   password2Tf: JPasswordField [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   passwordInputStr: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   passwordPl: JPanel [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   passwordStatusLb: JLabel [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   passwordTf: JPasswordField [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   passwordWrongAdviceStr: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   passwordWrongStr: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   pleaseWaitStr: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   qualifiedStatusStr: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   register: Action [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   registerBtn: JButton [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   registerBtnStr: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   setId: Action [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   setName: Action [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   setPassword: Action [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   setPassword2: Action [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   titleFrame: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   titleLb: JLabel [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   titleLogin: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   titlePl: JPanel [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   titleRegister: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   toControlBtn: Action [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   toLoginBtn: JButton [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   toRegisterBtn: JButton [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   tooLongStatusStr: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   tooShortStatusStr: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   userAuthenticationManager: UserAuthenticationManager [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   userNameTmp: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   version: String [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ actionPerformed(event: ActionEvent)</TD></TR>
+<TR><TD ALIGN="LEFT" >- checkTwicePasswordInput()</TD></TR>
+<TR><TD ALIGN="LEFT" >- entryMainWindow()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ focusGained(event: FocusEvent)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ focusLost(event: FocusEvent)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ main(args: String[])</TD></TR>
+<TR><TD ALIGN="LEFT" >- prepareFirstGui()</TD></TR>
+<TR><TD ALIGN="LEFT" >- prepareGui()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(message: Message): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(messageList: MessageList, isHistory: boolean): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(content: String, senderId: String, chatroomId: String, date: Date): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(friendInfo: FriendInfo): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(chatroomInfo: ChatroomInfo, isFocus: boolean): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(friendList: FriendList): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(chatroomList: ChatroomList): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(loginStatus: LoginStatus): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(registerStatus: RegisterStatus, userId: String): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(userName: String): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(chatroomId: String, isNewChatroomId: boolean): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >- updateAuthenticationBtn()</TD></TR>
+<TR><TD ALIGN="LEFT" >- updateLoginBtn()</TD></TR>
+<TR><TD ALIGN="LEFT" >- updateRegisterBtn()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+UserAuthenticationManager104485472[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)UserAuthenticationManager</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >#   ID_MAX: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   ID_MIN: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   NAME_MAX: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   PASSWORD_MAX: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   PASSWORD_MIN: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   PASSWORD_PATTERN: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   id: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   name: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   nameIsChanged: boolean [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   parent1: UserAuthenticationGui [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   parent2: ChatroomGui [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   password: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   passwordIsChanged: boolean [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ getUserAuthenticationManager(parent: ChatroomGui): UserAuthenticationManager</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getUserAuthenticationManager(parent: UserAuthenticationGui): UserAuthenticationManager</TD></TR>
+<TR><TD ALIGN="LEFT" >+ login(): LoginStatus</TD></TR>
+<TR><TD ALIGN="LEFT" >+ register(): RegisterStatus</TD></TR>
+<TR><TD ALIGN="LEFT" >+ setId(id: String): IdStatus</TD></TR>
+<TR><TD ALIGN="LEFT" >+ setName(name: String): NameStatus</TD></TR>
+<TR><TD ALIGN="LEFT" >+ setNew(): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ setPassword(password: String): PasswordStatus</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+
+subgraph cluster_1502940243 { 
+   	label=Chatroom
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   ChatroomGui1502940243[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)ChatroomGui</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   addBtnStr: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   addChatroomBtn: JButton [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   addFriendBtn: JButton [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   addressListLoadingStatusLb: JLabel [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   addressManager: AddressManager [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   chatManager: ChatManager [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   chatPl: JPanel [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   chatSp: JScrollPane [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   chatroomControlPl: JPanel [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   chatroomIdTf: JTextField [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   chatroomListLoadingStatusLb: JLabel [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   chatroomListPl: JPanel [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   chatroomManager: ChatroomManager [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   chatroomPl: JPanel [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   chatroomTitleLb: JLabel [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   chatroomTitlePl: JPanel [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   clientCommunication: ClientCommunication [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   confirmNewChatroomNameStr: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   confirmNewChatroomStr: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   confirmPl: JPanel [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   confirmSetBtn: JButton [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   confirmSetBtnStr: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   confirmStr: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   delBtnStr: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   delChatroomBtn: JButton [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   delFriendBtn: JButton [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   differentStatusStr: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   easyStatusStr: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   emptyStatusStr: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   exitBtn: JButton [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   exitBtnStr: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   friendControlPl: JPanel [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   friendIdTf: JTextField [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   friendListPl: JPanel [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   friendPl: JPanel [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   historyMsgPl: JPanel [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   inputControlPl: JPanel [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   inputPl: JPanel [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   inputTf: JTextPane [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   leftContainerPl: JPanel [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   leftSp: JScrollPane [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   loading: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   mainPl: JPanel [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   moreMsgBtn: JButton [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   moreMsgBtnStr: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   msgPl: JPanel [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   nameStatusLb: JLabel [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   nameTf: JTextField [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   newChatroomIdTmp: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   noMoreMsgLb: JLabel [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   noMoreMsgLbStr: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   password2StatusLb: JLabel [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   password2Tf: JPasswordField [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   passwordStatusLb: JLabel [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   passwordTf: JPasswordField [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   qualifiedStatusStr: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   sendMsg: Action [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   sendMsgBtn: JButton [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   sendMsgBtnStr: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   setNameLbStr: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   setNamePl: JPanel [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   setPassword2LbStr: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   setPassword2Pl: JPanel [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   setPasswordLbStr: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   setPasswordPl: JPanel [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   settingManager: SettingManager [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   settingPl: JPanel [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   titleFrame: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   tooLongStatusStr: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   tooShortStatusStr: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   toolTabs: JTabbedPane [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   userAuthenticationGui: UserAuthenticationGui [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   userIdLb: JLabel [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   userInfoPl: JPanel [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   userNameLb: JLabel [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ actionPerformed(event: ActionEvent)</TD></TR>
+<TR><TD ALIGN="LEFT" >- checkTwicePasswordInput()</TD></TR>
+<TR><TD ALIGN="LEFT" >- clearSettingPl()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ confirmChatroomName(): String</TD></TR>
+<TR><TD ALIGN="LEFT" >+ confirmNewChatroom(): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >- entryFriendChatroom(friendId: String): ChatroomInfo</TD></TR>
+<TR><TD ALIGN="LEFT" ># finalize()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ focusGained(event: FocusEvent)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ focusLost(event: FocusEvent)</TD></TR>
+<TR><TD ALIGN="LEFT" >- prepareGui()</TD></TR>
+<TR><TD ALIGN="LEFT" >- prepareLoadingGui()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(message: Message): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(messageList: MessageList, isHistory: boolean): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(content: String, senderId: String, chatroomId: String, date: Date): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(friendInfo: FriendInfo): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(chatroomInfo: ChatroomInfo, isFocus: boolean): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(friendList: FriendList): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(chatroomList: ChatroomList): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(loginStatus: LoginStatus): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(registerStatus: RegisterStatus, userId: String): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(userName: String): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(chatroomId: String, isNewChatroomId: boolean): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >- scrollToBottom(jScrollPane: JScrollPane)</TD></TR>
+<TR><TD ALIGN="LEFT" >- sendMessage()</TD></TR>
+<TR><TD ALIGN="LEFT" >- updateChatPl(chatroomId: String, isHistory: boolean)</TD></TR>
+<TR><TD ALIGN="LEFT" >- updateChatPl(message: Message)</TD></TR>
+<TR><TD ALIGN="LEFT" >- updateChatPl()</TD></TR>
+<TR><TD ALIGN="LEFT" >- updateChatroomInfoPl(): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ updateChatroomPl()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ updateCurrentChatroom(chatroomInfo: ChatroomInfo, isHistory: boolean): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ updateCurrentChatroom(chatroomId: String, isHistory: boolean): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ updateCurrentChatroom(): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ updateFriendPl()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ updateMessage(message: Message)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ updateMessage(chatroomInfo: ChatroomInfo, isHistory: boolean)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ updateMessage(chatroomId: String, isHistory: boolean)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ updateMessage()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ updateMyInfoPl()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ updateUserInfo(userName: String)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+
+subgraph cluster_166379761 { 
+   	label=FriendManager
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   AddressManager1742928052[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)AddressManager</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >#   friendList: FriendList [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   parent: ChatroomGui [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >- add(friendInfo: FriendInfo): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >- add(friendId: String, friendName: String): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ addFriend(friendId: String): FriendStatus</TD></TR>
+<TR><TD ALIGN="LEFT" >- del(friendId: String): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ delFriend(friendId: String): FriendStatus</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getAddressManager(parent: ChatroomGui): AddressManager</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getFriendLocal(friendId: String): FriendInfo</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getFriendServer(friendId: String): FriendInfo</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(message: Message): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(messageList: MessageList, isHistory: boolean): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(content: String, senderId: String, chatroomId: String, date: Date): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(chatroomInfo: ChatroomInfo, isFocus: boolean): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(chatroomList: ChatroomList): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(friendInfo: FriendInfo): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(friendList: FriendList): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(loginStatus: LoginStatus): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(registerStatus: RegisterStatus, userId: String): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(userName: String): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(chatroomId: String, isNewChatroomId: boolean): boolean</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+FriendInfo1742928052[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)FriendInfo</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   friendId: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   friendName: String [0..1]</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+FriendList1742928052[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)FriendList</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   list: Vector&lt;FriendInfo&gt; [0..*]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ add(friendInfo: FriendInfo): String</TD></TR>
+<TR><TD ALIGN="LEFT" >+ del(friendId: String): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ find(friendId: String): FriendInfo</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+
+subgraph cluster_178833685 { 
+   	label=ChatManager
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   ChatManager2022529030[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)ChatManager</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   chatroomList: Vector&lt;String&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   chatroomMessageRepo: Vector&lt;MessageList&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   currentChatroomInfo: ChatroomInfo [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   noChatroomSelected: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   parent: ChatroomGui [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ delMessageRecord(chatroomId: String): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getChatManager(parent: ChatroomGui): ChatManager</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getChatroomMessageListLocal(chatroomId: String): MessageList</TD></TR>
+<TR><TD ALIGN="LEFT" >+ pullChatroomMessageList(chatroomId: String): MessageList</TD></TR>
+<TR><TD ALIGN="LEFT" >+ pullChatroomMessageList(chatroomId: String, isSingle: boolean): MessageList</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(content: String, senderId: String, chatroomId: String, date: Date): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(message: Message): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(messageList: MessageList, isHistory: boolean): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(friendInfo: FriendInfo): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(chatroomInfo: ChatroomInfo, isFocus: boolean): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(friendList: FriendList): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(chatroomList: ChatroomList): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(loginStatus: LoginStatus): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(registerStatus: RegisterStatus, userId: String): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(userName: String): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(chatroomId: String, isNewChatroomId: boolean): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ recordNewMessage(message: Message): String</TD></TR>
+<TR><TD ALIGN="LEFT" >+ recordNewMessage(messageList: MessageList): String</TD></TR>
+<TR><TD ALIGN="LEFT" >+ refreshMessage(messageList: MessageList): String</TD></TR>
+<TR><TD ALIGN="LEFT" >+ send(message: Message): boolean</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Message2022529030[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Message</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   chatroomId: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   content: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   sendTime: Date [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   senderId: String [0..1]</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+MessageList2022529030[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)MessageList</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   chatroomId: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   list: Vector&lt;Message&gt; [0..*]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ addHistoryMessage(chatroomMessageList: MessageList): MessageList</TD></TR>
+<TR><TD ALIGN="LEFT" >+ addMessage(message: Message): String</TD></TR>
+<TR><TD ALIGN="LEFT" >+ addMessage(messageList: MessageList): String</TD></TR>
+<TR><TD ALIGN="LEFT" >+ addMessage(message: Message, isFront: boolean): String</TD></TR>
+<TR><TD ALIGN="LEFT" >+ addMessage(messageList: MessageList, isFront: boolean): String</TD></TR>
+<TR><TD ALIGN="LEFT" >+ clear()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+
+subgraph cluster_1864651939 { 
+   	label=SettingManager
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   SettingManager1489315416[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)SettingManager</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   parent: ChatroomGui [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   selfId: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   selfName: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   userAuthenticationManager: UserAuthenticationManager [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ getSettingManager(parent: ChatroomGui, selfId: String, selfName: String): SettingManager</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(message: Message): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(messageList: MessageList, isHistory: boolean): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(content: String, senderId: String, chatroomId: String, date: Date): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(friendInfo: FriendInfo): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(chatroomInfo: ChatroomInfo, isFocus: boolean): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(friendList: FriendList): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(chatroomList: ChatroomList): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(loginStatus: LoginStatus): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(registerStatus: RegisterStatus, userId: String): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(userName: String): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(chatroomId: String, isNewChatroomId: boolean): boolean</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+
+subgraph cluster_1978181594 { 
+   	label=ChatroomManager
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   ChatroomInfo1423012801[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)ChatroomInfo</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   chatroomId: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   chatroomName: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   chatroomType: ChatroomType [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   friendList: Vector&lt;FriendInfo&gt; [0..*]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ addMember(friendInfo: FriendInfo): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getChatroomName(thisUserId: String): String</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getMember(friendId: String): FriendInfo</TD></TR>
+<TR><TD ALIGN="LEFT" >+ hasMember(friendId: String): boolean</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+ChatroomList1423012801[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)ChatroomList</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   list: Vector&lt;ChatroomInfo&gt; [0..*]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ add(chatroomInfo: ChatroomInfo): ChatroomInfo</TD></TR>
+<TR><TD ALIGN="LEFT" >+ del(chatroomId: String): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ find(chatroomId: String): ChatroomInfo</TD></TR>
+<TR><TD ALIGN="LEFT" >+ find(userId1: String, userId2: String): ChatroomInfo</TD></TR>
+<TR><TD ALIGN="LEFT" >+ find(giveString: String, isName: boolean): ChatroomList</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+ChatroomManager1423012801[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)ChatroomManager</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >#   chatroomList: ChatroomList [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   parent: ChatroomGui [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ addChatroom(chatroomInfo: ChatroomInfo): ChatroomInfo</TD></TR>
+<TR><TD ALIGN="LEFT" >+ create(chatroomId: String, chatroomName: String, chatroomType: ChatroomType): ChatroomInfo</TD></TR>
+<TR><TD ALIGN="LEFT" >+ delChatroom(chatroomId: String): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ exit(chatroomId: String): ChatroomStatus</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getChatroom(chatroomId: String): ChatroomInfo</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getChatroom(userId1: String, userId2: String): ChatroomInfo</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getChatroomManager(parent: ChatroomGui): ChatroomManager</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getChatroomServer(userId1: String, userId2: String): ChatroomInfo</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getChatroomServer(chatroomId: String): ChatroomInfo</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getPrivateChatroom(userId1: String, userId2: String): ChatroomInfo</TD></TR>
+<TR><TD ALIGN="LEFT" >+ join(chatroomId: String): ChatroomStatus</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(message: Message): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(content: String, senderId: String, chatroomId: String, date: Date): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(friendInfo: FriendInfo): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(friendList: FriendList): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(chatroomInfo: ChatroomInfo, isFocus: boolean): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(chatroomList: ChatroomList): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(messageList: MessageList, isHistory: boolean): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(loginStatus: LoginStatus): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(registerStatus: RegisterStatus, userId: String): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(userName: String): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiver(chatroomId: String, isNewChatroomId: boolean): boolean</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+
+subgraph cluster_2021122027 { 
+   	label=Client
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   ClientCommunication461119834[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)ClientCommunication</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   IP: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   ci: ClientThreadIn [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   parent1: ChatroomGui [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   parent2: UserAuthenticationGui [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   selfID: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   socket: Socket [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ addChatRoom(chatroomInfo: ChatroomInfo): ChatroomInfo</TD></TR>
+<TR><TD ALIGN="LEFT" >+ addFriend(receiverID: String): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >- client(): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ deleteFriend(receiverID: String): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ exit()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ exitChatRoom(chatroomId: String): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ findChatRoomInfo(chatRoomID: String): ChatroomInfo</TD></TR>
+<TR><TD ALIGN="LEFT" >+ findChatRoomInfo(userID1: String, userID2: String): ChatroomInfo</TD></TR>
+<TR><TD ALIGN="LEFT" >+ findFriend(userID: String): FriendInfo</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getClientCommunicationInstance(parent: ChatroomGui): ClientCommunication</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getClientCommunicationInstance(parent: UserAuthenticationGui): ClientCommunication</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getHistoryMessage(chatroomId: String): MessageList</TD></TR>
+<TR><TD ALIGN="LEFT" >+ joinChatRoom(chatRoom: ChatroomInfo): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ login(id: String, password: String): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ modifyName(newName: String): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ modifyPassword(newPassword: String): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ register(name: String, password: String): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ send(msg: Message): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ sendToServer(str: String, server: Socket)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+ClientThreadIn461119834[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)ClientThreadIn</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+   exit: boolean [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   parent1: ChatroomGui [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   parent2: UserAuthenticationGui [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   server: Socket [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >- In()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ run()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+
+'edges    
+AddressManager1742928052 -> ChatroomGui1502940243[label="parent
+[0..1]"];
+AddressManager1742928052 -> FriendList1742928052[label="friendList
+[0..1]"];
+ChatManager2022529030 -> ChatroomGui1502940243[label="parent
+[0..1]"];
+ChatManager2022529030 -> ChatroomInfo1423012801[label="currentChatroomInfo
+[0..1]"];
+ChatManager2022529030 -> MessageList2022529030[label="chatroomMessageRepo
+[0..*]"];
+ChatroomGui1502940243 -> AddressManager1742928052[arrowhead=none, arrowtail=empty, dir=both];
+ChatroomGui1502940243 -> AddressManager1742928052[label="addressManager
+[0..1]"];
+ChatroomGui1502940243 -> ChatManager2022529030[arrowhead=none, arrowtail=empty, dir=both];
+ChatroomGui1502940243 -> ChatManager2022529030[label="chatManager
+[0..1]"];
+ChatroomGui1502940243 -> ChatroomManager1423012801[arrowhead=none, arrowtail=empty, dir=both];
+ChatroomGui1502940243 -> ChatroomManager1423012801[label="chatroomManager
+[0..1]"];
+ChatroomGui1502940243 -> ClientCommunication461119834[label="clientCommunication
+[0..1]"];
+ChatroomGui1502940243 -> SettingManager1489315416[arrowhead=none, arrowtail=empty, dir=both];
+ChatroomGui1502940243 -> SettingManager1489315416[label="settingManager
+[0..1]"];
+ChatroomGui1502940243 -> UserAuthenticationGui104485472[arrowhead=none, arrowtail=empty, dir=both];
+ChatroomGui1502940243 -> UserAuthenticationGui104485472[label="userAuthenticationGui
+[0..1]"];
+ChatroomInfo1423012801 -> FriendInfo1742928052[label="friendList
+[0..*]"];
+ChatroomList1423012801 -> ChatroomInfo1423012801[label="list
+[0..*]"];
+ChatroomManager1423012801 -> ChatroomGui1502940243[label="parent
+[0..1]"];
+ChatroomManager1423012801 -> ChatroomList1423012801[label="chatroomList
+[0..1]"];
+ClientCommunication461119834 -> ChatroomGui1502940243[label="parent1
+[0..1]"];
+ClientCommunication461119834 -> ClientThreadIn461119834[label="ci
+[0..1]"];
+ClientCommunication461119834 -> UserAuthenticationGui104485472[label="parent2
+[0..1]"];
+ClientThreadIn461119834 -> ChatroomGui1502940243[label="parent1
+[0..1]"];
+ClientThreadIn461119834 -> UserAuthenticationGui104485472[label="parent2
+[0..1]"];
+FriendList1742928052 -> FriendInfo1742928052[label="list
+[0..*]"];
+MessageList2022529030 -> Message2022529030[label="list
+[0..*]"];
+SettingManager1489315416 -> ChatroomGui1502940243[label="parent
+[0..1]"];
+SettingManager1489315416 -> UserAuthenticationManager104485472[label="userAuthenticationManager
+[0..1]"];
+UserAuthenticationGui104485472 -> ChatroomGui1502940243[label="parent
+[0..1]"];
+UserAuthenticationGui104485472 -> ClientCommunication461119834[label="clientCommunication
+[0..1]"];
+UserAuthenticationGui104485472 -> UserAuthenticationManager104485472[label="userAuthenticationManager
+[0..1]"];
+UserAuthenticationManager104485472 -> ChatroomGui1502940243[label="parent2
+[0..1]"];
+UserAuthenticationManager104485472 -> UserAuthenticationGui104485472[label="parent1
+[0..1]"];
+    
+}
+@enduml

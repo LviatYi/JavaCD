@@ -354,7 +354,7 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
         loginBtn.getInputMap().put(KeyStroke.getKeyStroke('\n'), "login");
         loginBtn.getActionMap().put("login", login);
         registerBtn.getInputMap().put(KeyStroke.getKeyStroke('\n'), "register");
-        registerBtn.getActionMap().put("login", register);
+        registerBtn.getActionMap().put("register", register);
 
         //添加监听器
         loginBtn.addActionListener(this);
@@ -472,6 +472,7 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
                 break;
             //转到登录按钮
             case "toLogin":
+                titleLb.setText(titleLogin);
                 idStatusLb.setText("");
                 idTf.setText(idInputStr);
                 passwordStatusLb.setText("");
@@ -493,6 +494,7 @@ public class UserAuthenticationGui extends JFrame implements ActionListener, Foc
                 break;
             //转到注册按钮
             case "toRegister":
+                titleLb.setText(titleRegister);
                 nameStatusLb.setText("");
                 nameTf.setText(nameInputStr);
                 passwordStatusLb.setText("");

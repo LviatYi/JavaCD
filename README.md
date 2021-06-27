@@ -64,7 +64,7 @@ LviatYi
 * 数据通信
 * 网络日志
 
-TopKang / IMposter 
+TopKang / IMposter
 
 ### Back-end engineer 后端工程师
 
@@ -92,6 +92,12 @@ LviatYi
 
 * 密码加密
 * 端到端通信加密
+
+May_bebe
+
+### Quality Testing Engineer 测试工程师
+
+* 集成测试
 
 May_bebe
 

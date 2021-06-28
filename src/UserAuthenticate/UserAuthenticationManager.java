@@ -83,16 +83,16 @@ public class UserAuthenticationManager {
     /**
      * 账号
      */
-    private String id="";
+    private String id = "";
     /**
      * 昵称
      */
-    private String name="";
+    private String name = "";
     private boolean nameIsChanged;
     /**
      * 密码
      */
-    private String password="";
+    private String password = "";
     private boolean passwordIsChanged;
 
     // Constant
@@ -135,6 +135,7 @@ public class UserAuthenticationManager {
     private UserAuthenticationManager(UserAuthenticationGui parent) {
         this.setParent1(parent);
     }
+
     private UserAuthenticationManager(ChatroomGui parent) {
         this.setParent2(parent);
     }
@@ -148,16 +149,17 @@ public class UserAuthenticationManager {
         if (instance == null) {
             instance = new UserAuthenticationManager(parent);
         }
-        if (instance.getParent2() ==null){
+        if (instance.getParent2() == null) {
             instance.setParent2(parent);
         }
         return instance;
     }
+
     public static UserAuthenticationManager getUserAuthenticationManager(UserAuthenticationGui parent) {
         if (instance == null) {
             instance = new UserAuthenticationManager(parent);
         }
-        if(instance.getParent1()==null){
+        if (instance.getParent1() == null) {
             instance.setParent1(parent);
         }
         return instance;
@@ -216,7 +218,7 @@ public class UserAuthenticationManager {
         if (!password.matches(PASSWORD_PATTERN)) {
             return PasswordStatus.EASY;
         }
-        this.password =Encryption.encryptPassword(password);
+        this.password = Encryption.encryptPassword(password);
         this.passwordIsChanged = true;
         return PasswordStatus.QUALIFIED;
     }
@@ -245,7 +247,7 @@ public class UserAuthenticationManager {
         this.parent2 = parent2;
     }
 
-// Function
+    // Function
 
     /**
      * 尝试登录
@@ -253,7 +255,7 @@ public class UserAuthenticationManager {
      * @return 登录状态
      */
     public LoginStatus login() {
-        getParent1().getClientCommunication().login(this.id,this.password);
+        getParent1().getClientCommunication().login(this.id, this.password);
         this.passwordIsChanged = false;
         this.nameIsChanged = false;
         return LoginStatus.SUCCESS;
@@ -265,7 +267,7 @@ public class UserAuthenticationManager {
      * @return 注册状态
      */
     public RegisterStatus register() {
-        getParent1().getClientCommunication().register(this.name,this.password);
+        getParent1().getClientCommunication().register(this.name, this.password);
         this.passwordIsChanged = false;
         this.nameIsChanged = false;
         return RegisterStatus.SUCCESS;
@@ -273,7 +275,8 @@ public class UserAuthenticationManager {
 
     /**
      * 设置新的 UserName 或 Password
-     * @return
+     *
+     * @return 用户名设置状态
      */
     public boolean setNew() {
         if (this.nameIsChanged) {

@@ -1,7 +1,7 @@
 package Chatroom.FriendManager;
 
 /**
- * @author LVIAT.cn
+ * @author LviatYi
  * @author May_bebe
  * @version 1.6 alpha
  * @className FriendInfo

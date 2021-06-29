@@ -111,8 +111,6 @@ Chatroom }o..|{ User
 
 ## <a id="Function">功能</a>
 
-## <a id="Interface">接口</a>
-
 ## <a id="Class">类图</a>
 
 <!-- TODO_LviatYi -->

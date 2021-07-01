@@ -101,8 +101,14 @@ May_bebe
 
 May_bebe
 
-* 注： 最终劳动成果以文档注释中的 `author` 为准。
+* 注： 最终劳动成果以文档注释中的 `author` 标签为准。
 * 又注： 任何劳动成果都是值得尊重的，虽心有余而力不足，则尽力可勉
+
+---
+
+## 使用说明
+
+[JChat | 软件使用说明书](OPT-M)
 
 [UAS]:./wiki/userAuthenticationSystem.md
 [ABS]:./wiki/addressBookSystem.md
@@ -110,3 +116,4 @@ May_bebe
 [CMS]:./wiki/communicationSystem.md
 [DBS]:./wiki/databaseSystem.md
 [ES]:./wiki/encryptionSystem.md
+[OPT-M]:./manual/operateManual.md

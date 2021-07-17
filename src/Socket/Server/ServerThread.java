@@ -57,7 +57,7 @@ public class ServerThread extends Thread{
                     temp.registerStatus = RegisterStatus.SUCCESS;
                     temp.type = DataPacket.transportType.REGISTER;
                     temp.id = id;
-                    temp.friendRequestID = databaseManager.returnChatRoomId();
+                    temp.friendRequestID = databaseManager.getVoidChatroomId();
                     socketId = id;
                     MultiThread.addClient(this,databaseManager.getUserChatroomList(socketId));
                     sendMsg(temp);
@@ -74,8 +74,8 @@ public class ServerThread extends Thread{
                             socketId = dataPacket.id;
                             temp.loginStatus = LoginStatus.SUCCESS;
                             temp.type = DataPacket.transportType.LOGIN;
-                            temp.id = databaseManager.returnChatRoomId();
-                            temp.name = databaseManager.findNameThroughID(dataPacket.id);
+                            temp.id = databaseManager.getVoidChatroomId();
+                            temp.name = databaseManager.getUserName(dataPacket.id);
                             sendMsg(temp);
                             MultiThread.addClient(this,databaseManager.getUserChatroomList(socketId));//认证成功，把这个用户加入服务器队列
                             break;
@@ -117,7 +117,7 @@ public class ServerThread extends Thread{
                     temp.chatRoomInfo=chatroomInfoTemp;
                     MultiThread.addChatRoomInfo(socketId,dataPacket.chatRoomInfo);
                     temp.type = DataPacket.transportType.CREATE_CHATROOM;
-                    temp.chatRoomID = databaseManager.returnChatRoomId();
+                    temp.chatRoomID = databaseManager.getVoidChatroomId();
                     sendMsg(temp);
                     break;
                 }
@@ -208,7 +208,7 @@ public class ServerThread extends Thread{
                 case FIND_FRIEND_INFO:
                 {
                     DataPacket temp = new DataPacket();
-                    temp.friendInfo = databaseManager.returnUser(dataPacket.id);
+                    temp.friendInfo = databaseManager.getUser(dataPacket.id);
                     temp.type= DataPacket.transportType.FIND_FRIEND_INFO;
                     sendMsg(temp);
                     break;

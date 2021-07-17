@@ -10,7 +10,6 @@ import Status.ChatroomStatus;
 import Status.LoginStatus;
 
 import java.sql.Connection;
-import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -106,14 +105,14 @@ public class DatabaseManager implements DatabaseControl {
 
 
     @Override
-    public String returnChatRoomId() {
+    public String getVoidChatroomId() {
         DatabaseManager DB = new DatabaseManager();
         String Id = DB.random2();
         return Id;
     }
 
     @Override
-    public FriendInfo returnUser(String Id) {
+    public FriendInfo getUser(String id) {
         con = getConnection();
         String ID = new String();
         String Name = new String();
@@ -121,7 +120,7 @@ public class DatabaseManager implements DatabaseControl {
         try {
             String sql = "select * from UserInfo where ID=? ";
             PreparedStatement st = con.prepareStatement(sql);
-            st.setString(1, Id);
+            st.setString(1, id);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 ID = rs.getString(1);
@@ -179,12 +178,12 @@ public class DatabaseManager implements DatabaseControl {
 
 
     @Override
-    public boolean modifyPassword(String id, String password_now) {
+    public boolean modifyPassword(String id, String passwordNew) {
         con = getConnection();
         try {
             String sql = "update UserInfo set Password=? where ID=?";
             PreparedStatement st = con.prepareStatement(sql);
-            st.setString(1, password_now);
+            st.setString(1, passwordNew);
             st.setString(2, id);
             int rs = st.executeUpdate();
             // System.out.println("修改password成功");
@@ -197,12 +196,12 @@ public class DatabaseManager implements DatabaseControl {
 
 
     @Override
-    public boolean modifyName(String id, String name_now) {
+    public boolean modifyName(String id, String nameNow) {
         con = getConnection();
         try {
             String sql = "update UserInfo set Name=? where ID=?";
             PreparedStatement st = con.prepareStatement(sql);
-            st.setString(1, name_now);
+            st.setString(1, nameNow);
             st.setString(2, id);
             int rs = st.executeUpdate();
             return true;
@@ -277,11 +276,11 @@ public class DatabaseManager implements DatabaseControl {
     }
 
     @Override
-    public String findNameThroughID(String ID) {
+    public String getUserName(String id) {
         con = getConnection();
         try {
             Statement st = con.createStatement();
-            String sql = "select * from UserInfo where ID='" + ID + "'";
+            String sql = "select * from UserInfo where ID='" + id + "'";
             ResultSet rs = st.executeQuery(sql);
             rs.next();
             String name = rs.getString(3);
@@ -322,9 +321,9 @@ public class DatabaseManager implements DatabaseControl {
                 String num2 = chatroomInfo.getFriendList().elementAt(1).getFriendId();
                 DB.insertChatroom(num1, chatRoomId);
                 DB.insertChatroom(num2, chatRoomId);
-                DB.findNameThroughID(num2);
-                FriendInfo friendInfoTemp1 = new FriendInfo(num1, DB.findNameThroughID(num1));
-                FriendInfo friendInfoTemp2 = new FriendInfo(num2, DB.findNameThroughID(num2));
+                DB.getUserName(num2);
+                FriendInfo friendInfoTemp1 = new FriendInfo(num1, DB.getUserName(num1));
+                FriendInfo friendInfoTemp2 = new FriendInfo(num2, DB.getUserName(num2));
                 friend.add(friendInfoTemp1);
                 friend.add(friendInfoTemp2);
             } else {
